@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.4'
+    }
+}
+apply plugin: 'android'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile project(':Dropbox:WorkSpace:Mediaplayer:devsmartlib')
+    compile project(':Dropbox:WorkSpace:Mediaplayer:dragsortlibrary')
+    compile project(':Dropbox:WorkSpace:Mediaplayer:library')
+    compile project(':Downloads:facebook-android-sdk-master:facebook')
+}
+
+android {
+    compileSdkVersion 15
+    buildToolsVersion "17.0.0"
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        instrumentTest.setRoot('tests')
+    }
+}

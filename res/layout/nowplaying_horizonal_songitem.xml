@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingRight="3dp" >
+
+
+
+        <ImageView
+            android:id="@+id/song_imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/song_name_textView"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:lines="1"
+            android:text="Hello"
+            android:textColor="#ffffff"
+            android:textSize="13sp" >
+        </TextView>
+
+</LinearLayout>
