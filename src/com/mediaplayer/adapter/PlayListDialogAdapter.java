@@ -83,7 +83,7 @@ public class PlayListDialogAdapter extends BaseAdapter{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		Log.i("Dialog", "LISTVIEW");
+		//Log.i("Dialog", "LISTVIEW");
 		return vi;
 	}
 

@@ -35,7 +35,8 @@ import com.mediaplayer.db.ImageLoader;
 import com.mediaplayer.utility.StaticMusic;
 import com.mediaplayer.utility.Util;
 
-public class HorizontalAdapter extends BaseAdapter implements  OnItemClickListener {
+public class HorizontalAdapter extends BaseAdapter implements
+		OnItemClickListener {
 
 	private Activity activity;
 	ArrayList<SongInfo> song_array;
@@ -45,22 +46,25 @@ public class HorizontalAdapter extends BaseAdapter implements  OnItemClickListen
 	HorizontalListView lv;
 	HashMap<String, Bitmap> art_work;
 	Util util;
-	final int id=R.layout.horizontal_songitem_xml;
+	final int id = R.layout.horizontal_songitem_xml;
 	ImageLoader imageLoader;
-	public HorizontalAdapter(ArrayList<SongInfo> song_array, HorizontalListView lv,
-			Activity activity) {
+
+	public HorizontalAdapter(ArrayList<SongInfo> song_array,
+			HorizontalListView lv, Activity activity) {
 		this.song_array = song_array;
 		this.activity = activity;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.lv = lv;
-		util=new Util();
+		util = new Util();
 		lv.setOverScrollMode(ListView.OVER_SCROLL_ALWAYS);
 		lv.setOnItemClickListener(this);
-		imageLoader=new com.mediaplayer.db.ImageLoader(activity.getApplicationContext());
-		Log.i("Code PATH",activity.getApplicationContext().getPackageName());
+		imageLoader = new com.mediaplayer.db.ImageLoader(
+				activity.getApplicationContext());
+		//Log.i("Code PATH", activity.getApplicationContext().getPackageName());
 
 	}
+
 	public ArrayList<SongInfo> getUrlList() {
 		return song_array;
 	}
@@ -88,24 +92,26 @@ public class HorizontalAdapter extends BaseAdapter implements  OnItemClickListen
 		// TODO Auto-generated method stub
 
 		ViewHolder holder;
-		if(vi==null){
+		if (vi == null) {
 			holder = new ViewHolder();
 			vi = inflater.inflate(id, null);
-			holder.song_name = (TextView) vi.findViewById(R.id.song_name_textView);
+			holder.song_name = (TextView) vi
+					.findViewById(R.id.song_name_textView);
 			holder.album_art = (ImageView) vi.findViewById(R.id.song_imageView);
 			vi.setTag(holder);
-		}else{
-			holder=(ViewHolder)vi.getTag();
+		} else {
+			holder = (ViewHolder) vi.getTag();
 		}
 		holder.song_name.setText(song_array.get(arg0).getTitle());
-		try{
+		try {
 			Uri albumArtUri = Uri
 					.parse("content://media/external/audio/albumart");
 			final Uri uri = ContentUris.withAppendedId(albumArtUri,
 					Long.parseLong(song_array.get(arg0).getAlbum_id()));
 			imageLoader.DisplayImage(uri.toString(), holder.album_art);
 
-		}catch(NumberFormatException e){}
+		} catch (NumberFormatException e) {
+		}
 		return vi;
 	}
 
@@ -117,28 +123,27 @@ public class HorizontalAdapter extends BaseAdapter implements  OnItemClickListen
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		//Toast.makeText(activity, song_array.get(arg2).getTitle(), Toast.LENGTH_SHORT).show();
+		// Toast.makeText(activity, song_array.get(arg2).getTitle(),
+		// Toast.LENGTH_SHORT).show();
 		StaticMusic.setSongInfo(song_array.get(arg2));
-		try{
+		try {
 			StaticMusic.songQueue.clear();
-			StaticMusic.songQueue=new LinkedList<SongInfo>(song_array);
-		}catch(NullPointerException nu){
-			StaticMusic.songQueue=new LinkedList<SongInfo>(song_array);
+			StaticMusic.songQueue = new LinkedList<SongInfo>(song_array);
+		} catch (NullPointerException nu) {
+			StaticMusic.songQueue = new LinkedList<SongInfo>(song_array);
 		}
 		Intent toNowPlaying = new Intent(activity, Nowplaying.class);
 		toNowPlaying.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		toNowPlaying.putExtra("activity", "songlist");
 		activity.startActivity(toNowPlaying);
 
-
 	}
+
 	@Override
 	public void finalize() throws Throwable {
 		// TODO Auto-generated method stub
 		super.finalize();
 		imageLoader.clearCache();
 	}
-
-
 
 }

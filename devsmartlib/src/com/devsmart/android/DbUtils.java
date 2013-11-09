@@ -90,7 +90,7 @@ public class DbUtils {
 			}
 			db.setTransactionSuccessful();
 		} catch (IOException e) {
-			Log.e(DbUtils.class.getName(), "Error executing sql statement", e);
+			//Log.e(DbUtils.class.getName(), "Error executing sql statement", e);
 		} finally {
 			db.endTransaction();
 		}

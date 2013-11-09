@@ -50,12 +50,12 @@ public class Utils {
 	
 	public static void log(String msg) {
 		StackTraceElement element = Thread.currentThread().getStackTrace()[3];
-		Log.i("", logstr(msg, element));
+		//Log.i("", logstr(msg, element));
 	}
 	
 	public static void logerror(String msg, Exception e){
 		StackTraceElement element = Thread.currentThread().getStackTrace()[3];
-		Log.e("", logstr(msg, element), e);
+		//Log.e("", logstr(msg, element), e);
 	}
 	
 }

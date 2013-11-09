@@ -190,7 +190,7 @@ public class IteratorListView extends ViewGroup {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 
-		Log.d(IteratorListView.class.getName(), String.format("t:%d b:%d", mTopItem, mBottomItem));
+		//Log.d(IteratorListView.class.getName(), String.format("t:%d b:%d", mTopItem, mBottomItem));
 		
 		if(mAdapter == null){
 			return;

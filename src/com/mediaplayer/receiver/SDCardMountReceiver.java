@@ -38,7 +38,7 @@ public class SDCardMountReceiver extends BroadcastReceiver {
 		 * database = new SongInfoDatabase(context); database.open();
 		 * database.delete(); util = new Util(); songList =
 		 * util.getAllmusic(context,context.getContentResolver());
-		 * Log.i("RECEIVER", "MOUNTED"); SongInfo item; for (int i = 0; i <
+		 * //Log.i("RECEIVER", "MOUNTED"); SongInfo item; for (int i = 0; i <
 		 * songList.size(); i++) { item = new SongInfo(); item =
 		 * songList.get(i); database.Insert(item); } database.close();
 		 */
@@ -61,7 +61,7 @@ public class SDCardMountReceiver extends BroadcastReceiver {
 					@Override
 					public void onChange() {
 						// TODO Auto-generated method stub
-						Log.i("MEDIAPLAYER ", "DATABASE UPDATED");
+						//Log.i("MEDIAPLAYER ", "DATABASE UPDATED");
 					}
 				});
 		try {

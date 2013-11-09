@@ -33,7 +33,7 @@ public class DatabaseUpdateThread extends Thread {
 		getMediStoreCursor();
 		mydbColumns[0] = SongInfoDatabase.KEY_DATA;
 		mediaStoreDBColumns[0] = MediaStore.Audio.Media.DATA;
-		Log.i("Update thread", "got mydb cursor::" + mediaStoreDBColumns[0]);
+		//Log.i("Update thread", "got mydb cursor::" + mediaStoreDBColumns[0]);
 		joiner = new CursorJoiner(myDbCursor, mydbColumns,
 				this.mediastoreCursor, mediaStoreDBColumns);
 		mListener = listener;
@@ -50,7 +50,7 @@ public class DatabaseUpdateThread extends Thread {
 			switch (joinerResult) {
 			case LEFT:
 				// handle case where a row in cursorA is unique
-				Log.i("DB UPDATE THREAD", "DELETEINGGGG");
+				//Log.i("DB UPDATE THREAD", "DELETEINGGGG");
 								database.deleteOneSong(myDbCursor.getString(myDbCursor
 							.getColumnIndex(SongInfoDatabase.KEY_DATA)));
 				changed = true;
@@ -121,7 +121,7 @@ public class DatabaseUpdateThread extends Thread {
 			}
 		}
 		if (changed) {
-			Log.i("DB UPDATE THREAD", "FOUND UPDATES");
+			//Log.i("DB UPDATE THREAD", "FOUND UPDATES");
 			mListener.onChange();
 		}
 	}
@@ -142,8 +142,8 @@ public class DatabaseUpdateThread extends Thread {
 		mediastoreCursor = context.getContentResolver().query(
 				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
 				selection, null, sortOrder);
-		Log.i("String Projection", projection[0]);
+		//Log.i("String Projection", projection[0]);
 		mediastoreCursor.moveToNext();
-		Log.i("String Projection", projection[1]);
+		//Log.i("String Projection", projection[1]);
 	}
 }

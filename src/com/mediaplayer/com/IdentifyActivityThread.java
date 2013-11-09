@@ -1,36 +1,13 @@
 package com.mediaplayer.com;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.FormBodyPart;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
@@ -76,7 +53,7 @@ public class IdentifyActivityThread extends Thread {
 		try {
 			soundFile = CheapSoundFile.create(path);
 			
-			Log.i("IDENTIFY", "SIZE:" + soundFile.getFileSizeBytes());
+			//Log.i("IDENTIFY", "SIZE:" + soundFile.getFileSizeBytes());
 			int endFrame = (int) (1.0 * 30 * soundFile.getSampleRate()
 					/ soundFile.getSamplesPerFrame() + 0.5);
 			String outPath = util.makeRingtoneFilename("toupload",
@@ -87,7 +64,7 @@ public class IdentifyActivityThread extends Thread {
 
 			soundFile.WriteFile(outputFile, 0, endFrame);
 			file = new File(outputFile.getAbsolutePath());
-			Log.i("PATH OF FILE", file.getAbsolutePath());
+			//Log.i("PATH OF FILE", file.getAbsolutePath());
 			echonestApi = new EchoNestAPI("WH8YIHGZUX1XVLISU");
 			progressUpdateThreadListener.onProgressChangeUpdate(25);
 			fakeThread = new FakeUpdateThread();
@@ -99,7 +76,7 @@ public class IdentifyActivityThread extends Thread {
 			track.waitForAnalysis(200000);
 			progressUpdateThreadListener.onProgressChangeUpdate(100);
 			final JSONObject jsonObj = new JSONObject(track.toString());
-			Log.i("IDENTIFY", track.toString());
+			//Log.i("IDENTIFY", track.toString());
 			if (path.equals(StaticMusic.songInfo.getData())) {
 				if (jsonObj.has("title")) {
 					StaticMusic.songInfo.setTitle(track.getTitle());
@@ -141,7 +118,7 @@ public class IdentifyActivityThread extends Thread {
 													Util.updateTrack(
 															activity,
 															StaticMusic.songInfo);
-													Log.i("ID", "FAKE THREAD ID ::"+fakeThread.getId());
+													//Log.i("ID", "FAKE THREAD ID ::"+fakeThread.getId());
 													listener.onUpdate(true);
 												}
 												else{
@@ -232,7 +209,7 @@ public class IdentifyActivityThread extends Thread {
 			// TODO Auto-generated method stub
 			super.run();
 			while (progress < 75 ) {
-				Log.i("FAKE THREAD", "::::"+this.getId());
+				//Log.i("FAKE THREAD", "::::"+this.getId());
 				progress += 1;
 				try {
 					Thread.sleep(600);
@@ -246,7 +223,7 @@ public class IdentifyActivityThread extends Thread {
 
 			}
 			progress=0;
-			Log.i("FAKE THREAD", "::::"+this.getId() +":: OVER") ;
+			//Log.i("FAKE THREAD", "::::"+this.getId() +":: OVER") ;
 			
 			return;
 		}

@@ -115,26 +115,17 @@ public class CommonListAdapter extends BaseAdapter {
 										SongInfoDatabase database = new SongInfoDatabase(
 												activity);
 										database.open();
-										Log.i("PLAYLIST LIST ADAPTER",
-												"OPENED DB");
+										//Log.i("PLAYLIST LIST ADAPTER","OPENED DB");
 										ArrayList<SongInfo> temp_array = new ArrayList<SongInfo>();
 										ArrayList<Integer> cursor_positions = listeditor_dialog
 												.getAdapter()
 												.getCursorPositions();
 										database.deletePlaylist(song_all_array
 												.get(pos).get(0).getPlaylist());
-										Log.i("PLAYLIST LIST ADAPTER",
-												"DELETED::"
-														+ song_all_array
-																.get(pos)
-																.get(0)
-																.getPlaylist());
+										
 										for (int x = 0; x < cursor_positions
 												.size(); x++) {
-											Log.i("PLAYLIST LIST ADAPTER",
-													"POSITIONS	"
-															+ cursor_positions
-																	.get(x));
+											
 											database.addToPlaylist(
 													song_all_array
 															.get(pos)

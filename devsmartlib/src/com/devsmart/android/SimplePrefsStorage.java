@@ -33,7 +33,7 @@ public class SimplePrefsStorage {
 			try {
 				retval = new JSONObject(jsonstr);
 			} catch (JSONException e) {
-				Log.e(SimplePrefsStorage.class.getName(), "", e);
+				//Log.e(SimplePrefsStorage.class.getName(), "", e);
 			}
 		}
 		return retval;

@@ -39,7 +39,7 @@ public class FragmentShellActivity extends FragmentActivity implements Navigatio
 			tr.commit();
 			
 		} catch(Exception e) {
-			Log.e(FragmentShellActivity.class.getName(), "", e);
+			//Log.e(FragmentShellActivity.class.getName(), "", e);
 			finish();
 		}
 		

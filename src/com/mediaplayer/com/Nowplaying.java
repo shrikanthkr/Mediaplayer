@@ -35,6 +35,7 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devsmart.android.ui.HorizontalListView;
 import com.korovyansk.android.slideout.SlideoutActivity;
@@ -120,13 +121,13 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 		try {
 
 			songInfo = StaticMusic.getSongInfo();
-			Log.i("NOW PLAYING", "NAMW:" + songInfo.getDisplayName());
+			//Log.i("NOW PLAYING", "NAMW:" + songInfo.getDisplayName());
 			fis = new FileInputStream(new File(songInfo.getData()));
 			fileDescriptor = fis.getFD();
 
 			if (getIntent().getStringExtra("activity").equals("songlist")
 					|| isSongChanged) {
-				Log.i("NOW PLAYING", "GOIGN ON WITH IF");
+				//Log.i("NOW PLAYING", "GOIGN ON WITH IF");
 				try {
 					StaticMusic.music.stop();
 				} catch (Exception e) {
@@ -135,18 +136,18 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 				time = 0;
 				StaticMusic.music.play();
 				setPauseButton();
-				Log.i("NOW PLAYING", "NEW SONG :" + duration);
-				Log.i("NOW PLAYING", " NOT ACTIVE :" + time);
+				//Log.i("NOW PLAYING", "NEW SONG :" + duration);
+				//Log.i("NOW PLAYING", " NOT ACTIVE :" + time);
 
 			} else {
 				if (StaticMusic.music != null) {
 					time = StaticMusic.music.getCurrentPosition() / 1000;
 					setPauseButton();
 					if (!StaticMusic.music.isPlaying()) {
-						Log.i("NOW PLAYING", "PAUSED ACTIVE :" + time);
+						//Log.i("NOW PLAYING", "PAUSED ACTIVE :" + time);
 						setPlayButton();
 					}
-					Log.i("NOW PLAYING", "ACTIVE :" + time);
+					//Log.i("NOW PLAYING", "ACTIVE :" + time);
 
 				} else {
 
@@ -156,17 +157,17 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 							"nowplaying"))
 						StaticMusic.music.play();
 					setPauseButton();
-					Log.i("NOW PLAYING", "NOT ACTIVE :" + duration);
+					//Log.i("NOW PLAYING", "NOT ACTIVE :" + duration);
 				}
 
 			}
 			duration = (int) Math.ceil((Double.parseDouble(songInfo
 					.getDuration()) / 1000));
-			// Log.i("UTIL", "DURATION :" + duration);
+			// //Log.i("UTIL", "DURATION :" + duration);
 			seekbar = new SeekBar(this);
-			Log.i("NOW PLAYING", "SEEK BAR INIT");
+			//Log.i("NOW PLAYING", "SEEK BAR INIT");
 			StaticMusic.music.setContext(this.getApplicationContext());
-			Log.i("UTIL", "NAME:" + songInfo.getDisplayName());
+			//Log.i("UTIL", "NAME:" + songInfo.getDisplayName());
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -289,7 +290,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 				try {
 					// TODO Auto-generated method stub
 					if (time <= duration && StaticMusic.music.isPlaying()) {
-						// Log.i("Timer", "time:" + time);
+						// //Log.i("Timer", "time:" + time);
 						time = time + 1;
 						runOnUiThread(new Runnable() {
 
@@ -354,7 +355,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 
 	public void slideButtonClicked(View arg0) {
 		// TODO Auto-generated method stub
-		// Log.i("As Activity", "Songlist fragment acivity click happened");
+		// //Log.i("As Activity", "Songlist fragment acivity click happened");
 		int width = (int) TypedValue.applyDimension(
 				TypedValue.COMPLEX_UNIT_DIP, 30, getResources()
 				.getDisplayMetrics());
@@ -383,19 +384,19 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 			seekbar.setRadius((float) ((Math.min(
 					seekbar_layout_grey_bg.getWidth(),
 					seekbar_layout_grey_bg.getHeight()) / 2) + .5));
-			Log.i("Radius", seekbar.radius + "");
+			//Log.i("Radius", seekbar.radius + "");
 			artist_header.setText(songInfo.getArtist());
 			song_header.setText(songInfo.getTitle());
 			duration_header.setText(0 + "");
 
 			if (vto.isAlive()) {
 				vto.removeGlobalOnLayoutListener(this);
-				// Log.i("Layout listener", "Removed");
+				// //Log.i("Layout listener", "Removed");
 				callTimerTask();
 			} else {
 				vto = mainLayout.getViewTreeObserver();
 				vto.removeGlobalOnLayoutListener(this);
-				// Log.i("Layout listener", "Removed");
+				// //Log.i("Layout listener", "Removed");
 				callTimerTask();
 			}
 		} catch (Exception e) {
@@ -462,9 +463,6 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 			nowplaying_horizontal
 			.scrollTo(horizontal_songInfo_array
 					.indexOf(songInfo));
-			Log.i("Horizontal adapter size after setting",
-					horizontal_songInfo_array.indexOf(songInfo)
-					+ "");
 			try {
 				finalize();
 			} catch (Throwable e) {
@@ -620,7 +618,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 				}
 				final ArrayList<SongInfo> songs_array = new ArrayList<SongInfo>(
 						StaticMusic.songQueue);
-				Log.i("NOW PLAYING", "QUEUE SONG SIZE" + songs_array.size());
+				//Log.i("NOW PLAYING", "QUEUE SONG SIZE" + songs_array.size());
 				listeditor_dialog = new ListEditorDialog(this, songs_array);
 
 				listeditor_dialog.show();
@@ -637,13 +635,6 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 						for (int x = 0; x < cursor_positions.size(); x++) {
 							temp_array.add(songs_array.get(cursor_positions
 									.get(x)));
-							Log.i("CURSOR ADAPTER", cursor_positions.get(x)
-									+ ":Cursor position INDEX");
-							Log.i("CURSOR ADAPTER",
-									listeditor_dialog.getAdapter()
-									.getListPosition(
-											cursor_positions.get(x))
-											+ ":List position INDEX");
 
 						}
 						StaticMusic.songQueue.clear();
@@ -667,7 +658,8 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 				});
 				break;
 			case R.id.more_imageButton:
-				shareDialog.show();
+				Toast.makeText(this, "Searching for the song", Toast.LENGTH_LONG).show();
+				shareDialog.findSong();
 			}
 		} catch (NullPointerException e) {
 		}
@@ -678,7 +670,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 
 		Intent toNowPlaying = getIntent();
 		toNowPlaying.putExtra("activity", "songlist");
-		Log.i("NOW PLAYIN", "REFRESH");
+		//Log.i("NOW PLAYIN", "REFRESH");
 		init();
 
 	}
@@ -694,17 +686,20 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 	}
 	
 	private void setEqualizer(){
-		try{
-			Log.i("EQUALIZER", ""+AudioFxDemo.mEqualizer.hasControl());
+	/*	try{
+			//Log.i("EQUALIZER", ""+AudioFxDemo.mEqualizer.hasControl());
 			AudioFxDemo.mEqualizer.usePreset(StaticMusic.band_equi);
-			Log.i("EQUALIZER", ""+AudioFxDemo.mEqualizer.getCurrentPreset());
-			Log.i("EQUALIZER", ""+StaticMusic.band_equi);
+			//Log.i("EQUALIZER", ""+AudioFxDemo.mEqualizer.getCurrentPreset());
+			//Log.i("EQUALIZER", ""+StaticMusic.band_equi);
 		}catch(Exception e){
 
 			e.printStackTrace();
 			AudioFxDemo.getEqualizer();
 			AudioFxDemo.mEqualizer.usePreset(StaticMusic.band_equi);
-		}
+		}*/
+		AudioFxDemo.getEqualizer();
+		AudioFxDemo.mEqualizer.usePreset((short)StaticMusic.band_equi);
+		AudioFxDemo.mEqualizer.setEnabled(true);
 	}
 
 	@Override

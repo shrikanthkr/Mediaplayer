@@ -60,7 +60,7 @@ public class SeekBar extends View {
 	public SeekBar(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		// Log.i("Constructor", "paint set");
+		// //Log.i("Constructor", "paint set");
 		this.context = context;
 
 		angle = -90;
@@ -141,8 +141,8 @@ public class SeekBar extends View {
 	}
 
 	public void callfromTimerTask(int sec, int totalSeconds) {
-		// Log.i("SEC", sec + "");
-		// Log.i("total", totalSeconds + "");
+		// //Log.i("SEC", sec + "");
+		// //Log.i("total", totalSeconds + "");
 		float ratiopersec = (float) ((2 * Math.PI * radius) / totalSeconds);
 		float arc_length = sec * ratiopersec;
 		float radian = arc_length / radius;
@@ -219,7 +219,7 @@ public class SeekBar extends View {
 		float ratiopersec = (float) ((2 * Math.PI * radius) / totalSeconds);
 		float arc_length = (float) (((seek_angle) / 360) * 2 * Math.PI * radius);
 		int sec = (int) (arc_length / ratiopersec);
-		// Log.i("seek angle in sec", sec+"");
+		// //Log.i("seek angle in sec", sec+"");
 		return sec;
 	}
 

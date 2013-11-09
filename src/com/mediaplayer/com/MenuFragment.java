@@ -25,7 +25,6 @@ public class MenuFragment extends ListFragment {
 		item_list.add("Header");
 		item_list.add(" Now Playing");
 		item_list.add("Songs");
-		item_list.add(" About");
 		item_list.add(" Logo");
 		getListView().setBackgroundDrawable(getResources().getDrawable(R.drawable.slidelist_bg_repeat));
 		getListView().setScrollingCacheEnabled(false);

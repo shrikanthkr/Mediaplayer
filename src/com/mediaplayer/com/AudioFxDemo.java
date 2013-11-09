@@ -71,8 +71,7 @@ public class AudioFxDemo extends Activity implements OnGlobalLayoutListener{
 		mLinearLayout_equalizer.getViewTreeObserver().addOnGlobalLayoutListener(this);
 		vto = mLinearLayout_equalizer.getViewTreeObserver();
 		// Create the MediaPlayer
-		Log.d(TAG, "MediaPlayer audio session ID: "
-				+ StaticMusic.music.mediaPlayer.getAudioSessionId());
+		//Log.d(TAG, "MediaPlayer audio session ID: "+ StaticMusic.music.mediaPlayer.getAudioSessionId());
 		getEqualizer();
 		
 		mEqualizer.usePreset((short) StaticMusic.band_equi);
@@ -82,12 +81,11 @@ public class AudioFxDemo extends Activity implements OnGlobalLayoutListener{
 		
 		numPreset = mEqualizer.getNumberOfPresets();
 		
-		presets = new String[numPreset + 1];
+		presets = new String[numPreset];
 		for (int x = 0; x < numPreset; x++) {
 			presets[x] = mEqualizer.getPresetName((short) x);
-			Log.i("Preset Name", presets[x]);
+			//Log.i("Preset Name", presets[x]);
 		}
-		presets[numPreset] = "Custom";
 		adapter = new MySpinnerAdapter(this, R.layout.spinner_listitem, presets);
 		eqpreset_spinner
 		.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -202,9 +200,9 @@ public class AudioFxDemo extends Activity implements OnGlobalLayoutListener{
 			center = mEqualizer.getBandLevel(band);
 			bar.setProgress(mEqualizer.getBandLevel(band) + center);
 			thumb_width = thumb_height = bar.getHeight();
-			Log.i(TAG, "BEFORE CREATING"+thumb_width);
+			//Log.i(TAG, "BEFORE CREATING"+thumb_width);
 			Bitmap bmpOrg = ((BitmapDrawable) thumb).getBitmap();
-			Log.i(TAG, "AFTER CREATING");
+			//Log.i(TAG, "AFTER CREATING");
 			Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, width,
 					width, true);
 			Drawable newThumb = new BitmapDrawable(getResources(), bmpScaled);
@@ -214,20 +212,7 @@ public class AudioFxDemo extends Activity implements OnGlobalLayoutListener{
 			bar.setPadding(newThumb.getIntrinsicHeight(), 0, newThumb.getIntrinsicHeight(), 0);
 			bar.setProgressDrawable(getResources().getDrawable(R.drawable.progress));
 			//bar.setThumbOffset(newThumb.getIntrinsicWidth());
-			bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-				public void onProgressChanged(SeekBar seekBar, int progress,
-						boolean fromUser) {
-					mEqualizer.setBandLevel(band,
-							(short) (progress + minEQLevel));
-					eqpreset_spinner.setSelection(numPreset);
-				}
-
-				public void onStartTrackingTouch(SeekBar seekBar) {
-				}
-
-				public void onStopTrackingTouch(SeekBar seekBar) {
-				}
-			});
+	
 
 			row.addView(minDbTextView);
 			row.addView(bar);
@@ -280,16 +265,16 @@ public class AudioFxDemo extends Activity implements OnGlobalLayoutListener{
 	@Override
 	public void onGlobalLayout() {
 		// TODO Auto-generated method stub
-		Log.i("FX GLOBAL LAYOUT", "GLOBAL LAYOUT" );
+		//Log.i("FX GLOBAL LAYOUT", "GLOBAL LAYOUT" );
 		width=eqmeasure_imageView.getWidth();
 		setupEqualizerFxAndUI();
 		if (vto.isAlive()) {
 			vto.removeGlobalOnLayoutListener(this);
-			// Log.i("Layout listener", "Removed");
+			// //Log.i("Layout listener", "Removed");
 		} else {
 			vto = mLinearLayout_equalizer.getViewTreeObserver();
 			vto.removeGlobalOnLayoutListener(this);
-			// Log.i("Layout listener", "Removed");
+			// //Log.i("Layout listener", "Removed");
 		}
 	}
 

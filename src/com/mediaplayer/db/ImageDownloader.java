@@ -86,7 +86,7 @@ public class ImageDownloader implements ComponentCallbacks{
 
 	/* method to get Image if already or to start new task to download */
 	public void loadImage(int First, int Last) {
-		Log.i("Downloader", "FIRST:"+First+":LAST:"+Last);
+		//Log.i("Downloader", "FIRST:"+First+":LAST:"+Last);
 		try {
 			if (_exec != null) {
 				_exec.shutdownNow();
@@ -107,7 +107,7 @@ public class ImageDownloader implements ComponentCallbacks{
 	private Bitmap readDrawableFromNetwork(String url) {
 		try {
 
-			Log.i("Image path", url);
+			//Log.i("Image path", url);
 			InputStream input = context.getContentResolver().openInputStream(
 					Uri.parse(url));
 			// Here you can make logic for decode bitmap for ignore oom error.

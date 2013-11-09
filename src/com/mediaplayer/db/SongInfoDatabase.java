@@ -63,7 +63,7 @@ public class SongInfoDatabase {
 					+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + PLAYLIST_KEY_ID
 					+ " TEXT NOT NULL, " + PLAYLIST_KEY_PLAYLIST
 					+ " TEXT NOT NULL " + " );");
-			Log.i("DATABASE", "CREATED");
+			//Log.i("DATABASE", "CREATED");
 
 		}
 
@@ -100,8 +100,7 @@ public class SongInfoDatabase {
 
 		long inserted = ourDatabase.insert(DATABASE_TABLE, null, cv);
 
-		Log.d("READLIST:" + inserted,
-				"READ LIST INSERTED:::::" + songInfo.getTitle());
+
 	}
 
 	public void update(SongInfo songInfo) {
@@ -117,8 +116,6 @@ public class SongInfoDatabase {
 		cv.put(KEY_DURATION, songInfo.getDuration());
 		long inserted = ourDatabase.update(DATABASE_TABLE, cv, KEY_DATA + "='"
 				+ songInfo.getData() + "'", null);
-		Log.d("READLIST:" + inserted,
-				"READ LIST UPDATED:::::" + songInfo.getTitle());
 	}
 
 	public Cursor getTableCursor() {
@@ -196,7 +193,7 @@ public class SongInfoDatabase {
 
 		try {
 			Cursor c = ourDatabase.rawQuery(query, null);
-			Log.i("QUERY", query);
+			//Log.i("QUERY", query);
 			if (c.getCount() > 0) {
 				for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 					songInfo.setAlbum(c.getString(c.getColumnIndex(KEY_ALBUM)));
@@ -217,7 +214,7 @@ public class SongInfoDatabase {
 			} else {
 				query = "SELECT * FROM " + DATABASE_TABLE + " ORDER BY LOWER("
 						+ KEY_TITLE + ") LIMIT 1;";
-				Log.i("QUERY", query);
+				//Log.i("QUERY", query);
 				c = ourDatabase.rawQuery(query, null);
 				for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 					songInfo.setAlbum(c.getString(c.getColumnIndex(KEY_ALBUM)));
@@ -281,8 +278,6 @@ public class SongInfoDatabase {
 		ArrayList<String> playlists = new ArrayList<String>();
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			playlists.add(c.getString(c.getColumnIndex(PLAYLIST_KEY_PLAYLIST)));
-			Log.i("PLAYLIST SONGS",
-					c.getString(c.getColumnIndex(PLAYLIST_KEY_PLAYLIST)));
 
 		}
 		c.close();
@@ -304,13 +299,13 @@ public class SongInfoDatabase {
 					+ PLAYLIST_DATABASE_TABLE + " WHERE "
 					+ PLAYLIST_KEY_PLAYLIST + " = '" + playlists.get(x) + "'"
 					+ "; ";
-			Log.i("Playlist Query", query);
+			//Log.i("Playlist Query", query);
 			Cursor c;
 			Cursor c1 = ourDatabase.rawQuery(query, null);
 
 			// adding group of items of a particular playlist to an array
 			for (c1.moveToFirst(); !c1.isAfterLast(); c1.moveToNext()) {
-				Log.i("query", "Before query formatio for selecting ID");
+				//Log.i("query", "Before query formatio for selecting ID");
 				query = "SELECT * FROM " + DATABASE_TABLE + " WHERE " + KEY_ID
 						+ "="
 						+ c1.getString(c1.getColumnIndex(PLAYLIST_KEY_ID))
@@ -320,7 +315,7 @@ public class SongInfoDatabase {
 
 				// adding single item to object
 				for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-					Log.i("Before adding", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					//Log.i("Before adding", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					item = new SongInfo();
 					item.setAlbum(c.getString(c.getColumnIndex(KEY_ALBUM)));
 					item.setAlbum_art(c.getString(c
@@ -335,11 +330,11 @@ public class SongInfoDatabase {
 					item.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
 					item.setPlaylist(playlists.get(x));
 					temp_info.add(item);
-					Log.i("Item added", item.getDisplayName());
+					//Log.i("Item added", item.getDisplayName());
 
 				}
 				c.close();
-				// Log.i("Adding to temp info",
+				// //Log.i("Adding to temp info",
 				// temp_info.get(x).getDisplayName());
 
 			}
@@ -359,7 +354,7 @@ public class SongInfoDatabase {
 		if (checkDuplication(id.trim(), playlist.trim())) {
 			long inserted = ourDatabase.insert(PLAYLIST_DATABASE_TABLE, null,
 					cv);
-			Log.d("Play LIST", "Play  LIST INSERTED:::::" + inserted);
+			//Log.d("Play LIST", "Play  LIST INSERTED:::::" + inserted);
 		} else
 			Toast.makeText(ourContext, "Already in the Current playlist",
 					Toast.LENGTH_LONG).show();
@@ -369,7 +364,7 @@ public class SongInfoDatabase {
 	public void deletePlaylist(String playlist) {
 		ourDatabase.delete(PLAYLIST_DATABASE_TABLE, PLAYLIST_KEY_PLAYLIST
 				+ "='" + playlist + "'", null);
-		Log.i("DATABASE", "DELETED");
+		//Log.i("DATABASE", "DELETED");
 	}
 
 	private boolean checkDuplication(String id, String playlist) {
@@ -395,8 +390,6 @@ public class SongInfoDatabase {
 		playlists = new ArrayList<String>();
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			playlists.add(c.getString(c.getColumnIndex(PLAYLIST_KEY_PLAYLIST)));
-			Log.i("PLAYLIST SONGS",
-					c.getString(c.getColumnIndex(PLAYLIST_KEY_PLAYLIST)));
 
 		}
 		c.close();
@@ -435,7 +428,7 @@ public class SongInfoDatabase {
 		ArrayList<String> albums = new ArrayList<String>();
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			albums.add(c.getString(c.getColumnIndex(KEY_ALBUM)));
-			Log.i("ALBUMS", c.getString(c.getColumnIndex(KEY_ALBUM)));
+			//Log.i("ALBUMS", c.getString(c.getColumnIndex(KEY_ALBUM)));
 
 		}
 		c.close();
@@ -457,7 +450,7 @@ public class SongInfoDatabase {
 			String query = "SELECT  * FROM " + DATABASE_TABLE + " WHERE "
 					+ KEY_ALBUM + " = '" + albums.get(x).replace("'", "''")
 					+ "'" + "; ";
-			Log.i("Playlist Query", query);
+			//Log.i("Playlist Query", query);
 			Cursor c1 = ourDatabase.rawQuery(query, null);
 			for (c1.moveToFirst(); !c1.isAfterLast(); c1.moveToNext()) {
 				item = new SongInfo();
@@ -486,7 +479,7 @@ public class SongInfoDatabase {
 		ArrayList<String> artists = new ArrayList<String>();
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			artists.add(c.getString(c.getColumnIndex(KEY_ARTIST)));
-			Log.i("Artist", c.getString(c.getColumnIndex(KEY_ARTIST)));
+			//Log.i("Artist", c.getString(c.getColumnIndex(KEY_ARTIST)));
 
 		}
 		c.close();
@@ -507,7 +500,7 @@ public class SongInfoDatabase {
 			String query = "SELECT  * FROM " + DATABASE_TABLE + " WHERE "
 					+ KEY_ARTIST + " = '" + artists.get(x).replace("'", "''")
 					+ "'" + "; ";
-			Log.i("Artist Query", query);
+			//Log.i("Artist Query", query);
 			Cursor c1 = ourDatabase.rawQuery(query, null);
 			for (c1.moveToFirst(); !c1.isAfterLast(); c1.moveToNext()) {
 				item = new SongInfo();
@@ -537,7 +530,7 @@ public class SongInfoDatabase {
 		Cursor c = ourDatabase.rawQuery(query, null);
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			albums.add(c.getString(c.getColumnIndex(KEY_ALBUM)));
-			Log.i("ALBUMS", c.getString(c.getColumnIndex(KEY_ALBUM)));
+			//Log.i("ALBUMS", c.getString(c.getColumnIndex(KEY_ALBUM)));
 
 		}
 		albums = new ArrayList<String>(new HashSet<String>(albums));
@@ -556,7 +549,7 @@ public class SongInfoDatabase {
 		Cursor c = ourDatabase.rawQuery(query, null);
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			albums.add(c.getString(c.getColumnIndex(KEY_ARTIST)));
-			Log.i("KEY_ARTIST", c.getString(c.getColumnIndex(KEY_ARTIST)));
+			//Log.i("KEY_ARTIST", c.getString(c.getColumnIndex(KEY_ARTIST)));
 
 		}
 		albums = new ArrayList<String>(new HashSet<String>(albums));
@@ -575,8 +568,6 @@ public class SongInfoDatabase {
 		Cursor c = ourDatabase.rawQuery(query, null);
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			playlists.add(c.getString(c.getColumnIndex(PLAYLIST_KEY_PLAYLIST)));
-			Log.i("PLAYLIST_KEY_PLAYLIST",
-					c.getString(c.getColumnIndex(PLAYLIST_KEY_PLAYLIST)));
 
 		}
 		playlists = new ArrayList<String>(new HashSet<String>(playlists));

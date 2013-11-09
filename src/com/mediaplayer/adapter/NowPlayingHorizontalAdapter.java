@@ -50,7 +50,7 @@ public class NowPlayingHorizontalAdapter extends BaseAdapter implements  OnItemC
 		util=new Util();
 		lv.setOnItemClickListener(this);
 		imageLoader=new com.mediaplayer.db.ImageLoader(activity.getApplicationContext());
-		Log.i("Code PATH",activity.getApplicationContext().getPackageName());
+		//Log.i("Code PATH",activity.getApplicationContext().getPackageName());
 
 	}
 	public ArrayList<SongInfo> getUrlList() {

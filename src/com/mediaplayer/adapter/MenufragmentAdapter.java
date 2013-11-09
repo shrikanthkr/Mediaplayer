@@ -2,29 +2,19 @@ package com.mediaplayer.adapter;
 
 import java.util.ArrayList;
 
-import com.mediaplayer.com.R;
-import com.mediaplayer.com.R.id;
-import com.mediaplayer.com.R.layout;
-import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.ImageDownloader;
-import com.mediaplayer.db.ImageLoader;
-import com.mediaplayer.utility.StaticMusic;
-
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.mediaplayer.com.R;
+import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.utility.StaticMusic;
 
 public class MenufragmentAdapter extends BaseAdapter {
 	private Context activity;
@@ -73,18 +63,18 @@ public class MenufragmentAdapter extends BaseAdapter {
 		View vi;
 		ViewHolder holder;
 		vi = arg1;
-		Log.i("SLIDE", arg0+"::actual");
+		////Log.i("SLIDE", arg0+"::actual");
 		switch (arg0) {
 		
 		case 0:
-			Log.i("SLIDE", "CASE 0");
+			////Log.i("SLIDE", "CASE 0");
 			if(vi==null){
 			vi = inflater.inflate(R.layout.slide_header_xml, null);
 			}
 			return vi;
 	
 		case 1:
-			Log.i("SLIDE", "CASE 1");
+			////Log.i("SLIDE", "CASE 1");
 			TextView tv;
 			if(vi==null){
 			vi = inflater.inflate(R.layout.nowplaying_slidelayout, null);
@@ -132,13 +122,13 @@ public class MenufragmentAdapter extends BaseAdapter {
 						}
 					} catch (Exception e) {
 					}
-					// Log.i("Clicked", "Play buton in slide layout");
+					// ////Log.i("Clicked", "Play buton in slide layout");
 				}
 			});
 
 			return vi;
-		case 4:
-			Log.i("SLIDE", "CASE $");
+		case 3:
+			////Log.i("SLIDE", "CASE $");
 			vi = inflater.inflate(R.layout.slide_logo, null);
 			return vi;
 		default:

@@ -34,7 +34,7 @@ public class IdentifyActivity extends Activity {
 		identify_textview = (TextView) findViewById(R.id.identify_textView);
 		pl = new SongsManager();
 		songList = pl.getPlayList();
-		Log.i("Identify ", "playlist");
+		//Log.i("Identify ", "playlist");
 		HttpParams httpParams = new BasicHttpParams();
 		HttpClient client = new DefaultHttpClient(httpParams);
 		HttpPost httpost = new HttpPost(
@@ -48,19 +48,19 @@ public class IdentifyActivity extends Activity {
 		httpost.setEntity(mpEntity);
 		HttpResponse response = null;
 		try {
-			Log.i("Identify", "Executinb");
+			//Log.i("Identify", "Executinb");
 			response = client.execute(httpost);
 			InputStream instream = response.getEntity().getContent();
 			String result = convertStreamToString(instream);
-			Log.i("Identify", result);
+			//Log.i("Identify", result);
 			identify_textview.setText(result);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i("Identify", "Exception");
+			//Log.i("Identify", "Exception");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Log.i("Identify", "Exception");
+			//Log.i("Identify", "Exception");
 			e.printStackTrace();
 		}
 	}

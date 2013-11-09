@@ -39,7 +39,7 @@ public class StringUtils {
 			byte[] sha1hash = md.digest();
 			return bytesToHex(sha1hash);
 		} catch (Exception e) {
-			Log.e(StringUtils.class.getName(), "", e);
+			//Log.e(StringUtils.class.getName(), "", e);
 			return null;
 		}
 	}

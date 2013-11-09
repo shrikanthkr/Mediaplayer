@@ -113,10 +113,10 @@ public class Music {
 		if (isRepeat) {
 			StaticMusic.songInfo = StaticMusic.songQueue
 					.get(StaticMusic.songQueue.indexOf(StaticMusic.songInfo));
-			Log.i("NEXT TRACK", "REPEAT");
+			//Log.i("NEXT TRACK", "REPEAT");
 
 		} else if (isShuffle) {
-			Log.i("NEXT TRACK", "SHUFFLE");
+			//Log.i("NEXT TRACK", "SHUFFLE");
 			if (StaticMusic.songQueue.indexOf(StaticMusic.songInfo) == StaticMusic.songQueue
 					.size() - 1) {
 				database = new SongInfoDatabase(context);
@@ -132,12 +132,10 @@ public class Music {
 
 			
 		} else {
-			Log.i("Next Track Number","DUMMY NEXT");
+			//Log.i("Next Track Number","DUMMY NEXT");
 			if (StaticMusic.songQueue.indexOf(StaticMusic.songInfo) < StaticMusic.songQueue
 					.size() - 1) {
-				Log.i("Next Track Number",
-						1 + StaticMusic.songQueue.indexOf(StaticMusic.songInfo)
-								+ "");
+			
 				StaticMusic.songInfo = StaticMusic.songQueue
 						.get(StaticMusic.songQueue
 								.indexOf(StaticMusic.songInfo) + 1);
@@ -145,7 +143,7 @@ public class Music {
 			} else {
 				database = new SongInfoDatabase(context);
 				database.open();
-				Log.i("Next Track Number","NEXT SONG IN DB");
+				//Log.i("Next Track Number","NEXT SONG IN DB");
 				StaticMusic.songInfo=database.getNextSong(StaticMusic.songInfo);
 				StaticMusic.songQueue.addLast(StaticMusic.songInfo);
 				database.close();
@@ -158,8 +156,7 @@ public class Music {
 
 	public void playPreviousSong() {
 		// TODO Auto-generated method stub
-		Log.i("Previous Track Number",
-				-1 + StaticMusic.songQueue.indexOf(StaticMusic.songInfo) + "");
+
 		if (StaticMusic.songQueue.indexOf(StaticMusic.songInfo) > 0) {
 			StaticMusic.songInfo = StaticMusic.songQueue
 					.get(StaticMusic.songQueue.indexOf(StaticMusic.songInfo) - 1);

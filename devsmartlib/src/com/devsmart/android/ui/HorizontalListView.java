@@ -303,7 +303,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
 	
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
-		Log.i("HORI LIST VIEW LIB", "FLIGNRD");
+		//Log.i("HORI LIST VIEW LIB", "FLIGNRD");
 		synchronized(HorizontalListView.this){
 			mScroller.fling(mNextX, 0, (int)-velocityX, 0, 0, mMaxX, 0, 0);
 		}

@@ -54,7 +54,7 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 		this.lv = lv;
 		imageLoader.loadImage(0, 5);
 		this.lv.setOnScrollListener(this);
-		Log.i("READLIST ADAPTER", "CONSTRUCTOR CREATED");
+		//Log.i("READLIST ADAPTER", "CONSTRUCTOR CREATED");
 		format = new DecimalFormat("#.00");
 
 	}

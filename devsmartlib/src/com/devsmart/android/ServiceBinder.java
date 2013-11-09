@@ -59,7 +59,7 @@ public class ServiceBinder<T extends IInterface> {
 				}
 			
 			}catch(Exception e) {
-				Log.e(ServiceBinder.class.getName(), "Unable to bind to service", e);
+				//Log.e(ServiceBinder.class.getName(), "Unable to bind to service", e);
 			}
 			
 		}

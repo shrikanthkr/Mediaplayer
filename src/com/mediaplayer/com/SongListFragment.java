@@ -12,9 +12,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.Editable;
@@ -106,15 +106,13 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		slidebutton_clicked=false;
-		Log.i("Song list fragment", "On Resume called" + SWITCH_VIEW + ":"
-				+ SONG_VIEW);
 		if (SWITCH_VIEW == SONG_VIEW && !checkFirst
 				&& !databaseUpdateThread.isAlive()) {
 			databaseUpdateThread = new DatabaseUpdateThread(this, this);
 			databaseUpdateThread.setPriority(Thread.MIN_PRIORITY);
 			databaseUpdateThread.start();
 			updateSongList();
-			Log.i("Song list fragment", "After update thread creation");
+			//Log.i("Song list fragment", "After update thread creation");
 		}
 
 	}
@@ -123,7 +121,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
-
 		setContentView(R.layout.songlistfragment_xml);
 		context = this;
 		activity = this;
@@ -214,7 +211,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 
 			Thread t = new Thread() {
 				public void run() {
-					Log.i("Gettig first", "Getting first");
+					//Log.i("Gettig first", "Getting first");
 					songList = util.getAllmusic(context,
 							context.getContentResolver());
 
@@ -264,7 +261,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	public void populateSonglist() {
 		SWITCH_VIEW = SONG_VIEW;
 		pb.setVisibility(View.VISIBLE);
-		Log.i("LIST FRAG", "POPULATING SONG LIST");
+		//Log.i("LIST FRAG", "POPULATING SONG LIST");
 		songlist_header_textview.setText("Songs");
 		database.open();
 		songList = database.getFullList();
@@ -287,13 +284,13 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		adapter.imageLoader.loadImage(StaticMusic.smoothScrollTo,
 				StaticMusic.smoothScrollTo + 8);
 		pb.setVisibility(View.INVISIBLE);
-		Log.i("INSTANT", "registered content observer");
+		//Log.i("INSTANT", "registered content observer");
 		if (Math.abs(previousTime - System.currentTimeMillis()) / 1000 > 10) {
 			previousTime = System.currentTimeMillis();
 			databaseUpdateThread = new DatabaseUpdateThread(this, this);
 			databaseUpdateThread.setPriority(Thread.MIN_PRIORITY);
 			databaseUpdateThread.start();
-			Log.i("Song list fragment", "After update thread creation");
+			//Log.i("Song list fragment", "After update thread creation");
 		}
 	}
 
@@ -442,7 +439,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 
 	@Override
 	public void onClick(View arg0) {
-		// Log.i("As Activity", "Songlist fragment acivity click happened");
+		// //Log.i("As Activity", "Songlist fragment acivity click happened");
 		try {
 			restoreSearchButton();
 
@@ -480,7 +477,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 					MotionEvent.ACTION_UP, 0, 0, 0));
 			break;
 		case R.id.slide_songlist_button:
-			Log.i("As Activity", "Songlist fragment acivity click happened");
+			//Log.i("As Activity", "Songlist fragment acivity click happened");
 			int width = (int) TypedValue.applyDimension(
 					TypedValue.COMPLEX_UNIT_DIP, 30, getResources()
 					.getDisplayMetrics());
@@ -576,7 +573,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 						database.addToPlaylist(songId,
 								dialog_playlists.get(arg2));
 						dialog.dismiss();
-						// Log.i("Song ID", songId+"; Playlist :" +
+						// //Log.i("Song ID", songId+"; Playlist :" +
 						// dialog_playlists.get(arg2));
 					}
 
@@ -591,7 +588,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 							database.addToPlaylist(songId, playlist_edittext
 									.getText().toString());
 							dialog.dismiss();
-							// Log.i("Song ID", songId);
+							// //Log.i("Song ID", songId);
 						} else
 							Toast.makeText(context, "Empty Name",
 									Toast.LENGTH_LONG).show();
@@ -681,12 +678,12 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		}
 		try {
 			int id = lv.pointToPosition((int) e1.getX(), (int) e1.getY());
-			// Log.i("SONG",
+			// //Log.i("SONG",
 			// "ID:"+((TextView)lv.getChildAt(id).findViewById(R.id.song_textView)).getText().toString()
 			// );
 			path = songList.get(id).getData();
 			duration = Long.parseLong(songList.get(id).getDuration());
-			Log.i("SONG LIST FRAGMENT", songList.get(id).getTitle());
+			//Log.i("SONG LIST FRAGMENT", songList.get(id).getTitle());
 
 			songInfo.setAlbum(songList.get(id).getAlbum());
 			songInfo.setAlbum_art(songList.get(id).getAlbum_art());
@@ -703,7 +700,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 			e.printStackTrace();
 			StaticMusic.songQueue = new LinkedList<SongInfo>();
 			StaticMusic.songQueue.addLast(songInfo);
-			Log.i("SONG LIST FRAGMENT", "here ur new");
+			//Log.i("SONG LIST FRAGMENT", "here ur new");
 
 		}
 		Intent toNowPlaying = new Intent(this, Nowplaying.class);
@@ -739,14 +736,14 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			Log.i("DATABASE THREAD", search);
+			//Log.i("DATABASE THREAD", search);
 
 			switch (SWITCH_VIEW) {
 			case SONG_VIEW:
 				database.open();
 				songList = database.searchSong_byName(search);
 				// database.close();
-				Log.i("DATABASE THREAD", songList.size() + "");
+				//Log.i("DATABASE THREAD", songList.size() + "");
 				// TODO Auto-generated method stub
 				if (songList.size() == 0) {
 					songInfo.setTitle("No Songs Found");

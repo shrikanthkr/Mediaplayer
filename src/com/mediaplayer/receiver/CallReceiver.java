@@ -33,10 +33,10 @@ public class CallReceiver extends BroadcastReceiver {
 				}catch(Exception e){
 
 				}
-				Log.d("DEBUG", "IDLE");
+				//Log.d("DEBUG", "IDLE");
 				break;
 			case TelephonyManager.CALL_STATE_OFFHOOK:
-				Log.d("DEBUG", "OFFHOOK");
+				//Log.d("DEBUG", "OFFHOOK");
 				break;
 			case TelephonyManager.CALL_STATE_RINGING:
 				try{
@@ -47,7 +47,7 @@ public class CallReceiver extends BroadcastReceiver {
 				}catch(Exception e){
 
 				}
-				Log.d("DEBUG", "RINGING");
+				//Log.d("DEBUG", "RINGING");
 				break;
 			}
 		} 

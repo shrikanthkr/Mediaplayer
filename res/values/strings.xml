@@ -7,5 +7,6 @@
     <string name="slide_string">></string>
     <string name="slide">></string>
     <string name="app_id">287452584733546</string>
+    <string name="crash_toast_text">This is an error messages</string>
 
 </resources>

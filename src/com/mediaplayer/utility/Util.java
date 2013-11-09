@@ -5,45 +5,34 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
-import java.io.Serializable;
-import java.io.StreamCorruptedException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import com.mediaplayer.com.R;
-import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.SongInfoDatabase;
 
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.AvoidXfermode.Mode;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.graphics.PorterDuff;
+
+import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.db.SongInfoDatabase;
 
 public class Util {
 	public static String TO_UPLOAD = "song";
@@ -67,17 +56,17 @@ public class Util {
 			oos.flush(); // flush the stream to insure all of the information
 			// was written to 'save.bin'
 			oos.close();
-			// Log.i("SD CARD WRITTEN", file.getAbsolutePath() + "");
+			// //Log.i("SD CARD WRITTEN", file.getAbsolutePath() + "");
 		} catch (IOException e) {
 			// Unable to create file, likely because external storage is
 			// not currently mounted.
-			// Log.w("ExternalStorage", "Error writing " + file, e);
+			// //Log.w("ExternalStorage", "Error writing " + file, e);
 		}
 	}
 
 	public Object loadFromExternalStorage(Context context, String type) {
 		fileName = type;
-		// Log.i("READ PATH", fileName);
+		// //Log.i("READ PATH", fileName);
 		final File file = new File(context.getExternalFilesDir(null), fileName);
 		FileInputStream fis;
 		ObjectInputStream ois;
@@ -87,7 +76,7 @@ public class Util {
 			ois = new ObjectInputStream(fis);
 			object = ois.readObject();
 			ois.close();
-			// Log.i("UTIL", "SD CARD READ");
+			// //Log.i("UTIL", "SD CARD READ");
 			return object;
 		} catch (FileNotFoundException e) {
 			// e.printStackTrace();
@@ -132,10 +121,10 @@ public class Util {
 				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
 				selection, null, sortOrder);
 		while (cursor.moveToNext()) {
-			// Log.i("QUERY", cursor.toString());
+			// //Log.i("QUERY", cursor.toString());
 			temp = new SongInfo();
 			try {
-				// Log.i("Disp name",
+				// //Log.i("Disp name",
 				// cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
 				temp.setDisplayName(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
@@ -143,7 +132,7 @@ public class Util {
 				temp.setDisplayName("No display name");
 			}
 			try {
-				// Log.i("Title", cursor.getString(cursor
+				// //Log.i("Title", cursor.getString(cursor
 				// .getColumnIndex(MediaStore.Audio.Media.TITLE)));
 				temp.setTitle(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media.TITLE)));
@@ -151,7 +140,7 @@ public class Util {
 				temp.setTitle("no Title");
 			}
 			try {
-				// //Log.i("ID",
+				// ////Log.i("ID",
 				// cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
 				temp.setId(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media._ID)));
@@ -159,7 +148,7 @@ public class Util {
 				temp.setId("No ID");
 			}
 			try {
-				// Log.i("Album",
+				// //Log.i("Album",
 				// cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
 				temp.setAlbum(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
@@ -167,7 +156,7 @@ public class Util {
 				temp.setAlbum("No Album");
 			}
 			try {
-				// Log.i("Artist",
+				// //Log.i("Artist",
 				// cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
 				temp.setArtist(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
@@ -175,7 +164,7 @@ public class Util {
 				temp.setArtist("No Artist");
 			}
 			try {
-				// Log.i("Data", cursor.getString(cursor
+				// //Log.i("Data", cursor.getString(cursor
 				// .getColumnIndex(MediaStore.Audio.Media.DATA)));
 				temp.setData(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media.DATA)));
@@ -183,7 +172,7 @@ public class Util {
 				temp.setData("No Data");
 			}
 			try {
-				// Log.i("Duration", cursor.getString(cursor
+				// //Log.i("Duration", cursor.getString(cursor
 				// .getColumnIndex(MediaStore.Audio.Media.DURATION)));
 				temp.setDuration(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media.DURATION)));
@@ -191,7 +180,7 @@ public class Util {
 				temp.setDuration("NIL");
 			}
 			try {
-				// Log.i("Album id", cursor.getString(cursor
+				// //Log.i("Album id", cursor.getString(cursor
 				// .getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
 				temp.setAlbum_id(cursor.getString(cursor
 						.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
