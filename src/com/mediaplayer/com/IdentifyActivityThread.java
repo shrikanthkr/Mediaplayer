@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
@@ -40,8 +41,8 @@ public class IdentifyActivityThread extends Thread {
 		msg = "";
 		this.progressUpdateThreadListener = progressUpdateThreadListener;
 	}
-	
-	
+
+
 
 
 	@Override
@@ -52,7 +53,7 @@ public class IdentifyActivityThread extends Thread {
 		CheapSoundFile soundFile;
 		try {
 			soundFile = CheapSoundFile.create(path);
-			
+
 			//Log.i("IDENTIFY", "SIZE:" + soundFile.getFileSizeBytes());
 			int endFrame = (int) (1.0 * 30 * soundFile.getSampleRate()
 					/ soundFile.getSamplesPerFrame() + 0.5);
@@ -108,37 +109,30 @@ public class IdentifyActivityThread extends Thread {
 								new ChoiceDialog(activity,
 										new DialogChangeListener() {
 
-											@Override
-											public void receivedChange(
-													boolean changed) {
-												// TODO Auto-generated method
-												// stub
-												
-												if (changed) {
-													Util.updateTrack(
-															activity,
-															StaticMusic.songInfo);
-													//Log.i("ID", "FAKE THREAD ID ::"+fakeThread.getId());
-													listener.onUpdate(true);
-												}
-												else{
-													progressUpdateThreadListener.onProgressChangeUpdate(100);
-												}
-											}
-										}, msg).show();
+									@Override
+									public void receivedChange(
+											boolean changed) {
+										// TODO Auto-generated method
+										// stub
+
+										if (changed) {
+											Util.updateTrack(
+													activity,
+													StaticMusic.songInfo);
+											//Log.i("ID", "FAKE THREAD ID ::"+fakeThread.getId());
+											listener.onUpdate(true);
+										}
+										else{
+											progressUpdateThreadListener.onProgressChangeUpdate(100);
+										}
+									}
+								}, msg).show();
 
 							} catch (EchoNestException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 								listener.onUpdate(false);
-							} finally {
-								try {
-									file.delete();
-
-								} catch (Exception e) {
-								}
 							}
-
 						}
 					});
 				} else {
@@ -168,7 +162,7 @@ public class IdentifyActivityThread extends Thread {
 			} catch (Exception e) {
 			}
 		}
-		
+
 		return;
 	}
 
@@ -181,7 +175,7 @@ public class IdentifyActivityThread extends Thread {
 	public class FakeUpdateThread extends Thread {
 
 		int progress = 26;
-	
+
 
 		/**
 		 * @return the progress
@@ -190,7 +184,7 @@ public class IdentifyActivityThread extends Thread {
 			return progress;
 		}
 
-		
+
 		/**
 		 * @param progress
 		 *            the progress to set
@@ -215,7 +209,7 @@ public class IdentifyActivityThread extends Thread {
 					Thread.sleep(600);
 					if (path.equals(StaticMusic.songInfo.getData()))
 						progressUpdateThreadListener
-								.onProgressChangeUpdate(progress);
+						.onProgressChangeUpdate(progress);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -224,7 +218,7 @@ public class IdentifyActivityThread extends Thread {
 			}
 			progress=0;
 			//Log.i("FAKE THREAD", "::::"+this.getId() +":: OVER") ;
-			
+
 			return;
 		}
 

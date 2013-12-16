@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="slideoutactivity">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/library/bin/slideoutactivity.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

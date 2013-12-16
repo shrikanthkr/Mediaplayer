@@ -12,11 +12,11 @@ public final class R {
 		public static final int ic_launcher = 0x7f020020;
 	}
 	public static final class id {
-		public static final int slidedout_cover = 0x7f06004b;
-		public static final int slideout_placeholder = 0x7f06004a;
+		public static final int slidedout_cover = 0x7f06004e;
+		public static final int slideout_placeholder = 0x7f06004d;
 	}
 	public static final class layout {
-		public static final int slideout = 0x7f030014;
+		public static final int slideout = 0x7f030015;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f050001;

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Mediaplayer.iml" filepath="$PROJECT_DIR$/Mediaplayer.iml" />
+      <module fileurl="file://$USER_HOME$/Downloads/facebook-android-sdk-master/facebook/android-sdk.iml" filepath="$USER_HOME$/Downloads/facebook-android-sdk-master/facebook/android-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/devsmartlib/devsmartlib.iml" filepath="$PROJECT_DIR$/devsmartlib/devsmartlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dragsortlibrary/dragsortlibrary.iml" filepath="$PROJECT_DIR$/dragsortlibrary/dragsortlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+    </modules>
+  </component>
+</project>
+

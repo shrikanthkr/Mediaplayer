@@ -41,8 +41,6 @@
             android:noHistory="true"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-
-
         <activity
             android:name="com.mediaplayer.com.Nowplaying"
             android:multiprocess="false"
@@ -55,8 +53,6 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
-
-       
         <receiver android:name="com.mediaplayer.receiver.SDCardMountReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_SCANNER_FINISHED" />

@@ -249,6 +249,7 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/seek_image"
             android:visibility="invisible" />
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -18,8 +18,7 @@ public class ShareDialog implements ProgressUpdateIdentifyThread {
 	ImageButton fb_share, identify, share;
 	ShareDialog listener;
 	Activity context;
-	private SharedPreferences prefs;
-	IdentifyActivityThread identifyActivityThread;
+	static IdentifyActivityThread identifyActivityThread;
 	int progress = 0;
 	ProgressBar pb;
 	private final Handler mTwitterHandler = new Handler();
@@ -117,7 +116,6 @@ public class ShareDialog implements ProgressUpdateIdentifyThread {
 	public ShareDialog(Activity context,ProgressBar pb,UpdateNowPlayingUIListener nowplayingUIListener ) {
 		listener = this;
 		this.context = context;
-		this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		progressListener = this;
 		this.pb=pb;
 		this.nowplayingUIListener=nowplayingUIListener;

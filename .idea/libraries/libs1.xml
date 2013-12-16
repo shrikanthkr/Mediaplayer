@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="libs1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jEN.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/signpost-commonshttp4-1.2.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/twitter4j-core-3.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/json_simple-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/android-support-v4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpmime-4.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/signpost-core-1.2.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

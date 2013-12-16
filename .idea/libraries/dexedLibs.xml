@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="dexedLibs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/signpost-commonshttp4-1.2.1.1-a4e473017927c539015c0953fb6da593.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/twitter4j-core-3.0.3-2e980f499d40c123a72b56625963639e.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/facebooksdk-3eb50cdc74d54910345004aac3f50424.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/android-support-v4-6d11fc3e67cd55fb341a44cc589c984d.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/slideoutactivity-9c8bf03ae9b95908c9cd501b1e5baf9a.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/dragsortlibrary-65b19ae6eacedbb344dff6f3b6b165f4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/signpost-core-1.2.1.1-49f80f3bcdbf01218d7c1630cb2489f3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/jEN-8bf6ab4bad82134f85d948b307734e46.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/devsmartandroid-16771c754a0c637ac74976a9c6edb712.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/json_simple-1.1-d952903120c8a76984ab3bc7a6ca75d1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/httpmime-4.2.2-7ed1537b2c354f76f0d64ab69192e127.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/annotations-4b14348b6e905a161090f4c222e3a0af.jar!/" />
+      <root url="jar://$PROJECT_DIR$/bin/dexedLibs/httpclient-4.2.2-81e13609168647beb0663a6a7483e40b.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
