@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+     <item android:state_pressed="true" >
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#FFF8F8F6"
+                android:gradientRadius="500"
+                />
+        </shape>
+    </item>
+
+</selector><!-- From: file:/home/shrikanth/android-projects/Mediaplayer/res/drawable/play_button_hover.xml -->

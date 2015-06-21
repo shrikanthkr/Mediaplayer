@@ -11,7 +11,7 @@ public class SplashActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		mSlideoutHelper = new SlideoutHelper(this);
 		mSlideoutHelper.activate();
-		getSupportFragmentManager().beginTransaction().add(com.korovyansk.android.slideout.R.id.slideout_placeholder, new MenuFragment(), "menu").commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.slideout_placeholder, new MenuFragment(), "menu").commit();
 		mSlideoutHelper.open();
 	}
 

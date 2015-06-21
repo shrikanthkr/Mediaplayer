@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/equalizer_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/equalizer_seekbar_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/eqpreset_spinner"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"></Spinner>
+
+    <ImageView
+        android:id="@+id/eqmeasure_imageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="invisible"
+        android:src="@drawable/album_button_custom" />
+
+</LinearLayout><!-- From: file:/home/shrikanth/android-projects/Mediaplayer/res/layout/equalizer_xml.xml -->

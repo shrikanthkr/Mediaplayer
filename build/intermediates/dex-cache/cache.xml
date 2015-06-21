@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/devsmartandroid.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e40435d08db12336577757c0ff5aeb4989cdabc7">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/devsmartandroid-a8f6a405d64af12556742ea62472fd1fc4aa2803.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/jEN.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2b63c21126167fc877a9d4c53a1581bfa49b60f3">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/jEN-a298b0058271677d8bb4e6a16471a886dadd0339.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/facebook-like slide-out navigation.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d686254d74b4927bae4581cead2a6590e3c5e10f">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/facebook-like slide-out navigation-404f1167913f9e0bf2c4e97bc5e640c586f6be8b.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/dragsortlibrary.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f70ecce53cf2add65767b749ba3f0027381c9c5b">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/dragsortlibrary-1b59994a08af0a1149efa6b7693fa056c65a5aa0.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/httpclient-4.2.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="872a71eac51131524f72f3100781dd88a42c9ccc">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/httpclient-4.2.2-e26747be2e700cb6049ec74ab2fe8ce2656d8d62.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/twitter4j-core-3.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fd32f6a458405bcdd77b68d0c6099a65203da009">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/twitter4j-core-3.0.3-d6faf6b57015b1cabf0bf4bb1e204446b1b7ad54.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/android-support-v4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4a6be13368bb64c5a0b0460632d228a1a915f58f">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/android-support-v4-90cc17f214299a3fdd43343d630c39f51e66beba.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/httpmime-4.2.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="92b7ae91cb55150192341962dd7254ef898768ca">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/httpmime-4.2.2-39448e441a225c0aff7fa891a441e51586916ee6.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/json_simple-1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5e303a03d04e6788dddfa3655272580ae0fc13bb">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/json_simple-1.1-7874ea4590c528ed6111b200c1bf47e404448316.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/signpost-core-1.2.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d1b39a438178bc885d724458de64cee33f1932a6">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/signpost-core-1.2.1.1-9d39f10ea62ae054827f795f16d0ddae0f940b16.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/signpost-commonshttp4-1.2.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="576194c2d9ecf9382ed5ab913de8b36640507847">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/signpost-commonshttp4-1.2.1.1-85aa39c1f528af1c085d7309d99461881f910ea6.jar" />
+    </item>
+    <item
+        jar="/home/shrikanth/android-projects/Mediaplayer/libs/acra-4.5.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="44a5eb946e0d83eed4a0128d877ca1fd8168b83a">
+        <dex dex="/home/shrikanth/android-projects/Mediaplayer/build/intermediates/pre-dexed/debug/acra-4.5.0-60d07a02455d169a3ae46caf9ba67cd91813ba60.jar" />
+    </item>
+
+</items>

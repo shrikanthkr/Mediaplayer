@@ -3,23 +3,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.4'
+        classpath 'com.android.tools.build:gradle:1.2.3'
     }
 }
 apply plugin: 'android'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':Dropbox:WorkSpace:Mediaplayer:devsmartlib')
-    compile project(':Dropbox:WorkSpace:Mediaplayer:dragsortlibrary')
-    compile project(':Dropbox:WorkSpace:Mediaplayer:library')
-    compile project(':Downloads:facebook-android-sdk-master:facebook')
 }
 
 android {
     compileSdkVersion 15
-    buildToolsVersion "17.0.0"
-
+    buildToolsVersion "21.1.2"
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -31,6 +26,20 @@ android {
             assets.srcDirs = ['assets']
         }
 
+        // Move the tests to tests/java, tests/res, etc...
         instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
 }

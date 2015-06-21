@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="devsmartandroid">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/devsmartlib/bin/devsmartandroid.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/devsmartandroid.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

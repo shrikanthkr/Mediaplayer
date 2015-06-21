@@ -168,17 +168,17 @@ containing a value of this type.
         public static final int use_default_controller=0x7f010011;
     }
     public static final class color {
-        public static final int appwidget_text=0x7f070000;
+        public static final int appwidget_text=0x7f050000;
     }
     public static final class dimen {
         /**  height of an expanded list item in edit playlist mode 
          */
-        public static final int expanded_height=0x7f080001;
-        public static final int item_height=0x7f080002;
+        public static final int expanded_height=0x7f060001;
+        public static final int item_height=0x7f060002;
         /**  height of a normal list item in edit playlist mode 
          */
-        public static final int normal_height=0x7f080000;
-        public static final int section_div_height=0x7f080003;
+        public static final int normal_height=0x7f060000;
+        public static final int section_div_height=0x7f060003;
     }
     public static final class drawable {
         public static final int album_button_custom=0x7f020000;
@@ -191,197 +191,195 @@ containing a value of this type.
         public static final int artist_button_custom=0x7f020007;
         public static final int artist_press=0x7f020008;
         public static final int background_fill=0x7f020009;
-        public static final int bg=0x7f02000a;
-        public static final int blue_bg=0x7f02000b;
-        public static final int blue_strip=0x7f02000c;
-        public static final int cancel=0x7f02000d;
-        public static final int delete=0x7f02000e;
-        public static final int delete_press=0x7f02000f;
-        public static final int divider=0x7f020010;
-        public static final int edit=0x7f020011;
-        public static final int edit_button_custom=0x7f020012;
-        public static final int edit_button_custom_white=0x7f020013;
-        public static final int edit_press=0x7f020014;
-        public static final int edittext_back=0x7f020015;
-        public static final int equ=0x7f020016;
-        public static final int equalizer=0x7f020017;
-        public static final int equalizer_button_custom=0x7f020018;
-        public static final int equlizer=0x7f020019;
-        public static final int fb=0x7f02001a;
-        public static final int footer_bg=0x7f02001b;
-        public static final int grey_bg=0x7f02001c;
-        public static final int header_back=0x7f02001d;
-        public static final int header_bg=0x7f02001e;
-        public static final int heartin=0x7f02001f;
-        public static final int ic_launcher=0x7f020020;
-        public static final int icon=0x7f020021;
-        public static final int identify=0x7f020022;
-        public static final int lines=0x7f020023;
-        public static final int list=0x7f020024;
-        public static final int list_back=0x7f020025;
-        public static final int list_bg=0x7f020026;
-        public static final int logo=0x7f020027;
-        public static final int main_bg=0x7f020028;
-        public static final int move=0x7f020029;
-        public static final int next=0x7f02002a;
-        public static final int next_button_custom=0x7f02002b;
-        public static final int next_pressed=0x7f02002c;
-        public static final int ok_button=0x7f02002d;
-        public static final int pause=0x7f02002e;
-        public static final int play=0x7f02002f;
-        public static final int play_button_hover=0x7f020030;
-        public static final int player=0x7f020031;
-        public static final int player_press=0x7f020032;
-        public static final int playlist=0x7f020033;
-        public static final int playlist_button_custom=0x7f020034;
-        public static final int playlist_press=0x7f020035;
-        public static final int point=0x7f020036;
-        public static final int previous=0x7f020037;
-        public static final int previous_button_custom=0x7f020038;
-        public static final int previous_pressed=0x7f020039;
-        public static final int progress=0x7f02003a;
-        public static final int repeat=0x7f02003b;
-        public static final int repeat_button_custom=0x7f02003c;
-        public static final int repeat_off=0x7f02003d;
-        public static final int rounded_popup_bg=0x7f02003e;
-        public static final int search=0x7f02003f;
-        public static final int search_button_custom=0x7f020040;
-        public static final int search_press=0x7f020041;
-        public static final int seek_image=0x7f020042;
-        public static final int seekbar_progress=0x7f020043;
-        public static final int share=0x7f020044;
-        public static final int share_button_custom=0x7f020045;
-        public static final int share_press=0x7f020046;
-        public static final int shuffle=0x7f020047;
-        public static final int shuffle_button_custom=0x7f020048;
-        public static final int shuffle_off=0x7f020049;
-        public static final int slide_back=0x7f02004a;
-        public static final int slide_bg=0x7f02004b;
-        public static final int slide_button_custom=0x7f02004c;
-        public static final int slide_header=0x7f02004d;
-        public static final int slide_player=0x7f02004e;
-        public static final int slidelist_bg_repeat=0x7f02004f;
-        public static final int slider_song_bg_custom=0x7f020050;
-        public static final int songs=0x7f020051;
-        public static final int songs_button_custom=0x7f020052;
-        public static final int songs_press=0x7f020053;
-        public static final int srp=0x7f020054;
-        public static final int swipe_dummy_left=0x7f020055;
-        public static final int swipe_dummy_right=0x7f020056;
-        public static final int texture=0x7f020057;
-        public static final int trash=0x7f020058;
-        public static final int trash_button_custom=0x7f020059;
-        public static final int trash_press=0x7f02005a;
-        public static final int twitter=0x7f02005b;
-        public static final int white_bg=0x7f02005c;
+        public static final int blue_bg=0x7f02000a;
+        public static final int blue_strip=0x7f02000b;
+        public static final int cancel=0x7f02000c;
+        public static final int delete=0x7f02000d;
+        public static final int delete_press=0x7f02000e;
+        public static final int divider=0x7f02000f;
+        public static final int edit=0x7f020010;
+        public static final int edit_button_custom=0x7f020011;
+        public static final int edit_button_custom_white=0x7f020012;
+        public static final int edit_press=0x7f020013;
+        public static final int edittext_back=0x7f020014;
+        public static final int equ=0x7f020015;
+        public static final int equalizer=0x7f020016;
+        public static final int equalizer_button_custom=0x7f020017;
+        public static final int equlizer=0x7f020018;
+        public static final int fb=0x7f020019;
+        public static final int footer_bg=0x7f02001a;
+        public static final int grey_bg=0x7f02001b;
+        public static final int header_back=0x7f02001c;
+        public static final int header_bg=0x7f02001d;
+        public static final int heartin=0x7f02001e;
+        public static final int ic_launcher=0x7f02001f;
+        public static final int identify=0x7f020020;
+        public static final int lines=0x7f020021;
+        public static final int list=0x7f020022;
+        public static final int list_back=0x7f020023;
+        public static final int list_bg=0x7f020024;
+        public static final int logo=0x7f020025;
+        public static final int main_bg=0x7f020026;
+        public static final int move=0x7f020027;
+        public static final int next=0x7f020028;
+        public static final int next_button_custom=0x7f020029;
+        public static final int next_pressed=0x7f02002a;
+        public static final int ok_button=0x7f02002b;
+        public static final int pause=0x7f02002c;
+        public static final int play=0x7f02002d;
+        public static final int play_button_hover=0x7f02002e;
+        public static final int player=0x7f02002f;
+        public static final int player_press=0x7f020030;
+        public static final int playlist=0x7f020031;
+        public static final int playlist_button_custom=0x7f020032;
+        public static final int playlist_press=0x7f020033;
+        public static final int point=0x7f020034;
+        public static final int previous=0x7f020035;
+        public static final int previous_button_custom=0x7f020036;
+        public static final int previous_pressed=0x7f020037;
+        public static final int progress=0x7f020038;
+        public static final int repeat=0x7f020039;
+        public static final int repeat_button_custom=0x7f02003a;
+        public static final int repeat_off=0x7f02003b;
+        public static final int rounded_popup_bg=0x7f02003c;
+        public static final int search=0x7f02003d;
+        public static final int search_button_custom=0x7f02003e;
+        public static final int search_press=0x7f02003f;
+        public static final int seek_image=0x7f020040;
+        public static final int seekbar_progress=0x7f020041;
+        public static final int share=0x7f020042;
+        public static final int share_button_custom=0x7f020043;
+        public static final int share_press=0x7f020044;
+        public static final int shuffle=0x7f020045;
+        public static final int shuffle_button_custom=0x7f020046;
+        public static final int shuffle_off=0x7f020047;
+        public static final int slide_back=0x7f020048;
+        public static final int slide_bg=0x7f020049;
+        public static final int slide_button_custom=0x7f02004a;
+        public static final int slide_header=0x7f02004b;
+        public static final int slide_player=0x7f02004c;
+        public static final int slidelist_bg_repeat=0x7f02004d;
+        public static final int slider_song_bg_custom=0x7f02004e;
+        public static final int songs=0x7f02004f;
+        public static final int songs_button_custom=0x7f020050;
+        public static final int songs_press=0x7f020051;
+        public static final int srp=0x7f020052;
+        public static final int swipe_dummy_left=0x7f020053;
+        public static final int swipe_dummy_right=0x7f020054;
+        public static final int texture=0x7f020055;
+        public static final int trash=0x7f020056;
+        public static final int trash_button_custom=0x7f020057;
+        public static final int trash_press=0x7f020058;
+        public static final int twitter=0x7f020059;
+        public static final int white_bg=0x7f02005a;
     }
     public static final class id {
-        public static final int FacebookShareButton=0x7f06000c;
-        public static final int FacebookShareNotButton=0x7f06000d;
-        public static final int albums_imageButton=0x7f060067;
-        public static final int artist_now_playingheader=0x7f060025;
-        public static final int artists_imageButton=0x7f060065;
-        public static final int available_imageView=0x7f06003f;
-        public static final int available_textView=0x7f060040;
-        public static final int body_layout=0x7f06005b;
-        public static final int cancel_playlist_button=0x7f060043;
-        public static final int choice_cancel_button=0x7f060006;
-        public static final int choice_ok_button=0x7f060007;
-        public static final int choicedialog_textView=0x7f060005;
-        public static final int clickRemove=0x7f060000;
-        public static final int click_remove=0x7f06001a;
-        public static final int create_newplaylist_button=0x7f06003e;
-        public static final int delete_nowplaying=0x7f060032;
-        public static final int dialog_playlists_listView=0x7f060041;
-        public static final int drag_handle=0x7f060018;
-        public static final int dummy_center_textView=0x7f060042;
-        public static final int duration_now_playingheader=0x7f060027;
-        public static final int edit_nowplaying=0x7f060031;
-        public static final int eqmeasure_imageView=0x7f06000b;
-        public static final int eqpreset_spinner=0x7f06000a;
-        public static final int equalizer_imageButton=0x7f060021;
-        public static final int equalizer_linearlayout=0x7f060008;
-        public static final int equalizer_seekbar_linearlayout=0x7f060009;
-        public static final int fb_imageButton=0x7f060048;
-        public static final int flingRemove=0x7f060001;
-        public static final int header_layout=0x7f060020;
-        public static final int horizontal_listview=0x7f060010;
-        public static final int identify=0x7f060046;
-        public static final int identify_content=0x7f060013;
-        public static final int identify_imageButton=0x7f060049;
-        public static final int identify_progressbar=0x7f060029;
-        public static final int identify_textView=0x7f060014;
-        public static final int imageView1=0x7f06001c;
-        public static final int info_ok_button=0x7f060016;
-        public static final int info_textView=0x7f060015;
-        public static final int items_textView=0x7f060017;
-        public static final int label_header_textview=0x7f06004f;
-        public static final int left_divider=0x7f060024;
-        public static final int listView=0x7f06005c;
-        public static final int menu_settings=0x7f060069;
-        public static final int more_imageButton=0x7f060033;
-        public static final int newplaylist_editText=0x7f06003c;
-        public static final int nextbutton=0x7f06002e;
-        public static final int nowplaying_heading=0x7f06002f;
-        public static final int nowplaying_horizontal=0x7f060030;
-        public static final int nowplaying_id=0x7f06001f;
-        public static final int onDown=0x7f060002;
-        public static final int onLongPress=0x7f060004;
-        public static final int onMove=0x7f060003;
-        public static final int play_button_rlayout=0x7f060028;
-        public static final int playbutton_imageView=0x7f06002d;
-        public static final int playlist_adapter_edit_button=0x7f06000f;
-        public static final int playlist_name_textView=0x7f06000e;
-        public static final int playlistname_textView=0x7f060039;
-        public static final int playlists_imageButton=0x7f060066;
-        public static final int point_tut_imageView=0x7f060062;
-        public static final int preset_textView=0x7f060068;
-        public static final int previous_button=0x7f06002c;
-        public static final int rate_popup_ll=0x7f060044;
-        public static final int relativeLayout1=0x7f06003d;
-        public static final int repeat_button=0x7f060034;
-        public static final int reset_playaueue=0x7f06001b;
-        public static final int right_divider=0x7f060022;
-        public static final int search_edittext=0x7f06005a;
-        public static final int seek_measure_imageView=0x7f060038;
-        public static final int seekbar_layout=0x7f060037;
-        public static final int seekbar_layout_bg=0x7f06002a;
-        public static final int seekbar_layout_grey_bg=0x7f06002b;
-        public static final int share_ll=0x7f060045;
-        public static final int shuffle_button=0x7f060035;
-        public static final int slide_button=0x7f06004c;
-        public static final int slide_inner_content=0x7f06004b;
-        public static final int slide_nowplaying_button=0x7f060023;
-        public static final int slide_songlist_button=0x7f060056;
-        public static final int slidedout_cover=0x7f06004e;
-        public static final int slideout_nowplaying_textView=0x7f06001d;
-        public static final int slideout_placeholder=0x7f06004d;
-        public static final int slideout_playbutton_imageView=0x7f06001e;
-        public static final int song_album_textView=0x7f060054;
-        public static final int song_artist_textView=0x7f060053;
-        public static final int song_duration_textView=0x7f060052;
-        public static final int song_imageView=0x7f060011;
-        public static final int song_name_textView=0x7f060012;
-        public static final int song_now_playingheader=0x7f060026;
-        public static final int song_search_button=0x7f060058;
-        public static final int song_textView=0x7f060051;
-        public static final int songlist_content=0x7f060055;
-        public static final int songlist_imageView=0x7f060050;
-        public static final int songload_progressBar=0x7f060057;
-        public static final int songs_imageButton=0x7f060064;
-        public static final int songslist_header_textview=0x7f060059;
-        public static final int swipe_left_imageView=0x7f06005f;
-        public static final int swipe_left_textView=0x7f060060;
-        public static final int swipe_right_imageView=0x7f06005d;
-        public static final int swipe_right_textView=0x7f06005e;
-        public static final int tempduration_textView=0x7f060036;
-        public static final int text=0x7f060019;
-        public static final int textView=0x7f060047;
-        public static final int textView1=0x7f06003b;
-        public static final int top=0x7f06003a;
-        public static final int tut_button=0x7f060061;
-        public static final int tut_button_textView=0x7f060063;
-        public static final int twitter_imageButton=0x7f06004a;
+        public static final int FacebookShareButton=0x7f0a000c;
+        public static final int FacebookShareNotButton=0x7f0a000d;
+        public static final int albums_imageButton=0x7f0a0067;
+        public static final int artist_now_playingheader=0x7f0a0025;
+        public static final int artists_imageButton=0x7f0a0065;
+        public static final int available_imageView=0x7f0a003f;
+        public static final int available_textView=0x7f0a0040;
+        public static final int body_layout=0x7f0a005b;
+        public static final int cancel_playlist_button=0x7f0a0043;
+        public static final int choice_cancel_button=0x7f0a0006;
+        public static final int choice_ok_button=0x7f0a0007;
+        public static final int choicedialog_textView=0x7f0a0005;
+        public static final int clickRemove=0x7f0a0000;
+        public static final int click_remove=0x7f0a001a;
+        public static final int create_newplaylist_button=0x7f0a003e;
+        public static final int delete_nowplaying=0x7f0a0032;
+        public static final int dialog_playlists_listView=0x7f0a0041;
+        public static final int drag_handle=0x7f0a0018;
+        public static final int dummy_center_textView=0x7f0a0042;
+        public static final int duration_now_playingheader=0x7f0a0027;
+        public static final int edit_nowplaying=0x7f0a0031;
+        public static final int eqmeasure_imageView=0x7f0a000b;
+        public static final int eqpreset_spinner=0x7f0a000a;
+        public static final int equalizer_imageButton=0x7f0a0021;
+        public static final int equalizer_linearlayout=0x7f0a0008;
+        public static final int equalizer_seekbar_linearlayout=0x7f0a0009;
+        public static final int fb_imageButton=0x7f0a0048;
+        public static final int flingRemove=0x7f0a0001;
+        public static final int header_layout=0x7f0a0020;
+        public static final int horizontal_listview=0x7f0a0010;
+        public static final int identify=0x7f0a0046;
+        public static final int identify_content=0x7f0a0013;
+        public static final int identify_imageButton=0x7f0a0049;
+        public static final int identify_progressbar=0x7f0a0029;
+        public static final int identify_textView=0x7f0a0014;
+        public static final int imageView1=0x7f0a001c;
+        public static final int info_ok_button=0x7f0a0016;
+        public static final int info_textView=0x7f0a0015;
+        public static final int items_textView=0x7f0a0017;
+        public static final int label_header_textview=0x7f0a004f;
+        public static final int left_divider=0x7f0a0024;
+        public static final int listView=0x7f0a005c;
+        public static final int menu_settings=0x7f0a0069;
+        public static final int more_imageButton=0x7f0a0033;
+        public static final int newplaylist_editText=0x7f0a003c;
+        public static final int nextbutton=0x7f0a002e;
+        public static final int nowplaying_heading=0x7f0a002f;
+        public static final int nowplaying_horizontal=0x7f0a0030;
+        public static final int nowplaying_id=0x7f0a001f;
+        public static final int onDown=0x7f0a0002;
+        public static final int onLongPress=0x7f0a0003;
+        public static final int onMove=0x7f0a0004;
+        public static final int play_button_rlayout=0x7f0a0028;
+        public static final int playbutton_imageView=0x7f0a002d;
+        public static final int playlist_adapter_edit_button=0x7f0a000f;
+        public static final int playlist_name_textView=0x7f0a000e;
+        public static final int playlistname_textView=0x7f0a0039;
+        public static final int playlists_imageButton=0x7f0a0066;
+        public static final int point_tut_imageView=0x7f0a0062;
+        public static final int preset_textView=0x7f0a0068;
+        public static final int previous_button=0x7f0a002c;
+        public static final int rate_popup_ll=0x7f0a0044;
+        public static final int relativeLayout1=0x7f0a003d;
+        public static final int repeat_button=0x7f0a0034;
+        public static final int reset_playaueue=0x7f0a001b;
+        public static final int right_divider=0x7f0a0022;
+        public static final int search_edittext=0x7f0a005a;
+        public static final int seek_measure_imageView=0x7f0a0038;
+        public static final int seekbar_layout=0x7f0a0037;
+        public static final int seekbar_layout_bg=0x7f0a002a;
+        public static final int seekbar_layout_grey_bg=0x7f0a002b;
+        public static final int share_ll=0x7f0a0045;
+        public static final int shuffle_button=0x7f0a0035;
+        public static final int slide_button=0x7f0a004c;
+        public static final int slide_inner_content=0x7f0a004b;
+        public static final int slide_nowplaying_button=0x7f0a0023;
+        public static final int slide_songlist_button=0x7f0a0056;
+        public static final int slidedout_cover=0x7f0a004e;
+        public static final int slideout_nowplaying_textView=0x7f0a001d;
+        public static final int slideout_placeholder=0x7f0a004d;
+        public static final int slideout_playbutton_imageView=0x7f0a001e;
+        public static final int song_album_textView=0x7f0a0054;
+        public static final int song_artist_textView=0x7f0a0053;
+        public static final int song_duration_textView=0x7f0a0052;
+        public static final int song_imageView=0x7f0a0011;
+        public static final int song_name_textView=0x7f0a0012;
+        public static final int song_now_playingheader=0x7f0a0026;
+        public static final int song_search_button=0x7f0a0058;
+        public static final int song_textView=0x7f0a0051;
+        public static final int songlist_content=0x7f0a0055;
+        public static final int songlist_imageView=0x7f0a0050;
+        public static final int songload_progressBar=0x7f0a0057;
+        public static final int songs_imageButton=0x7f0a0064;
+        public static final int songslist_header_textview=0x7f0a0059;
+        public static final int swipe_left_imageView=0x7f0a005f;
+        public static final int swipe_left_textView=0x7f0a0060;
+        public static final int swipe_right_imageView=0x7f0a005d;
+        public static final int swipe_right_textView=0x7f0a005e;
+        public static final int tempduration_textView=0x7f0a0036;
+        public static final int text=0x7f0a0019;
+        public static final int textView=0x7f0a0047;
+        public static final int textView1=0x7f0a003b;
+        public static final int top=0x7f0a003a;
+        public static final int tut_button=0x7f0a0061;
+        public static final int tut_button_textView=0x7f0a0063;
+        public static final int twitter_imageButton=0x7f0a004a;
     }
     public static final class layout {
         public static final int choicedialog_xml=0x7f030000;
@@ -411,17 +409,16 @@ containing a value of this type.
         public static final int spinner_listitem=0x7f030018;
     }
     public static final class menu {
-        public static final int splash_xml=0x7f0a0000;
+        public static final int splash_xml=0x7f090000;
     }
     public static final class string {
-        public static final int app_id=0x7f050006;
-        public static final int app_name=0x7f050001;
-        public static final int crash_toast_text=0x7f050007;
-        public static final int hello=0x7f050000;
-        public static final int hello_world=0x7f050002;
-        public static final int menu_settings=0x7f050003;
-        public static final int slide=0x7f050005;
-        public static final int slide_string=0x7f050004;
+        public static final int app_id=0x7f070005;
+        public static final int app_name=0x7f070000;
+        public static final int crash_toast_text=0x7f070006;
+        public static final int hello_world=0x7f070001;
+        public static final int menu_settings=0x7f070002;
+        public static final int slide=0x7f070004;
+        public static final int slide_string=0x7f070003;
     }
     public static final class style {
         /** 
@@ -434,15 +431,15 @@ containing a value of this type.
             backward-compatibility can go here.
         
          */
-        public static final int AppBaseTheme=0x7f090000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f090001;
-        public static final int DialogAnimation=0x7f090002;
-        public static final int Divider=0x7f090003;
-        public static final int List_Divider=0x7f090004;
-        public static final int hidetitle=0x7f090005;
+        public static final int AppTheme=0x7f080001;
+        public static final int DialogAnimation=0x7f080002;
+        public static final int Divider=0x7f080003;
+        public static final int List_Divider=0x7f080004;
+        public static final int hidetitle=0x7f080005;
     }
     public static final class styleable {
         /** Attributes that can be used with a DragSortListView.
@@ -507,7 +504,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:click_remove_id
+          @attr name com.mediaplayer.com:click_remove_id
         */
         public static final int DragSortListView_click_remove_id = 16;
         /**
@@ -523,7 +520,7 @@ in (inches), mm (millimeters).
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:collapsed_height
+          @attr name com.mediaplayer.com:collapsed_height
         */
         public static final int DragSortListView_collapsed_height = 0;
         /**
@@ -537,7 +534,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:drag_enabled
+          @attr name com.mediaplayer.com:drag_enabled
         */
         public static final int DragSortListView_drag_enabled = 10;
         /**
@@ -551,7 +548,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:drag_handle_id
+          @attr name com.mediaplayer.com:drag_handle_id
         */
         public static final int DragSortListView_drag_handle_id = 14;
         /**
@@ -565,7 +562,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:drag_scroll_start
+          @attr name com.mediaplayer.com:drag_scroll_start
         */
         public static final int DragSortListView_drag_scroll_start = 1;
         /**
@@ -583,7 +580,7 @@ containing a value of this type.
 <tr><td><code>onMove</code></td><td>1</td><td></td></tr>
 <tr><td><code>onLongPress</code></td><td>2</td><td></td></tr>
 </table>
-          @attr name android:drag_start_mode
+          @attr name com.mediaplayer.com:drag_start_mode
         */
         public static final int DragSortListView_drag_start_mode = 13;
         /**
@@ -597,7 +594,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:drop_animation_duration
+          @attr name com.mediaplayer.com:drop_animation_duration
         */
         public static final int DragSortListView_drop_animation_duration = 9;
         /**
@@ -611,7 +608,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:fling_handle_id
+          @attr name com.mediaplayer.com:fling_handle_id
         */
         public static final int DragSortListView_fling_handle_id = 15;
         /**
@@ -625,7 +622,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:float_alpha
+          @attr name com.mediaplayer.com:float_alpha
         */
         public static final int DragSortListView_float_alpha = 6;
         /**
@@ -640,7 +637,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:float_background_color
+          @attr name com.mediaplayer.com:float_background_color
         */
         public static final int DragSortListView_float_background_color = 3;
         /**
@@ -654,7 +651,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:max_drag_scroll_speed
+          @attr name com.mediaplayer.com:max_drag_scroll_speed
         */
         public static final int DragSortListView_max_drag_scroll_speed = 2;
         /**
@@ -668,7 +665,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:remove_animation_duration
+          @attr name com.mediaplayer.com:remove_animation_duration
         */
         public static final int DragSortListView_remove_animation_duration = 8;
         /**
@@ -682,7 +679,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:remove_enabled
+          @attr name com.mediaplayer.com:remove_enabled
         */
         public static final int DragSortListView_remove_enabled = 12;
         /**
@@ -699,7 +696,7 @@ containing a value of this type.
 <tr><td><code>clickRemove</code></td><td>0</td><td></td></tr>
 <tr><td><code>flingRemove</code></td><td>1</td><td></td></tr>
 </table>
-          @attr name android:remove_mode
+          @attr name com.mediaplayer.com:remove_mode
         */
         public static final int DragSortListView_remove_mode = 4;
         /**
@@ -713,7 +710,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:slide_shuffle_speed
+          @attr name com.mediaplayer.com:slide_shuffle_speed
         */
         public static final int DragSortListView_slide_shuffle_speed = 7;
         /**
@@ -727,7 +724,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:sort_enabled
+          @attr name com.mediaplayer.com:sort_enabled
         */
         public static final int DragSortListView_sort_enabled = 11;
         /**
@@ -741,7 +738,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:track_drag_sort
+          @attr name com.mediaplayer.com:track_drag_sort
         */
         public static final int DragSortListView_track_drag_sort = 5;
         /**
@@ -755,7 +752,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name android:use_default_controller
+          @attr name com.mediaplayer.com:use_default_controller
         */
         public static final int DragSortListView_use_default_controller = 17;
     };

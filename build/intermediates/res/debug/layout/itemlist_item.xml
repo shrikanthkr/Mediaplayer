@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/slider_song_bg_custom"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/items_textView"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <View
+        style="@style/List_Divider"
+        android:layout_marginTop="10dp" />
+
+</LinearLayout><!-- From: file:/home/shrikanth/android-projects/Mediaplayer/res/layout/itemlist_item.xml -->

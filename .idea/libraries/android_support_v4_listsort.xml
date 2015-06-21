@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="android-support-v4-listsort">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dragsortlibrary/assets/android-support-v4-listsort.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

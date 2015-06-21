@@ -1,0 +1,17 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient 
+        android:startColor="#32b3e6" 
+        android:centerColor="#32b3e6"
+        android:endColor="#32b3e6" 
+        android:angle="180" />
+
+    <corners android:radius="5px" />
+
+    <stroke 
+            android:width="2dp" 
+            android:color="#50999999" />
+
+    <stroke 
+            android:width="1dp" 
+            android:color="#70555555" />
+</shape><!-- From: file:/home/shrikanth/android-projects/Mediaplayer/res/drawable/seekbar_progress.xml -->

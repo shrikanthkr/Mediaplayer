@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/slide_bg"
+    android:tileMode="repeat" />
+<!-- From: file:/home/shrikanth/android-projects/Mediaplayer/res/drawable/slidelist_bg_repeat.xml -->
