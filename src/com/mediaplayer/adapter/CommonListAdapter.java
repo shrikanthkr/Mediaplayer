@@ -139,8 +139,7 @@ public class CommonListAdapter extends BaseAdapter {
 															.getPlaylist());
 										}
 										listeditor_dialog.dismiss();
-										playlistChangedListener
-												.onPlaylistChanged();
+										if(playlistChangedListener!=null) playlistChangedListener.onPlaylistChanged();
 									}
 								});
 

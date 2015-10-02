@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.mediaplayer.fragments.AlbumsFragment;
 import com.mediaplayer.fragments.SongListFragment;
 
 
@@ -20,7 +21,6 @@ public class ContainerActivity extends Activity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	String contentTitle;
-	FragmentManager fragmentManager = getFragmentManager();
 	int lastFragmentState = -1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class ContainerActivity extends Activity {
 				fragment =  new SongListFragment();
 				break;
 			case 1:
-				fragment =  new SongListFragment();
+				fragment =  new AlbumsFragment();
 				break;
 			case 2:
 				fragment =  new SongListFragment();
@@ -121,6 +121,7 @@ public class ContainerActivity extends Activity {
 		// args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 		fragment.setArguments(args);
 		// Insert the fragment by replacing any existing fragment
+		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment)
 				.commit();
