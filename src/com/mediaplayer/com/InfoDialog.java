@@ -15,7 +15,7 @@ public class InfoDialog extends Dialog implements android.view.View.OnClickListe
 	TextView info_textview;
 
 	public InfoDialog(Context context, String msg) {
-		super(context,R.style.hidetitle);
+		super(context);
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		showMessage = msg;

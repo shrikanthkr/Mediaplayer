@@ -20,7 +20,7 @@ public class ChoiceDialog extends Dialog implements OnClickListener {
 
 	public ChoiceDialog(Context context, DialogChangeListener listener,
 			String msg) {
-		super(context,R.style.hidetitle);
+		super(context);
 		// TODO Auto-generated constructor stub
 		this.listener = listener;
 		this.context = context;

@@ -16,7 +16,6 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +37,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devsmart.android.ui.HorizontalListView;
-import com.korovyansk.android.slideout.SlideoutActivity;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.listener.UpdateNowPlayingUIListener;
 import com.mediaplayer.utility.StaticMusic;
@@ -353,19 +351,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 
 	}
 
-	public void slideButtonClicked(View arg0) {
-		// TODO Auto-generated method stub
-		// //Log.i("As Activity", "Songlist fragment acivity click happened");
-		int width = (int) TypedValue.applyDimension(
-				TypedValue.COMPLEX_UNIT_DIP, 30, getResources()
-				.getDisplayMetrics());
-		if(!slidebutton_clicked){
-			slidebutton_clicked=true;
-			SlideoutActivity.prepare(Nowplaying.this, R.id.nowplaying_id, width);
-			startActivity(new Intent(this, SplashActivity.class));
-			overridePendingTransition(0, 0);
-		}
-	}
+
 
 	@Override
 	public void onGlobalLayout() {

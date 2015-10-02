@@ -8,5 +8,7 @@
     <string name="slide">></string>
     <string name="app_id">287452584733546</string>
     <string name="crash_toast_text">This is an error messages</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
 </resources>

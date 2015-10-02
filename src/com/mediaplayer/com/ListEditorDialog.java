@@ -47,7 +47,7 @@ public class ListEditorDialog extends Dialog {
 	}
 
 	public ListEditorDialog(Context context, ArrayList<SongInfo> songs_array) {
-		super(context,R.style.hidetitle);
+		super(context);
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.songs_array=songs_array;
