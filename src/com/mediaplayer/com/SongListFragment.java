@@ -89,7 +89,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	static int SWITCH_VIEW = 0;
 	Thread x;
 	// UriObserver observer;
-	TextView songlist_header_textview;
+	//TextView songlist_header_textview;
 	ImageView swipe_left, swipe_right, point_tut_imageview;
 	TextView swipe_right_textview, swipe_left_textview, point_textview;
 	DatabaseUpdateThread databaseUpdateThread;
@@ -120,7 +120,8 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.songlistfragment_xml,container);
+		super.onCreateView(inflater, container, savedInstanceState);
+		View v = inflater.inflate(R.layout.songlistfragment_xml,container,false);
 		context = getActivity();
 		activity = getActivity();
 		alphaDown = new AlphaAnimation(1.0f, 0.3f);
@@ -136,7 +137,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		albums_button = (ImageButton) v.findViewById(R.id.albums_imageButton);
 		artists_button = (ImageButton) v.findViewById(R.id.artists_imageButton);
 		playlists_button = (ImageButton) v.findViewById(R.id.playlists_imageButton);
-		songlist_header_textview = (TextView) v.findViewById(R.id.songslist_header_textview);
+		//songlist_header_textview = (TextView) v.findViewById(R.id.songslist_header_textview);
 		//pb = (ProgressBar) v.findViewById(R.id.songload_progressBar);
 		app_start = activity.getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
 		checkFirst = app_start.getBoolean("checkFirst", true);
@@ -206,19 +207,19 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 			disableTut();
 			populateSonglist();
 		}
-		return super.onCreateView(inflater, container, savedInstanceState);
+		return v;
 	}
 
 	public void populateSonglist() {
 		SWITCH_VIEW = SONG_VIEW;
 		//pb.setVisibility(View.VISIBLE);
 		//Log.i("LIST FRAG", "POPULATING SONG LIST");
-		songlist_header_textview.setText("Songs");
+		//songlist_header_textview.setText("Songs");
 		database.open();
 		songList = database.getFullList();
 		// database.close();
 
-		/*detector = new GestureDetector(this, this);*/
+		detector = new GestureDetector(getActivity(), this);
 
 		adapter = new ReadLisstAdapter(getActivity(), songList, lv);
 		lv.setTextFilterEnabled(true);
@@ -232,8 +233,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 				return false;
 			}
 		});
-		adapter.imageLoader.loadImage(StaticMusic.smoothScrollTo,
-				StaticMusic.smoothScrollTo + 8);
+		//adapter.imageLoader.loadImage(StaticMusic.smoothScrollTo,StaticMusic.smoothScrollTo + 8);
 		//pb.setVisibility(View.INVISIBLE);
 		//Log.i("INSTANT", "registered content observer");
 	}

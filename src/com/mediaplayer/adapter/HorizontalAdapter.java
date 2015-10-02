@@ -31,7 +31,6 @@ import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.com.Nowplaying;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.ImageLoader;
 import com.mediaplayer.utility.StaticMusic;
 import com.mediaplayer.utility.Util;
 
@@ -47,7 +46,6 @@ public class HorizontalAdapter extends BaseAdapter implements
 	HashMap<String, Bitmap> art_work;
 	Util util;
 	final int id = R.layout.horizontal_songitem_xml;
-	ImageLoader imageLoader;
 
 	public HorizontalAdapter(ArrayList<SongInfo> song_array,
 			HorizontalListView lv, Activity activity) {
@@ -59,8 +57,6 @@ public class HorizontalAdapter extends BaseAdapter implements
 		util = new Util();
 		lv.setOverScrollMode(ListView.OVER_SCROLL_ALWAYS);
 		lv.setOnItemClickListener(this);
-		imageLoader = new com.mediaplayer.db.ImageLoader(
-				activity.getApplicationContext());
 		//Log.i("Code PATH", activity.getApplicationContext().getPackageName());
 
 	}
@@ -108,7 +104,7 @@ public class HorizontalAdapter extends BaseAdapter implements
 					.parse("content://media/external/audio/albumart");
 			final Uri uri = ContentUris.withAppendedId(albumArtUri,
 					Long.parseLong(song_array.get(arg0).getAlbum_id()));
-			imageLoader.DisplayImage(uri.toString(), holder.album_art);
+			//imageLoader.DisplayImage(uri.toString(), holder.album_art);
 
 		} catch (NumberFormatException e) {
 		}
@@ -143,7 +139,6 @@ public class HorizontalAdapter extends BaseAdapter implements
 	public void finalize() throws Throwable {
 		// TODO Auto-generated method stub
 		super.finalize();
-		imageLoader.clearCache();
 	}
 
 }

@@ -24,7 +24,6 @@ import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.com.Nowplaying;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.ImageLoader;
 import com.mediaplayer.utility.StaticMusic;
 import com.mediaplayer.utility.Util;
 
@@ -39,7 +38,6 @@ public class NowPlayingHorizontalAdapter extends BaseAdapter implements  OnItemC
 	HashMap<String, Bitmap> art_work;
 	Util util;
 	int id=R.layout.nowplaying_horizonal_songitem;
-	ImageLoader imageLoader;
 	public NowPlayingHorizontalAdapter(ArrayList<SongInfo> song_array, HorizontalListView lv,
 			Activity activity) {
 		this.song_array = song_array;
@@ -49,7 +47,6 @@ public class NowPlayingHorizontalAdapter extends BaseAdapter implements  OnItemC
 		this.lv = lv;
 		util=new Util();
 		lv.setOnItemClickListener(this);
-		imageLoader=new com.mediaplayer.db.ImageLoader(activity.getApplicationContext());
 		//Log.i("Code PATH",activity.getApplicationContext().getPackageName());
 
 	}
@@ -90,7 +87,7 @@ public class NowPlayingHorizontalAdapter extends BaseAdapter implements  OnItemC
 					.parse("content://media/external/audio/albumart");
 			Uri uri = ContentUris.withAppendedId(albumArtUri,
 					Long.parseLong(song_array.get(arg0).getAlbum_id()));
-			imageLoader.DisplayImage(uri.toString(), holder.album_art);
+			//imageLoader.DisplayImage(uri.toString(), holder.album_art);
 		}catch(NumberFormatException e){}
 		return vi;
 	}

@@ -24,9 +24,9 @@ import android.widget.TextView;
 
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.ImageDownloader;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.utility.StaticMusic;
+import com.mediaplayer.utility.ThumbnailLoader;
 
 public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 	private Activity activity;
@@ -35,7 +35,6 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 	BaseAdapter adapter;
 	ListView lv;
 	Thread t;
-	public ImageDownloader imageLoader;
 	// SongInfoDatabase database;
 	String searchString = "";
 	DecimalFormat format;
@@ -46,13 +45,10 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 		activity = activity2;
 		this.song_array = song_array;
 		this.lv = lv;
-		imageLoader = new ImageDownloader(this,
-				activity.getApplicationContext());
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		this.lv = lv;
-		imageLoader.loadImage(0, 5);
 		this.lv.setOnScrollListener(this);
 		//Log.i("READLIST ADAPTER", "CONSTRUCTOR CREATED");
 		format = new DecimalFormat("#.00");
@@ -130,23 +126,16 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 			holder = (ViewHolder) vi.getTag();
 		}
 
-		try {
-
 			holder.title.setText(song_array.get(arg0).getTitle());
 
 			total = Integer.parseInt(song_array.get(arg0).getDuration()) / 1000;
 			min = total / 60;
 			sec = total % 60;
 			holder.duration.setText(min + ":" + sec);
-			holder.album.setText("from " + song_array.get(arg0).getAlbum());
-			holder.artist.setText("by " + song_array.get(arg0).getArtist());
-			Uri albumArtUri = Uri
-					.parse("content://media/external/audio/albumart");
-			final Uri uri = ContentUris.withAppendedId(albumArtUri,
-					Long.parseLong(song_array.get(arg0).getAlbum_id()));
-			holder.image.setImageBitmap(imageLoader.getDrawble(uri.toString()));
-
-			if (song_array.get(arg0).getTitle().trim().toUpperCase(Locale.US)
+			holder.album.setText( song_array.get(arg0).getAlbum());
+			holder.artist.setText(song_array.get(arg0).getArtist());
+			new ThumbnailLoader(activity,song_array.get(arg0).getAlbum_id(),holder.image).execute();
+			/*if (song_array.get(arg0).getTitle().trim().toUpperCase(Locale.US)
 					.charAt(0) != song_array.get(arg0 - 1).getTitle().trim()
 					.toUpperCase(Locale.US).charAt(0)) {
 				holder.header.setVisibility(View.VISIBLE);
@@ -156,10 +145,7 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 
 			}
 
-		} catch (Exception e) {
-			setSection(holder.header, song_array.get(arg0).getTitle());
-		}
-		try{
+
 			if (song_array.get(arg0).getData()
 					.equals(StaticMusic.songInfo.getData())) {
 				holder.title.setTextColor(Color.parseColor("#32b3e6"));
@@ -167,13 +153,12 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 				holder.title.setEllipsize(TruncateAt.MARQUEE);
 				holder.title.setSingleLine(true);
 				holder.title.setMarqueeRepeatLimit(-1);
-				
+
 			}
 			else{
 				holder.title.setTextColor(Color.parseColor("#ffffff"));
 				holder.title.setEllipsize(TruncateAt.END);
-			}
-		}catch(Exception e){}
+			}*/
 		return vi;
 	}
 
@@ -200,19 +185,10 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 		switch (scrollState) {
 		case SCROLL_STATE_IDLE:
 			StaticMusic.smoothScrollTo = lv.getFirstVisiblePosition();
-			imageLoader.loadImage(lv.getFirstVisiblePosition(),
-					lv.getLastVisiblePosition());
 			break;
 
 		}
 
-	}
-
-	@Override
-	public void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-		imageLoader.finalize();
 	}
 
 }
