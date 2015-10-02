@@ -11,13 +11,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.mediaplayer.fragments.SongListFragment;
+
 
 public class ContainerActivity extends Activity {
-	private String[] labels = {"Now Playing","Playlist","Songs","Albums"};
+	private String[] labels = {"Now Playing","Playlist","Songs","Albums", "Artists"};
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	String contentTitle;
+	FragmentManager fragmentManager = getFragmentManager();
+	int lastFragmentState = -1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,7 +35,7 @@ public class ContainerActivity extends Activity {
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
-				R.drawable.ic_launcher,  /* nav drawer icon to replace 'Up' caret */
+				R.drawable.albums,  /* nav drawer icon to replace 'Up' caret */
 				R.string.drawer_open,  /* "open drawer" description */
 				R.string.drawer_close  /* "close drawer" description */
 		) {
@@ -39,7 +43,7 @@ public class ContainerActivity extends Activity {
 			/** Called when a drawer has settled in a completely closed state. */
 			public void onDrawerClosed(View view) {
 				super.onDrawerClosed(view);
-				getActionBar().setTitle("TItle");
+				loadFragment(lastFragmentState);
 			}
 
 			/** Called when a drawer has settled in a completely open state. */
@@ -68,37 +72,70 @@ public class ContainerActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-		Activity activity;
 
 		@Override
 		public void onItemClick(AdapterView parent, View view, int position, long id) {
 			selectItem(position);
 		}
-
-		/** Swaps fragments in the main content view */
-		private void selectItem(int position) {
-			// Create a new fragment and specify the planet to show based on position
-			Fragment fragment = new SongListFragment();
-			Bundle args = new Bundle();
-			// args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-			fragment.setArguments(args);
-
-			// Insert the fragment by replacing any existing fragment
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(R.id.content_frame, fragment)
-					.commit();
-
-			// Highlight the selected item, update the title, and close the drawer
-			mDrawerList.setItemChecked(position, true);
-			setTitle(labels[position]);
-			mDrawerLayout.closeDrawer(mDrawerList);
-		}
-
-
 		public void setTitle(CharSequence title) {
 			contentTitle = title.toString();
 			getActionBar().setTitle(contentTitle);
 		}
+	}
+	/** Swaps fragments in the main content view */
+	private void selectItem(int position) {
+		// Create a new fragment and specify the planet to show based on position
+		lastFragmentState = position;
+		mDrawerLayout.closeDrawer(mDrawerList);
+		// Highlight the selected item, update the title, and close the drawer
+		mDrawerList.setItemChecked(position, true);
+		setTitle(labels[position]);
+	}
+
+
+
+	public void loadFragment(int state){
+		Fragment fragment;
+		switch (state){
+			case 0:
+				fragment =  new SongListFragment();
+				break;
+			case 1:
+				fragment =  new SongListFragment();
+				break;
+			case 2:
+				fragment =  new SongListFragment();
+				break;
+			case 3:
+				fragment =  new SongListFragment();
+				break;
+			case 4:
+				fragment =  new SongListFragment();
+				break;
+			default:
+				fragment =  new SongListFragment();
+				break;
+		}
+
+		Bundle args = new Bundle();
+		// args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
+		fragment.setArguments(args);
+		// Insert the fragment by replacing any existing fragment
+		fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, fragment)
+				.commit();
+	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(lastFragmentState==-1){
+			lastFragmentState = 0;
+		}
+		loadFragment(lastFragmentState);
 	}
 }

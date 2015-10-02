@@ -1,4 +1,4 @@
-package com.mediaplayer.com;
+package com.mediaplayer.fragments;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -47,6 +47,9 @@ import com.mediaplayer.adapter.CommonListAdapter;
 import com.mediaplayer.adapter.PlayListDialogAdapter;
 import com.mediaplayer.adapter.ReadLisstAdapter;
 import com.mediaplayer.adapter.ReadLisstAdapter.ViewHolder;
+import com.mediaplayer.com.Music;
+import com.mediaplayer.com.R;
+import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.OnDatabaseChangeListener;
 import com.mediaplayer.listener.PlaylistChangedListener;
@@ -59,9 +62,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	ListView lv;
 	ReadLisstAdapter adapter;
 	ArrayList<SongInfo> songList;
-	//Button slide_songlist_button;
-	ImageButton songs_button, artists_button, playlists_button, albums_button,
-	song_search_button;
 	String path;
 	GestureDetector detector;
 	HashMap<String, Bitmap> art_work;
@@ -133,10 +133,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		slidebutton_clicked=false;
 		lv = (ListView) v.findViewById(R.id.listView);
 		//slide_songlist_button = (Button) v.findViewById(R.id.slide_songlist_button);
-		songs_button = (ImageButton) v.findViewById(R.id.songs_imageButton);
-		albums_button = (ImageButton) v.findViewById(R.id.albums_imageButton);
-		artists_button = (ImageButton) v.findViewById(R.id.artists_imageButton);
-		playlists_button = (ImageButton) v.findViewById(R.id.playlists_imageButton);
 		//songlist_header_textview = (TextView) v.findViewById(R.id.songslist_header_textview);
 		//pb = (ProgressBar) v.findViewById(R.id.songload_progressBar);
 		app_start = activity.getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
@@ -144,7 +140,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		database = new SongInfoDatabase(context);
 		util = new Util();
 		songList = new ArrayList<SongInfo>();
-		song_search_button = (ImageButton) v.findViewById(R.id.song_search_button);
+		//song_search_button = (ImageButton) v.findViewById(R.id.song_search_button);
 		/*song_search_button.setOnClickListener(this);*/
 /*		search_edittext = (EditText) v.findViewById(R.id.search_edittext);
 		search_edittext.setVisibility(View.INVISIBLE);*/
@@ -753,11 +749,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 
 		lv.startAnimation(alphaUp);
 		//song_search_button.startAnimation(alphaUp);
-		songs_button.startAnimation(alphaUp);
-		//slide_songlist_button.startAnimation(alphaUp);
-		artists_button.startAnimation(alphaUp);
-		albums_button.startAnimation(alphaUp);
-		playlists_button.startAnimation(alphaUp);
 
 	}
 
@@ -765,11 +756,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		// TODO Auto-generated method stub
 		lv.startAnimation(alphaDown);
 //		song_search_button.startAnimation(alphaDown);
-		//slide_songlist_button.startAnimation(alphaDown);
-		songs_button.startAnimation(alphaDown);
-		artists_button.startAnimation(alphaDown);
-		albums_button.startAnimation(alphaDown);
-		playlists_button.startAnimation(alphaDown);
+
 
 	}
 

@@ -86,7 +86,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
-
+<!--
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="80dp"
@@ -199,6 +199,6 @@
                     android:textColor="#ffffff" />
             </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 </LinearLayout>
