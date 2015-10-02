@@ -17,12 +17,10 @@ import java.util.ArrayList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class AlbumsFragment extends MultiviewFragment {
-
+public class ArtistsFragment extends MultiviewFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater,container,savedInstanceState);
-
     }
 
     @Override

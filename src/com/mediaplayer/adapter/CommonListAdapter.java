@@ -38,7 +38,6 @@ public class CommonListAdapter extends BaseAdapter {
 
 	Thread t;
 	ListView lv;
-	HashMap<String, Bitmap> art_work;
 	HorizontalAdapter horizontal_adapter;
 	ViewHolder holder;
 	final int PLAYLIST_VIEW = 2;

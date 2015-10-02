@@ -17,25 +17,27 @@ import java.util.ArrayList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class AlbumsFragment extends MultiviewFragment {
-
+public abstract class MultiviewFragment extends Fragment{
+    CommonListAdapter adapter;
+    ListView listview;
+    SongInfoDatabase database;
+    ArrayList<ArrayList<SongInfo>> list;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater,container,savedInstanceState);
-
+        super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.multiview_layout_fragment,container,false);
+        listview = (ListView)v.findViewById(R.id.listView);
+        listview.setAdapter(adapter);
+        return v;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setData();
+        adapter = new CommonListAdapter(getActivity(), list, listview, 1, null);
     }
 
-    @Override
-    public void setData() {
-        database = new SongInfoDatabase(getActivity());
-        database.open();
-        list = new ArrayList<ArrayList<SongInfo>>();
-        list = database.getSongs_albums();
-        database.close();
-    }
+    public abstract void setData();
+
 }
