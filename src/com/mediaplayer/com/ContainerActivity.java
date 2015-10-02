@@ -7,12 +7,15 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.mediaplayer.fragments.AlbumsFragment;
 import com.mediaplayer.fragments.ArtistsFragment;
+import com.mediaplayer.fragments.NowPlayingFragment;
 import com.mediaplayer.fragments.PlaylistsFragment;
 import com.mediaplayer.fragments.SongListFragment;
 
@@ -30,8 +33,6 @@ public class ContainerActivity extends Activity {
 		setContentView(R.layout.activity_container);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_frame);
-
-		// Set the adapter for the list view
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, labels));
 		mDrawerToggle = new ActionBarDrawerToggle(
@@ -140,5 +141,18 @@ public class ContainerActivity extends Activity {
 			lastFragmentState = 0;
 		}
 		loadFragment(lastFragmentState);
+		loadNowPLayingFragment();
+	}
+	private void loadNowPLayingFragment(){
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.player, new NowPlayingFragment())
+				.commit();
+	}
+	public View getActionBarView() {
+		Window window = getWindow();
+		View v = window.getDecorView();
+		int resId = getResources().getIdentifier("action_bar_container", "id", "android");
+		return v.findViewById(resId);
 	}
 }

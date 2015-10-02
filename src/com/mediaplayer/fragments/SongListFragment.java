@@ -305,15 +305,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 
 	}*/
 
-	private void clearCache() {
-		// TODO Auto-generated method stub
-		try {
-			common_list_adapter.finalize();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 
 	private void removeGestureListener() {
 		// TODO Auto-generated method stub

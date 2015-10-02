@@ -57,7 +57,6 @@ public class HorizontalAdapter extends BaseAdapter implements
 		util = new Util();
 		lv.setOverScrollMode(ListView.OVER_SCROLL_ALWAYS);
 		lv.setOnItemClickListener(this);
-		//Log.i("Code PATH", activity.getApplicationContext().getPackageName());
 
 	}
 

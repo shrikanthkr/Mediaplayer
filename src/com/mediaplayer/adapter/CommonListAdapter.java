@@ -159,13 +159,6 @@ public class CommonListAdapter extends BaseAdapter {
 		holder.listview.setAdapter(horizontal_adapter);
 		return vi;
 	}
-
-	@Override
-	public void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-		horizontal_adapter.finalize();
-	}
 	
 	
 
