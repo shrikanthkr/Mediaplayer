@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.mediaplayer.fragments.AlbumsFragment;
+import com.mediaplayer.fragments.ArtistsFragment;
+import com.mediaplayer.fragments.PlaylistsFragment;
 import com.mediaplayer.fragments.SongListFragment;
 
 
@@ -101,16 +103,16 @@ public class ContainerActivity extends Activity {
 				fragment =  new SongListFragment();
 				break;
 			case 1:
-				fragment =  new AlbumsFragment();
+				fragment =  new PlaylistsFragment();
 				break;
 			case 2:
 				fragment =  new SongListFragment();
 				break;
 			case 3:
-				fragment =  new SongListFragment();
+				fragment =  new AlbumsFragment();
 				break;
 			case 4:
-				fragment =  new SongListFragment();
+				fragment =  new ArtistsFragment();
 				break;
 			default:
 				fragment =  new SongListFragment();
