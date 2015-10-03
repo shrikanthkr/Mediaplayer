@@ -74,6 +74,9 @@ public class Music{
 		mediaPlayer.seekTo(0);
 		mediaPlayer.pause();
 	}
+	public void reset(){
+		mediaPlayer.reset();
+	}
 
 	public void pause() {
 		mediaPlayer.pause();

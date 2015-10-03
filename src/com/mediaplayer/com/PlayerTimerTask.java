@@ -14,9 +14,9 @@ public class PlayerTimerTask  extends AsyncTask<Void, Integer, Void>{
     int duration;
 
 
-    public PlayerTimerTask(SeekBar seekBar,String duration) {
+    public PlayerTimerTask(SeekBar seekBar,int duration) {
         this.seekBar = seekBar;
-        this.duration  = (int) Math.ceil( Double.parseDouble(duration) / 1000) ;
+        this.duration  = duration ;
     }
 
     public void setIsPlaying(boolean isPlaying){
@@ -25,7 +25,7 @@ public class PlayerTimerTask  extends AsyncTask<Void, Integer, Void>{
     @Override
     protected Void doInBackground(Void... voids) {
         while(isPlaying){
-            SystemClock.sleep(1000);
+            SystemClock.sleep(250);
             publishProgress(SongsManager.getInstance().getSongCurrentPosition());
             Log.d("TimerTask",SongsManager.getInstance().getSongCurrentPosition()+"" );
         }

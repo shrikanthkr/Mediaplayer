@@ -36,9 +36,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="5dp"
-            android:background="@drawable/slide_button_custom"
-            android:clickable="true"
-            android:onClick="slideButtonClicked" />
+            android:background="@drawable/slide_button_custom" />
 
         <View
             android:id="@+id/left_divider"

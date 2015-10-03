@@ -63,7 +63,7 @@ public class SongsManager {
 	}
 
 	public void playNextSong() {
-
+		if(music!=null) music.reset();
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo nextSong;
 		if(currentSongIndex < holder.getSongQueue().size() - 1){
@@ -79,6 +79,7 @@ public class SongsManager {
 		if(listener!=null) listener.onSongChanged(nextSong);
 	}
 	public void playPreviousSong(){
+		if(music!=null) music.reset();
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo prevSong;
 		if (currentSongIndex > 0) {
@@ -133,6 +134,10 @@ public class SongsManager {
 
 	public LinkedList<SongInfo> getSongsList(){
 		return holder.getSongQueue();
+	}
+
+	public void seekPlayerTo(int seektime) {
+		music.seekTo(seektime * 1000);
 	}
 
 	public interface SongsListeners{

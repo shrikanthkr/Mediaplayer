@@ -33,6 +33,7 @@ import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
+import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
 
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class NowPlayingFragment extends Fragment implements SongsManager.SongsListeners{
+public class NowPlayingFragment extends Fragment implements SongsManager.SongsListeners, SeekbarTouchHandler.SeekBarListeners{
 
     DisplayMetrics dm;
     SlideHandler slideHandler;
@@ -50,6 +51,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     ImageButton nextButton, prevButton;
     HorizontalListView nowplaying_horizontal;
     SeekBar seekbar;
+    SeekbarTouchHandler seekbarTouochHandler;
     LinearLayout seekbar_layout, mainLayout, seekbar_layout_grey_bg;
     ViewTreeObserver vto;
     PlayerTimerTask playerTimer;
@@ -111,6 +113,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         seekbar = new SeekBar(getActivity());
         vto = mainLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(layoutListener);
+        seekbarTouochHandler = new SeekbarTouchHandler(seekbar);
+        seekbar_layout.setOnTouchListener(seekbarTouochHandler);
     }
 
     View.OnClickListener buttonListener = new View.OnClickListener() {
@@ -164,8 +168,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             } else {
                 vto = mainLayout.getViewTreeObserver();
                 vto.removeGlobalOnLayoutListener(this);
-                // //Log.i("Layout listener", "Removed");
-                //callTimerTask();
             }
         }
     };
@@ -174,9 +176,14 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
     @Override
     public void onSongStarted(SongInfo songInfo) {
-        playerTimer = new PlayerTimerTask(seekbar,SongsManager.getInstance().getCurrentSongInfo().getDuration());
+        String durationS = SongsManager.getInstance().getCurrentSongInfo().getDuration();
+        int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
+        playerTimer = new PlayerTimerTask(seekbar,duration);
         playerTimer.setIsPlaying(true);
         playerTimer.execute();
+        seekbarTouochHandler.setDuration(duration);
+        seekbarTouochHandler.setOnSeekListener(this);
+        playSong();
     }
 
     @Override
@@ -199,6 +206,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         playbutton_imageview.setVisibility(View.VISIBLE);
         pausebutton_imageview.setVisibility(View.GONE);
         SongsManager.getInstance().pause();
+        playerTimer.setIsPlaying(false);
     }
 
     private void playNextSong(){
@@ -217,4 +225,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
     }
 
+    @Override
+    public void afterSeek(int seektime) {
+        SongsManager.getInstance().seekPlayerTo(seektime);
+    }
 }
