@@ -3,6 +3,7 @@ package com.mediaplayer.fragments;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,7 +23,7 @@ import com.mediaplayer.com.R;
 public class NowPlayingFragment extends Fragment{
     DisplayMetrics dm;
     float prevTouchY=0f;
-    float currentTouchY, totalTranslation = 0f;
+    float currentTouchY, totalTranslation = 0f, maxBottom;
     enum ActionType  {UP,DOWN};
     ActionType currentAction;
     @Override
@@ -36,6 +37,7 @@ public class NowPlayingFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.nowplaying_xml,container,false);
+        maxBottom =  dm.heightPixels - 70;
         totalTranslation = dm.heightPixels - 260;
         v.setTranslationY(totalTranslation);
         v.setOnTouchListener(touchListener);
@@ -55,7 +57,18 @@ public class NowPlayingFragment extends Fragment{
                 case MotionEvent.ACTION_MOVE:
                     currentTouchY = motionEvent.getRawY();
                     totalTranslation +=currentTouchY - prevTouchY;
+                    int[] point = new int[2];
+                    view.getLocationOnScreen(point);
+                    if(point[1]<= 60) {
+                        currentAction = ActionType.UP;
+                        break;
+                    }else if(point[1] > maxBottom){
+                        currentAction = ActionType.DOWN;
+                        break;
+                    }
+
                     view.setTranslationY(totalTranslation);
+
                     if(currentTouchY<prevTouchY){
                         currentAction = ActionType.UP;
                     }
