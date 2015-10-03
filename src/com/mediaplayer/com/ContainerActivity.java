@@ -2,14 +2,19 @@ package com.mediaplayer.com;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.mediaplayer.fragments.AlbumsFragment;
@@ -32,6 +37,23 @@ public class ContainerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		BroadcastManager.setApplicationContext(this);
 		setContentView(R.layout.activity_container);
+
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.decor, null); // "null" is important.
+
+		// HACK: "steal" the first child of decor view
+		ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+		View child = decor.getChildAt(0);
+		decor.removeView(child);
+		LinearLayout container = (LinearLayout) drawer.findViewById(R.id.container); // This is the container we defined just now.
+		LinearLayout dummy = (LinearLayout)container.findViewById(R.id.dummy);
+		dummy.addView(child);
+		container.bringChildToFront(child);
+
+		// Make the drawer replace the first child
+		decor.addView(drawer);
+
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_frame);
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -94,7 +116,7 @@ public class ContainerActivity extends Activity {
 		mDrawerLayout.closeDrawer(mDrawerList);
 		// Highlight the selected item, update the title, and close the drawer
 		mDrawerList.setItemChecked(position, true);
-		setTitle(labels[position]);
+		getActionBar().setTitle(labels[position]);
 	}
 
 

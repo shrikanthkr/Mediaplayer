@@ -70,8 +70,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.nowplaying_xml,container,false);
-        maxBottom =  dm.heightPixels - 70;
-        totalTranslation = dm.heightPixels - 260;
+        maxBottom =  dm.heightPixels - 70 * dm.density;
+        totalTranslation =maxBottom;
         v.setTranslationY(totalTranslation);
         slideHandler = new SlideHandler(getActivity(),slideListener);
         setViewIds(v);

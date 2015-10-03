@@ -11,16 +11,18 @@ import android.view.animation.AccelerateInterpolator;
 public class SlideHandler implements View.OnTouchListener{
 	Context context;
 	float prevTouchY=0f;
-	float currentTouchY, totalTranslation = 0f, maxBottom;
+	float currentTouchY, totalTranslation = 0f, maxBottom, maxTop = 60;
 	enum ActionType  {UP,DOWN};
 	ActionType currentAction;
 	DisplayMetrics dm;
+	float density;
 	SlideListener listener;
 	public SlideHandler(Context context, SlideListener slideListener) {
 		this.context = context;
 		dm =context.getResources().getDisplayMetrics();
-		maxBottom =  dm.heightPixels - 70;
-		totalTranslation = dm.heightPixels - 260;
+		density = dm.density;
+		maxBottom =  dm.heightPixels - 70 * density;
+		totalTranslation = maxBottom;
 		this.listener = slideListener;
 	}
 
@@ -36,7 +38,7 @@ public class SlideHandler implements View.OnTouchListener{
 				totalTranslation +=currentTouchY - prevTouchY;
 				int[] point = new int[2];
 				view.getLocationOnScreen(point);
-				if(point[1]<= 120) {
+				if(point[1]< maxTop) {
 					currentAction = ActionType.UP;
 					break;
 				}else if(point[1] > maxBottom){
@@ -71,7 +73,7 @@ public class SlideHandler implements View.OnTouchListener{
 		return true;
 	}
 	private void translateUp(View v){
-		totalTranslation = 0;
+		totalTranslation = maxTop;
 		ObjectAnimator translationY = ObjectAnimator.ofFloat(v, "translationY", totalTranslation);
 		translationY.setInterpolator(new AccelerateInterpolator());
 
@@ -81,7 +83,7 @@ public class SlideHandler implements View.OnTouchListener{
 		as.start();
 	}
 	private void translateDown(View v){
-		totalTranslation = dm.heightPixels - 260;
+		totalTranslation = maxBottom;
 		ObjectAnimator translationY = ObjectAnimator.ofFloat(v, "translationY", totalTranslation);
 		translationY.setInterpolator(new AccelerateInterpolator());
 
