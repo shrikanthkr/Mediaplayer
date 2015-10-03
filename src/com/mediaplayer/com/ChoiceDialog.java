@@ -1,6 +1,5 @@
 package com.mediaplayer.com;
 
-import com.mediaplayer.com.IdentifyActivityThread.DialogChangeListener;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,17 +11,17 @@ import android.widget.TextView;
 
 public class ChoiceDialog extends Dialog implements OnClickListener {
 
-	DialogChangeListener listener;
+	//DialogChangeListener listener;
 	Context context;
 	String msg;
 	TextView choicedialog_textView;
 	Button choicedialog_ok_button, choicedialog_cancel_button;
 
-	public ChoiceDialog(Context context, DialogChangeListener listener,
+	public ChoiceDialog(Context context,// DialogChangeListener listener,
 			String msg) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		this.listener = listener;
+		//this.listener = listener;
 		this.context = context;
 		this.msg = msg;
 	}
@@ -33,10 +32,10 @@ public class ChoiceDialog extends Dialog implements OnClickListener {
 		dismiss();
 		switch (arg0.getId()) {
 		case R.id.choice_ok_button:
-			listener.receivedChange(true);
+			//listener.receivedChange(true);
 			break;
 		case R.id.choice_cancel_button:
-			listener.receivedChange(false);
+			//listener.receivedChange(false);
 			break;
 		}
 	}

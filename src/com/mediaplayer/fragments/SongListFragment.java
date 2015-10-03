@@ -16,10 +16,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.TypedValue;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
@@ -31,15 +28,12 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,11 +48,11 @@ import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.OnDatabaseChangeListener;
 import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.utility.DatabaseUpdateThread;
-import com.mediaplayer.utility.StaticMusic;
+import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
 public class SongListFragment extends Fragment implements
-OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
+OnGestureListener {
 	ListView lv;
 	ReadLisstAdapter adapter;
 	ArrayList<SongInfo> songList;
@@ -68,7 +62,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	Context context;
 	SharedPreferences app_start;
 	SharedPreferences.Editor app_start_editor;
-	boolean checkFirst;
 	// SongInfo songInfo;
 	long duration;
 	SongInfoDatabase database;
@@ -81,7 +74,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	float upX = 0;
 	CommonListAdapter common_list_adapter;
 	//EditText search_edittext;
-	DatabaseThread search_database_thread;
 	final int SONG_VIEW = 0;
 	final int ARTIST_VIEW = 1;
 	final int PLAYLIST_VIEW = 2;
@@ -135,8 +127,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		//slide_songlist_button = (Button) v.findViewById(R.id.slide_songlist_button);
 		//songlist_header_textview = (TextView) v.findViewById(R.id.songslist_header_textview);
 		//pb = (ProgressBar) v.findViewById(R.id.songload_progressBar);
-		app_start = activity.getSharedPreferences("checkFirst", Activity.MODE_PRIVATE);
-		checkFirst = app_start.getBoolean("checkFirst", true);
+		//pb = (ProgressBar) v.findViewById(R.id.songload_progressBar);
 		database = new SongInfoDatabase(context);
 		util = new Util();
 		songList = new ArrayList<SongInfo>();
@@ -144,24 +135,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 		/*song_search_button.setOnClickListener(this);*/
 /*		search_edittext = (EditText) v.findViewById(R.id.search_edittext);
 		search_edittext.setVisibility(View.INVISIBLE);*/
-		search_database_thread = new DatabaseThread();
-		playlistChangedListener = this;
-		swipe_left = (ImageView) v.findViewById(R.id.swipe_left_imageView);
-		swipe_right = (ImageView) v.findViewById(R.id.swipe_right_imageView);
-		swipe_right_textview = (TextView) v.findViewById(R.id.swipe_right_textView);
-		swipe_left_textview = (TextView) v.findViewById(R.id.swipe_left_textView);
-		point_tut_imageview = (ImageView) v.findViewById(R.id.point_tut_imageView);
-		tut_button = (Button) v.findViewById(R.id.tut_button);
-		point_textview = (TextView) v.findViewById(R.id.tut_button_textView);
-
-		tut_button.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				disableTut();
-			}
-		});
+		//search_database_thread = new DatabaseThread();
 		/*search_edittext.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -195,33 +169,21 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 
 			}
 		});*/
-		lv.setVisibility(View.INVISIBLE);
-		makeAllAlphaDown();
-		if (checkFirst) {
-
-		} else {
-			disableTut();
-			populateSonglist();
-		}
+		populateSonglist();
 		return v;
 	}
 
 	public void populateSonglist() {
 		SWITCH_VIEW = SONG_VIEW;
-		//pb.setVisibility(View.VISIBLE);
-		//Log.i("LIST FRAG", "POPULATING SONG LIST");
-		//songlist_header_textview.setText("Songs");
 		database.open();
 		songList = database.getFullList();
-		// database.close();
-
+		database.close();
 		detector = new GestureDetector(getActivity(), this);
-
 		adapter = new ReadLisstAdapter(getActivity(), songList, lv);
 		lv.setTextFilterEnabled(true);
 
 		lv.setAdapter(adapter);
-		lv.setSelection(StaticMusic.smoothScrollTo);
+		lv.setSelection(SongsHolder.smoothScrollTo);
 		lv.setFastScrollEnabled(true);
 		lv.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View view, MotionEvent e) {
@@ -229,9 +191,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 				return false;
 			}
 		});
-		//adapter.imageLoader.loadImage(StaticMusic.smoothScrollTo,StaticMusic.smoothScrollTo + 8);
-		//pb.setVisibility(View.INVISIBLE);
-		//Log.i("INSTANT", "registered content observer");
 	}
 /*
 	private void updateSongList() {
@@ -264,31 +223,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 
 	/*@Override
 	public void onClick(View arg0) {
-		// //Log.i("As Activity", "Songlist fragment acivity click happened");
-		try {
-			restoreSearchButton();
-
-		} catch (Exception e) {
-		}
-
 		switch (arg0.getId()) {
-
-		case R.id.playlists_imageButton:
-			clearCache();
-			populatePlaylist();
-			break;
-		case R.id.albums_imageButton:
-			clearCache();
-			populateAlbums();
-			break;
-		case R.id.artists_imageButton:
-			clearCache();
-			populateArtists();
-			break;
-		case R.id.songs_imageButton:
-			clearCache();
-			populateSonglist();
-			break;
 		case R.id.song_search_button:
 
 			song_search_button.setVisibility(View.INVISIBLE);
@@ -317,12 +252,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		StaticMusic.smoothScrollTo = lv.getFirstVisiblePosition();
-		try {
-			database.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		SongsHolder.smoothScrollTo = lv.getFirstVisiblePosition();
 	}
 
 	@Override
@@ -334,113 +264,7 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float arg2,
 			float arg3) {
-		if (SWITCH_VIEW != SONG_VIEW) {
-			return false;
-		}
-		try {
-			final int id = lv.pointToPosition((int) e1.getX(), (int) e1.getY());
-			final String songId = songList.get(id).getId();
-			// TODO Auto-generated method stub
-			if ((e1.getX() - e2.getX()) > 100 && arg2 < -30
-					&& Math.abs(e1.getY() - e2.getY()) < 150) {
-
-				final Dialog dialog = new Dialog(context,
-						android.R.style.Theme_Panel);
-				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				dialog.setContentView(R.layout.playlist_dialog_xml);
-				dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT,
-						LayoutParams.MATCH_PARENT);
-				dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-				Button create_playlist = (Button) dialog
-						.findViewById(R.id.create_newplaylist_button);
-				Button cancel_playlist = (Button) dialog
-						.findViewById(R.id.cancel_playlist_button);
-				final EditText playlist_edittext = (EditText) dialog
-						.findViewById(R.id.newplaylist_editText);
-				ListView dialog_playlist_listview = (ListView) dialog
-						.findViewById(R.id.dialog_playlists_listView);
-				dialog.show();
-				database.open();
-				final ArrayList<String> dialog_playlists;
-				dialog_playlists = database.getAllPlaylists();
-				PlayListDialogAdapter playlist_dialog_adapter = new PlayListDialogAdapter(
-						activity, dialog_playlists, dialog_playlist_listview);
-				dialog_playlist_listview.setAdapter(playlist_dialog_adapter);
-				dialog_playlist_listview
-				.setOnItemClickListener(new OnItemClickListener() {
-
-					@Override
-					public void onItemClick(AdapterView<?> arg0,
-							View arg1, int arg2, long arg3) {
-						// TODO Auto-generated method stub
-						database.open();
-						database.addToPlaylist(songId,
-								dialog_playlists.get(arg2));
-						dialog.dismiss();
-						// //Log.i("Song ID", songId+"; Playlist :" +
-						// dialog_playlists.get(arg2));
-					}
-
-				});
-				create_playlist.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
-						database.open();
-						if (playlist_edittext.getText().toString().length() > 0) {
-							database.addToPlaylist(songId, playlist_edittext
-									.getText().toString());
-							dialog.dismiss();
-							// //Log.i("Song ID", songId);
-						} else
-							Toast.makeText(context, "Empty Name",
-									Toast.LENGTH_LONG).show();
-
-					}
-				});
-				cancel_playlist.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
-						dialog.dismiss();
-					}
-				});
-
-				// database.close();
-			} else if ((e2.getX() - e1.getX() > 100) && arg2 > 30
-					&& Math.abs(e1.getY() - e2.getY()) < 150) {
-				try {
-					StaticMusic.songQueue.addLast(songList.get(id));
-				} catch (NullPointerException e) {
-					StaticMusic.songQueue = new LinkedList<SongInfo>();
-					StaticMusic.songQueue.addLast(songList.get(id));
-					try {
-						FileInputStream fis = new FileInputStream(new File(
-								songList.get(id).getData()));
-						FileDescriptor fileDescriptor = fis.getFD();
-						Music music = new Music(fileDescriptor);
-						fis.close();
-						StaticMusic.setMusic(music);
-						StaticMusic.songInfo = songList.get(id);
-						music.play();
-					} catch (Exception er) {
-						er.printStackTrace();
-					}
-
-				}
-				Toast.makeText(context,
-						"Enqueued As : " + StaticMusic.songQueue.size(),
-						Toast.LENGTH_SHORT).show();
-
-			}
-
 			return true;
-		} catch (Exception e) {
-			return false;
-
-		}
 	}
 
 	@Override
@@ -452,21 +276,9 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,
 			float arg3) {
 		// TODO Auto-generated method stub
-		restoreSearchButton();
 		return true;
 	}
 
-	private void restoreSearchButton() {
-		// TODO Auto-generated method stub
-		/*try {
-			song_search_button.setVisibility(View.VISIBLE);
-			search_edittext.setVisibility(View.INVISIBLE);
-			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(search_edittext.getWindowToken(), 0);
-		} catch (Exception e) {
-		}*/
-
-	}
 
 	@Override
 	public void onShowPress(MotionEvent arg0) {
@@ -476,8 +288,27 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 	@Override
 	public boolean onSingleTapUp(MotionEvent e1) {
 		// TODO Auto-generated method stub
+		SongInfo songInfo = new SongInfo();
+		int id = lv.pointToPosition((int) e1.getX(), (int) e1.getY());
+		String path = songList.get(id).getData();
+		long duration = Long.parseLong(songList.get(id).getDuration());
+		//Log.i("SONG LIST FRAGMENT", songList.get(id).getTitle());
 
-		return false;
+		songInfo.setAlbum(songList.get(id).getAlbum());
+		songInfo.setAlbum_art(songList.get(id).getAlbum_art());
+		songInfo.setAlbum_id(songList.get(id).getAlbum_id());
+		songInfo.setArtist(songList.get(id).getArtist());
+		songInfo.setData(songList.get(id).getData());
+		songInfo.setDisplayName(songList.get(id).getDisplayName());
+		songInfo.setDuration(songList.get(id).getDuration());
+		songInfo.setId(songList.get(id).getId());
+		songInfo.setTitle(songList.get(id).getTitle());
+		Intent playSong = new Intent("PLAYSONG");
+		Bundle b= new Bundle();
+		b.putSerializable("songInfo", songInfo);
+		playSong.putExtras(b);
+		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
+		return true;
 	}
 
 	public class DatabaseThread extends Thread {
@@ -599,41 +430,6 @@ OnGestureListener, OnDatabaseChangeListener, PlaylistChangedListener {
 			});
 
 		}
-
-	}
-
-	@Override
-	public void onChange() {
-
-
-	}
-
-	@Override
-	public void onPlaylistChanged() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void disableTut() {
-		// TODO Auto-generated method stub
-		swipe_left.setVisibility(View.GONE);
-		swipe_left_textview.setVisibility(View.GONE);
-		swipe_right.setVisibility(View.GONE);
-		swipe_right_textview.setVisibility(View.GONE);
-		tut_button.setVisibility(View.GONE);
-		point_tut_imageview.setVisibility(View.GONE);
-		point_textview.setVisibility(View.GONE);
-
-		lv.startAnimation(alphaUp);
-		//song_search_button.startAnimation(alphaUp);
-
-	}
-
-	private void makeAllAlphaDown() {
-		// TODO Auto-generated method stub
-		lv.startAnimation(alphaDown);
-//		song_search_button.startAnimation(alphaDown);
-
 
 	}
 

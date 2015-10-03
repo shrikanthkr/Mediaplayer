@@ -8,18 +8,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.echonest.api.v4.EchoNestAPI;
 import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Track;
-import com.mediaplayer.com.ShareDialog.UpdateListener;
 import com.mediaplayer.listener.ProgressUpdateIdentifyThread;
 import com.mediaplayer.utility.CheapSoundFile;
-import com.mediaplayer.utility.StaticMusic;
+import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
-public class IdentifyActivityThread extends Thread {
+public class IdentifyActivityThread  {/*
 	public File file;
 	UpdateListener listener;
 	Track track;
@@ -78,10 +76,10 @@ public class IdentifyActivityThread extends Thread {
 			progressUpdateThreadListener.onProgressChangeUpdate(100);
 			final JSONObject jsonObj = new JSONObject(track.toString());
 			//Log.i("IDENTIFY", track.toString());
-			if (path.equals(StaticMusic.songInfo.getData())) {
+			if (path.equals(SongsHolder.songInfo.getData())) {
 				if (jsonObj.has("title")) {
-					StaticMusic.songInfo.setTitle(track.getTitle());
-					msg += "Title : " + StaticMusic.songInfo.getTitle() + "\n";
+					SongsHolder.songInfo.setTitle(track.getTitle());
+					msg += "Title : " + SongsHolder.songInfo.getTitle() + "\n";
 					activity.runOnUiThread(new Runnable() {
 
 						@Override
@@ -89,19 +87,19 @@ public class IdentifyActivityThread extends Thread {
 							// TODO Auto-generated method stub
 							try {
 								if (jsonObj.has("release")) {
-									StaticMusic.songInfo.setAlbum(track
+									SongsHolder.songInfo.setAlbum(track
 											.getReleaseName());
 									msg += "Album : "
-											+ StaticMusic.songInfo.getAlbum()
+											+ SongsHolder.songInfo.getAlbum()
 											+ "\n";
 								} else {
 									msg += "Album : " + "";
 								}
 								if (jsonObj.has("artist")) {
-									StaticMusic.songInfo.setArtist(track
+									SongsHolder.songInfo.setArtist(track
 											.getArtistName());
 									msg += "Artist : "
-											+ StaticMusic.songInfo.getArtist()
+											+ SongsHolder.songInfo.getArtist()
 											+ "\n";
 								} else {
 
@@ -118,7 +116,7 @@ public class IdentifyActivityThread extends Thread {
 										if (changed) {
 											Util.updateTrack(
 													activity,
-													StaticMusic.songInfo);
+													SongsHolder.songInfo);
 											//Log.i("ID", "FAKE THREAD ID ::"+fakeThread.getId());
 											listener.onUpdate(true);
 										}
@@ -177,27 +175,27 @@ public class IdentifyActivityThread extends Thread {
 		int progress = 26;
 
 
-		/**
+		*//**
 		 * @return the progress
-		 */
+		 *//*
 		public int getProgress() {
 			return progress;
 		}
 
 
-		/**
+		*//**
 		 * @param progress
 		 *            the progress to set
-		 */
+		 *//*
 		public void setProgress(int progress) {
 			this.progress = progress;
 		}
 
-		/*
+		*//*
 		 * (non-Javadoc)
 		 * 
 		 * @see java.lang.Thread#run()
-		 */
+		 *//*
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
@@ -207,7 +205,7 @@ public class IdentifyActivityThread extends Thread {
 				progress += 1;
 				try {
 					Thread.sleep(600);
-					if (path.equals(StaticMusic.songInfo.getData()))
+					if (path.equals(SongsHolder.songInfo.getData()))
 						progressUpdateThreadListener
 						.onProgressChangeUpdate(progress);
 				} catch (InterruptedException e) {
@@ -223,5 +221,5 @@ public class IdentifyActivityThread extends Thread {
 		}
 
 	}
-
+*/
 }

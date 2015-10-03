@@ -1,12 +1,12 @@
 package com.mediaplayer.com;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class SongInfo implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 123;
+public class SongInfo  implements Serializable{
+
 	public String title;
 	public String artist;
 	public String album;
@@ -113,4 +113,5 @@ public class SongInfo implements Serializable {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
+
 }

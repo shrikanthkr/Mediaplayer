@@ -1,54 +1,103 @@
 package com.mediaplayer.com;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import com.mediaplayer.db.SongInfoDatabase;
+import com.mediaplayer.utility.SongsHolder;
+
 public class SongsManager {
-	// SDCard Path
-	final String MEDIA_PATH = new String(Environment
-			.getExternalStorageDirectory().getPath());
-	private ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
-	private static final String[] EXTENSIONS = { ".mp3", ".mid", ".wav",
-			".ogg", ".mp4" };
-
-	// Constructor
-	public SongsManager() {
-	}
-
-	/**
-	 * Function to read all mp3 files from sdcard and store the details in
-	 * ArrayList
-	 * */
-	public ArrayList<HashMap<String, String>> getPlayList() {
-		File home = new File(MEDIA_PATH);
-		if (home.listFiles(new FileExtensionFilter()).length > 0) {
-			for (File file : home.listFiles(new FileExtensionFilter())) {
-				HashMap<String, String> song = new HashMap<String, String>();
-				song.put(
-						"songTitle",
-						file.getName().substring(0,
-								(file.getName().length() - 4)));
-				song.put("songPath", file.getPath());
-				// Adding each song to SongList
-				songsList.add(song);
-			}
+	static SongsManager  manager;
+	private  Activity context;
+	SongsHolder holder;
+	Music music;
+	SongInfoDatabase database;
+	public static SongsManager getInstance(){
+		if(manager==null){
+			manager = new SongsManager();
 		}
-		// return songs list array
-		return songsList;
+		return manager;
+	}
+	final String MEDIA_PATH = new String(Environment.getExternalStorageDirectory().getPath());
+
+	public void pause(){
+		music.pause();
 	}
 
-	/**
-	 * Class to filter files which are having .mp3 extension
-	 * */
-	class FileExtensionFilter implements FilenameFilter {
-		public boolean accept(File dir, String name) {
-			return (name.endsWith(".mp3") || name.endsWith(".MP3"));
+	public void play(){
+		SongInfo currentSongInfo  = holder.getCurrentSongInfo();
+		FileDescriptor fd = getFileDescriptor(currentSongInfo);
+		music.setFileDescriptor(fd);
+		music.play();
+	}
+	public void resume(){
+		music.resume();
+	}
+	public void play(SongInfo info){
+		holder.setCurrentSongInfo(info);
+		play();
+	}
+	public void playNextSong() {
+		database = new SongInfoDatabase(context);
+		database.open();
+		SongInfo nextSong = database.getNextSong(holder.getCurrentSongInfo());
+		database.close();
+		holder.addSongToQueue(nextSong);
+		play(nextSong);
+	}
+	public void playPreviousSong(){
+		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
+		SongInfo prevSong;
+		if (currentSongIndex > 0) {
+			prevSong = holder.getSongQueue().get(currentSongIndex - 1);
+		} else {
+
+			prevSong = holder.getSongQueue().getLast();
+		}
+		play(prevSong);
+	}
+	public void setContext(Activity context) {
+		this.context = context;
+		if(holder==null){
+			holder = new SongsHolder();
+		}
+		if(music == null){
+			music = new Music(context);
 		}
 	}
+
+	private void randomSong(){
+
+	}
+
+	private void repeatSong(){
+
+	}
+
+	private FileDescriptor getFileDescriptor(SongInfo songInfo){
+		FileInputStream fis = null;
+		FileDescriptor fileDescriptor = null;
+		try {
+			fis = new FileInputStream(new File(songInfo.getData()));
+			 fileDescriptor = fis.getFD();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	return fileDescriptor;
+	}
+
 }

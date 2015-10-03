@@ -3,7 +3,12 @@ package com.mediaplayer.fragments;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Rect;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -13,24 +18,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.mediaplayer.com.Music;
 import com.mediaplayer.com.R;
+import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.com.SongsManager;
+import com.mediaplayer.listener.SlideHandler;
+import com.mediaplayer.manager.BroadcastManager;
 
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class NowPlayingFragment extends Fragment{
+public class NowPlayingFragment extends Fragment implements Music.MusicChangeListeners{
+
     DisplayMetrics dm;
-    float prevTouchY=0f;
-    float currentTouchY, totalTranslation = 0f, maxBottom;
-    enum ActionType  {UP,DOWN};
-    ActionType currentAction;
+    SlideHandler slideHandler;
+    float totalTranslation = 0f, maxBottom;
+    ImageView playbutton_imageview, pausebutton_imageview;
+
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-         dm =getActivity().getResources().getDisplayMetrics();
+        dm =getResources().getDisplayMetrics();
+        BroadcastManager.registerForEvent("PLAYSONG", receiver);
+        SongsManager.getInstance().setContext(getActivity());
     }
 
     @Override
@@ -40,79 +54,75 @@ public class NowPlayingFragment extends Fragment{
         maxBottom =  dm.heightPixels - 70;
         totalTranslation = dm.heightPixels - 260;
         v.setTranslationY(totalTranslation);
-        v.setOnTouchListener(touchListener);
+        slideHandler = new SlideHandler(getActivity());
+        setViewIds(v);
+        v.setOnTouchListener(slideHandler);
         return v;
     }
 
 
-    View.OnTouchListener touchListener = new View.OnTouchListener() {
+    BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-
-            int action = motionEvent.getAction();
-            switch (action){
-                case MotionEvent.ACTION_DOWN:
-                    prevTouchY =  motionEvent.getRawY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    currentTouchY = motionEvent.getRawY();
-                    totalTranslation +=currentTouchY - prevTouchY;
-                    int[] point = new int[2];
-                    view.getLocationOnScreen(point);
-                    if(point[1]<= 60) {
-                        currentAction = ActionType.UP;
-                        break;
-                    }else if(point[1] > maxBottom){
-                        currentAction = ActionType.DOWN;
-                        break;
-                    }
-
-                    view.setTranslationY(totalTranslation);
-
-                    if(currentTouchY<prevTouchY){
-                        currentAction = ActionType.UP;
-                    }
-                    if(currentTouchY>prevTouchY){
-                        currentAction = ActionType.DOWN;
-                    }
-                    prevTouchY = currentTouchY;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    switch (currentAction){
-                        case UP:
-                            translateUp(view);
-                            break;
-                        case DOWN:
-                            translateDown(view);
-                            break;
-                        default:
-                            translateDown(view);
-                            break;
-                    }
-                    break;
-            }
-            return true;
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            SongInfo songInfo = (SongInfo)b.getSerializable("songInfo");
+            SongsManager.getInstance().play(songInfo);
+            playSong();
         }
     };
-    private void translateUp(View v){
-        totalTranslation = 0;
-        ObjectAnimator translationY = ObjectAnimator.ofFloat(v, "translationY", totalTranslation);
-        translationY.setInterpolator(new AccelerateInterpolator());
 
-        AnimatorSet as = new AnimatorSet();
-        as.playTogether(translationY);
-        as.setDuration(200);
-        as.start();
+    @Override
+    public void onSongStarted(SongInfo songInfo) {
+
     }
-    private void translateDown(View v){
-        totalTranslation = dm.heightPixels - 260;
-        ObjectAnimator translationY = ObjectAnimator.ofFloat(v, "translationY", totalTranslation);
-        translationY.setInterpolator(new AccelerateInterpolator());
 
-        AnimatorSet as = new AnimatorSet();
-        as.playTogether(translationY);
-        as.setDuration(200);
-        as.start();
+    @Override
+    public void onSongCompleted() {
+
+    }
+
+    public void setViewIds(View view) {
+        playbutton_imageview = (ImageView)view.findViewById(R.id.playbutton_imageView);
+        pausebutton_imageview =  (ImageView)view.findViewById(R.id.pausebutton_imageView);
+        playbutton_imageview.setOnClickListener(buttonListener);
+        pausebutton_imageview.setOnClickListener(buttonListener);
+    }
+    View.OnClickListener buttonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int id = view.getId();
+            switch(id){
+                case R.id.playbutton_imageView:
+                    playSong();
+                    break;
+                case R.id.pausebutton_imageView:
+                    pauseSong();
+                    break;
+                case R.id.nextbutton: break;
+                case R.id.previous_button: break;
+
+            }
+        }
+    };
+
+    private void playSong(){
+        playbutton_imageview.setVisibility(View.INVISIBLE);
+        pausebutton_imageview.setVisibility(View.VISIBLE);
+        SongsManager.getInstance().resume();
+    }
+
+    private void pauseSong(){
+        playbutton_imageview.setVisibility(View.VISIBLE);
+        pausebutton_imageview.setVisibility(View.GONE);
+        SongsManager.getInstance().pause();
+    }
+
+    private void playNextSong(){
+
+    }
+
+    private void playPreviousSong(){
+
     }
 
 

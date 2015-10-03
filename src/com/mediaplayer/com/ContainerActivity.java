@@ -17,6 +17,7 @@ import com.mediaplayer.fragments.ArtistsFragment;
 import com.mediaplayer.fragments.NowPlayingFragment;
 import com.mediaplayer.fragments.PlaylistsFragment;
 import com.mediaplayer.fragments.SongListFragment;
+import com.mediaplayer.manager.BroadcastManager;
 
 
 public class ContainerActivity extends Activity {
@@ -29,6 +30,7 @@ public class ContainerActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		BroadcastManager.setApplicationContext(this);
 		setContentView(R.layout.activity_container);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_frame);
@@ -118,9 +120,10 @@ public class ContainerActivity extends Activity {
 				break;
 			default:
 				fragment =  new SongListFragment();
+				previousFragmentState = currentFragmentState = 2;
 				break;
 		}
-
+		setTitle(labels[currentFragmentState]);
 		Bundle args = new Bundle();
 		// args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 		fragment.setArguments(args);

@@ -1,3 +1,9 @@
+
+package com.mediaplayer.com;
+public class Nowplaying{
+
+}
+/*
 package com.mediaplayer.com;
 
 import java.io.File;
@@ -16,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,7 +44,7 @@ import android.widget.Toast;
 import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.listener.UpdateNowPlayingUIListener;
-import com.mediaplayer.utility.StaticMusic;
+import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
 public class Nowplaying extends Activity implements OnGlobalLayoutListener,
@@ -118,7 +123,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 	private void playSong() {
 		try {
 
-			songInfo = StaticMusic.getSongInfo();
+			songInfo = SongsHolder.getSongInfo();
 			//Log.i("NOW PLAYING", "NAMW:" + songInfo.getDisplayName());
 			fis = new FileInputStream(new File(songInfo.getData()));
 			fileDescriptor = fis.getFD();
@@ -127,21 +132,21 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 					|| isSongChanged) {
 				//Log.i("NOW PLAYING", "GOIGN ON WITH IF");
 				try {
-					StaticMusic.music.stop();
+					SongsHolder.music.stop();
 				} catch (Exception e) {
 				}
-				StaticMusic.music= new Music(fileDescriptor);
+				SongsHolder.music= new Music(fileDescriptor);
 				time = 0;
-				StaticMusic.music.play();
+				SongsHolder.music.play();
 				setPauseButton();
 				//Log.i("NOW PLAYING", "NEW SONG :" + duration);
 				//Log.i("NOW PLAYING", " NOT ACTIVE :" + time);
 
 			} else {
-				if (StaticMusic.music != null) {
-					time = StaticMusic.music.getCurrentPosition() / 1000;
+				if (SongsHolder.music != null) {
+					time = SongsHolder.music.getCurrentPosition() / 1000;
 					setPauseButton();
-					if (!StaticMusic.music.isPlaying()) {
+					if (!SongsHolder.music.isPlaying()) {
 						//Log.i("NOW PLAYING", "PAUSED ACTIVE :" + time);
 						setPlayButton();
 					}
@@ -149,11 +154,11 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 
 				} else {
 
-					StaticMusic.music = new Music(fileDescriptor);
-					StaticMusic.setMusic(StaticMusic.music);
+					SongsHolder.music = new Music(fileDescriptor);
+					SongsHolder.setMusic(SongsHolder.music);
 					if (!getIntent().getStringExtra("activity").equals(
 							"nowplaying"))
-						StaticMusic.music.play();
+						SongsHolder.music.play();
 					setPauseButton();
 					//Log.i("NOW PLAYING", "NOT ACTIVE :" + duration);
 				}
@@ -164,7 +169,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 			// //Log.i("UTIL", "DURATION :" + duration);
 			seekbar = new SeekBar(this);
 			//Log.i("NOW PLAYING", "SEEK BAR INIT");
-			StaticMusic.music.setContext(this.getApplicationContext());
+			SongsHolder.music.setContext(this.getApplicationContext());
 			//Log.i("UTIL", "NAME:" + songInfo.getDisplayName());
 
 		} catch (Exception e) {
@@ -226,13 +231,13 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 			playbutton_imageview.setOnClickListener(this);
 			playSong();
 			setEqualizer();
-			StaticMusic.music.mediaPlayer
+			SongsHolder.music.mediaPlayer
 			.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					// TODO Auto-generated method stub
-					StaticMusic.music.playNextSong();
+					SongsHolder.music.playNextSong();
 					refresh();
 				}
 			});
@@ -287,7 +292,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 			public void run() {
 				try {
 					// TODO Auto-generated method stub
-					if (time <= duration && StaticMusic.music.isPlaying()) {
+					if (time <= duration && SongsHolder.music.isPlaying()) {
 						// //Log.i("Timer", "time:" + time);
 						time = time + 1;
 						runOnUiThread(new Runnable() {
@@ -319,7 +324,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 							}
 						});
 						timer.cancel();
-					} else if (!StaticMusic.music.isPlaying()) {
+					} else if (!SongsHolder.music.isPlaying()) {
 
 						seekbar.callfromTimerTask(time, duration);
 						runOnUiThread(new Runnable() {
@@ -419,7 +424,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 		updateNowPlayingListUI();
 
 		try {
-			if (StaticMusic.music.isPlaying())
+			if (SongsHolder.music.isPlaying())
 				setPauseButton();
 			else
 				setPlayButton();
@@ -439,7 +444,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 		try {
 			horizontal_songInfo_array = null;
 			horizontal_songInfo_array = new ArrayList<SongInfo>(
-					StaticMusic.songQueue);
+					SongsHolder.songQueue);
 			horizontal_adapter = null;
 			horizontal_adapter = new NowPlayingHorizontalAdapter(
 					horizontal_songInfo_array, nowplaying_horizontal, activity);
@@ -497,7 +502,7 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 				seekbar.setSeeking(false);
 				if (isSeekable_position) {
 					time = seekbar.getSeekedTime(duration);
-					StaticMusic.music.seekTo(time * 1000);
+					SongsHolder.music.seekTo(time * 1000);
 					seekbar.callfromTimerTask(time, duration);
 					isSeekable_position = false;
 					tempduration_textview.setVisibility(View.INVISIBLE);
@@ -534,13 +539,13 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 
 			case R.id.nextbutton:
 				isSongChanged = true;
-				StaticMusic.music.playNextSong();
+				SongsHolder.music.playNextSong();
 				refresh();
 				break;
 			case R.id.previous_button:
 				isSongChanged = true;
 				try {
-					StaticMusic.music.playPreviousSong();
+					SongsHolder.music.playPreviousSong();
 					refresh();
 				} catch (NoSuchElementException e) {
 				}
@@ -548,14 +553,14 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 				break;
 			case R.id.playbutton_imageView:
 				try {
-					if (StaticMusic.music.isPlaying()) {
+					if (SongsHolder.music.isPlaying()) {
 
-						StaticMusic.music.pause();
+						SongsHolder.music.pause();
 						setPlayButton();
 
 					} else {
 
-						StaticMusic.music.play();
+						SongsHolder.music.play();
 						setPauseButton();
 					}
 				} catch (Exception e) {
@@ -590,20 +595,20 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 				}
 				break;
 			case R.id.delete_nowplaying:
-				StaticMusic.songQueue.clear();
-				StaticMusic.music.mediaPlayer.stop();
-				StaticMusic.music.mediaPlayer.release();
-				StaticMusic.music = null;
-				StaticMusic.songInfo=null;
+				SongsHolder.songQueue.clear();
+				SongsHolder.music.mediaPlayer.stop();
+				SongsHolder.music.mediaPlayer.release();
+				SongsHolder.music = null;
+				SongsHolder.songInfo=null;
 				refresh();
 				break;
 			case R.id.edit_nowplaying:
 
-				if (StaticMusic.songQueue.size() <= 0) {
+				if (SongsHolder.songQueue.size() <= 0) {
 					break;
 				}
 				final ArrayList<SongInfo> songs_array = new ArrayList<SongInfo>(
-						StaticMusic.songQueue);
+						SongsHolder.songQueue);
 				//Log.i("NOW PLAYING", "QUEUE SONG SIZE" + songs_array.size());
 				listeditor_dialog = new ListEditorDialog(this, songs_array);
 
@@ -623,19 +628,19 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 									.get(x)));
 
 						}
-						StaticMusic.songQueue.clear();
+						SongsHolder.songQueue.clear();
 						if (temp_array.size() > 0) {
-							StaticMusic.songQueue.addAll(temp_array);
+							SongsHolder.songQueue.addAll(temp_array);
 							updateNowPlayingListUI();
 							listeditor_dialog.dismiss();
 						} else {
-							StaticMusic.songQueue.clear();
-							StaticMusic.music.pause();
-							StaticMusic.setMusic(null);
-							StaticMusic.setSongInfo(null);
-							StaticMusic.music.mediaPlayer.stop();
-							StaticMusic.music.mediaPlayer.release();
-							StaticMusic.music = StaticMusic.getMusic();
+							SongsHolder.songQueue.clear();
+							SongsHolder.music.pause();
+							SongsHolder.setMusic(null);
+							SongsHolder.setSongInfo(null);
+							SongsHolder.music.mediaPlayer.stop();
+							SongsHolder.music.mediaPlayer.release();
+							SongsHolder.music = SongsHolder.getMusic();
 							refresh();
 							listeditor_dialog.dismiss();
 						}
@@ -672,7 +677,8 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 	}
 	
 	private void setEqualizer(){
-	/*	try{
+	*/
+/*	try{
 			//Log.i("EQUALIZER", ""+AudioFxDemo.mEqualizer.hasControl());
 			AudioFxDemo.mEqualizer.usePreset(StaticMusic.band_equi);
 			//Log.i("EQUALIZER", ""+AudioFxDemo.mEqualizer.getCurrentPreset());
@@ -682,16 +688,17 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 			e.printStackTrace();
 			AudioFxDemo.getEqualizer();
 			AudioFxDemo.mEqualizer.usePreset(StaticMusic.band_equi);
-		}*/
+		}*//*
+
 		AudioFxDemo.getEqualizer();
-		AudioFxDemo.mEqualizer.usePreset((short)StaticMusic.band_equi);
+		AudioFxDemo.mEqualizer.usePreset((short) SongsHolder.band_equi);
 		AudioFxDemo.mEqualizer.setEnabled(true);
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		StaticMusic.setSongInfo(horizontal_songInfo_array.get(arg2));
+		SongsHolder.setSongInfo(horizontal_songInfo_array.get(arg2));
 		refresh();
 
 	}
@@ -700,10 +707,11 @@ OnTouchListener, OnClickListener, OnItemClickListener,UpdateNowPlayingUIListener
 	public void updateNWUIListener() {
 		// TODO Auto-generated method stub
 		updateNowPlayingListUI();
-		song_header.setText(StaticMusic.songInfo.getTitle());
-		artist_header.setText(StaticMusic.songInfo.getArtist());
+		song_header.setText(SongsHolder.songInfo.getTitle());
+		artist_header.setText(SongsHolder.songInfo.getArtist());
 	}
 
 
 
 }
+*/
