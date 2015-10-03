@@ -1,11 +1,9 @@
 package com.mediaplayer.adapter;
 
-import com.mediaplayer.com.AudioFxDemo;
 import com.mediaplayer.com.R;
-import com.mediaplayer.utility.StaticMusic;
+import com.mediaplayer.utility.SongsHolder;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +44,9 @@ public class MySpinnerAdapter extends ArrayAdapter<String> {
 		View row = inflater.inflate(R.layout.spinner_listitem, parent, false);
 		TextView label = (TextView) row.findViewById(R.id.preset_textView);
 		label.setText(presets[position]);
-		if(StaticMusic.band_equi==position){
+		/*if(SongsHolder.band_equi==position){
 			label.setTextColor(Color.parseColor("#ff5a00"));
-		}
+		}*/
 		return row;
 	}
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.devsmart.android.ui.HorizontalListView;
-import com.mediaplayer.adapter.MenufragmentAdapter.ViewHolder;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 

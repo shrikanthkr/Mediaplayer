@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.com.Nowplaying;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.utility.StaticMusic;
+import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
 public class NowPlayingHorizontalAdapter extends BaseAdapter implements  OnItemClickListener {
@@ -101,17 +100,17 @@ public class NowPlayingHorizontalAdapter extends BaseAdapter implements  OnItemC
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 		//Toast.makeText(activity, song_array.get(arg2).getTitle(), Toast.LENGTH_SHORT).show();
-		StaticMusic.setSongInfo(song_array.get(arg2));
+		/*SongsHolder.setSongInfo(song_array.get(arg2));
 		try{
-			StaticMusic.songQueue.clear();
-			StaticMusic.songQueue=new LinkedList<SongInfo>(song_array);
+			SongsHolder.songQueue.clear();
+			SongsHolder.songQueue=new LinkedList<SongInfo>(song_array);
 		}catch(NullPointerException nu){
-			StaticMusic.songQueue=new LinkedList<SongInfo>(song_array);
+			SongsHolder.songQueue=new LinkedList<SongInfo>(song_array);
 		}
 		Intent toNowPlaying = new Intent(activity, Nowplaying.class);
 		toNowPlaying.putExtra("activity", "songlist");
 		toNowPlaying.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		activity.startActivity(toNowPlaying);
+		activity.startActivity(toNowPlaying);*/
 
 
 	}

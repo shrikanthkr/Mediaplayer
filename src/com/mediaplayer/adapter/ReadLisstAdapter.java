@@ -2,21 +2,13 @@ package com.mediaplayer.adapter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
-import android.text.TextUtils.TruncateAt;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,11 +16,9 @@ import android.widget.TextView;
 
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.utility.StaticMusic;
 import com.mediaplayer.utility.ThumbnailLoader;
 
-public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
+public class ReadLisstAdapter extends BaseAdapter {
 	private Activity activity;
 	ArrayList<SongInfo> song_array;
 	private LayoutInflater inflater = null;
@@ -49,7 +39,6 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		this.lv = lv;
-		this.lv.setOnScrollListener(this);
 		//Log.i("READLIST ADAPTER", "CONSTRUCTOR CREATED");
 		format = new DecimalFormat("#.00");
 
@@ -172,23 +161,5 @@ public class ReadLisstAdapter extends BaseAdapter implements OnScrollListener {
 
 	}
 
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// TODO Auto-generated method stub
-		switch (scrollState) {
-		case SCROLL_STATE_IDLE:
-			StaticMusic.smoothScrollTo = lv.getFirstVisiblePosition();
-			break;
-
-		}
-
-	}
 
 }

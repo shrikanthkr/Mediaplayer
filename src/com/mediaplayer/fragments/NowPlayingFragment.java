@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -37,7 +38,7 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
     ImageView playbutton_imageview, pausebutton_imageview;
-
+    ImageButton nextButton, prevButton;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
         public void onReceive(Context context, Intent intent) {
             Bundle b = intent.getExtras();
             SongInfo songInfo = (SongInfo)b.getSerializable("songInfo");
-            SongsManager.getInstance().play(songInfo);
+            SongsManager.getInstance().playSelectedSong(songInfo);
             playSong();
         }
     };
@@ -84,8 +85,13 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
     public void setViewIds(View view) {
         playbutton_imageview = (ImageView)view.findViewById(R.id.playbutton_imageView);
         pausebutton_imageview =  (ImageView)view.findViewById(R.id.pausebutton_imageView);
+        nextButton = (ImageButton)view.findViewById(R.id.nextbutton);
+        prevButton = (ImageButton)view.findViewById(R.id.previous_button);
+
         playbutton_imageview.setOnClickListener(buttonListener);
         pausebutton_imageview.setOnClickListener(buttonListener);
+        nextButton.setOnClickListener(buttonListener);
+        prevButton.setOnClickListener(buttonListener);
     }
     View.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
@@ -98,8 +104,12 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
                 case R.id.pausebutton_imageView:
                     pauseSong();
                     break;
-                case R.id.nextbutton: break;
-                case R.id.previous_button: break;
+                case R.id.nextbutton:
+                    playNextSong();
+                    break;
+                case R.id.previous_button:
+                    playPreviousSong();
+                    break;
 
             }
         }
@@ -118,11 +128,11 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
     }
 
     private void playNextSong(){
-
+        SongsManager.getInstance().playNextSong();
     }
 
     private void playPreviousSong(){
-
+        SongsManager.getInstance().playPreviousSong();
     }
 
 

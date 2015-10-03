@@ -45,15 +45,25 @@ public class SongsManager {
 	public void resume(){
 		music.resume();
 	}
+	public void playSelectedSong(SongInfo info){
+		holder.addSongToQueue(info);
+		play(info);
+	}
 	public void play(SongInfo info){
 		holder.setCurrentSongInfo(info);
 		play();
 	}
 	public void playNextSong() {
-		database = new SongInfoDatabase(context);
-		database.open();
-		SongInfo nextSong = database.getNextSong(holder.getCurrentSongInfo());
-		database.close();
+		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
+		SongInfo nextSong;
+		if(currentSongIndex < holder.getSongQueue().size() - 1){
+			nextSong =holder.getSongQueue().get(currentSongIndex + 1);
+		}else{
+			database = new SongInfoDatabase(context);
+			database.open();
+			nextSong = database.getNextSong(holder.getCurrentSongInfo());
+			database.close();
+		}
 		holder.addSongToQueue(nextSong);
 		play(nextSong);
 	}
