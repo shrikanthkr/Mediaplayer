@@ -141,8 +141,8 @@ public class SeekBar extends View {
 	}
 
 	public void callfromTimerTask(int sec, int totalSeconds) {
-		// //Log.i("SEC", sec + "");
-		// //Log.i("total", totalSeconds + "");
+		Log.i("SEC", sec + "");
+		Log.i("total", totalSeconds + "");
 		float ratiopersec = (float) ((2 * Math.PI * radius) / totalSeconds);
 		float arc_length = sec * ratiopersec;
 		float radian = arc_length / radius;
@@ -152,7 +152,7 @@ public class SeekBar extends View {
 			seek_x = -seek_image_width + center_x + (float) Math.cos(radian) * radius;
 			seek_y = -seek_image_height + center_y + (float) Math.sin(radian) * radius;
 		}
-		postInvalidate();
+		invalidate();
 	}
 
 	public void setRadius(float rad) {

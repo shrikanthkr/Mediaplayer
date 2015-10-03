@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.media.Image;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -25,7 +28,9 @@ import android.widget.LinearLayout;
 import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.com.Music;
+import com.mediaplayer.com.PlayerTimerTask;
 import com.mediaplayer.com.R;
+import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.listener.SlideHandler;
@@ -41,9 +46,13 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     DisplayMetrics dm;
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
-    ImageView playbutton_imageview, pausebutton_imageview;
+    ImageView playbutton_imageview, pausebutton_imageview, measure_view;
     ImageButton nextButton, prevButton;
     HorizontalListView nowplaying_horizontal;
+    SeekBar seekbar;
+    LinearLayout seekbar_layout, mainLayout, seekbar_layout_grey_bg;
+    ViewTreeObserver vto;
+    PlayerTimerTask playerTimer;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,13 +94,25 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         nextButton = (ImageButton)view.findViewById(R.id.nextbutton);
         prevButton = (ImageButton)view.findViewById(R.id.previous_button);
         nowplaying_horizontal = (HorizontalListView) view.findViewById(R.id.nowplaying_horizontal);
+        seekbar_layout = (LinearLayout) view.findViewById(R.id.seekbar_layout);
+        seekbar_layout_grey_bg = (LinearLayout) view.findViewById(R.id.seekbar_layout_grey_bg);
+        measure_view = (ImageView) view.findViewById(R.id.seek_measure_imageView);
+        mainLayout = (LinearLayout) view.findViewById(R.id.nowplaying_id);
 
         playbutton_imageview.setOnClickListener(buttonListener);
         pausebutton_imageview.setOnClickListener(buttonListener);
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
         updateNowPlayingListUI();
+        setupSeekbar();
     }
+
+    private void setupSeekbar() {
+        seekbar = new SeekBar(getActivity());
+        vto = mainLayout.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(layoutListener);
+    }
+
     View.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -114,6 +135,60 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         }
     };
 
+    ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            Window window = getActivity().getWindow();
+            window.setFormat(PixelFormat.RGBA_8888);
+            int pos_x = seekbar_layout.getWidth() / 2;
+            pos_x += 1.5;
+            int pos_y = seekbar_layout.getHeight() / 2;
+            seekbar.setMeasuredHeigthWidth(measure_view.getWidth(),
+                    measure_view.getHeight());
+            seekbar.setCenter_x(pos_x);
+            seekbar.setCenter_y(pos_y);
+            seekbar.setRadius((float) ((Math.min(
+                    seekbar_layout_grey_bg.getWidth(),
+                    seekbar_layout_grey_bg.getHeight()) / 2) + .5));
+            seekbar.setXY(pos_x, pos_y);
+            seekbar_layout.addView(seekbar);
+            //Log.i("Radius", seekbar.radius + "");
+           /* artist_header.setText(songInfo.getArtist());
+            song_header.setText(songInfo.getTitle());
+            duration_header.setText(0 + "");*/
+
+            if (vto.isAlive()) {
+                vto.removeGlobalOnLayoutListener(this);
+                // //Log.i("Layout listener", "Removed");
+                //callTimerTask();
+            } else {
+                vto = mainLayout.getViewTreeObserver();
+                vto.removeGlobalOnLayoutListener(this);
+                // //Log.i("Layout listener", "Removed");
+                //callTimerTask();
+            }
+        }
+    };
+
+
+
+    @Override
+    public void onSongStarted(SongInfo songInfo) {
+        playerTimer = new PlayerTimerTask(seekbar,SongsManager.getInstance().getCurrentSongInfo().getDuration());
+        playerTimer.setIsPlaying(true);
+        playerTimer.execute();
+    }
+
+    @Override
+    public void onSongCompleted() {
+        playNextSong();
+    }
+
+    @Override
+    public void onSongChanged(SongInfo info) {
+        updateNowPlayingListUI();
+    }
+
     private void playSong(){
         playbutton_imageview.setVisibility(View.INVISIBLE);
         pausebutton_imageview.setVisibility(View.VISIBLE);
@@ -134,28 +209,12 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         SongsManager.getInstance().playPreviousSong();
     }
     private void updateNowPlayingListUI() {
-            ArrayList<SongInfo> horizontal_songInfo_array = null;
-            NowPlayingHorizontalAdapter horizontal_adapter;
-            horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
-            horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
-            nowplaying_horizontal.setAdapter(horizontal_adapter);
+        ArrayList<SongInfo> horizontal_songInfo_array = null;
+        NowPlayingHorizontalAdapter horizontal_adapter;
+        horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
+        horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
+        nowplaying_horizontal.setAdapter(horizontal_adapter);
 
     }
-
-    @Override
-    public void onSongStarted(SongInfo songInfo) {
-
-    }
-
-    @Override
-    public void onSongCompleted() {
-        playNextSong();
-    }
-
-    @Override
-    public void onSongChanged(SongInfo info) {
-        updateNowPlayingListUI();
-    }
-
 
 }

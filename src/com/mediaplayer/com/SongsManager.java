@@ -61,7 +61,9 @@ public class SongsManager {
 		holder.setCurrentSongInfo(info);
 		play();
 	}
+
 	public void playNextSong() {
+
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo nextSong;
 		if(currentSongIndex < holder.getSongQueue().size() - 1){
@@ -97,6 +99,13 @@ public class SongsManager {
 		if(music == null){
 			music = new Music(context,completionListener);
 		}
+	}
+
+	public SongInfo getCurrentSongInfo(){
+		return holder.getCurrentSongInfo();
+	}
+	public int getSongCurrentPosition(){
+		return music.getCurrentPosition();
 	}
 
 	private void randomSong(){

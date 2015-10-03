@@ -39,7 +39,7 @@ public class ContainerActivity extends Activity {
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
-				R.drawable.albums,  /* nav drawer icon to replace 'Up' caret */
+				R.drawable.slide_button_custom,  /* nav drawer icon to replace 'Up' caret */
 				R.string.drawer_open,  /* "open drawer" description */
 				R.string.drawer_close  /* "close drawer" description */
 		) {
