@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +124,7 @@ public class SongsListAdapter extends BaseAdapter {
 			holder.duration.setText(min + ":" + sec);
 			holder.album.setText( song_array.get(arg0).getAlbum());
 			holder.artist.setText(song_array.get(arg0).getArtist());
-			new ThumbnailLoader(activity,song_array.get(arg0).getAlbum_id(),holder.image).execute();
+			new ThumbnailLoader(activity,song_array.get(arg0).getAlbum_id(),holder.image).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			/*if (song_array.get(arg0).getTitle().trim().toUpperCase(Locale.US)
 					.charAt(0) != song_array.get(arg0 - 1).getTitle().trim()
 					.toUpperCase(Locale.US).charAt(0)) {

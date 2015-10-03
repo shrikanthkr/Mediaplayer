@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.SongsHolder;
+import com.mediaplayer.utility.ThumbnailLoader;
 import com.mediaplayer.utility.Util;
 
 public abstract class HorizontalAdapter extends BaseAdapter implements
@@ -93,15 +95,7 @@ public abstract class HorizontalAdapter extends BaseAdapter implements
 			holder = (ViewHolder) vi.getTag();
 		}
 		holder.song_name.setText(song_array.get(arg0).getTitle());
-		try {
-			Uri albumArtUri = Uri
-					.parse("content://media/external/audio/albumart");
-			final Uri uri = ContentUris.withAppendedId(albumArtUri,
-					Long.parseLong(song_array.get(arg0).getAlbum_id()));
-			//imageLoader.DisplayImage(uri.toString(), holder.album_art);
-
-		} catch (NumberFormatException e) {
-		}
+		new ThumbnailLoader(activity,song_array.get(arg0).getAlbum_id(),holder.album_art).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		return vi;
 	}
 
