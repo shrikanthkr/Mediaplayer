@@ -43,7 +43,7 @@ import java.util.LinkedList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class NowPlayingFragment extends Fragment implements SongsManager.SongsListeners, SeekbarTouchHandler.SeekBarListeners{
+public class NowPlayingFragment extends Fragment implements SongsManager.SongsListeners, SeekbarTouchHandler.SeekBarListeners {
 
     DisplayMetrics dm;
     SlideHandler slideHandler;
@@ -73,7 +73,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         maxBottom =  dm.heightPixels - 70;
         totalTranslation = dm.heightPixels - 260;
         v.setTranslationY(totalTranslation);
-        slideHandler = new SlideHandler(getActivity());
+        slideHandler = new SlideHandler(getActivity(),slideListener);
         setViewIds(v);
         v.setOnTouchListener(slideHandler);
         SongsManager.getInstance().setListener(this);
@@ -241,4 +241,21 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public void afterSeek(int seektime) {
         SongsManager.getInstance().seekPlayerTo(seektime);
     }
+
+    SlideHandler.SlideListener slideListener = new SlideHandler.SlideListener() {
+        @Override
+        public void aboveBar() {
+
+        }
+
+        @Override
+        public void onBottom() {
+
+        }
+
+        @Override
+        public void onTop() {
+
+        }
+    };
 }
