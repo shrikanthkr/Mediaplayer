@@ -32,30 +32,17 @@ public class ContainerActivity extends Activity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	String contentTitle;
 	int previousFragmentState = -1, currentFragmentState = -1;
+	static int topOffset;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		BroadcastManager.setApplicationContext(this);
 		setContentView(R.layout.activity_container);
-
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.decor, null); // "null" is important.
-
-		// HACK: "steal" the first child of decor view
-		ViewGroup decor = (ViewGroup) getWindow().getDecorView();
-		View child = decor.getChildAt(0);
-		decor.removeView(child);
-		LinearLayout container = (LinearLayout) drawer.findViewById(R.id.container); // This is the container we defined just now.
-		LinearLayout dummy = (LinearLayout)container.findViewById(R.id.dummy);
-		dummy.addView(child);
-		container.bringChildToFront(child);
-
-		// Make the drawer replace the first child
-		decor.addView(drawer);
-
+		hackActionBar();
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_frame);
+		mDrawerList.setPadding(0,topOffset,0,0);
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, labels));
 		mDrawerToggle = new ActionBarDrawerToggle(
@@ -87,6 +74,25 @@ public class ContainerActivity extends Activity {
 		getActionBar().setHomeButtonEnabled(true);
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		loadNowPLayingFragment();
+	}
+
+	private void hackActionBar(){
+
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.decor, null); // "null" is important.
+
+		// HACK: "steal" the first child of decor view
+		ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+		View child = decor.getChildAt(0);
+		decor.removeView(child);
+		LinearLayout container = (LinearLayout) drawer.findViewById(R.id.container); // This is the container we defined just now.
+		LinearLayout dummy = (LinearLayout)container.findViewById(R.id.dummy);
+		dummy.addView(child);
+		container.bringChildToFront(child);
+
+		// Make the drawer replace the first child
+		decor.addView(drawer);
+		topOffset = dummy.getLayoutParams().height;
 	}
 
 	@Override
