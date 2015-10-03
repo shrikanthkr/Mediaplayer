@@ -28,6 +28,7 @@ public class SongsHolder {
 	}
 
 	public LinkedList<SongInfo> getSongQueue() {
+		if(songQueue==null) songQueue = new LinkedList<>();
 		return songQueue;
 	}
 

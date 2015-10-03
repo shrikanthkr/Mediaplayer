@@ -8,14 +8,17 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.provider.MediaStore;
 
 import com.mediaplayer.db.SongInfoDatabase;
+import com.mediaplayer.fragments.NowPlayingFragment;
 import com.mediaplayer.utility.SongsHolder;
 
 public class SongsManager {
@@ -24,13 +27,16 @@ public class SongsManager {
 	SongsHolder holder;
 	Music music;
 	SongInfoDatabase database;
+	SongsManager.SongsListeners listener;
 	public static SongsManager getInstance(){
 		if(manager==null){
 			manager = new SongsManager();
 		}
 		return manager;
 	}
-	final String MEDIA_PATH = new String(Environment.getExternalStorageDirectory().getPath());
+	public void setListener(SongsListeners listener){
+		this.listener = listener;
+	}
 
 	public void pause(){
 		music.pause();
@@ -41,6 +47,7 @@ public class SongsManager {
 		FileDescriptor fd = getFileDescriptor(currentSongInfo);
 		music.setFileDescriptor(fd);
 		music.play();
+		if(listener!=null) listener.onSongStarted(currentSongInfo);
 	}
 	public void resume(){
 		music.resume();
@@ -48,6 +55,7 @@ public class SongsManager {
 	public void playSelectedSong(SongInfo info){
 		holder.addSongToQueue(info);
 		play(info);
+		if(listener!=null) listener.onSongChanged(info);
 	}
 	public void play(SongInfo info){
 		holder.setCurrentSongInfo(info);
@@ -63,9 +71,10 @@ public class SongsManager {
 			database.open();
 			nextSong = database.getNextSong(holder.getCurrentSongInfo());
 			database.close();
+			holder.addSongToQueue(nextSong);
 		}
-		holder.addSongToQueue(nextSong);
 		play(nextSong);
+		if(listener!=null) listener.onSongChanged(nextSong);
 	}
 	public void playPreviousSong(){
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
@@ -77,6 +86,8 @@ public class SongsManager {
 			prevSong = holder.getSongQueue().getLast();
 		}
 		play(prevSong);
+
+		if(listener!=null) listener.onSongChanged(prevSong);
 	}
 	public void setContext(Activity context) {
 		this.context = context;
@@ -84,7 +95,7 @@ public class SongsManager {
 			holder = new SongsHolder();
 		}
 		if(music == null){
-			music = new Music(context);
+			music = new Music(context,completionListener);
 		}
 	}
 
@@ -109,5 +120,22 @@ public class SongsManager {
 		}
 	return fileDescriptor;
 	}
+
+
+	public LinkedList<SongInfo> getSongsList(){
+		return holder.getSongQueue();
+	}
+
+	public interface SongsListeners{
+		void onSongStarted(SongInfo songInfo);
+		void onSongCompleted();
+		void onSongChanged(SongInfo songInfo);
+	}
+	MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+		@Override
+		public void onCompletion(MediaPlayer mediaPlayer) {
+			if(listener!=null) listener.onSongCompleted();
+		}
+	};
 
 }

@@ -4,6 +4,7 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 
 import com.mediaplayer.db.SongInfoDatabase;
+import com.mediaplayer.fragments.NowPlayingFragment;
 import com.mediaplayer.utility.SongsHolder;
 
 import android.app.Activity;
@@ -16,13 +17,13 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-public class Music {
+public class Music{
 
 	MediaPlayer mediaPlayer;
-	MusicChangeListeners listener;
 
-	public Music(Activity context) {
+	public Music(Activity context, MediaPlayer.OnCompletionListener listener) {
 		mediaPlayer = MediaPlayer.create(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+		mediaPlayer.setOnCompletionListener(listener);
 		mediaPlayer.reset();
 	}
 
@@ -40,9 +41,8 @@ public class Music {
 	}
 
 	public void onCompletion(MediaPlayer mediaPlayer) {
-			if(listener!=null){
-				listener.onSongCompleted();
-			}
+			mediaPlayer.reset();
+
 	}
 
 	public void play() {
@@ -106,8 +106,5 @@ public class Music {
 		mediaPlayer.seekTo(position);
 	}
 
-	public interface MusicChangeListeners{
-		void onSongStarted(SongInfo songInfo);
-		void onSongCompleted();
-	}
+
 }

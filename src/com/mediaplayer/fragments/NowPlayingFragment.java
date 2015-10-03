@@ -22,6 +22,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.devsmart.android.ui.HorizontalListView;
+import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.com.Music;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
@@ -29,16 +31,19 @@ import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
 
+import java.util.ArrayList;
+
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class NowPlayingFragment extends Fragment implements Music.MusicChangeListeners{
+public class NowPlayingFragment extends Fragment implements SongsManager.SongsListeners{
 
     DisplayMetrics dm;
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
     ImageView playbutton_imageview, pausebutton_imageview;
     ImageButton nextButton, prevButton;
+    HorizontalListView nowplaying_horizontal;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
         slideHandler = new SlideHandler(getActivity());
         setViewIds(v);
         v.setOnTouchListener(slideHandler);
+        SongsManager.getInstance().setListener(this);
         return v;
     }
 
@@ -72,26 +78,19 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
         }
     };
 
-    @Override
-    public void onSongStarted(SongInfo songInfo) {
-
-    }
-
-    @Override
-    public void onSongCompleted() {
-
-    }
 
     public void setViewIds(View view) {
         playbutton_imageview = (ImageView)view.findViewById(R.id.playbutton_imageView);
         pausebutton_imageview =  (ImageView)view.findViewById(R.id.pausebutton_imageView);
         nextButton = (ImageButton)view.findViewById(R.id.nextbutton);
         prevButton = (ImageButton)view.findViewById(R.id.previous_button);
+        nowplaying_horizontal = (HorizontalListView) view.findViewById(R.id.nowplaying_horizontal);
 
         playbutton_imageview.setOnClickListener(buttonListener);
         pausebutton_imageview.setOnClickListener(buttonListener);
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
+        updateNowPlayingListUI();
     }
     View.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
@@ -133,6 +132,29 @@ public class NowPlayingFragment extends Fragment implements Music.MusicChangeLis
 
     private void playPreviousSong(){
         SongsManager.getInstance().playPreviousSong();
+    }
+    private void updateNowPlayingListUI() {
+            ArrayList<SongInfo> horizontal_songInfo_array = null;
+            NowPlayingHorizontalAdapter horizontal_adapter;
+            horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
+            horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
+            nowplaying_horizontal.setAdapter(horizontal_adapter);
+
+    }
+
+    @Override
+    public void onSongStarted(SongInfo songInfo) {
+
+    }
+
+    @Override
+    public void onSongCompleted() {
+        playNextSong();
+    }
+
+    @Override
+    public void onSongChanged(SongInfo info) {
+        updateNowPlayingListUI();
     }
 
 
