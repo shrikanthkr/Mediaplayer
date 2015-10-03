@@ -19,5 +19,9 @@ public class BroadcastManager {
     }
 
 
+    public static final String PLAYSONG = "playsong";
+    public static final String APPEND_LIST = "append";
+    public static final String SONG_KEY = "song";
+    public static final String LIST_KEY = "list";
 
 }

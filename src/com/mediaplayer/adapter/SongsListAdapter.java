@@ -18,7 +18,7 @@ import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.utility.ThumbnailLoader;
 
-public class ReadLisstAdapter extends BaseAdapter {
+public class SongsListAdapter extends BaseAdapter {
 	private Activity activity;
 	ArrayList<SongInfo> song_array;
 	private LayoutInflater inflater = null;
@@ -30,8 +30,8 @@ public class ReadLisstAdapter extends BaseAdapter {
 	DecimalFormat format;
 	int min, sec, total;
 
-	public ReadLisstAdapter(Activity activity2, ArrayList<SongInfo> song_array,
-			ListView lv) {
+	public SongsListAdapter(Activity activity2, ArrayList<SongInfo> song_array,
+							ListView lv) {
 		activity = activity2;
 		this.song_array = song_array;
 		this.lv = lv;

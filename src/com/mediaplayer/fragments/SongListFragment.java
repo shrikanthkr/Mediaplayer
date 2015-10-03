@@ -1,14 +1,9 @@
 package com.mediaplayer.fragments;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -22,31 +17,22 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.animation.AlphaAnimation;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mediaplayer.adapter.CommonListAdapter;
-import com.mediaplayer.adapter.PlayListDialogAdapter;
-import com.mediaplayer.adapter.ReadLisstAdapter;
-import com.mediaplayer.adapter.ReadLisstAdapter.ViewHolder;
-import com.mediaplayer.com.Music;
+import com.mediaplayer.adapter.SongsListAdapter;
+import com.mediaplayer.adapter.SongsListAdapter.ViewHolder;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.listener.OnDatabaseChangeListener;
 import com.mediaplayer.listener.PlaylistChangedListener;
+import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.DatabaseUpdateThread;
 import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
@@ -54,7 +40,7 @@ import com.mediaplayer.utility.Util;
 public class SongListFragment extends Fragment implements
 OnGestureListener {
 	ListView lv;
-	ReadLisstAdapter adapter;
+	SongsListAdapter adapter;
 	ArrayList<SongInfo> songList;
 	String path;
 	GestureDetector detector;
@@ -179,7 +165,7 @@ OnGestureListener {
 		songList = database.getFullList();
 		database.close();
 		detector = new GestureDetector(getActivity(), this);
-		adapter = new ReadLisstAdapter(getActivity(), songList, lv);
+		adapter = new SongsListAdapter(getActivity(), songList, lv);
 		lv.setTextFilterEnabled(true);
 
 		lv.setAdapter(adapter);
@@ -192,34 +178,7 @@ OnGestureListener {
 			}
 		});
 	}
-/*
-	private void updateSongList() {
-		// TODO Auto-generated method stub
-		Thread t = new Thread() {
-			public void run() {
-				database.open();
-				songList = database.getFullList();
-				// database.close();
-				adapter.setUrlList(songList);
-				runOnUiThread(new Runnable() {
 
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						adapter.notifyDataSetChanged();
-					}
-				});
-
-				try {
-					finalize();
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		};
-		t.start();
-	}*/
 
 	/*@Override
 	public void onClick(View arg0) {
@@ -303,9 +262,9 @@ OnGestureListener {
 		songInfo.setDuration(songList.get(id).getDuration());
 		songInfo.setId(songList.get(id).getId());
 		songInfo.setTitle(songList.get(id).getTitle());
-		Intent playSong = new Intent("PLAYSONG");
+		Intent playSong = new Intent(BroadcastManager.PLAYSONG);
 		Bundle b= new Bundle();
-		b.putSerializable("songInfo", songInfo);
+		b.putSerializable(BroadcastManager.SONG_KEY, songInfo);
 		playSong.putExtras(b);
 		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
 		return true;
@@ -354,7 +313,7 @@ OnGestureListener {
 				} else {
 					addGestureListener();
 				}
-				adapter = new ReadLisstAdapter(activity, songList, lv);
+				adapter = new SongsListAdapter(activity, songList, lv);
 				lv.setAdapter(adapter);
 				break;
 			case ALBUMS_VIEW:

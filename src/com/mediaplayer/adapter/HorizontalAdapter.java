@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,34 +26,35 @@ import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.com.Nowplaying;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
-public class HorizontalAdapter extends BaseAdapter implements
+public abstract class HorizontalAdapter extends BaseAdapter implements
 		OnItemClickListener {
 
-	private Activity activity;
+	protected Activity activity;
 	ArrayList<SongInfo> song_array;
-	private LayoutInflater inflater = null;
+	protected LayoutInflater inflater = null;
 	BaseAdapter adapter;
 	Thread t;
 	HorizontalListView lv;
 	HashMap<String, Bitmap> art_work;
 	Util util;
-	final int id = R.layout.horizontal_songitem_xml;
+	int id;
 
-	public HorizontalAdapter(ArrayList<SongInfo> song_array,
-			HorizontalListView lv, Activity activity) {
+	public HorizontalAdapter(ArrayList<SongInfo> song_array, HorizontalListView lv, Activity activity) {
 		this.song_array = song_array;
 		this.activity = activity;
-		inflater = (LayoutInflater) activity
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.lv = lv;
 		util = new Util();
 		lv.setOverScrollMode(ListView.OVER_SCROLL_ALWAYS);
 		lv.setOnItemClickListener(this);
+		setLayoutName();
 
 	}
+	public abstract void setLayoutName();
 
 	public ArrayList<SongInfo> getUrlList() {
 		return song_array;
@@ -83,8 +86,7 @@ public class HorizontalAdapter extends BaseAdapter implements
 		if (vi == null) {
 			holder = new ViewHolder();
 			vi = inflater.inflate(id, null);
-			holder.song_name = (TextView) vi
-					.findViewById(R.id.song_name_textView);
+			holder.song_name = (TextView) vi.findViewById(R.id.song_name_textView);
 			holder.album_art = (ImageView) vi.findViewById(R.id.song_imageView);
 			vi.setTag(holder);
 		} else {
@@ -108,29 +110,6 @@ public class HorizontalAdapter extends BaseAdapter implements
 		TextView song_name;
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		// Toast.makeText(activity, song_array.get(arg2).getTitle(),
-		// Toast.LENGTH_SHORT).show();
-		/*SongsHolder.setSongInfo(song_array.get(arg2));
-		try {
-			SongsHolder.songQueue.clear();
-			SongsHolder.songQueue = new LinkedList<SongInfo>(song_array);
-		} catch (NullPointerException nu) {
-			SongsHolder.songQueue = new LinkedList<SongInfo>(song_array);
-		}
-		Intent toNowPlaying = new Intent(activity, Nowplaying.class);
-		toNowPlaying.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		toNowPlaying.putExtra("activity", "songlist");
-		activity.startActivity(toNowPlaying);*/
 
-	}
-
-	@Override
-	public void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-	}
 
 }

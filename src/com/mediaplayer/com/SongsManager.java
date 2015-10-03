@@ -53,7 +53,8 @@ public class SongsManager {
 		music.resume();
 	}
 	public void playSelectedSong(SongInfo info){
-		holder.addSongToQueue(info);
+		if( holder.getSongQueue().indexOf(info) == -1)
+			holder.addSongToQueue(info);
 		play(info);
 		if(listener!=null) listener.onSongChanged(info);
 	}
@@ -138,6 +139,10 @@ public class SongsManager {
 
 	public void seekPlayerTo(int seektime) {
 		music.seekTo(seektime * 1000);
+	}
+
+	public void appendSongs(LinkedList<SongInfo> songList) {
+		holder.getSongQueue().addAll(songList);
 	}
 
 	public interface SongsListeners{

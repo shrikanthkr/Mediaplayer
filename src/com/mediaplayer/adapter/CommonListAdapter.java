@@ -38,7 +38,7 @@ public class CommonListAdapter extends BaseAdapter {
 
 	Thread t;
 	ListView lv;
-	HorizontalAdapter horizontal_adapter;
+	AlbumViewAdapter horizontal_adapter;
 	ViewHolder holder;
 	final int PLAYLIST_VIEW = 2;
 	int SWITCH_VIEW;
@@ -154,8 +154,7 @@ public class CommonListAdapter extends BaseAdapter {
 
 		holder.name.setText(song_all_array.get(position).get(0).getPlaylist());
 		holder.name.setBackgroundResource(R.drawable.blue_strip);
-		horizontal_adapter = new HorizontalAdapter(
-				song_all_array.get(position), holder.listview, activity);
+		horizontal_adapter = new AlbumViewAdapter(song_all_array.get(position), holder.listview, activity);
 		holder.listview.setAdapter(horizontal_adapter);
 		return vi;
 	}

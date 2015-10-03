@@ -63,6 +63,10 @@ public class SeekbarTouchHandler implements OnTouchListener {
         this.onSeekListener = onSeekListener;
     }
 
+    public void removeOnSeekListener() {
+        onSeekListener = null;
+    }
+
     public interface SeekBarListeners{
         void afterSeek(int seektime);
     }

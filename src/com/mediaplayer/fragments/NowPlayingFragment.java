@@ -38,6 +38,7 @@ import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by shrikanth on 10/2/15.
@@ -60,7 +61,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dm =getResources().getDisplayMetrics();
-        BroadcastManager.registerForEvent("PLAYSONG", receiver);
+        BroadcastManager.registerForEvent(BroadcastManager.PLAYSONG, receiver);
+        BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
         SongsManager.getInstance().setContext(getActivity());
     }
 
@@ -82,8 +84,17 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
             Bundle b = intent.getExtras();
-            SongInfo songInfo = (SongInfo)b.getSerializable("songInfo");
+            SongInfo songInfo = (SongInfo)b.getSerializable(BroadcastManager.SONG_KEY);
+            switch(action){
+                case BroadcastManager.PLAYSONG:
+                    break;
+                case BroadcastManager.APPEND_LIST:
+                    LinkedList<SongInfo> songList =(LinkedList<SongInfo>)b.getSerializable(BroadcastManager.LIST_KEY);
+                    SongsManager.getInstance().appendSongs(songList);
+                    break;
+            }
             SongsManager.getInstance().playSelectedSong(songInfo);
             playSong();
         }
@@ -182,6 +193,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         playerTimer.setIsPlaying(true);
         playerTimer.execute();
         seekbarTouochHandler.setDuration(duration);
+        seekbarTouochHandler.removeOnSeekListener();
         seekbarTouochHandler.setOnSeekListener(this);
         playSong();
     }
