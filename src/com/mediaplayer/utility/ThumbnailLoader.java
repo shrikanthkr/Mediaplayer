@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.mediaplayer.com.R;
@@ -25,7 +26,7 @@ public class ThumbnailLoader extends AsyncTask<String, Void, Bitmap> {
     final static Uri albumArtUri = Uri
             .parse("content://media/external/audio/albumart");
     Activity activity;
-
+    static LruCache<String, Bitmap> cache = new LruCache<>(4  *1024);
     public ThumbnailLoader(Activity activity, String albumId, ImageView imageView) {
         this.albumId = albumId;
         this.imageView = imageView;
@@ -42,8 +43,12 @@ public class ThumbnailLoader extends AsyncTask<String, Void, Bitmap> {
         Uri uri = ContentUris.withAppendedId(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, Long.parseLong(albumId) );
         Bitmap bitmap;
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
-            bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+            bitmap = cache.get(albumId);
+            if(cache.get(albumId)==null){
+                bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+                cache.put(albumId,bitmap);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
