@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.mediaplayer.fragments.AlbumsFragment;
@@ -26,7 +25,7 @@ public class ContainerActivity extends Activity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	String contentTitle;
-	int lastFragmentState = -1;
+	int previousFragmentState = -1, currentFragmentState = -1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,7 +45,8 @@ public class ContainerActivity extends Activity {
 			/** Called when a drawer has settled in a completely closed state. */
 			public void onDrawerClosed(View view) {
 				super.onDrawerClosed(view);
-				loadFragment(lastFragmentState);
+				if(previousFragmentState!=currentFragmentState)
+					loadFragment(currentFragmentState);
 			}
 
 			/** Called when a drawer has settled in a completely open state. */
@@ -62,7 +62,7 @@ public class ContainerActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
+		loadNowPLayingFragment();
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class ContainerActivity extends Activity {
 	/** Swaps fragments in the main content view */
 	private void selectItem(int position) {
 		// Create a new fragment and specify the planet to show based on position
-		lastFragmentState = position;
+		currentFragmentState = position;
 		mDrawerLayout.closeDrawer(mDrawerList);
 		// Highlight the selected item, update the title, and close the drawer
 		mDrawerList.setItemChecked(position, true);
@@ -98,6 +98,7 @@ public class ContainerActivity extends Activity {
 
 
 	public void loadFragment(int state){
+		previousFragmentState = currentFragmentState;
 		Fragment fragment;
 		switch (state){
 			case 0:
@@ -137,22 +138,17 @@ public class ContainerActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(lastFragmentState==-1){
-			lastFragmentState = 0;
+		if(previousFragmentState==-1){
+			previousFragmentState = 0;
 		}
-		loadFragment(lastFragmentState);
-		loadNowPLayingFragment();
+		if(previousFragmentState!=currentFragmentState)
+			loadFragment(currentFragmentState);
+
 	}
 	private void loadNowPLayingFragment(){
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.player, new NowPlayingFragment())
 				.commit();
-	}
-	public View getActionBarView() {
-		Window window = getWindow();
-		View v = window.getDecorView();
-		int resId = getResources().getIdentifier("action_bar_container", "id", "android");
-		return v.findViewById(resId);
 	}
 }

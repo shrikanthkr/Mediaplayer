@@ -122,7 +122,6 @@ public class MenufragmentAdapter extends BaseAdapter {
 						}
 					} catch (Exception e) {
 					}
-					// ////Log.i("Clicked", "Play buton in slide layout");
 				}
 			});
 
