@@ -291,6 +291,10 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         slideHandler.slideDown(playerView);
     }
 
+    public void slideUpPlayer(){
+        slideHandler.slideUp(playerView);
+    }
+
     @Override
     public void afterSeek(int seektime) {
         SongsManager.getInstance().seekPlayerTo(seektime);

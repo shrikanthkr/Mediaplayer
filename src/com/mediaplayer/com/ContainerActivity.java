@@ -120,6 +120,10 @@ public class ContainerActivity extends Activity {
 
 
 	public void loadFragment(int state){
+		if(state == 0){
+			nowPlayingFragment.slideUpPlayer();
+			return;
+		}
 		previousFragmentState = currentFragmentState;
 		Fragment fragment;
 		switch (state){

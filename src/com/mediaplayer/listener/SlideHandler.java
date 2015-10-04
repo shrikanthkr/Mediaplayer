@@ -15,6 +15,9 @@ public class SlideHandler implements View.OnTouchListener{
 	Context context;
 	float prevTouchY=0f;
 	float currentTouchY, totalTranslation = 0f, maxBottom, maxTop = 60;
+
+
+
 	enum ActionType  {UP,DOWN};
 	ActionType currentAction;
 	DisplayMetrics dm;
@@ -104,5 +107,8 @@ public class SlideHandler implements View.OnTouchListener{
 		translateDown(v);
 	}
 
+	public void slideUp(View v) {
+		translateUp(v);
+	}
 
 }
