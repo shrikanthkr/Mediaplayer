@@ -4,10 +4,13 @@ import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by shrikanth on 10/3/15.
  */
-public class PlayerTimerTask  extends AsyncTask<Void, Integer, Void>{
+public class PlayerTimerTask  extends Timer {
 
     SeekBar seekBar;
     boolean isPlaying = false;
@@ -22,21 +25,22 @@ public class PlayerTimerTask  extends AsyncTask<Void, Integer, Void>{
     public void setIsPlaying(boolean isPlaying){
         this.isPlaying = isPlaying;
     }
-    @Override
-    protected Void doInBackground(Void... voids) {
-        while(isPlaying){
-            SystemClock.sleep(250);
-            publishProgress(SongsManager.getInstance().getSongCurrentPosition());
-        }
-        return null;
+
+    public void execute(){
+        this.scheduleAtFixedRate(new MyTask(),0, 1000);
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        if(seekBar!=null){
-            int currentPostion = values[0]/1000;
-            seekBar.callfromTimerTask(currentPostion,duration);
-        }
-        super.onProgressUpdate(values);
+    public void cancel(){
+
     }
+
+    public class MyTask extends TimerTask{
+
+        @Override
+        public void run() {
+            int currentPostion =  SongsManager.getInstance().getSongCurrentPosition()/1000;
+            seekBar.callfromTimerTask(currentPostion, duration);
+        }
+    }
+
 }

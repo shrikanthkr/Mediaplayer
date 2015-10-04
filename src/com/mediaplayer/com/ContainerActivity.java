@@ -152,6 +152,7 @@ public class ContainerActivity extends Activity {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment)
+				.addToBackStack(null)
 				.commit();
 	}
 	@Override

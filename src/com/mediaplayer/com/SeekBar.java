@@ -54,20 +54,12 @@ public class SeekBar extends View {
 
 	public SeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
-	}
-
-	public SeekBar(Context context) {
-		super(context);
-		// TODO Auto-generated constructor stub
-		// //Log.i("Constructor", "paint set");
 		this.context = context;
-
 		angle = -90;
-
 		seek_image = BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.seek_image);
 		setPaintAttributes();
+		setWillNotDraw(false);
 	}
 
 	public void setPaintAttributes() {
@@ -84,7 +76,7 @@ public class SeekBar extends View {
 	public void setXY(float x, float y) {
 		point.x = x;
 		point.y = y;
-		postInvalidate();
+		invalidate();
 	}
 
 	@Override
@@ -152,7 +144,7 @@ public class SeekBar extends View {
 			seek_x = -seek_image_width + center_x + (float) Math.cos(radian) * radius;
 			seek_y = -seek_image_height + center_y + (float) Math.sin(radian) * radius;
 		}
-		invalidate();
+		postInvalidate();//Called from thread
 	}
 
 	public void setRadius(float rad) {
@@ -195,7 +187,7 @@ public class SeekBar extends View {
 			seek_y = center_y - seek_y - seek_image_height;
 		}
 		setSeeking(true);
-		invalidate();
+		postInvalidate();
 
 	}
 

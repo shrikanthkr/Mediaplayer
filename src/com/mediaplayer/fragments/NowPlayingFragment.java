@@ -50,9 +50,10 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
     ImageView playbutton_imageview, pausebutton_imageview, measure_view;
+
     ImageButton nextButton, prevButton;
     HorizontalListView nowplaying_horizontal;
-    TextView  count_label;
+    TextView  count_label, artist_header, songname_header, duration_header;
     SeekBar seekbar;
     SeekbarTouchHandler seekbarTouochHandler;
     LinearLayout seekbar_layout, mainLayout, seekbar_layout_grey_bg;
@@ -72,7 +73,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.nowplaying_xml,container,false);
-        count_label = (TextView)v.findViewById(R.id.count_label);
         maxBottom =  dm.heightPixels - 70 * dm.density;
         totalTranslation =maxBottom;
         v.setTranslationY(totalTranslation);
@@ -114,17 +114,20 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         seekbar_layout_grey_bg = (LinearLayout) view.findViewById(R.id.seekbar_layout_grey_bg);
         measure_view = (ImageView) view.findViewById(R.id.seek_measure_imageView);
         mainLayout = (LinearLayout) view.findViewById(R.id.nowplaying_id);
+        count_label = (TextView)view.findViewById(R.id.count_label);
+        artist_header= (TextView)view.findViewById(R.id.artist_now_playingheader);
+        songname_header = (TextView)view.findViewById(R.id.song_now_playingheader);
+        duration_header = (TextView)view.findViewById(R.id.duration_now_playingheader);
+        seekbar = (SeekBar)view.findViewById(R.id.seekbar);
 
         playbutton_imageview.setOnClickListener(buttonListener);
         pausebutton_imageview.setOnClickListener(buttonListener);
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
-        updateNowPlayingListUI();
         setupSeekbar();
     }
 
     private void setupSeekbar() {
-        seekbar = new SeekBar(getActivity());
         vto = mainLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(layoutListener);
         seekbarTouochHandler = new SeekbarTouchHandler(seekbar);
@@ -169,7 +172,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     seekbar_layout_grey_bg.getWidth(),
                     seekbar_layout_grey_bg.getHeight()) / 2) + .5));
             seekbar.setXY(pos_x, pos_y);
-            seekbar_layout.addView(seekbar);
             //Log.i("Radius", seekbar.radius + "");
            /* artist_header.setText(songInfo.getArtist());
             song_header.setText(songInfo.getTitle());
@@ -183,14 +185,40 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                 vto = mainLayout.getViewTreeObserver();
                 vto.removeGlobalOnLayoutListener(this);
             }
+            resetState();
         }
     };
 
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void resetState() {
+        SongInfo info  = SongsManager.getInstance().getCurrentSongInfo();
+        boolean isPlaying = SongsManager.getInstance().isPlaying();
+        if(info!=null){
+                onSongStarted(info);
+            updateNowPlayingListUI();
+        }
+    }
 
     @Override
     public void onSongStarted(SongInfo songInfo) {
-        String durationS = SongsManager.getInstance().getCurrentSongInfo().getDuration();
+        String durationS = songInfo.getDuration();
         int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
         playerTimer = new PlayerTimerTask(seekbar,duration);
         playerTimer.setIsPlaying(true);
@@ -198,6 +226,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         seekbarTouochHandler.setDuration(duration);
         seekbarTouochHandler.removeOnSeekListener();
         seekbarTouochHandler.setOnSeekListener(this);
+        updateSongInfo();
         playSong();
     }
 
@@ -209,6 +238,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     @Override
     public void onSongChanged(SongInfo info) {
         updateNowPlayingListUI();
+        updateSongInfo();
     }
 
     private void playSong(){
@@ -231,6 +261,12 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     private void playPreviousSong(){
         SongsManager.getInstance().playPreviousSong();
     }
+    private void updateSongInfo(){
+        SongInfo currentSong = SongsManager.getInstance().getCurrentSongInfo();
+        artist_header.setText(currentSong.getArtist());
+        songname_header.setText(currentSong.getDisplayName());
+
+    }
     private void updateNowPlayingListUI() {
         ArrayList<SongInfo> horizontal_songInfo_array = null;
         NowPlayingHorizontalAdapter horizontal_adapter;
@@ -239,6 +275,12 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         nowplaying_horizontal.setAdapter(horizontal_adapter);
         count_label.setText("Queue (" + horizontal_songInfo_array.size() +")");
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(playerTimer!=null) playerTimer.cancel();
     }
 
     @Override

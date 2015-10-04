@@ -46,6 +46,7 @@ public class SongsManager {
 	public void play(){
 		SongInfo currentSongInfo  = holder.getCurrentSongInfo();
 		FileDescriptor fd = getFileDescriptor(currentSongInfo);
+		if(music!=null) music.reset();
 		music.setFileDescriptor(fd);
 		music.play();
 		if(listener!=null) listener.onSongStarted(currentSongInfo);
@@ -65,7 +66,6 @@ public class SongsManager {
 	}
 
 	public void playNextSong() {
-		if(music!=null) music.reset();
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo nextSong;
 		if(currentSongIndex < holder.getSongQueue().size() - 1){
@@ -81,7 +81,6 @@ public class SongsManager {
 		if(listener!=null) listener.onSongChanged(nextSong);
 	}
 	public void playPreviousSong(){
-		if(music!=null) music.reset();
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo prevSong;
 		if (currentSongIndex > 0) {
@@ -144,6 +143,10 @@ public class SongsManager {
 
 	public void appendSongs(LinkedList<SongInfo> songList) {
 		holder.getSongQueue().addAll(songList);
+	}
+
+	public boolean isPlaying() {
+		return music.isPlaying();
 	}
 
 	public interface SongsListeners{
