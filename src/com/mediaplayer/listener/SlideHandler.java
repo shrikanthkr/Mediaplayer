@@ -2,11 +2,14 @@ package com.mediaplayer.listener;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+
+import com.mediaplayer.fragments.NowPlayingFragment;
 
 public class SlideHandler implements View.OnTouchListener{
 	Context context;
@@ -16,6 +19,7 @@ public class SlideHandler implements View.OnTouchListener{
 	ActionType currentAction;
 	DisplayMetrics dm;
 	float density;
+	NowPlayingFragment parent;
 	public SlideHandler(Context context) {
 		this.context = context;
 		dm =context.getResources().getDisplayMetrics();
@@ -24,6 +28,9 @@ public class SlideHandler implements View.OnTouchListener{
 		totalTranslation = maxBottom;
 	}
 
+	public void setParent(NowPlayingFragment f){
+		parent = f;
+	}
 	@Override
 	public boolean onTouch(View view, MotionEvent motionEvent) {
 		int action = motionEvent.getAction();
@@ -79,6 +86,7 @@ public class SlideHandler implements View.OnTouchListener{
 		as.playTogether(translationY);
 		as.setDuration(200);
 		as.start();
+		parent.setIsUp(true);
 	}
 	private void translateDown(View v){
 		totalTranslation = maxBottom;
@@ -89,6 +97,11 @@ public class SlideHandler implements View.OnTouchListener{
 		as.playTogether(translationY);
 		as.setDuration(200);
 		as.start();
+		parent.setIsUp(false);
+	}
+
+	public void slideDown(View v){
+		translateDown(v);
 	}
 
 

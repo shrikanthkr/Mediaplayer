@@ -59,7 +59,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     LinearLayout seekbar_layout, mainLayout, seekbar_layout_grey_bg;
     ViewTreeObserver vto;
     PlayerTimerTask playerTimer;
-    
+    View playerView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,15 +72,16 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
-        View v = inflater.inflate(R.layout.nowplaying_xml,container,false);
+        playerView = inflater.inflate(R.layout.nowplaying_xml,container,false);
         maxBottom =  dm.heightPixels - 70 * dm.density;
         totalTranslation =maxBottom;
-        v.setTranslationY(totalTranslation);
+        playerView.setTranslationY(totalTranslation);
         slideHandler = new SlideHandler(getActivity());
-        setViewIds(v);
-        v.setOnTouchListener(slideHandler);
+        slideHandler.setParent(this);
+        setViewIds(playerView);
+        playerView.setOnTouchListener(slideHandler);
         SongsManager.getInstance().setListener(this);
-        return v;
+        return playerView;
     }
 
 
@@ -286,9 +287,20 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         if(playerTimer!=null) playerTimer.cancel();
     }
 
+    public void slideDownPlayer(){
+        slideHandler.slideDown(playerView);
+    }
+
     @Override
     public void afterSeek(int seektime) {
         SongsManager.getInstance().seekPlayerTo(seektime);
     }
 
+    boolean isUp = false;
+    public void setIsUp(boolean b){
+        isUp = b;
+    }
+    public boolean getIsUp() {
+        return isUp;
+    }
 }

@@ -35,6 +35,9 @@ public class ContainerActivity extends Activity {
 	String contentTitle;
 	int previousFragmentState = -1, currentFragmentState = -1;
 	static int topOffset;
+	NowPlayingFragment nowPlayingFragment;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,10 +106,6 @@ public class ContainerActivity extends Activity {
 		public void onItemClick(AdapterView parent, View view, int position, long id) {
 			selectItem(position);
 		}
-		public void setTitle(CharSequence title) {
-			contentTitle = title.toString();
-			getActionBar().setTitle(contentTitle);
-		}
 	}
 	/** Swaps fragments in the main content view */
 	private void selectItem(int position) {
@@ -172,8 +171,9 @@ public class ContainerActivity extends Activity {
 	}
 	private void loadNowPLayingFragment(){
 		FragmentManager fragmentManager = getFragmentManager();
+		nowPlayingFragment = new NowPlayingFragment();
 		fragmentManager.beginTransaction()
-				.replace(R.id.player, new NowPlayingFragment())
+				.replace(R.id.player, nowPlayingFragment)
 				.commit();
 	}
 
@@ -199,10 +199,12 @@ public class ContainerActivity extends Activity {
 	public void onBackPressed() {
 		FragmentManager manager = getFragmentManager();
 		int count = manager.getBackStackEntryCount();
-		if( count >1){
+		if(nowPlayingFragment.getIsUp() ){
+			nowPlayingFragment.slideDownPlayer();
+		}else if( count >1){
 			manager.popBackStack();
 		}
-		if( count == 1){
+		else if( count == 1){
 			finish();
 		}
 	}
