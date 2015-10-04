@@ -57,6 +57,11 @@ public class CommonListAdapter extends BaseAdapter {
 		this.playlistChangedListener = playlistChangedListener;
 	}
 
+	public void addAll(ArrayList<ArrayList<SongInfo>> song_array){
+		this.song_all_array = song_array;
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

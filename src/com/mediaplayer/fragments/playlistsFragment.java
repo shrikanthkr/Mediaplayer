@@ -36,5 +36,14 @@ public class PlaylistsFragment extends MultiviewFragment  {
         list = database.getSongs_allPlayList();
         database.close();
     }
+
+    @Override
+    public void searchSongs(String search) {
+        database.open();
+        list = database.searchSongs_playlists(search);
+        adapter.addAll(list);
+        database.close();
+
+    }
 }
 

@@ -49,6 +49,11 @@ public class SongsListAdapter extends BaseAdapter {
 		return song_array;
 	}
 
+	public void addAll(ArrayList<SongInfo> songs){
+		this.song_array = songs;
+		notifyDataSetChanged();
+	}
+
 	public void setUrlList(ArrayList<SongInfo> song_array) {
 		this.song_array = song_array;
 	}

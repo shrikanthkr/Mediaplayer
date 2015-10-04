@@ -36,4 +36,12 @@ public class ArtistsFragment extends MultiviewFragment {
         list =  database.getSongs_artists();
         database.close();
     }
+
+    @Override
+    public void searchSongs(String search) {
+        database.open();
+        list = database.searchSongs_artists(search);
+        adapter.addAll(list);
+        database.close();
+    }
 }

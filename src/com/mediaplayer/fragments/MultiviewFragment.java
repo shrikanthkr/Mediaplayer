@@ -3,11 +3,15 @@ package com.mediaplayer.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.mediaplayer.adapter.CommonListAdapter;
+import com.mediaplayer.adapter.SongsListAdapter;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
@@ -17,11 +21,12 @@ import java.util.ArrayList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public abstract class MultiviewFragment extends Fragment{
+public abstract class MultiviewFragment extends MediaFragment implements SearchView.OnQueryTextListener{
     CommonListAdapter adapter;
     ListView listview;
     SongInfoDatabase database;
     ArrayList<ArrayList<SongInfo>> list;
+    SearchView searchView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -40,4 +45,24 @@ public abstract class MultiviewFragment extends Fragment{
 
     public abstract void setData();
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        searchSongs(s);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        searchSongs(s);
+        return false;
+    }
+    public abstract void searchSongs(String search);
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
+        searchView = (SearchView)menu.findItem(R.id.search).getActionView();
+        searchView.setOnQueryTextListener(this);
+    }
 }

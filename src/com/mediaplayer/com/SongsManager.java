@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.fragments.NowPlayingFragment;
@@ -153,6 +154,7 @@ public class SongsManager {
 	MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
 		@Override
 		public void onCompletion(MediaPlayer mediaPlayer) {
+			Log.i("MEDIA","********"+mediaPlayer.isPlaying());
 			if(listener!=null) listener.onSongCompleted();
 		}
 	};

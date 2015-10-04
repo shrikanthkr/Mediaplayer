@@ -12,9 +12,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -23,6 +26,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.mediaplayer.adapter.CommonListAdapter;
@@ -37,53 +41,32 @@ import com.mediaplayer.utility.DatabaseUpdateThread;
 import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
-public class SongListFragment extends Fragment implements
-OnGestureListener {
+public class SongListFragment extends MediaFragment implements
+OnGestureListener, SearchView.OnQueryTextListener {
 	ListView lv;
+	SearchView searchView;
+	Context context;
 	SongsListAdapter adapter;
 	ArrayList<SongInfo> songList;
-	String path;
 	GestureDetector detector;
-	HashMap<String, Bitmap> art_work;
-	Context context;
-	SharedPreferences app_start;
-	SharedPreferences.Editor app_start_editor;
-	// SongInfo songInfo;
-	long duration;
 	SongInfoDatabase database;
 	Activity activity;
-	// ContentBody cbFile;
 	Util util;
-	//ProgressBar pb;
 	ArrayList<ArrayList<SongInfo>> all_playlists;
-	float downX = 0;
-	float upX = 0;
 	CommonListAdapter common_list_adapter;
-	//EditText search_edittext;
 	final int SONG_VIEW = 0;
 	final int ARTIST_VIEW = 1;
 	final int PLAYLIST_VIEW = 2;
 	final int ALBUMS_VIEW = 3;
 	static int SWITCH_VIEW = 0;
-	Thread x;
-	// UriObserver observer;
-	//TextView songlist_header_textview;
-	ImageView swipe_left, swipe_right, point_tut_imageview;
-	TextView swipe_right_textview, swipe_left_textview, point_textview;
 	DatabaseUpdateThread databaseUpdateThread;
 	Cursor cursor;
-	long previousTime = 0;
 	PlaylistChangedListener playlistChangedListener;
-	Button tut_button;
-	AlphaAnimation alphaDown;
-	AlphaAnimation alphaUp;
-	boolean slidebutton_clicked=false;
 
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		slidebutton_clicked=false;
 
 	}
 
@@ -91,34 +74,18 @@ OnGestureListener {
 	public void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
-		//setContentView(R.layout.songlistfragment_xml);
-
-
+		util = new Util();
+		songList = new ArrayList<SongInfo>();
+		context = getActivity();
+		activity = getActivity();
+		database = new SongInfoDatabase(context);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v = inflater.inflate(R.layout.songlistfragment_xml,container,false);
-		context = getActivity();
-		activity = getActivity();
-		alphaDown = new AlphaAnimation(1.0f, 0.3f);
-		alphaUp = new AlphaAnimation(0.3f, 1.0f);
-		alphaDown.setDuration(1000);
-		alphaUp.setDuration(1000);
-		alphaDown.setFillAfter(true);
-		alphaUp.setFillAfter(true);
-		slidebutton_clicked=false;
 		lv = (ListView) v.findViewById(R.id.listView);
-		//slide_songlist_button = (Button) v.findViewById(R.id.slide_songlist_button);
-		//songlist_header_textview = (TextView) v.findViewById(R.id.songslist_header_textview);
-		//pb = (ProgressBar) v.findViewById(R.id.songload_progressBar);
-		//pb = (ProgressBar) v.findViewById(R.id.songload_progressBar);
-		database = new SongInfoDatabase(context);
-		util = new Util();
-		songList = new ArrayList<SongInfo>();
-		//song_search_button = (ImageButton) v.findViewById(R.id.song_search_button);
-		/*song_search_button.setOnClickListener(this);*/
 /*		search_edittext = (EditText) v.findViewById(R.id.search_edittext);
 		search_edittext.setVisibility(View.INVISIBLE);*/
 		//search_database_thread = new DatabaseThread();
@@ -270,126 +237,30 @@ OnGestureListener {
 		return true;
 	}
 
-	public class DatabaseThread extends Thread {
-
-		String search;
-		ViewHolder holder;
-		SongInfo songInfo;
-
-		public String getSearch() {
-			return search;
-		}
-
-		public void setHolder(ViewHolder holder) {
-			// TODO Auto-generated method stub
-			this.holder = holder;
-		}
-
-		public void setSearch(String search) {
-			this.search = search;
-		}
-
-		public DatabaseThread() {
-			songInfo = new SongInfo();
-		}
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			//Log.i("DATABASE THREAD", search);
-
-			switch (SWITCH_VIEW) {
-			case SONG_VIEW:
-				database.open();
-				songList = database.searchSong_byName(search);
-				// database.close();
-				//Log.i("DATABASE THREAD", songList.size() + "");
-				// TODO Auto-generated method stub
-				if (songList.size() == 0) {
-					songInfo.setTitle("No Songs Found");
-					songList.add(songInfo);
-					removeGestureListener();
-
-				} else {
-					addGestureListener();
-				}
-				adapter = new SongsListAdapter(activity, songList, lv);
-				lv.setAdapter(adapter);
-				break;
-			case ALBUMS_VIEW:
-				database.open();
-				all_playlists = new ArrayList<ArrayList<SongInfo>>();
-				all_playlists = database.searchSongs_albums(search);
-				// database.close();
-				if (all_playlists.size() == 0) {
-					songInfo.setTitle("No Songs Found");
-					songList.clear();
-					songList.add(songInfo);
-					all_playlists.add(songList);
-					removeGestureListener();
-				} else {
-					addGestureListener();
-				}
-				common_list_adapter = new CommonListAdapter(activity,
-						all_playlists, lv, SWITCH_VIEW, playlistChangedListener);
-				lv.setAdapter(common_list_adapter);
-				common_list_adapter.notifyDataSetChanged();
-
-				break;
-			case ARTIST_VIEW:
-				database.open();
-				all_playlists = new ArrayList<ArrayList<SongInfo>>();
-				all_playlists = database.searchSongs_artists(search);
-				// database.close();
-				if (all_playlists.size() == 0) {
-					songInfo.setTitle("No Songs Found");
-					songList.clear();
-					songList.add(songInfo);
-					all_playlists.add(songList);
-					removeGestureListener();
-				} else {
-					addGestureListener();
-				}
-				common_list_adapter = new CommonListAdapter(activity,
-						all_playlists, lv, SWITCH_VIEW, playlistChangedListener);
-				lv.setAdapter(common_list_adapter);
-				common_list_adapter.notifyDataSetChanged();
-
-				break;
-			case PLAYLIST_VIEW:
-				database.open();
-				all_playlists = new ArrayList<ArrayList<SongInfo>>();
-				all_playlists = database.searchSongs_playlists(search);
-				// database.close();
-				if (all_playlists.size() == 0) {
-					songInfo.setTitle("No Songs Found");
-					songList.clear();
-					songList.add(songInfo);
-					all_playlists.add(songList);
-					removeGestureListener();
-				} else {
-					addGestureListener();
-				}
-				common_list_adapter = new CommonListAdapter(activity,
-						all_playlists, lv, SWITCH_VIEW, playlistChangedListener);
-				lv.setAdapter(common_list_adapter);
-				common_list_adapter.notifyDataSetChanged();
-				break;
-			}
-
-		}
-
-		private void addGestureListener() {
-			// TODO Auto-generated method stub
-			lv.setOnTouchListener(new OnTouchListener() {
-				public boolean onTouch(View view, MotionEvent e) {
-					detector.onTouchEvent(e);
-					return false;
-				}
-			});
-
-		}
-
+	@Override
+	public boolean onQueryTextSubmit(String s) {
+		searchSongs(s);
+		return false;
 	}
 
+	@Override
+	public boolean onQueryTextChange(String s) {
+		searchSongs(s);
+		return false;
+	}
+
+	private void searchSongs(String search){
+		database.open();
+		songList = database.searchSong_byName(search);
+		adapter.addAll(songList);
+		database.close();
+	}
+
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		searchView = (SearchView)menu.findItem(R.id.search).getActionView();
+		searchView.setOnQueryTextListener(this);
+	}
 }
