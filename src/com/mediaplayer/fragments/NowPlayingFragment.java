@@ -42,6 +42,7 @@ import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.manager.EchonestApiManager;
+import com.mediaplayer.utility.AnimationUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -160,6 +161,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     playPreviousSong();
                     break;
                 case R.id.identify_imageButton:
+                    AnimationUtil.startRotation(identifyButton,getActivity());
                     EchonestApiManager.uploadTrack(SongsManager.getInstance().getCurrentSongInfo().data, new EchonestApiManager.EchonestApiListener() {
                         @Override
                         public void onResult(Track track) {
@@ -184,6 +186,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                                 e.printStackTrace();
                                 Toast.makeText(getActivity(),"Sorry song was not found" , Toast.LENGTH_LONG).show();
                             }
+                            AnimationUtil.stopRotation(identifyButton);
                         }
                     });
                     break;
