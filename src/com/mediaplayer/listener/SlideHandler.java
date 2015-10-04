@@ -14,7 +14,7 @@ import com.mediaplayer.fragments.NowPlayingFragment;
 public class SlideHandler implements View.OnTouchListener{
 	Context context;
 	float prevTouchY=0f;
-	float currentTouchY, totalTranslation = 0f, maxBottom, maxTop = 60;
+	float currentTouchY, totalTranslation = 0f, maxBottom, maxTop;
 
 
 
@@ -28,6 +28,7 @@ public class SlideHandler implements View.OnTouchListener{
 		dm =context.getResources().getDisplayMetrics();
 		density = dm.density;
 		maxBottom =  dm.heightPixels - 70 * density;
+		maxTop = 0;
 		totalTranslation = maxBottom;
 	}
 
