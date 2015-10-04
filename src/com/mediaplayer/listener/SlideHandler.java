@@ -66,6 +66,7 @@ public class SlideHandler implements View.OnTouchListener{
 				prevTouchY = currentTouchY;
 				break;
 			case MotionEvent.ACTION_UP:
+				if(currentAction==null) break;
 				switch (currentAction){
 					case UP:
 						translateUp(view);

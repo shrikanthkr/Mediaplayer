@@ -25,8 +25,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devsmart.android.ui.HorizontalListView;
+import com.echonest.api.v4.EchoNestException;
+import com.echonest.api.v4.Track;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.com.Music;
 import com.mediaplayer.com.PlayerTimerTask;
@@ -34,9 +37,11 @@ import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
+import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
+import com.mediaplayer.manager.EchonestApiManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -51,7 +56,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     float totalTranslation = 0f, maxBottom;
     ImageView playbutton_imageview, pausebutton_imageview, measure_view;
 
-    ImageButton nextButton, prevButton;
+    ImageButton nextButton, prevButton, identifyButton;
     HorizontalListView nowplaying_horizontal;
     TextView  count_label, artist_header, songname_header, duration_header;
     SeekBar seekbar;
@@ -119,12 +124,14 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         artist_header= (TextView)view.findViewById(R.id.artist_now_playingheader);
         songname_header = (TextView)view.findViewById(R.id.song_now_playingheader);
         duration_header = (TextView)view.findViewById(R.id.duration_now_playingheader);
+        identifyButton = (ImageButton)view.findViewById(R.id.identify_imageButton);
         seekbar = (SeekBar)view.findViewById(R.id.seekbar);
 
         playbutton_imageview.setOnClickListener(buttonListener);
         pausebutton_imageview.setOnClickListener(buttonListener);
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
+        identifyButton.setOnClickListener(buttonListener);
         setupSeekbar();
     }
 
@@ -151,6 +158,34 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     break;
                 case R.id.previous_button:
                     playPreviousSong();
+                    break;
+                case R.id.identify_imageButton:
+                    EchonestApiManager.uploadTrack(SongsManager.getInstance().getCurrentSongInfo().data, new EchonestApiManager.EchonestApiListener() {
+                        @Override
+                        public void onResult(Track track) {
+                            try {
+                                if(track.getStatus().ordinal()==2){
+                                    Log.d("NOW", track.getReleaseName());
+                                    SongInfo songInfo = SongsManager.getInstance().getCurrentSongInfo();
+                                    songInfo.setArtist(track.getArtistName());
+                                    songInfo.setDisplayName(track.getTitle());
+                                    songInfo.setTitle(track.getTitle());
+                                    SongInfoDatabase db = new SongInfoDatabase(getActivity());
+                                    db.open();
+                                    db.update(songInfo);
+                                    db.close();updateSongInfo();
+                                    Toast.makeText(getActivity(),"Song Updated" , Toast.LENGTH_LONG).show();
+                                }else{
+                                    Toast.makeText(getActivity(),"Sorry song was not found" , Toast.LENGTH_LONG).show();
+                                }
+                            } catch (EchoNestException e) {
+                                e.printStackTrace();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                Toast.makeText(getActivity(),"Sorry song was not found" , Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                     break;
 
             }
