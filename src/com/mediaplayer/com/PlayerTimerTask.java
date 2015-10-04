@@ -15,6 +15,7 @@ public class PlayerTimerTask  extends Timer {
     SeekBar seekBar;
     boolean isPlaying = false;
     int duration;
+    MyTask myTask;
 
 
     public PlayerTimerTask(SeekBar seekBar,int duration) {
@@ -27,11 +28,12 @@ public class PlayerTimerTask  extends Timer {
     }
 
     public void execute(){
-        this.scheduleAtFixedRate(new MyTask(),0, 1000);
+        myTask = new MyTask();
+        this.scheduleAtFixedRate(myTask, 0, 1000);
     }
 
     public void cancel(){
-
+        myTask.cancel();
     }
 
     public class MyTask extends TimerTask{

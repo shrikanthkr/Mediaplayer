@@ -220,6 +220,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public void onSongStarted(SongInfo songInfo) {
         String durationS = songInfo.getDuration();
         int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
+        if(playerTimer!=null) playerTimer.cancel();
         playerTimer = new PlayerTimerTask(seekbar,duration);
         playerTimer.setIsPlaying(true);
         playerTimer.execute();
@@ -276,6 +277,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         count_label.setText("Queue (" + horizontal_songInfo_array.size() +")");
 
     }
+
+
 
     @Override
     public void onDestroy() {

@@ -194,4 +194,16 @@ public class ContainerActivity extends Activity {
 
 		return true;
 	}
+
+	@Override
+	public void onBackPressed() {
+		FragmentManager manager = getFragmentManager();
+		int count = manager.getBackStackEntryCount();
+		if( count >1){
+			manager.popBackStack();
+		}
+		if( count == 1){
+			finish();
+		}
+	}
 }
