@@ -187,6 +187,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                 vto.removeGlobalOnLayoutListener(this);
             }
             resetState();
+            seekbar.setVisibility(View.INVISIBLE);
         }
     };
 
@@ -222,6 +223,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         String durationS = songInfo.getDuration();
         int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
         if(playerTimer!=null) playerTimer.cancel();
+        seekbar.setVisibility(View.VISIBLE);
         playerTimer = new PlayerTimerTask(seekbar,duration);
         playerTimer.setIsPlaying(true);
         playerTimer.execute();
