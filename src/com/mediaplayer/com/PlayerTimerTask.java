@@ -27,7 +27,6 @@ public class PlayerTimerTask  extends AsyncTask<Void, Integer, Void>{
         while(isPlaying){
             SystemClock.sleep(250);
             publishProgress(SongsManager.getInstance().getSongCurrentPosition());
-            Log.d("TimerTask",SongsManager.getInstance().getSongCurrentPosition()+"" );
         }
         return null;
     }

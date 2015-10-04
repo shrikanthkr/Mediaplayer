@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
@@ -51,6 +52,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     ImageView playbutton_imageview, pausebutton_imageview, measure_view;
     ImageButton nextButton, prevButton;
     HorizontalListView nowplaying_horizontal;
+    TextView  count_label;
     SeekBar seekbar;
     SeekbarTouchHandler seekbarTouochHandler;
     LinearLayout seekbar_layout, mainLayout, seekbar_layout_grey_bg;
@@ -70,10 +72,11 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.nowplaying_xml,container,false);
+        count_label = (TextView)v.findViewById(R.id.count_label);
         maxBottom =  dm.heightPixels - 70 * dm.density;
         totalTranslation =maxBottom;
         v.setTranslationY(totalTranslation);
-        slideHandler = new SlideHandler(getActivity(),slideListener);
+        slideHandler = new SlideHandler(getActivity());
         setViewIds(v);
         v.setOnTouchListener(slideHandler);
         SongsManager.getInstance().setListener(this);
@@ -234,6 +237,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
         horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
         nowplaying_horizontal.setAdapter(horizontal_adapter);
+        count_label.setText("Queue (" + horizontal_songInfo_array.size() +")");
 
     }
 
@@ -242,20 +246,4 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         SongsManager.getInstance().seekPlayerTo(seektime);
     }
 
-    SlideHandler.SlideListener slideListener = new SlideHandler.SlideListener() {
-        @Override
-        public void aboveBar() {
-
-        }
-
-        @Override
-        public void onBottom() {
-
-        }
-
-        @Override
-        public void onTop() {
-
-        }
-    };
 }

@@ -16,14 +16,12 @@ public class SlideHandler implements View.OnTouchListener{
 	ActionType currentAction;
 	DisplayMetrics dm;
 	float density;
-	SlideListener listener;
-	public SlideHandler(Context context, SlideListener slideListener) {
+	public SlideHandler(Context context) {
 		this.context = context;
 		dm =context.getResources().getDisplayMetrics();
 		density = dm.density;
 		maxBottom =  dm.heightPixels - 70 * density;
 		totalTranslation = maxBottom;
-		this.listener = slideListener;
 	}
 
 	@Override
@@ -93,10 +91,5 @@ public class SlideHandler implements View.OnTouchListener{
 		as.start();
 	}
 
-	public interface SlideListener{
-		void aboveBar();
-		void onBottom();
-		void onTop();
-	}
 
 }

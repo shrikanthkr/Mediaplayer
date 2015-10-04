@@ -61,21 +61,32 @@ public class Music{
 	public void resume(){
 		mediaPlayer.start();
 	}
-	public void stop() {
+	public void reset() {
+		if(mediaPlayer!=null){
+			mediaPlayer.stop();
+			mediaPlayer.reset();
+		}
+	}
+	private void stop(){
 		mediaPlayer.stop();
-		mediaPlayer.reset();
 	}
 
+	public int getDuration() {
+		if(mediaPlayer!=null){
+			return  mediaPlayer.getDuration();
+		}
+		return 0;
+	}
 	public int getCurrentPosition() {
-		return mediaPlayer.getCurrentPosition();
+		if(mediaPlayer!=null){
+			return  mediaPlayer.getCurrentPosition();
+		}
+		return 0;
 	}
 
 	public void switchTracks() {
 		mediaPlayer.seekTo(0);
 		mediaPlayer.pause();
-	}
-	public void reset(){
-		mediaPlayer.reset();
 	}
 
 	public void pause() {

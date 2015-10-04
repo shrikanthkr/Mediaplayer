@@ -141,8 +141,8 @@ public class SeekBar extends View {
 	}
 
 	public void callfromTimerTask(int sec, int totalSeconds) {
-		Log.i("SEC", sec + "");
-		Log.i("total", totalSeconds + "");
+/*		Log.i("SEC", sec + "");
+		Log.i("total", totalSeconds + "");*/
 		float ratiopersec = (float) ((2 * Math.PI * radius) / totalSeconds);
 		float arc_length = sec * ratiopersec;
 		float radian = arc_length / radius;

@@ -164,12 +164,13 @@
                 android:background="@drawable/edit_button_custom" />
 
             <TextView
+                android:id="@+id/count_label"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="90"
                 android:gravity="center"
                 android:src="@drawable/edit"
-                android:text="Now Playing Queue"
+                android:text="Queue"
                 android:textColor="#ffffff" />
 
             <ImageButton

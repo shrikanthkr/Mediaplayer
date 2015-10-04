@@ -154,8 +154,8 @@ public class SongsManager {
 	MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
 		@Override
 		public void onCompletion(MediaPlayer mediaPlayer) {
-			Log.i("MEDIA","********"+mediaPlayer.isPlaying());
-			if(listener!=null) listener.onSongCompleted();
+			int difference =  (music.getDuration() - music.getCurrentPosition())/1000;
+			if(listener!=null && difference < 2) listener.onSongCompleted();
 		}
 	};
 
