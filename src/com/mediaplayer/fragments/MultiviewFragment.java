@@ -8,12 +8,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.SearchView;
-
-import com.mediaplayer.adapter.CommonListAdapter;
 import com.mediaplayer.adapter.GridAdapter;
-import com.mediaplayer.adapter.SongsListAdapter;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
@@ -34,6 +30,7 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.multiview_layout_fragment,container,false);
         gridview = (GridView)v.findViewById(R.id.gridview);
+        adapter = new GridAdapter(getActivity(), list, gridview);
         gridview.setAdapter(adapter);
         return v;
     }
@@ -42,7 +39,6 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setData();
-        adapter = new GridAdapter(getActivity(), list, gridview);
     }
 
     public abstract void setData();

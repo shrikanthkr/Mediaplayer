@@ -105,8 +105,13 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     SongsManager.getInstance().appendSongs(songList);
                     break;
             }
-            SongsManager.getInstance().playSelectedSong(songInfo);
+            if(songInfo!=null){
+                SongsManager.getInstance().playSelectedSong(songInfo);
+            }else{
+                updateNowPlayingListUI();
+            }
             playSong();
+
         }
     };
 

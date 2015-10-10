@@ -2,40 +2,44 @@ package com.mediaplayer.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.listener.PlaylistChangedListener;
+import com.mediaplayer.manager.BroadcastManager;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class GridAdapter extends BaseAdapter {
+public class GridAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
 
 	private Activity activity;
 	ArrayList<ArrayList<SongInfo>> song_all_array;
 	private LayoutInflater inflater = null;
 	GridView gv;
 	ViewHolder holder;
-	PlaylistChangedListener playlistChangedListener;
 
-	public GridAdapter(Activity activity,
-								  ArrayList<ArrayList<SongInfo>> song_array, GridView gv) {
+	public GridAdapter(Activity activity, ArrayList<ArrayList<SongInfo>> song_array, GridView gv) {
 		super();
 		this.activity = activity;
 		this.song_all_array = song_array;
-		inflater = (LayoutInflater) activity
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.gv = gv;
-		this.playlistChangedListener = playlistChangedListener;
+		this.gv.setOnItemClickListener(this);
 	}
 
 	public void addAll(ArrayList<ArrayList<SongInfo>> song_array){
@@ -59,6 +63,18 @@ public class GridAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return position;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+		LinkedList<SongInfo> serailaLisedArray = new LinkedList<SongInfo>(song_all_array.get(i));
+		Intent playSong = new Intent(BroadcastManager.APPEND_LIST);
+
+		Bundle b= new Bundle();
+		b.putSerializable(BroadcastManager.LIST_KEY,serailaLisedArray);
+		playSong.putExtras(b);
+		LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
+		Toast.makeText(activity,"Added to Queue", Toast.LENGTH_LONG).show();
 	}
 
 	public class ViewHolder {
