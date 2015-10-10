@@ -192,7 +192,7 @@
             android:cacheColorHint="@android:color/transparent" />
 
         <ImageButton
-            android:id="@+id/more_imageButton"
+            android:id="@+id/identify_imageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
@@ -204,7 +204,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignLeft="@+id/seekbar_layout_bg"
-            android:layout_alignTop="@+id/more_imageButton"
+            android:layout_alignTop="@+id/identify_imageButton"
             android:adjustViewBounds="true"
             android:background="@drawable/repeat_button_custom" />
 
@@ -212,7 +212,7 @@
             android:id="@+id/shuffle_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignTop="@+id/more_imageButton"
+            android:layout_alignTop="@+id/identify_imageButton"
             android:layout_toLeftOf="@+id/nextbutton"
             android:background="@drawable/shuffle_button_custom" />
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.devsmart.android.StringUtils;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.utility.ThumbnailLoader;
@@ -30,6 +32,9 @@ public class SongsListAdapter extends BaseAdapter {
 	String searchString = "";
 	DecimalFormat format;
 	int min, sec, total;
+	final static int SECTION = 2;
+	final static int NORMAL = 1;
+	int[] rowStates;
 
 	public SongsListAdapter(Activity activity2, ArrayList<SongInfo> song_array,
 							ListView lv) {
@@ -40,9 +45,8 @@ public class SongsListAdapter extends BaseAdapter {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		this.lv = lv;
-		//Log.i("READLIST ADAPTER", "CONSTRUCTOR CREATED");
 		format = new DecimalFormat("#.00");
-
+		rowStates = new int[getCount()];
 	}
 
 	public ArrayList<SongInfo> getUrlList() {
@@ -93,67 +97,62 @@ public class SongsListAdapter extends BaseAdapter {
 		public TextView title;
 		public TextView duration;
 		public TextView album;
-		public TextView artist;
-		public ImageView image;
-		public TextView header;
-		int pos;
+		public TextView section_headerview;
 	}
 
 	public View getView(final int arg0, View vi, ViewGroup arg2) {
 		ViewHolder holder;
+		boolean showSeparator = false;
 
 		if (vi == null) {
 
 			holder = new ViewHolder();
 			vi = inflater.inflate(R.layout.songlist_item, null);
-			holder.header = (TextView) vi
-					.findViewById(R.id.label_header_textview);
 			holder.title = (TextView) vi.findViewById(R.id.song_textView);
-			holder.image = (ImageView) vi.findViewById(R.id.songlist_imageView);
 			holder.album = (TextView) vi.findViewById(R.id.song_album_textView);
-			holder.artist = (TextView) vi
-					.findViewById(R.id.song_artist_textView);
-			holder.duration = (TextView) vi
-					.findViewById(R.id.song_duration_textView);
-			holder.pos = arg0;
+			holder.duration = (TextView) vi.findViewById(R.id.song_duration_textView);
+			holder.section_headerview = (TextView) vi.findViewById(R.id.section_headerview);
 			vi.setTag(holder);
 		} else {
 			holder = (ViewHolder) vi.getTag();
 		}
-
 			holder.title.setText(song_array.get(arg0).getTitle());
-
 			total = Integer.parseInt(song_array.get(arg0).getDuration()) / 1000;
 			min = total / 60;
 			sec = total % 60;
 			holder.duration.setText(min + ":" + sec);
-			holder.album.setText( song_array.get(arg0).getAlbum());
-			holder.artist.setText(song_array.get(arg0).getArtist());
-			new ThumbnailLoader(activity,song_array.get(arg0).getAlbum_id(),holder.image).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			/*if (song_array.get(arg0).getTitle().trim().toUpperCase(Locale.US)
-					.charAt(0) != song_array.get(arg0 - 1).getTitle().trim()
-					.toUpperCase(Locale.US).charAt(0)) {
-				holder.header.setVisibility(View.VISIBLE);
-				setSection(holder.header, song_array.get(arg0).getTitle());
-			} else {
-				holder.header.setVisibility(View.GONE);
-
+			holder.album.setText(song_array.get(arg0).getAlbum());
+			switch (rowStates[arg0]){
+				case SECTION:
+					showSeparator = true;
+					break;
+				case NORMAL:
+					showSeparator = false;
+					break;
+				default:
+					if (arg0 == 0) {
+						showSeparator = true;
+						rowStates[arg0] = SECTION;
+					}else {
+						char previousName = Character.toLowerCase(song_array.get(arg0 - 1).getTitle().toCharArray()[0] );
+						char currentName = Character.toLowerCase(song_array.get(arg0).getTitle().toCharArray()[0] );
+						if (previousName != currentName) {
+							showSeparator = true;
+							rowStates[arg0] = SECTION;
+						} else {
+							showSeparator = false;
+							rowStates[arg0] = NORMAL;
+						}
+					}
+					break;
 			}
-
-
-			if (song_array.get(arg0).getData()
-					.equals(StaticMusic.songInfo.getData())) {
-				holder.title.setTextColor(Color.parseColor("#32b3e6"));
-				holder.title.setSelected(true);
-				holder.title.setEllipsize(TruncateAt.MARQUEE);
-				holder.title.setSingleLine(true);
-				holder.title.setMarqueeRepeatLimit(-1);
-
-			}
-			else{
-				holder.title.setTextColor(Color.parseColor("#ffffff"));
-				holder.title.setEllipsize(TruncateAt.END);
-			}*/
+		if (showSeparator) {
+			holder.section_headerview.setText( Character.toUpperCase(song_array.get(arg0).getTitle().toCharArray()[0]) +"" );
+			holder.section_headerview.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.section_headerview.setVisibility(View.GONE);
+		}
 		return vi;
 	}
 

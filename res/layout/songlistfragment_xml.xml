@@ -3,8 +3,7 @@
     android:id="@+id/songlist_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".SplashActivity" >
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/body_layout"
@@ -17,11 +16,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/texture"
-            android:divider="@drawable/lines"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:scrollingCache="false" >
+            android:padding="10dp"
+            android:background="@android:color/white">
         </ListView>
 
     </RelativeLayout>
