@@ -12,16 +12,15 @@
         android:layout_height="fill_parent"
         android:layout_weight="8" >
 
-        <ListView
-            android:id="@+id/listView"
+        <GridView
+            android:id="@+id/gridview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:divider="@drawable/lines"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:scrollingCache="false" >
-        </ListView>
+        </GridView>
 
     </RelativeLayout>
 

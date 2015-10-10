@@ -1,11 +1,8 @@
 package com.mediaplayer.adapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.devsmart.android.ui.HorizontalListView;
-import com.mediaplayer.adapter.HorizontalAdapter.ViewHolder;
-import com.mediaplayer.com.ListEditorDialog;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
@@ -13,22 +10,14 @@ import com.mediaplayer.listener.PlaylistChangedListener;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CommonListAdapter extends BaseAdapter {
 
@@ -99,7 +88,7 @@ public class CommonListAdapter extends BaseAdapter {
 					.findViewById(R.id.playlist_adapter_edit_button);
 			holder.listview = (HorizontalListView) vi
 					.findViewById(R.id.horizontal_listview);
-			if (SWITCH_VIEW == PLAYLIST_VIEW) {
+			if (SWITCH_VIEW == PLAYLIST_VIEW) /*{
 				holder.edit.setOnClickListener(new View.OnClickListener() {
 
 					@Override
@@ -126,10 +115,10 @@ public class CommonListAdapter extends BaseAdapter {
 												.getCursorPositions();
 										database.deletePlaylist(song_all_array
 												.get(pos).get(0).getPlaylist());
-										
+
 										for (int x = 0; x < cursor_positions
 												.size(); x++) {
-											
+
 											database.addToPlaylist(
 													song_all_array
 															.get(pos)
@@ -149,9 +138,9 @@ public class CommonListAdapter extends BaseAdapter {
 
 					}
 				});
-			} else {
+			}else {
 				holder.edit.setVisibility(View.INVISIBLE);
-			}
+			}*/
 			vi.setTag(holder);
 		} else {
 			holder = (ViewHolder) vi.getTag();

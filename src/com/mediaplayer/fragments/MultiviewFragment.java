@@ -7,10 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.mediaplayer.adapter.CommonListAdapter;
+import com.mediaplayer.adapter.GridAdapter;
 import com.mediaplayer.adapter.SongsListAdapter;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
@@ -22,8 +24,8 @@ import java.util.ArrayList;
  * Created by shrikanth on 10/2/15.
  */
 public abstract class MultiviewFragment extends MediaFragment implements SearchView.OnQueryTextListener{
-    CommonListAdapter adapter;
-    ListView listview;
+    GridAdapter adapter;
+    GridView gridview;
     SongInfoDatabase database;
     ArrayList<ArrayList<SongInfo>> list;
     SearchView searchView;
@@ -31,8 +33,8 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.multiview_layout_fragment,container,false);
-        listview = (ListView)v.findViewById(R.id.listView);
-        listview.setAdapter(adapter);
+        gridview = (GridView)v.findViewById(R.id.gridview);
+        gridview.setAdapter(adapter);
         return v;
     }
 
@@ -40,7 +42,7 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setData();
-        adapter = new CommonListAdapter(getActivity(), list, listview, 1, null);
+        adapter = new GridAdapter(getActivity(), list, gridview);
     }
 
     public abstract void setData();
