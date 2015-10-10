@@ -29,7 +29,7 @@ public class PlayerTimerTask  extends Timer {
 
     public void execute(){
         myTask = new MyTask();
-        this.scheduleAtFixedRate(myTask, 0, 1000);
+        this.scheduleAtFixedRate(myTask, 0, 200);
     }
 
     public void cancel(){

@@ -62,7 +62,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     TextView  count_label, artist_header, songname_header, duration_header;
     SeekBar seekbar;
     SeekbarTouchHandler seekbarTouochHandler;
-    LinearLayout seekbar_layout, mainLayout, seekbar_layout_grey_bg;
+    LinearLayout seekbar_layout, mainLayout;
     ViewTreeObserver vto;
     PlayerTimerTask playerTimer;
     View playerView;
@@ -79,7 +79,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          super.onCreateView(inflater, container, savedInstanceState);
         playerView = inflater.inflate(R.layout.nowplaying_xml,container,false);
-        maxBottom =  dm.heightPixels - 70 * dm.density;
+        maxBottom =  dm.heightPixels - 80 * dm.density;
         totalTranslation =maxBottom;
         playerView.setTranslationY(totalTranslation);
         slideHandler = new SlideHandler(getActivity());
@@ -123,7 +123,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         prevButton = (ImageButton)view.findViewById(R.id.previous_button);
         nowplaying_horizontal = (HorizontalListView) view.findViewById(R.id.nowplaying_horizontal);
         seekbar_layout = (LinearLayout) view.findViewById(R.id.seekbar_layout);
-        seekbar_layout_grey_bg = (LinearLayout) view.findViewById(R.id.seekbar_layout_grey_bg);
         measure_view = (ImageView) view.findViewById(R.id.seek_measure_imageView);
         mainLayout = (LinearLayout) view.findViewById(R.id.nowplaying_id);
         count_label = (TextView)view.findViewById(R.id.count_label);
@@ -213,8 +212,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             seekbar.setCenter_x(pos_x);
             seekbar.setCenter_y(pos_y);
             seekbar.setRadius((float) ((Math.min(
-                    seekbar_layout_grey_bg.getWidth(),
-                    seekbar_layout_grey_bg.getHeight()) / 2) + .5));
+                    seekbar_layout.getWidth() - 15,
+                    seekbar_layout.getHeight()) / 2) + .5) - 15);
             seekbar.setXY(pos_x, pos_y);
             //Log.i("Radius", seekbar.radius + "");
            /* artist_header.setText(songInfo.getArtist());

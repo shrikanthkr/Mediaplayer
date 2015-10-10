@@ -27,7 +27,7 @@ public class SlideHandler implements View.OnTouchListener{
 		this.context = context;
 		dm =context.getResources().getDisplayMetrics();
 		density = dm.density;
-		maxBottom =  dm.heightPixels - 70 * density;
+		maxBottom =  dm.heightPixels -80 * density;
 		maxTop = 0;
 		totalTranslation = maxBottom;
 	}

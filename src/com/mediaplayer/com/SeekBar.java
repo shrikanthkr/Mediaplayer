@@ -68,7 +68,7 @@ public class SeekBar extends View {
 		paint.setAntiAlias(true);
 		paint.setStrokeCap(Paint.Cap.ROUND);
 		paint.setStyle(Paint.Style.STROKE);
-		paint.setARGB(255, 50, 179, 230);
+		paint.setColor(getResources().getColor(R.color.base) );
 		paint.setAlpha(255);
 
 	}
