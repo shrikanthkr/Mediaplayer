@@ -3,25 +3,18 @@
     android:id="@+id/songlist_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".SplashActivity" >
-
-    <RelativeLayout
-        android:id="@+id/body_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="8" >
-
+    android:background="@android:color/white"
+    android:orientation="vertical">
         <GridView
             android:id="@+id/gridview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:scrollingCache="false" >
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:horizontalSpacing="1dp"
+            android:verticalSpacing="5dp"
+            android:background="@android:color/white"
+            android:numColumns="2">
         </GridView>
-
-    </RelativeLayout>
 
 </LinearLayout>

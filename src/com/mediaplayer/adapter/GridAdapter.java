@@ -2,12 +2,14 @@ package com.mediaplayer.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mediaplayer.com.R;
@@ -61,7 +63,7 @@ public class GridAdapter extends BaseAdapter {
 
 	public class ViewHolder {
 		TextView name;
-		Button edit;
+		ImageView album;
 	}
 
 	@Override
@@ -69,18 +71,18 @@ public class GridAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		if (vi == null) {
 			holder = new ViewHolder();
-			vi = inflater.inflate(R.layout.horizontal_listitem_xml, null);
+			vi = inflater.inflate(R.layout.grid_listitem_xml, null);
 			holder.name = (TextView) vi
-					.findViewById(R.id.playlist_name_textView);
-			holder.edit = (Button) vi
-					.findViewById(R.id.playlist_adapter_edit_button);
+					.findViewById(R.id.song_name);
+			holder.album = (ImageView) vi
+					.findViewById(R.id.album_imageView);
 			vi.setTag(holder);
 		} else {
 			holder = (ViewHolder) vi.getTag();
 		}
 
 		holder.name.setText(song_all_array.get(position).get(0).getPlaylist());
-		holder.name.setBackgroundResource(R.drawable.blue_strip);
+
 		return vi;
 	}
 	
