@@ -215,18 +215,9 @@
             android:id="@+id/playPauseView"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@android:color/holo_green_dark"
             android:layout_centerInParent="true"
             />
 
-
-        <ImageView
-            android:id="@+id/pausebutton_imageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            android:background="@drawable/pause" />
 
         <ImageView
             android:id="@+id/seek_measure_imageView"

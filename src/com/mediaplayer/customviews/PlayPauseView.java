@@ -13,30 +13,34 @@ import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
+import com.mediaplayer.com.R;
+
 
 /**
  * Created by shrikanth on 10/6/15.
  */
-public class PlayPauseView extends View implements View.OnClickListener{
+public class PlayPauseView extends View {
     Paint paint = new Paint();
     int  centerX, centerY;
     float angle;
     Line one,two;
     int adjustment = 10;
 
-    enum ROTATESTATE {
-        NORMAL, ROTATE
+    public enum ROTATESTATE {
+        PLAYING, PAUSED, UNKNOWN
     };
-    ROTATESTATE currentState = ROTATESTATE.NORMAL;
-
+    ROTATESTATE  currentState = ROTATESTATE.UNKNOWN;
     public PlayPauseView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint.setColor(Color.BLACK);
+        setPaintAtttrubutes();
+        initPositions(0,0);
+    }
+
+    private void setPaintAtttrubutes(){
+        paint.setColor(getResources().getColor(R.color.base));
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
-        paint.setStrokeCap(Paint.Cap.ROUND) ;
-        initPositions(0,0);
-        this.setOnClickListener(this);
+        paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     @Override
@@ -77,20 +81,24 @@ public class PlayPauseView extends View implements View.OnClickListener{
     }
 
 
-    @Override
-    public void onClick(View v) {
 
+    public void togglePlayPauseButton(ROTATESTATE  currentState) {
+        if(currentState == this.currentState) return;
+
+        this.currentState = currentState;
         switch (currentState){
-            case NORMAL:
-                moveLine(ROTATESTATE.ROTATE);
+            case PAUSED:
+                moveLine(ROTATESTATE.PAUSED);
                 invalidate();
-                currentState =ROTATESTATE.ROTATE;
+                currentState =ROTATESTATE.PAUSED;
                 break;
-            case ROTATE:
-                moveLine(ROTATESTATE.NORMAL);
+            case PLAYING:
+                moveLine(ROTATESTATE.PLAYING);
                 invalidate();
-                currentState = ROTATESTATE.NORMAL;
+                currentState = ROTATESTATE.PLAYING;
                 break;
+            default: break;
+
 
         }
 
@@ -103,7 +111,7 @@ public class PlayPauseView extends View implements View.OnClickListener{
         float angleState;
         Handler handler;
         handler = new Handler();
-        if (state == ROTATESTATE.NORMAL) {
+        if (state == ROTATESTATE.PLAYING) {
             one.toX = one.iniX;
             two.toX = two.iniX;
             angleState = -1;

@@ -135,6 +135,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
         identifyButton.setOnClickListener(buttonListener);
+        playPauseView.setOnClickListener(buttonListener);
         setupSeekbar();
     }
 
@@ -151,10 +152,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             int id = view.getId();
             switch(id){
                 case R.id.playPauseView:
-                    playSong();
-                    break;
-                case R.id.pausebutton_imageView:
-                    pauseSong();
+                    playPauseSong();
                     break;
                 case R.id.nextbutton:
                     playNextSong();
@@ -228,6 +226,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             }
             resetState();
             seekbar.setVisibility(View.INVISIBLE);
+
         }
     };
 
@@ -255,6 +254,11 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         if(info!=null){
                 onSongStarted(info);
             updateNowPlayingListUI();
+        }
+        if(SongsManager.getInstance().isPlaying()){
+            playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
+        }else{
+            playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
         }
     }
 
@@ -285,13 +289,23 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         updateSongInfo();
     }
 
+    private void pauseSong(){
+        SongsManager.getInstance().pause();
+        playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
+        playerTimer.setIsPlaying(false);
+    }
+
     private void playSong(){
+        playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
         SongsManager.getInstance().resume();
     }
 
-    private void pauseSong(){
-        SongsManager.getInstance().pause();
-        playerTimer.setIsPlaying(false);
+    private void playPauseSong(){
+        if( SongsManager.getInstance().isPlaying()){
+                pauseSong();
+        }else{
+                playSong();
+        }
     }
 
     private void playNextSong(){
