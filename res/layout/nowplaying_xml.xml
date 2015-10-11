@@ -120,7 +120,7 @@
             android:id="@+id/previous_button"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_alignTop="@+id/playbutton_imageView"
+            android:layout_alignTop="@+id/playPauseView"
             android:layout_toLeftOf="@+id/seekbar_layout"
             android:background="@drawable/previous_button_custom" />
 
@@ -128,7 +128,7 @@
             android:id="@+id/nextbutton"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_alignTop="@+id/playbutton_imageView"
+            android:layout_alignTop="@+id/playPauseView"
             android:layout_toRightOf="@+id/seekbar_layout"
             android:background="@drawable/next_button_custom" />
 
@@ -211,12 +211,13 @@
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <ImageView
-            android:id="@+id/playbutton_imageView"
+        <com.mediaplayer.customviews.PlayPauseView
+            android:id="@+id/playPauseView"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:background="@android:color/holo_green_dark"
             android:layout_centerInParent="true"
-            android:background="@drawable/play" />
+            />
 
 
         <ImageView

@@ -37,6 +37,7 @@ import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
+import com.mediaplayer.customviews.PlayPauseView;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
@@ -55,8 +56,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     DisplayMetrics dm;
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
-    ImageView playbutton_imageview, pausebutton_imageview, measure_view;
-
+    ImageView  measure_view;
+    PlayPauseView playPauseView;
     ImageButton nextButton, prevButton, identifyButton;
     HorizontalListView nowplaying_horizontal;
     TextView  count_label, artist_header, songname_header, duration_header;
@@ -117,8 +118,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
 
     public void setViewIds(View view) {
-        playbutton_imageview = (ImageView)view.findViewById(R.id.playbutton_imageView);
-        pausebutton_imageview =  (ImageView)view.findViewById(R.id.pausebutton_imageView);
+        playPauseView = (PlayPauseView)view.findViewById(R.id.playPauseView);
         nextButton = (ImageButton)view.findViewById(R.id.nextbutton);
         prevButton = (ImageButton)view.findViewById(R.id.previous_button);
         nowplaying_horizontal = (HorizontalListView) view.findViewById(R.id.nowplaying_horizontal);
@@ -132,8 +132,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         identifyButton = (ImageButton)view.findViewById(R.id.identify_imageButton);
         seekbar = (SeekBar)view.findViewById(R.id.seekbar);
 
-        playbutton_imageview.setOnClickListener(buttonListener);
-        pausebutton_imageview.setOnClickListener(buttonListener);
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
         identifyButton.setOnClickListener(buttonListener);
@@ -152,7 +150,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         public void onClick(View view) {
             int id = view.getId();
             switch(id){
-                case R.id.playbutton_imageView:
+                case R.id.playPauseView:
                     playSong();
                     break;
                 case R.id.pausebutton_imageView:
@@ -288,14 +286,10 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     }
 
     private void playSong(){
-        playbutton_imageview.setVisibility(View.INVISIBLE);
-        pausebutton_imageview.setVisibility(View.VISIBLE);
         SongsManager.getInstance().resume();
     }
 
     private void pauseSong(){
-        playbutton_imageview.setVisibility(View.VISIBLE);
-        pausebutton_imageview.setVisibility(View.GONE);
         SongsManager.getInstance().pause();
         playerTimer.setIsPlaying(false);
     }
