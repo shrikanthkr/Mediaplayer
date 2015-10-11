@@ -126,16 +126,22 @@ public class SongInfoDatabase {
 		cursor = ourDatabase.rawQuery(query, null);
 		return cursor;
 	}
-
-	public ArrayList<SongInfo> getFullList() {
-
-		ArrayList<SongInfo> songInfo;
-		songInfo = new ArrayList<SongInfo>();
-		SongInfo item = new SongInfo();
-		String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0 AND LOWER("
+	private  Cursor getMediaStoreCursor(){
+		return getMediaStoreCursor("","");
+	}
+	private Cursor getMediaStoreCursor(String additional, String limit){
+		StringBuilder selection = new StringBuilder();
+		selection.append(MediaStore.Audio.Media.IS_MUSIC + " != 0 AND LOWER("
 				+ MediaStore.Audio.Media.DISPLAY_NAME
-				+ ") NOT LIKE  LOWER('%.wma') ";
-		String sortOrder = "UPPER(" + MediaStore.Audio.Media.TITLE + ")";
+				+ ") NOT LIKE  LOWER('%.wma') ");
+		if(additional!=null && additional.length() > 0){
+			selection.append("AND " + additional);
+		}
+
+		String sortOrder = "LOWER(" + MediaStore.Audio.Media.TITLE + ")" ;
+		if(limit!=null && limit.length()>0){
+			sortOrder = sortOrder  + ("LIMIT " + limit);
+		}
 		String[] projection = { MediaStore.Audio.Media._ID,
 				MediaStore.Audio.Media.ARTIST,
 				MediaStore.Audio.Media.ALBUM,
@@ -144,21 +150,19 @@ public class SongInfoDatabase {
 				MediaStore.Audio.Media.DISPLAY_NAME,
 				MediaStore.Audio.Media.DURATION,
 				MediaStore.Audio.Media.ALBUM_ID, };
-
 		Cursor c =  ourContext.getContentResolver().query(
 				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
-				selection, null, sortOrder);
+				selection.toString(), null, sortOrder);
+		return c;
+	}
+
+	public ArrayList<SongInfo> getFullList() {
+		ArrayList<SongInfo> songInfo;
+		songInfo = new ArrayList<>();
+		SongInfo item;
+		Cursor c = getMediaStoreCursor();
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			item = new SongInfo();
-			item.setAlbum(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
-			item.setAlbum_art(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
-			item.setAlbum_id(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
-			item.setArtist(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
-			item.setData(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA)));
-			item.setDisplayName(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
-			item.setDuration(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DURATION)));
-			item.setId(c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID)));
-			item.setTitle(c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+			item = new SongInfo(c);
 			songInfo.add(item);
 		}
 		c.close();
@@ -167,65 +171,28 @@ public class SongInfoDatabase {
 
 	public SongInfo getNextSong(SongInfo cur_songInfo) {
 		SongInfo songInfo = new SongInfo();
-		/*
-		 * String query="SELECT * FROM " + DATABASE_TABLE + " WHERE "+ KEY_ROWID
-		 * + " = (SELECT MIN("+KEY_ROWID+") FROM " + DATABASE_TABLE +" WHERE " +
-		 * KEY_ROWID
-		 * +" > "+"(SELECT "+KEY_ROWID+" FROM "+DATABASE_TABLE+" WHERE "
-		 * +KEY_DATA+" = '"+cur_songInfo.getData()+"') ) ;";
-		 */
-
-		String query = "SELECT * FROM " + DATABASE_TABLE + " WHERE LOWER("
-				+ KEY_TITLE + ") > '"
+		String selection = "LOWER("
+				+ MediaStore.Audio.Media.DISPLAY_NAME
+				+ ") NOT LIKE  LOWER('%.wma')  "
+				+ "AND LOWER("
+				+  MediaStore.Audio.Media.TITLE + ") > '"
 				+ cur_songInfo.getTitle().replace("'", "''").toLowerCase()
-				+ "' ORDER BY LOWER(" + KEY_TITLE + ") LIMIT 1;";
+				+ "'";
 
-		try {
-			Cursor c = ourDatabase.rawQuery(query, null);
+			Cursor c = getMediaStoreCursor(selection,"1");
 			//Log.i("QUERY", query);
 			if (c.getCount() > 0) {
 				for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-					songInfo.setAlbum(c.getString(c.getColumnIndex(KEY_ALBUM)));
-					songInfo.setAlbum_art(c.getString(c
-							.getColumnIndex(KEY_ALBUMART)));
-					songInfo.setAlbum_id(c.getString(c
-							.getColumnIndex(KEY_ALBUMID)));
-					songInfo.setArtist(c.getString(c.getColumnIndex(KEY_ARTIST)));
-					songInfo.setData(c.getString(c.getColumnIndex(KEY_DATA)));
-					songInfo.setDisplayName(c.getString(c
-							.getColumnIndex(KEY_DISPLAYNAME)));
-					songInfo.setDuration(c.getString(c
-							.getColumnIndex(KEY_DURATION)));
-					songInfo.setId(c.getString(c.getColumnIndex(KEY_ID)));
-					songInfo.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
+					songInfo = new SongInfo(c);
 				}
-				c.close();
 			} else {
-				query = "SELECT * FROM " + DATABASE_TABLE + " ORDER BY LOWER("
-						+ KEY_TITLE + ") LIMIT 1;";
-				//Log.i("QUERY", query);
-				c = ourDatabase.rawQuery(query, null);
+				selection = "";
+				c = getMediaStoreCursor(selection,"1");
 				for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-					songInfo.setAlbum(c.getString(c.getColumnIndex(KEY_ALBUM)));
-					songInfo.setAlbum_art(c.getString(c
-							.getColumnIndex(KEY_ALBUMART)));
-					songInfo.setAlbum_id(c.getString(c
-							.getColumnIndex(KEY_ALBUMID)));
-					songInfo.setArtist(c.getString(c.getColumnIndex(KEY_ARTIST)));
-					songInfo.setData(c.getString(c.getColumnIndex(KEY_DATA)));
-					songInfo.setDisplayName(c.getString(c
-							.getColumnIndex(KEY_DISPLAYNAME)));
-					songInfo.setDuration(c.getString(c
-							.getColumnIndex(KEY_DURATION)));
-					songInfo.setId(c.getString(c.getColumnIndex(KEY_ID)));
-					songInfo.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
+					songInfo = new SongInfo(c);
 				}
-				c.close();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		c.close();
 		return songInfo;
 	}
 

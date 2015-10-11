@@ -1,7 +1,9 @@
 package com.mediaplayer.com;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 
 import java.io.Serializable;
 
@@ -46,16 +48,18 @@ public class SongInfo  implements Serializable{
 		this.album_art = album_art;
 	}
 
-	public SongInfo(String title, String artist, String album, String id,
-			String displayName, String data, String duration) {
+	public SongInfo(Cursor c) {
 		super();
-		this.title = title;
-		this.artist = artist;
-		this.album = album;
-		this.id = id;
-		this.displayName = displayName;
-		this.data = data;
-		this.duration = duration;
+		this.setAlbum(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
+		this.setAlbum_art(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
+		this.setAlbum_id(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
+		this.setArtist(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+		this.setData(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA)));
+		this.setDisplayName(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
+		this.setDuration(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DURATION)));
+		this.setId(c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID)));
+		this.setTitle(c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+
 	}
 
 	public String getTitle() {
