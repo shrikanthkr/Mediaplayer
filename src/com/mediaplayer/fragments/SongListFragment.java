@@ -52,16 +52,6 @@ OnGestureListener, SearchView.OnQueryTextListener {
 	SongInfoDatabase database;
 	Activity activity;
 	Util util;
-	ArrayList<ArrayList<SongInfo>> all_playlists;
-	CommonListAdapter common_list_adapter;
-	final int SONG_VIEW = 0;
-	final int ARTIST_VIEW = 1;
-	final int PLAYLIST_VIEW = 2;
-	final int ALBUMS_VIEW = 3;
-	static int SWITCH_VIEW = 0;
-	DatabaseUpdateThread databaseUpdateThread;
-	Cursor cursor;
-	PlaylistChangedListener playlistChangedListener;
 
 	@Override
 	public void onResume() {
@@ -75,7 +65,7 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		util = new Util();
-		songList = new ArrayList<SongInfo>();
+		songList = new ArrayList<>();
 		context = getActivity();
 		activity = getActivity();
 		database = new SongInfoDatabase(context);
@@ -91,7 +81,6 @@ OnGestureListener, SearchView.OnQueryTextListener {
 	}
 
 	public void populateSonglist() {
-		SWITCH_VIEW = SONG_VIEW;
 		database.open();
 		songList = database.getFullList();
 		database.close();
@@ -108,11 +97,6 @@ OnGestureListener, SearchView.OnQueryTextListener {
 				return false;
 			}
 		});
-	}
-	private void removeGestureListener() {
-		// TODO Auto-generated method stub
-		lv.setOnTouchListener(null);
-
 	}
 
 	@Override
@@ -149,18 +133,15 @@ OnGestureListener, SearchView.OnQueryTextListener {
 
 	@Override
 	public void onShowPress(MotionEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e1) {
-		// TODO Auto-generated method stub
-		SongInfo songInfo = new SongInfo();
-		int id = lv.pointToPosition((int) e1.getX(), (int) e1.getY());
-		String path = songList.get(id).getData();
-		long duration = Long.parseLong(songList.get(id).getDuration());
-		//Log.i("SONG LIST FRAGMENT", songList.get(id).getTitle());
 
+
+		int id = lv.pointToPosition((int) e1.getX(), (int) e1.getY());
+
+		SongInfo songInfo = new SongInfo();
 		songInfo.setAlbum(songList.get(id).getAlbum());
 		songInfo.setAlbum_art(songList.get(id).getAlbum_art());
 		songInfo.setAlbum_id(songList.get(id).getAlbum_id());
@@ -174,6 +155,7 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		Bundle b= new Bundle();
 		b.putSerializable(BroadcastManager.SONG_KEY, songInfo);
 		playSong.putExtras(b);
+
 		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
 		return true;
 	}

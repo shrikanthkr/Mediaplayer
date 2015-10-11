@@ -165,31 +165,6 @@ public class SongInfoDatabase {
 		return songInfo;
 	}
 
-	public ArrayList<String> getTitle() {
-		String[] column = { KEY_TITLE };
-		ArrayList<String> title;
-		title = new ArrayList<String>();
-		Cursor c = ourDatabase.query(DATABASE_TABLE, column, null, null, null,
-				null, null);
-		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			title.add(c.getString(c.getColumnIndex(KEY_TITLE)));
-		}
-		c.close();
-		return title;
-	}
-
-	public void beginTransaction() {
-		ourDatabase.beginTransaction();
-	}
-
-	public void endTransaction() {
-		ourDatabase.endTransaction();
-	}
-
-	public void delete() {
-		ourDatabase.delete(DATABASE_TABLE, null, null);
-	}
-
 	public SongInfo getNextSong(SongInfo cur_songInfo) {
 		SongInfo songInfo = new SongInfo();
 		/*

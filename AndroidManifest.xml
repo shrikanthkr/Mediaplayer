@@ -34,13 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name="com.mediaplayer.receiver.SDCardMountReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_SCANNER_FINISHED" />
-
-                <data android:scheme="file" />
-            </intent-filter>
-        </receiver>
         <receiver android:name="com.mediaplayer.receiver.CallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
