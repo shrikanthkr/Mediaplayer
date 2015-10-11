@@ -86,42 +86,6 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v = inflater.inflate(R.layout.songlistfragment_xml,container,false);
 		lv = (ListView) v.findViewById(R.id.listView);
-/*		search_edittext = (EditText) v.findViewById(R.id.search_edittext);
-		search_edittext.setVisibility(View.INVISIBLE);*/
-		//search_database_thread = new DatabaseThread();
-		/*search_edittext.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-									  int count) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-										  int after) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-
-				search_database_thread.setSearch(s.toString());
-				if (search_database_thread.isAlive()) {
-					search_database_thread.interrupt();
-				}
-				try {
-					search_database_thread.run();
-				} catch (Exception r) {
-					r.printStackTrace();
-					search_database_thread.start();
-				}
-
-			}
-		});*/
 		populateSonglist();
 		return v;
 	}
@@ -145,29 +109,6 @@ OnGestureListener, SearchView.OnQueryTextListener {
 			}
 		});
 	}
-
-
-	/*@Override
-	public void onClick(View arg0) {
-		switch (arg0.getId()) {
-		case R.id.song_search_button:
-
-			song_search_button.setVisibility(View.INVISIBLE);
-			search_edittext.setVisibility(View.VISIBLE);
-			search_edittext.requestFocus();
-			search_edittext.dispatchTouchEvent(MotionEvent.obtain(
-					SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-					MotionEvent.ACTION_DOWN, 0, 0, 0));
-			search_edittext.dispatchTouchEvent(MotionEvent.obtain(
-					SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
-					MotionEvent.ACTION_UP, 0, 0, 0));
-			break;
-		}
-
-	}*/
-
-
-
 	private void removeGestureListener() {
 		// TODO Auto-generated method stub
 		lv.setOnTouchListener(null);

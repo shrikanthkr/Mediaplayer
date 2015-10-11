@@ -118,16 +118,16 @@
 
         <ImageButton
             android:id="@+id/previous_button"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignTop="@+id/playPauseView"
             android:layout_toLeftOf="@+id/seekbar_layout"
             android:background="@drawable/previous_button_custom" />
 
         <ImageButton
             android:id="@+id/nextbutton"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignTop="@+id/playPauseView"
             android:layout_toRightOf="@+id/seekbar_layout"
             android:background="@drawable/next_button_custom" />
@@ -213,8 +213,8 @@
 
         <com.mediaplayer.customviews.PlayPauseView
             android:id="@+id/playPauseView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
             />
 

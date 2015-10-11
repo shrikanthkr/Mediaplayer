@@ -12,6 +12,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -131,20 +132,33 @@ public class SongInfoDatabase {
 		ArrayList<SongInfo> songInfo;
 		songInfo = new ArrayList<SongInfo>();
 		SongInfo item = new SongInfo();
-		String query = "SELECT * from " + DATABASE_TABLE + " ORDER BY UPPER("
-				+ KEY_TITLE + ");";
-		Cursor c = ourDatabase.rawQuery(query, null);
+		String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0 AND LOWER("
+				+ MediaStore.Audio.Media.DISPLAY_NAME
+				+ ") NOT LIKE  LOWER('%.wma') ";
+		String sortOrder = "UPPER(" + MediaStore.Audio.Media.TITLE + ")";
+		String[] projection = { MediaStore.Audio.Media._ID,
+				MediaStore.Audio.Media.ARTIST,
+				MediaStore.Audio.Media.ALBUM,
+				MediaStore.Audio.Media.TITLE,
+				MediaStore.Audio.Media.DATA,
+				MediaStore.Audio.Media.DISPLAY_NAME,
+				MediaStore.Audio.Media.DURATION,
+				MediaStore.Audio.Media.ALBUM_ID, };
+
+		Cursor c =  ourContext.getContentResolver().query(
+				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
+				selection, null, sortOrder);
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			item = new SongInfo();
-			item.setAlbum(c.getString(c.getColumnIndex(KEY_ALBUM)));
-			item.setAlbum_art(c.getString(c.getColumnIndex(KEY_ALBUMART)));
-			item.setAlbum_id(c.getString(c.getColumnIndex(KEY_ALBUMID)));
-			item.setArtist(c.getString(c.getColumnIndex(KEY_ARTIST)));
-			item.setData(c.getString(c.getColumnIndex(KEY_DATA)));
-			item.setDisplayName(c.getString(c.getColumnIndex(KEY_DISPLAYNAME)));
-			item.setDuration(c.getString(c.getColumnIndex(KEY_DURATION)));
-			item.setId(c.getString(c.getColumnIndex(KEY_ID)));
-			item.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
+			item.setAlbum(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
+			item.setAlbum_art(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
+			item.setAlbum_id(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
+			item.setArtist(c.getString(c.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+			item.setData(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA)));
+			item.setDisplayName(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
+			item.setDuration(c.getString(c.getColumnIndex(MediaStore.Audio.Media.DURATION)));
+			item.setId(c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID)));
+			item.setTitle(c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE)));
 			songInfo.add(item);
 		}
 		c.close();
