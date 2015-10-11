@@ -174,7 +174,7 @@
             android:layout_width="fill_parent"
             android:layout_height="80dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/footer_bg"
+            android:background="@drawable/header_bg"
             android:cacheColorHint="@android:color/transparent" />
 
         <ImageButton

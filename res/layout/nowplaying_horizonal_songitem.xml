@@ -22,8 +22,8 @@
             android:ellipsize="marquee"
             android:lines="1"
             android:text="Hello"
-            android:textColor="#ffffff"
-            android:textSize="13sp" >
+            android:textColor="@color/light_text_color"
+            android:textSize="12sp" >
         </TextView>
 
 </LinearLayout>
