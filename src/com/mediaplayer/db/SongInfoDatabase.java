@@ -354,23 +354,12 @@ public class SongInfoDatabase {
 
 	public ArrayList<SongInfo> searchSong_byName(String search) {
 		ArrayList<SongInfo> array_songInfo = new ArrayList<SongInfo>();
-		SongInfo songInfo = new SongInfo();
-		String query = "SELECT * FROM " + DATABASE_TABLE + " WHERE LOWER("
-				+ KEY_TITLE + ") LIKE LOWER('" + search + "%') ORDER BY UPPER("
-				+ KEY_TITLE + ") ;";
-		Cursor c = ourDatabase.rawQuery(query, null);
+		SongInfo songInfo;
+		String query = "LOWER("
+				+ KEY_TITLE + ") LIKE LOWER('" + search + "%') ";
+		Cursor c = getMediaStoreCursor(query,"");
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			songInfo = new SongInfo();
-			songInfo.setAlbum(c.getString(c.getColumnIndex(KEY_ALBUM)));
-			songInfo.setAlbum_art(c.getString(c.getColumnIndex(KEY_ALBUMART)));
-			songInfo.setAlbum_id(c.getString(c.getColumnIndex(KEY_ALBUMID)));
-			songInfo.setArtist(c.getString(c.getColumnIndex(KEY_ARTIST)));
-			songInfo.setData(c.getString(c.getColumnIndex(KEY_DATA)));
-			songInfo.setDisplayName(c.getString(c
-					.getColumnIndex(KEY_DISPLAYNAME)));
-			songInfo.setDuration(c.getString(c.getColumnIndex(KEY_DURATION)));
-			songInfo.setId(c.getString(c.getColumnIndex(KEY_ID)));
-			songInfo.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
+			songInfo = new SongInfo(c);
 			array_songInfo.add(songInfo);
 		}
 		c.close();
