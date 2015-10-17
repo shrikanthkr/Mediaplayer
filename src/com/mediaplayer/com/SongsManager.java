@@ -39,7 +39,7 @@ public class SongsManager {
 		@Override
 		public void onCompletion(MediaPlayer mediaPlayer) {
 			int difference =  (music.getDuration() - music.getCurrentPosition())/1000;
-			if(listener!=null && difference < 2) listener.onSongCompleted();
+			if(listener!=null && difference < 10) listener.onSongCompleted();
 		}
 	};
 	public void setListener(SongsListeners listener){

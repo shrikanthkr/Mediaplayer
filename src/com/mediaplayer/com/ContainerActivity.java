@@ -156,6 +156,7 @@ public class ContainerActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		MyApplication.activityPaused();
 	}
 
 	@Override
@@ -167,6 +168,7 @@ public class ContainerActivity extends Activity {
 		if(previousFragmentState!=currentFragmentState)
 			loadFragment(currentFragmentState);
 
+		MyApplication.activityResumed();
 	}
 	private void loadNowPLayingFragment(){
 		FragmentManager fragmentManager = getFragmentManager();

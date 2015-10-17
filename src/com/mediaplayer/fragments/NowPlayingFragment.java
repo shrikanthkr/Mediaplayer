@@ -32,6 +32,7 @@ import com.echonest.api.v4.EchoNestException;
 import com.echonest.api.v4.Track;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.com.Music;
+import com.mediaplayer.com.MyApplication;
 import com.mediaplayer.com.PlayerTimerTask;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
@@ -221,8 +222,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                 vto = mainLayout.getViewTreeObserver();
                 vto.removeGlobalOnLayoutListener(this);
             }
-            resetState();
             seekbar.setVisibility(View.INVISIBLE);
+            resetState();
+
 
         }
     };
@@ -237,7 +239,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     @Override
     public void onPause() {
         super.onPause();
-
     }
 
     @Override
@@ -245,10 +246,18 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         super.onResume();
     }
 
+    private void updateUI(){
+        if(!MyApplication.isActivityVisible()){
+            return;
+        }
+        updateNowPlayingListUI();
+        updateSongInfo();
+    }
+
     private void resetState() {
         SongInfo info  = SongsManager.getInstance().getCurrentSongInfo();
         boolean isPlaying = SongsManager.getInstance().isPlaying();
-        if(info!=null){
+        if(info!=null && MyApplication.isActivityVisible()){
                 onSongStarted(info);
             updateNowPlayingListUI();
         }
@@ -263,16 +272,22 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public void onSongStarted(SongInfo songInfo) {
         String durationS = songInfo.getDuration();
         int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
-        if(playerTimer!=null) playerTimer.cancel();
-        seekbar.setVisibility(View.VISIBLE);
-        playerTimer = new PlayerTimerTask(seekbar,duration,timerListener);
-        playerTimer.setIsPlaying(true);
-        playerTimer.execute();
-        seekbarTouochHandler.setDuration(duration);
-        seekbarTouochHandler.removeOnSeekListener();
-        seekbarTouochHandler.setOnSeekListener(this);
-        updateSongInfo();
-        playSong();
+        if(playerTimer!=null) {
+            playerTimer.cancel();
+            playerTimer.purge();
+        }
+        if(MyApplication.isActivityVisible()){
+            seekbar.setVisibility(View.VISIBLE);
+            playerTimer = new PlayerTimerTask(seekbar,duration,timerListener);
+            playerTimer.setIsPlaying(true);
+            playerTimer.execute();
+            seekbarTouochHandler.setDuration(duration);
+            seekbarTouochHandler.removeOnSeekListener();
+            seekbarTouochHandler.setOnSeekListener(this);
+            updateUI();
+            playSong();
+        }
+
     }
 
 
@@ -284,14 +299,13 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
     @Override
     public void onSongChanged(SongInfo info) {
-        updateNowPlayingListUI();
-        updateSongInfo();
+        updateUI();
     }
 
     @Override
     public void onSongAdded(SongInfo songInfo) {
         Toast.makeText(getActivity(),songInfo.getTitle() + " Added",Toast.LENGTH_LONG).show();
-        updateNowPlayingListUI();
+        updateUI();
         playSong();
     }
 
