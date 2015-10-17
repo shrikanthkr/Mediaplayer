@@ -183,7 +183,7 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:background="@drawable/share_button_custom" />
+            android:background="@drawable/find_button_custom" />
 
         <ImageButton
             android:id="@+id/repeat_button"
@@ -192,7 +192,7 @@
             android:layout_alignLeft="@+id/seekbar_layout"
             android:layout_alignTop="@+id/identify_imageButton"
             android:adjustViewBounds="true"
-            android:background="@android:drawable/ic_menu_day" />
+            android:background="@drawable/repeat_button_custom" />
 
         <ImageButton
             android:id="@+id/shuffle_button"

@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.mediaplayer.adapter.CommonListAdapter;
 import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
