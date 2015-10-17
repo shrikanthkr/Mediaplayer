@@ -112,7 +112,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             }else{
                 updateNowPlayingListUI();
             }
-            playSong();
+            if(SongsManager.getInstance().getSongsList().size() > 0)
+                playSong();
 
         }
     };

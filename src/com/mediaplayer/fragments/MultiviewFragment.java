@@ -1,5 +1,6 @@
 package com.mediaplayer.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     ArrayList<MetaInfo> list;
     SearchView searchView;
     AlbumArtLoader.Mode mode;
+    Activity activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -42,6 +44,7 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity  =getActivity();
         setData();
     }
 

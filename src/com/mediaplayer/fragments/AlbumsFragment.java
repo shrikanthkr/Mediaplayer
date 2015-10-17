@@ -28,8 +28,6 @@ import java.util.LinkedList;
  * Created by shrikanth on 10/2/15.
  */
 public class AlbumsFragment extends MultiviewFragment  implements AdapterView.OnItemClickListener{
-
-    Activity activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
@@ -41,7 +39,6 @@ public class AlbumsFragment extends MultiviewFragment  implements AdapterView.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = getActivity();
         mode = AlbumArtLoader.Mode.ALBUM;
     }
 

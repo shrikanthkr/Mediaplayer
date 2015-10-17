@@ -1,6 +1,7 @@
 package com.mediaplayer.db;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 
 import com.mediaplayer.com.MetaInfo;
@@ -217,7 +218,7 @@ public class SongInfoDatabase {
 	}
 
 	private Cursor getAlbumArtistCursor(String artistId){
-		return ourContext.getContentResolver().query(MediaStore.Audio.Artists.Albums.getContentUri("external", Long.parseLong(artistId) ),
+		return ourContext.getContentResolver().query(MediaStore.Audio.Artists.Albums.getContentUri("external", Long.parseLong(artistId)),
 				new String[]{
 						MediaStore.Audio.Artists._ID,
 						MediaStore.Audio.Albums.ALBUM_ID,
@@ -251,6 +252,75 @@ public class SongInfoDatabase {
 		songInfo_array = new ArrayList<>();
 		String query = MediaStore.Audio.Media.ARTIST_ID + " = '" + info.getId() + "'";
 		Cursor c1 = getMediaStoreCursor(query, null);
+		for (c1.moveToFirst(); !c1.isAfterLast(); c1.moveToNext()) {
+			item = new SongInfo(c1);
+			songInfo_array.add(item);
+		}
+		c1.close();
+		return songInfo_array;
+	}
+
+	public String getAlbumIdForPlaylist(String artistId){
+		Cursor c = getAlbumArtistCursor(artistId);
+		return c.getString(c.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ID));
+	}
+
+	private Cursor getAllPlaylist(String search) {
+		ContentResolver contentResolver = ourContext.getContentResolver();
+		String[] projection = {MediaStore.Audio.Playlists._ID,
+				MediaStore.Audio.Playlists.NAME
+		};
+		if (search != null && search.length() > 0) {
+			search = "LOWER("
+					+ MediaStore.Audio.Playlists.NAME + ") LIKE LOWER('" + search + "%') ";
+		}
+
+		return contentResolver.query(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
+				projection,
+				search,
+				null,
+				MediaStore.Audio.Playlists.NAME + " ASC");
+
+	}
+
+	public ArrayList<MetaInfo> getPLaylists(String search){
+		ArrayList<MetaInfo> infos = new ArrayList<>();
+		Cursor c = getAllPlaylist(search);
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+			MetaInfo info = new MetaInfo();
+			info.setId(c.getString(c.getColumnIndex(MediaStore.Audio.Playlists._ID)));
+			info.setName(c.getString(c.getColumnIndex(MediaStore.Audio.Playlists.NAME)));
+			infos.add(info);
+		}
+		c.close();
+		return infos;
+	}
+
+	private Cursor getPLaylistCursor(String playlistId){
+		String[] projection = {
+				MediaStore.Audio.Playlists.Members.AUDIO_ID,
+				MediaStore.Audio.Playlists.Members.ARTIST,
+				MediaStore.Audio.Playlists.Members.TITLE,
+				MediaStore.Audio.Playlists.Members._ID
+
+
+
+		};
+		Cursor cursor = null;
+		cursor = ourContext.getContentResolver().query(
+				MediaStore.Audio.Playlists.Members.getContentUri("external",Long.parseLong(playlistId ) ),
+				projection,
+				MediaStore.Audio.Media.IS_MUSIC +" != 0 ",
+				null,
+				null);
+
+	return cursor;
+	}
+	public ArrayList<SongInfo> getSongsForPlaylist(MetaInfo info) {
+		ArrayList<SongInfo> songInfo_array;
+		SongInfo item;
+		songInfo_array = new ArrayList<>();
+		Cursor c1 = getPLaylistCursor(info.getId());
 		for (c1.moveToFirst(); !c1.isAfterLast(); c1.moveToNext()) {
 			item = new SongInfo(c1);
 			songInfo_array.add(item);

@@ -23,9 +23,9 @@ import java.io.IOException;
 public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
 
     public enum Mode{
-        ALBUM, ARTIST, PLAYLIST
+        ALBUM, ARTIST, PLAYLIST, UNKNOWN
     }
-    Mode current;
+    Mode current = Mode.UNKNOWN;
     private ImageView imageView;
     private String id;
     private int width,height;
@@ -61,7 +61,7 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
         Bitmap bitmap;
         try {
             bitmap = cache.get(id);
-            if(cache.get(id)==null){
+            if(bitmap==null){
                 bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
                 bitmap = Bitmap.createScaledBitmap(bitmap, width,height, true);
                 cache.put(id,bitmap);
