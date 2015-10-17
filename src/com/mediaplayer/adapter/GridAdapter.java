@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.manager.BroadcastManager;
+import com.mediaplayer.utility.AlbumArtLoader;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -34,13 +36,15 @@ public class GridAdapter extends BaseAdapter{
 	private LayoutInflater inflater = null;
 	GridView gv;
 	ViewHolder holder;
+	AlbumArtLoader.Mode current;
 
-	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, GridView gv) {
+	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, GridView gv, AlbumArtLoader.Mode mode) {
 		super();
 		this.activity = activity;
 		this.infos = infos;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.gv = gv;
+		current = mode;
 	}
 
 
@@ -89,7 +93,7 @@ public class GridAdapter extends BaseAdapter{
 		}
 
 		holder.name.setText(infos.get(position).getName());
-
+		new AlbumArtLoader(activity,infos.get(position).getId(),holder.album, current).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		return vi;
 	}
 	

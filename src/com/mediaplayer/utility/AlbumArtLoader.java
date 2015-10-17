@@ -11,6 +11,7 @@ import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.mediaplayer.com.R;
+import com.mediaplayer.db.SongInfoDatabase;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,14 +27,17 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
     }
     Mode current;
     private ImageView imageView;
-    private String albumId;
+    private String id;
+    private int width,height;
     Activity activity;
     static LruCache<String, Bitmap> cache = new LruCache<>(4  *1024);
     public AlbumArtLoader(Activity activity, String albumId, ImageView imageView, Mode mode) {
-        this.albumId = albumId;
+        this.id = albumId;
         this.imageView = imageView;
         this.activity = activity;
         this.current = mode;
+        width = imageView.getWidth();
+        height = imageView.getHeight();
     }
 
     @Override
@@ -45,21 +49,22 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... strings) {
         switch (current){
             case ALBUM:
-                albumId =  albumId;
+                id =  id;
                 break;
             case ARTIST:
+                id = SongInfoDatabase.getInstance().getAlbumIdForArtist(id);
                 break;
             case PLAYLIST:
                 break;
         }
-        Uri uri = ContentUris.withAppendedId(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, Long.parseLong(albumId) );
+        Uri uri = ContentUris.withAppendedId(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, Long.parseLong(id) );
         Bitmap bitmap;
         try {
-            bitmap = cache.get(albumId);
-            if(cache.get(albumId)==null){
+            bitmap = cache.get(id);
+            if(cache.get(id)==null){
                 bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
-                bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
-                cache.put(albumId,bitmap);
+                bitmap = Bitmap.createScaledBitmap(bitmap, width,height, true);
+                cache.put(id,bitmap);
             }
 
         } catch (Exception e) {

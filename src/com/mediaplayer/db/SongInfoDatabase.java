@@ -216,14 +216,19 @@ public class SongInfoDatabase {
 
 	}
 
-	private Cursor getAlbumArtistCursor(long artistId){
-		return ourContext.getContentResolver().query(MediaStore.Audio.Artists.Albums.getContentUri("external", artistId),
+	private Cursor getAlbumArtistCursor(String artistId){
+		return ourContext.getContentResolver().query(MediaStore.Audio.Artists.Albums.getContentUri("external", Long.parseLong(artistId) ),
 				new String[]{
 						MediaStore.Audio.Artists._ID,
-           				MediaStore.Audio.Albums.ALBUM_ID,
+						MediaStore.Audio.Albums.ALBUM_ID,
 						MediaStore.Audio.Artists.ARTIST,
 						MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
 				}, null, null, MediaStore.Audio.Albums.DEFAULT_SORT_ORDER);
+	}
+
+	public String getAlbumIdForArtist(String artistId){
+		Cursor c = getAlbumArtistCursor(artistId);
+		return c.getString(c.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ID));
 	}
 
 	public ArrayList<MetaInfo> getArtists(String search) {

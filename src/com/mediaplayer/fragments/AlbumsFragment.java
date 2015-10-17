@@ -19,6 +19,7 @@ import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.manager.BroadcastManager;
+import com.mediaplayer.utility.AlbumArtLoader;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -41,6 +42,7 @@ public class AlbumsFragment extends MultiviewFragment  implements AdapterView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+        mode = AlbumArtLoader.Mode.ALBUM;
     }
 
     @Override

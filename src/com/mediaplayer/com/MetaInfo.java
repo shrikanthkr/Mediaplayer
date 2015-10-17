@@ -10,27 +10,11 @@ public class MetaInfo {
     String id;
     String name;
     String number_of_songs;
-    String albumId;
-    enum MODE{
-        ALBUM,
-        ARTIST,
-        PLAYLIST
-    }
-    MODE mode;
 
     public MetaInfo(){}
-    public MetaInfo(String id, String name, MODE mode) {
+    public MetaInfo(String id, String name) {
         this.id = id;
         this.name = name;
-        this.mode = mode;
-    }
-
-    public String getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(String albumId) {
-        this.albumId = albumId;
     }
 
     public String getNumber_of_songs() {

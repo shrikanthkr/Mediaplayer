@@ -14,6 +14,7 @@ import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
+import com.mediaplayer.utility.AlbumArtLoader;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -27,12 +28,13 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     SongInfoDatabase database;
     ArrayList<MetaInfo> list;
     SearchView searchView;
+    AlbumArtLoader.Mode mode;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.multiview_layout_fragment,container,false);
         gridview = (GridView)v.findViewById(R.id.gridview);
-        adapter = new GridAdapter(getActivity(), list, gridview);
+        adapter = new GridAdapter(getActivity(), list, gridview,mode);
         gridview.setAdapter(adapter);
         return v;
     }
