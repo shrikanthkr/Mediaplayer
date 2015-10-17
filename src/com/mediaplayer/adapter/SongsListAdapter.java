@@ -5,21 +5,16 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.devsmart.android.StringUtils;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.utility.ThumbnailLoader;
 
 public class SongsListAdapter extends BaseAdapter {
 	private Activity activity;

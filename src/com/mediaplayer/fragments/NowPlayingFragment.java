@@ -103,7 +103,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     break;
                 case BroadcastManager.APPEND_LIST:
                     LinkedList<SongInfo> songList =(LinkedList<SongInfo>)b.getSerializable(BroadcastManager.LIST_KEY);
-                    SongsManager.getInstance().appendSongs(songList);
+                    if(songList!=null && songList.size() > 0)
+                        SongsManager.getInstance().appendSongs(songList);
                     break;
             }
             if(songInfo!=null){
@@ -172,7 +173,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                                     songInfo.setArtist(track.getArtistName());
                                     songInfo.setDisplayName(track.getTitle());
                                     songInfo.setTitle(track.getTitle());
-                                    SongInfoDatabase db = new SongInfoDatabase(getActivity());
+                                    SongInfoDatabase db = new SongInfoDatabase();
                                     db.open();
                                     db.update(songInfo);
                                     db.close();updateSongInfo();

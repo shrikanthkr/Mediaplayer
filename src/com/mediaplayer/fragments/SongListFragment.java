@@ -37,7 +37,6 @@ import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.manager.BroadcastManager;
-import com.mediaplayer.utility.DatabaseUpdateThread;
 import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
@@ -68,7 +67,7 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		songList = new ArrayList<>();
 		context = getActivity();
 		activity = getActivity();
-		database = new SongInfoDatabase(context);
+		database =  SongInfoDatabase.getInstance();
 	}
 
 	@Override
@@ -81,9 +80,7 @@ OnGestureListener, SearchView.OnQueryTextListener {
 	}
 
 	public void populateSonglist() {
-		database.open();
-		songList = database.getFullList();
-		database.close();
+		songList = database.getSongs(null);
 		detector = new GestureDetector(getActivity(), this);
 		adapter = new SongsListAdapter(getActivity(), songList, lv);
 		lv.setTextFilterEnabled(true);
@@ -173,10 +170,8 @@ OnGestureListener, SearchView.OnQueryTextListener {
 	}
 
 	private void searchSongs(String search){
-		database.open();
-		songList = database.searchSong_byName(search);
+		songList = database.getSongs(search);
 		adapter.addAll(songList);
-		database.close();
 	}
 
 

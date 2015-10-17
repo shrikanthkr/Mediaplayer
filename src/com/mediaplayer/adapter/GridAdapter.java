@@ -17,40 +17,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.manager.BroadcastManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class GridAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
+public class GridAdapter extends BaseAdapter{
 
 	private Activity activity;
-	ArrayList<ArrayList<SongInfo>> song_all_array;
+	ArrayList<MetaInfo> infos;
 	private LayoutInflater inflater = null;
 	GridView gv;
 	ViewHolder holder;
 
-	public GridAdapter(Activity activity, ArrayList<ArrayList<SongInfo>> song_array, GridView gv) {
+	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, GridView gv) {
 		super();
 		this.activity = activity;
-		this.song_all_array = song_array;
+		this.infos = infos;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.gv = gv;
-		this.gv.setOnItemClickListener(this);
 	}
 
-	public void addAll(ArrayList<ArrayList<SongInfo>> song_array){
-		this.song_all_array = song_array;
-		notifyDataSetChanged();
-	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return song_all_array.size();
+		return infos.size();
 	}
 
 	@Override
@@ -65,21 +62,15 @@ public class GridAdapter extends BaseAdapter implements AdapterView.OnItemClickL
 		return position;
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-		LinkedList<SongInfo> serailaLisedArray = new LinkedList<SongInfo>(song_all_array.get(i));
-		Intent playSong = new Intent(BroadcastManager.APPEND_LIST);
-
-		Bundle b= new Bundle();
-		b.putSerializable(BroadcastManager.LIST_KEY,serailaLisedArray);
-		playSong.putExtras(b);
-		LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
-		Toast.makeText(activity,"Added to Queue", Toast.LENGTH_LONG).show();
-	}
-
 	public class ViewHolder {
 		TextView name;
 		ImageView album;
+	}
+
+	public void addAll(ArrayList<MetaInfo> infos){
+		this.infos.clear();
+		this.infos = infos;
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -97,7 +88,7 @@ public class GridAdapter extends BaseAdapter implements AdapterView.OnItemClickL
 			holder = (ViewHolder) vi.getTag();
 		}
 
-		holder.name.setText(song_all_array.get(position).get(0).getPlaylist());
+		holder.name.setText(infos.get(position).getName());
 
 		return vi;
 	}

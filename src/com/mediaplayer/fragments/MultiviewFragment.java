@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.SearchView;
 import com.mediaplayer.adapter.GridAdapter;
+import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +25,7 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     GridAdapter adapter;
     GridView gridview;
     SongInfoDatabase database;
-    ArrayList<ArrayList<SongInfo>> list;
+    ArrayList<MetaInfo> list;
     SearchView searchView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

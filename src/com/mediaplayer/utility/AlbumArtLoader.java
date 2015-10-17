@@ -19,18 +19,21 @@ import java.io.IOException;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class ThumbnailLoader extends AsyncTask<String, Void, Bitmap> {
+public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
 
+    public enum Mode{
+        ALBUM, ARTIST, PLAYLIST
+    }
+    Mode current;
     private ImageView imageView;
     private String albumId;
-    final static Uri albumArtUri = Uri
-            .parse("content://media/external/audio/albumart");
     Activity activity;
     static LruCache<String, Bitmap> cache = new LruCache<>(4  *1024);
-    public ThumbnailLoader(Activity activity, String albumId, ImageView imageView) {
+    public AlbumArtLoader(Activity activity, String albumId, ImageView imageView, Mode mode) {
         this.albumId = albumId;
         this.imageView = imageView;
         this.activity = activity;
+        this.current = mode;
     }
 
     @Override
@@ -40,6 +43,15 @@ public class ThumbnailLoader extends AsyncTask<String, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(String... strings) {
+        switch (current){
+            case ALBUM:
+                albumId =  albumId;
+                break;
+            case ARTIST:
+                break;
+            case PLAYLIST:
+                break;
+        }
         Uri uri = ContentUris.withAppendedId(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, Long.parseLong(albumId) );
         Bitmap bitmap;
         try {

@@ -71,10 +71,8 @@ public class SongsManager {
 		if(currentSongIndex < holder.getSongQueue().size() - 1){
 			nextSong =holder.getSongQueue().get(currentSongIndex + 1);
 		}else{
-			database = new SongInfoDatabase(context);
-			database.open();
+			database = SongInfoDatabase.getInstance();
 			nextSong = database.getNextSong(holder.getCurrentSongInfo());
-			database.close();
 			holder.addSongToQueue(nextSong);
 		}
 		play(nextSong);

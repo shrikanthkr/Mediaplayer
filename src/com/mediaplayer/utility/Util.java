@@ -35,34 +35,6 @@ import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
 
 public class Util {
-	public static String TO_UPLOAD = "song";
-	String fileName;
-	public static HashMap<String, Bitmap> art_work;
-
-	public static void deleteTrack(Context context, String localPath) {
-		context.getContentResolver().delete(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, MediaStore.Audio.Media.DATA +"=\""+localPath+"\"", null);
-		
-	}
-	
-	public  static void updateTrack(Context context, SongInfo songInfo) {
-		ContentValues cv = new ContentValues();
-		cv.put(MediaStore.Audio.Media.ALBUM, songInfo.getAlbum());
-		cv.put(MediaStore.Audio.Media.ALBUM_ID, songInfo.getAlbum_id());
-		cv.put(MediaStore.Audio.Media.ARTIST, songInfo.getArtist());
-		cv.put(MediaStore.Audio.Media.DATA, songInfo.getData());
-		cv.put(MediaStore.Audio.Media.DISPLAY_NAME, songInfo.getDisplayName());
-		cv.put(MediaStore.Audio.Media.DURATION,songInfo.getDuration());
-		cv.put(MediaStore.Audio.Media._ID, songInfo.getId());
-		cv.put(MediaStore.Audio.Media.TITLE, songInfo.getTitle());
-		context.getContentResolver().update(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cv, MediaStore.Audio.Media.DATA +"='"+songInfo.getData()+"'", null);
-		SongInfoDatabase database=new SongInfoDatabase(context);
-		database.open();
-		database.update(songInfo);
-		database.close();
-		
-	}
-
-
 	public String getExtensionFromFilename(String filename) {
 		return filename.substring(filename.lastIndexOf('.'), filename.length());
 	}
