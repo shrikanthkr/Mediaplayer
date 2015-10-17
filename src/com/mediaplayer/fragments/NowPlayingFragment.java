@@ -60,7 +60,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     PlayPauseView playPauseView;
     ImageButton nextButton, prevButton, identifyButton;
     HorizontalListView nowplaying_horizontal;
-    TextView  count_label, artist_header, songname_header, duration_header;
+    TextView  count_label, artist_header, songname_header, duration_header,tempduration_textView;
     SeekBar seekbar;
     SeekbarTouchHandler seekbarTouochHandler;
     LinearLayout seekbar_layout, mainLayout;
@@ -133,6 +133,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         duration_header = (TextView)view.findViewById(R.id.duration_now_playingheader);
         identifyButton = (ImageButton)view.findViewById(R.id.identify_imageButton);
         seekbar = (SeekBar)view.findViewById(R.id.seekbar);
+        tempduration_textView = (TextView) view.findViewById(R.id.tempduration_textView);
 
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
@@ -357,8 +358,15 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     }
 
     @Override
+    public void onSeek(int duration) {
+        tempduration_textView.setVisibility(View.VISIBLE);
+        tempduration_textView.setText(duration+"");
+    }
+
+    @Override
     public void afterSeek(int seektime) {
         SongsManager.getInstance().seekPlayerTo(seektime);
+        tempduration_textView.setVisibility(View.GONE);
     }
 
     boolean isUp = false;
