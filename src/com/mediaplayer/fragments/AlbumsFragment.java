@@ -37,6 +37,11 @@ public class AlbumsFragment extends MultiviewFragment  implements AdapterView.On
     }
 
     @Override
+    public void setTitle() {
+        getActivity().setTitle(getString(R.string.albums));
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mode = AlbumArtLoader.Mode.ALBUM;
@@ -66,4 +71,5 @@ public class AlbumsFragment extends MultiviewFragment  implements AdapterView.On
         list = database.getAlbums(search);
         adapter.addAll(list);
     }
+
 }

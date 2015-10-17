@@ -79,6 +79,11 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		return v;
 	}
 
+	@Override
+	public void setTitle() {
+		getActivity().setTitle(getString(R.string.songs));
+	}
+
 	public void populateSonglist() {
 		songList = database.getSongs(null);
 		detector = new GestureDetector(getActivity(), this);
@@ -181,4 +186,5 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		searchView = (SearchView)menu.findItem(R.id.search).getActionView();
 		searchView.setOnQueryTextListener(this);
 	}
+
 }

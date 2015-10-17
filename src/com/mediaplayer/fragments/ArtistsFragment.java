@@ -35,6 +35,11 @@ public class ArtistsFragment extends MultiviewFragment implements AdapterView.On
     }
 
     @Override
+    public void setTitle() {
+        getActivity().setTitle(getString(R.string.artists));
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mode = AlbumArtLoader.Mode.ALBUM;

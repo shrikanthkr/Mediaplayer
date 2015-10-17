@@ -1,5 +1,6 @@
 package com.mediaplayer.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,11 @@ public class PlaylistsFragment extends MultiviewFragment  implements AdapterView
     }
 
     @Override
+    public void setTitle() {
+        getActivity().setTitle(getString(R.string.playlist));
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mode = AlbumArtLoader.Mode.PLAYLIST;
@@ -66,5 +72,6 @@ public class PlaylistsFragment extends MultiviewFragment  implements AdapterView
         LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
         Toast.makeText(activity, "Added to Queue", Toast.LENGTH_LONG).show();
     }
+
 }
 

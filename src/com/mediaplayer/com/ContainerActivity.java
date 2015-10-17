@@ -66,7 +66,6 @@ public class ContainerActivity extends Activity {
 			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				getActionBar().setTitle("Drawer Title");
 			}
 		};
 
@@ -112,7 +111,7 @@ public class ContainerActivity extends Activity {
 		mDrawerLayout.closeDrawer(mDrawerList);
 		// Highlight the selected item, update the title, and close the drawer
 		mDrawerList.setItemChecked(position, true);
-		getActionBar().setTitle(labels[position]);
+
 	}
 
 
@@ -145,7 +144,6 @@ public class ContainerActivity extends Activity {
 				previousFragmentState = currentFragmentState = 2;
 				break;
 		}
-		setTitle(labels[currentFragmentState]);
 		Bundle args = new Bundle();
 		// args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 		fragment.setArguments(args);
