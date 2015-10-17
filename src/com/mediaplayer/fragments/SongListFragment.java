@@ -1,45 +1,27 @@
 package com.mediaplayer.fragments;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.mediaplayer.adapter.CommonListAdapter;
 import com.mediaplayer.adapter.SongsListAdapter;
-import com.mediaplayer.adapter.SongsListAdapter.ViewHolder;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
@@ -52,7 +34,6 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 	Context context;
 	SongsListAdapter adapter;
 	ArrayList<SongInfo> songList;
-	GestureDetector detector;
 	SongInfoDatabase database;
 	Activity activity;
 	Util util;
@@ -99,9 +80,9 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 		lv.setFastScrollEnabled(true);
 		swipeActionAdapter = new SwipeActionAdapter(adapter);
 		swipeActionAdapter.setListView(lv);
-		swipeActionAdapter.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,R.layout.row_bg_left_far)
+		swipeActionAdapter.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,R.layout.row_bg_left)
 				.addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,R.layout.row_bg_left)
-				.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right_far)
+				.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right)
 				.addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT, R.layout.row_bg_right);
 
 		swipeActionAdapter.setSwipeActionListener(swipeListener);
