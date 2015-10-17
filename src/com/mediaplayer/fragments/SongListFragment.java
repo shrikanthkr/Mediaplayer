@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,6 +37,7 @@ import com.mediaplayer.adapter.SongsListAdapter;
 import com.mediaplayer.adapter.SongsListAdapter.ViewHolder;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.manager.BroadcastManager;
@@ -104,6 +106,32 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 
 		swipeActionAdapter.setSwipeActionListener(swipeListener);
 		lv.setAdapter(swipeActionAdapter);
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int id, long l) {
+				SongInfo  info  = getSelectedSong(id);
+				Intent playSong = new Intent(BroadcastManager.PLAYSONG);
+				Bundle b= new Bundle();
+				b.putSerializable(BroadcastManager.SONG_KEY, info);
+				playSong.putExtras(b);
+
+				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
+			}
+		});
+	}
+
+	private SongInfo getSelectedSong(int id){
+		SongInfo songInfo = new SongInfo();
+		songInfo.setAlbum(songList.get(id).getAlbum());
+		songInfo.setAlbum_art(songList.get(id).getAlbum_art());
+		songInfo.setAlbum_id(songList.get(id).getAlbum_id());
+		songInfo.setArtist(songList.get(id).getArtist());
+		songInfo.setData(songList.get(id).getData());
+		songInfo.setDisplayName(songList.get(id).getDisplayName());
+		songInfo.setDuration(songList.get(id).getDuration());
+		songInfo.setId(songList.get(id).getId());
+		songInfo.setTitle(songList.get(id).getTitle());
+		return songInfo;
 	}
 
 	@Override
@@ -147,7 +175,7 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 		@Override
 		public boolean shouldDismiss(int position, int direction){
 			// Only dismiss an item when swiping normal left
-			return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
+			return false;
 		}
 
 		@Override
@@ -159,26 +187,15 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 
 				switch (direction) {
 					case SwipeDirections.DIRECTION_FAR_LEFT:
-						dir = "Far left";
-						break;
 					case SwipeDirections.DIRECTION_NORMAL_LEFT:
-						dir = "Left";
 						break;
 					case SwipeDirections.DIRECTION_FAR_RIGHT:
-						dir = "Far right";
-						break;
 					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
-						AlertDialog.Builder builder = new AlertDialog.Builder(context);
-						builder.setTitle("Test Dialog").setMessage("You swiped right").create().show();
-						dir = "Right";
+						SongInfo info = getSelectedSong(position);
+						SongsManager.getInstance().addSong(info);
 						break;
 				}
-				Toast.makeText(
-						context,
-						dir + " swipe Action triggered on " + swipeActionAdapter.getItem(position).toString(),
-						Toast.LENGTH_SHORT
-				).show();
-				swipeActionAdapter.notifyDataSetChanged();
+				//swipeActionAdapter.notifyDataSetChanged();
 			}
 		}
 	};

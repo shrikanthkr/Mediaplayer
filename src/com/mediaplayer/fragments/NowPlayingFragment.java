@@ -291,6 +291,13 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         updateSongInfo();
     }
 
+    @Override
+    public void onSongAdded(SongInfo songInfo) {
+        Toast.makeText(getActivity(),songInfo.getTitle() + " Added",Toast.LENGTH_LONG).show();
+        updateNowPlayingListUI();
+        playSong();
+    }
+
     private void pauseSong(){
         SongsManager.getInstance().pause();
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);

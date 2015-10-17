@@ -142,6 +142,10 @@ public class SongsManager {
 	public void appendSongs(LinkedList<SongInfo> songList) {
 		holder.getSongQueue().addAll(songList);
 	}
+	public void addSong(SongInfo info){
+		holder.getSongQueue().add(info);
+		if(listener!=null) listener.onSongAdded(info);
+	}
 
 	public boolean isPlaying() {
 		return music.isPlaying();
@@ -151,6 +155,7 @@ public class SongsManager {
 		void onSongStarted(SongInfo songInfo);
 		void onSongCompleted();
 		void onSongChanged(SongInfo songInfo);
+		void onSongAdded(SongInfo songInfo);
 	}
 	MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
 		@Override
