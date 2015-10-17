@@ -154,6 +154,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         @Override
         public void onClick(View view) {
             int id = view.getId();
+            if(SongsManager.getInstance().getSongsList().size() <=0){
+                return ;
+            }
             switch(id){
                 case R.id.playPauseView:
                     playPauseSong();
