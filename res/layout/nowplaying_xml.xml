@@ -58,7 +58,7 @@
                     android:textSize="12sp"
                     android:layout_weight="8"/>
                 <TextView
-                    android:id="@+id/duration_now_playingheader"
+                    android:id="@+id/duration_header"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"

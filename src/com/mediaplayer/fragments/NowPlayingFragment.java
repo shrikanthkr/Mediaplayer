@@ -130,7 +130,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         count_label = (TextView)view.findViewById(R.id.count_label);
         artist_header= (TextView)view.findViewById(R.id.artist_now_playingheader);
         songname_header = (TextView)view.findViewById(R.id.song_now_playingheader);
-        duration_header = (TextView)view.findViewById(R.id.duration_now_playingheader);
+        duration_header = (TextView)view.findViewById(R.id.duration_header);
         identifyButton = (ImageButton)view.findViewById(R.id.identify_imageButton);
         seekbar = (SeekBar)view.findViewById(R.id.seekbar);
         tempduration_textView = (TextView) view.findViewById(R.id.tempduration_textView);
@@ -214,15 +214,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     seekbar_layout.getWidth() - 15,
                     seekbar_layout.getHeight()) / 2) + .5) - 15);
             seekbar.setXY(pos_x, pos_y);
-            //Log.i("Radius", seekbar.radius + "");
-           /* artist_header.setText(songInfo.getArtist());
-            song_header.setText(songInfo.getTitle());
-            duration_header.setText(0 + "");*/
 
             if (vto.isAlive()) {
                 vto.removeGlobalOnLayoutListener(this);
-                // //Log.i("Layout listener", "Removed");
-                //callTimerTask();
             } else {
                 vto = mainLayout.getViewTreeObserver();
                 vto.removeGlobalOnLayoutListener(this);
@@ -271,7 +265,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
         if(playerTimer!=null) playerTimer.cancel();
         seekbar.setVisibility(View.VISIBLE);
-        playerTimer = new PlayerTimerTask(seekbar,duration);
+        playerTimer = new PlayerTimerTask(seekbar,duration,timerListener);
         playerTimer.setIsPlaying(true);
         playerTimer.execute();
         seekbarTouochHandler.setDuration(duration);
@@ -280,6 +274,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         updateSongInfo();
         playSong();
     }
+
+
 
     @Override
     public void onSongCompleted() {
@@ -360,7 +356,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     @Override
     public void onSeek(int duration) {
         tempduration_textView.setVisibility(View.VISIBLE);
-        tempduration_textView.setText(duration+"");
+        tempduration_textView.setText(duration/60 + ":" + duration%60);
     }
 
     @Override
@@ -376,4 +372,16 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public boolean getIsUp() {
         return isUp;
     }
+
+    PlayerTimerTask.TimerListener timerListener = new PlayerTimerTask.TimerListener() {
+        @Override
+        public void onTimerUpdate(final String duration) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    duration_header.setText(duration);
+                }
+            });
+        }
+    };
 }
