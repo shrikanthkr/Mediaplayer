@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class PlaylistsFragment extends MultiviewFragment  {
+public class PlaylistFragment extends MultiviewFragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater,container,savedInstanceState);
@@ -30,18 +30,16 @@ public class PlaylistsFragment extends MultiviewFragment  {
 
     @Override
     public void setData() {
-        database = new SongInfoDatabase(getActivity());
-        database.open();
-        list = new ArrayList<ArrayList<SongInfo>>();
-        list = database.getSongs_allPlayList();
-        database.close();
+        database =  SongInfoDatabase.getInstance();
+        //list = new ArrayList<ArrayList<SongInfo>>();
+        //list = database.getSongs_allPlayList();
     }
 
     @Override
     public void searchSongs(String search) {
         database.open();
-        list = database.searchSongs_playlists(search);
-        adapter.addAll(list);
+        //list = database.searchSongs_playlists(search);
+        //adapter.addAll(list);
         database.close();
 
     }
