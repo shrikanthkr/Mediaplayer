@@ -35,6 +35,13 @@ public class SongsManager {
 		}
 		return manager;
 	}
+	MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+		@Override
+		public void onCompletion(MediaPlayer mediaPlayer) {
+			int difference =  (music.getDuration() - music.getCurrentPosition())/1000;
+			if(listener!=null && difference < 2) listener.onSongCompleted();
+		}
+	};
 	public void setListener(SongsListeners listener){
 		this.listener = listener;
 	}
@@ -157,12 +164,4 @@ public class SongsManager {
 		void onSongChanged(SongInfo songInfo);
 		void onSongAdded(SongInfo songInfo);
 	}
-	MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
-		@Override
-		public void onCompletion(MediaPlayer mediaPlayer) {
-			int difference =  (music.getDuration() - music.getCurrentPosition())/1000;
-			if(listener!=null && difference < 2) listener.onSongCompleted();
-		}
-	};
-
 }
