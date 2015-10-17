@@ -30,7 +30,6 @@ public class ContainerActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-	String contentTitle;
 	int previousFragmentState = -1, currentFragmentState = -1;
 	static int topOffset;
 	NowPlayingFragment nowPlayingFragment;
@@ -51,7 +50,7 @@ public class ContainerActivity extends Activity {
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
-				R.drawable.slide_button_custom,  /* nav drawer icon to replace 'Up' caret */
+				android.R.drawable.ic_menu_gallery,  /* nav drawer icon to replace 'Up' caret */
 				R.string.drawer_open,  /* "open drawer" description */
 				R.string.drawer_close  /* "close drawer" description */
 		) {

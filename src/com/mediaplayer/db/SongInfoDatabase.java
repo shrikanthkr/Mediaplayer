@@ -64,6 +64,11 @@ public class SongInfoDatabase {
 			selection.append("AND " + additional);
 		}
 		selection.append(" )");
+		if(limit!=null && limit.length() > 0 ){
+			limit = " LIMIT " + limit ;
+		}else{
+			limit = "";
+		}
 		String[] projection = {MediaStore.Audio.Media._ID,
 				MediaStore.Audio.Media.ARTIST,
 				MediaStore.Audio.Media.ALBUM,
@@ -74,7 +79,7 @@ public class SongInfoDatabase {
 				MediaStore.Audio.Media.ALBUM_ID,};
 		Cursor c = ourContext.getContentResolver().query(
 				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
-				selection.toString(), null, sortOrder);
+				selection.toString(), null, sortOrder + limit);
 		return c;
 	}
 

@@ -39,7 +39,7 @@ public class PlayPauseView extends View {
     private void setPaintAtttrubutes(){
         paint.setColor(getResources().getColor(R.color.base));
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(5);
         paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
@@ -64,10 +64,10 @@ public class PlayPauseView extends View {
         one.y2 = height - adjustment;
 
         two =new Line();
-        two.iniX = two.x1 =width - adjustment;
+        two.iniX = two.x1 = width - adjustment ;
         two.iniY = two.y1 = 0 + adjustment;
         two.x2 = width - adjustment;
-        two.y2 =height - adjustment;
+        two.y2 = height - adjustment;
     }
 
     @Override
@@ -90,12 +90,10 @@ public class PlayPauseView extends View {
             case PAUSED:
                 moveLine(ROTATESTATE.PAUSED);
                 invalidate();
-                currentState =ROTATESTATE.PAUSED;
                 break;
             case PLAYING:
                 moveLine(ROTATESTATE.PLAYING);
                 invalidate();
-                currentState = ROTATESTATE.PLAYING;
                 break;
             default: break;
 
@@ -143,7 +141,6 @@ public class PlayPauseView extends View {
             final float twoMeasuredX = pos[0];
             final float twoMeasuredY = pos[1];
 
-            Log.d("ScallableView", i + "");
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -175,9 +172,21 @@ public class PlayPauseView extends View {
                 invalidate();
             }
         }, 60);
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                one.x1 = one.toX;
+                one.y1 = one.toY;
+                two.x1 = two.toX;
+                two.y1 = two.toY;
+                invalidate();
+            }
+        }, 60);
+
     }
 
-    private void rotateView(){
+    private void rotateView() {
         Animation an = new RotateAnimation(0.0f, 360.0f, 100, 100);
 
         // Set the animation's parameters

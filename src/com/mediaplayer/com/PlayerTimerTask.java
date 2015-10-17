@@ -3,6 +3,7 @@ package com.mediaplayer.com;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,11 +17,13 @@ public class PlayerTimerTask  extends Timer {
     boolean isPlaying = false;
     int duration;
     MyTask myTask;
+    TimerListener listener;
 
 
-    public PlayerTimerTask(SeekBar seekBar,int duration) {
+    public PlayerTimerTask(SeekBar seekBar,int duration,TimerListener listener) {
         this.seekBar = seekBar;
         this.duration  = duration ;
+        this.listener = listener;
     }
 
     public void setIsPlaying(boolean isPlaying){
@@ -42,7 +45,15 @@ public class PlayerTimerTask  extends Timer {
         public void run() {
             int currentPostion =  SongsManager.getInstance().getSongCurrentPosition()/1000;
             seekBar.callfromTimerTask(currentPostion, duration);
+            if(listener!=null) {
+                String duration = currentPostion/60 + ":" + currentPostion%60;
+                listener.onTimerUpdate(duration);
+            }
         }
+    }
+
+    public interface TimerListener {
+        void onTimerUpdate(String duration);
     }
 
 }

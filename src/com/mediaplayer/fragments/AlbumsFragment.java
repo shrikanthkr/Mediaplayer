@@ -9,11 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.mediaplayer.adapter.CommonListAdapter;
-import com.mediaplayer.adapter.SongsListAdapter;
 import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;

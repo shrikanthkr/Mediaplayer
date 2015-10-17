@@ -36,6 +36,7 @@ public class SeekbarTouchHandler implements OnTouchListener {
                 if(seekablePosition){
                     seekbar.calculateTempSeek(x1, y1);
                     int temp = seekbar.getSeekedTime(duration);
+                    if(onSeekListener!=null) onSeekListener.onSeek(temp);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -68,6 +69,7 @@ public class SeekbarTouchHandler implements OnTouchListener {
     }
 
     public interface SeekBarListeners{
+        void onSeek(int duration);
         void afterSeek(int seektime);
     }
 }
