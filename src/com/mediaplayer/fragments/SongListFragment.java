@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mediaplayer.adapter.CommonListAdapter;
 import com.mediaplayer.adapter.SongsListAdapter;
@@ -39,9 +41,10 @@ import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
+import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
+import com.wdullaer.swipeactionadapter.SwipeDirections;
 
-public class SongListFragment extends MediaFragment implements
-OnGestureListener, SearchView.OnQueryTextListener {
+public class SongListFragment extends MediaFragment implements SearchView.OnQueryTextListener {
 	ListView lv;
 	SearchView searchView;
 	Context context;
@@ -51,6 +54,7 @@ OnGestureListener, SearchView.OnQueryTextListener {
 	SongInfoDatabase database;
 	Activity activity;
 	Util util;
+	SwipeActionAdapter swipeActionAdapter;
 
 	@Override
 	public void onResume() {
@@ -68,6 +72,7 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		context = getActivity();
 		activity = getActivity();
 		database =  SongInfoDatabase.getInstance();
+
 	}
 
 	@Override
@@ -86,19 +91,19 @@ OnGestureListener, SearchView.OnQueryTextListener {
 
 	public void populateSonglist() {
 		songList = database.getSongs(null);
-		detector = new GestureDetector(getActivity(), this);
 		adapter = new SongsListAdapter(getActivity(), songList, lv);
 		lv.setTextFilterEnabled(true);
-
-		lv.setAdapter(adapter);
 		lv.setSelection(SongsHolder.smoothScrollTo);
 		lv.setFastScrollEnabled(true);
-		lv.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View view, MotionEvent e) {
-				detector.onTouchEvent(e);
-				return false;
-			}
-		});
+		swipeActionAdapter = new SwipeActionAdapter(adapter);
+		swipeActionAdapter.setListView(lv);
+		swipeActionAdapter.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,R.layout.row_bg_left_far)
+				.addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,R.layout.row_bg_left)
+				.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right_far)
+				.addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT, R.layout.row_bg_right);
+
+		swipeActionAdapter.setSwipeActionListener(swipeListener);
+		lv.setAdapter(swipeActionAdapter);
 	}
 
 	@Override
@@ -106,60 +111,6 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		// TODO Auto-generated method stub
 		super.onPause();
 		SongsHolder.smoothScrollTo = lv.getFirstVisiblePosition();
-	}
-
-	@Override
-	public boolean onDown(MotionEvent arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float arg2,
-			float arg3) {
-			return true;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e1) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,
-			float arg3) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-
-	@Override
-	public void onShowPress(MotionEvent arg0) {
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e1) {
-
-
-		int id = lv.pointToPosition((int) e1.getX(), (int) e1.getY());
-
-		SongInfo songInfo = new SongInfo();
-		songInfo.setAlbum(songList.get(id).getAlbum());
-		songInfo.setAlbum_art(songList.get(id).getAlbum_art());
-		songInfo.setAlbum_id(songList.get(id).getAlbum_id());
-		songInfo.setArtist(songList.get(id).getArtist());
-		songInfo.setData(songList.get(id).getData());
-		songInfo.setDisplayName(songList.get(id).getDisplayName());
-		songInfo.setDuration(songList.get(id).getDuration());
-		songInfo.setId(songList.get(id).getId());
-		songInfo.setTitle(songList.get(id).getTitle());
-		Intent playSong = new Intent(BroadcastManager.PLAYSONG);
-		Bundle b= new Bundle();
-		b.putSerializable(BroadcastManager.SONG_KEY, songInfo);
-		playSong.putExtras(b);
-
-		LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
-		return true;
 	}
 
 	@Override
@@ -186,5 +137,50 @@ OnGestureListener, SearchView.OnQueryTextListener {
 		searchView = (SearchView)menu.findItem(R.id.search).getActionView();
 		searchView.setOnQueryTextListener(this);
 	}
+	SwipeActionAdapter.SwipeActionListener swipeListener = new SwipeActionAdapter.SwipeActionListener(){
+		@Override
+		public boolean hasActions(int position){
+			// All items can be swiped
+			return true;
+		}
+
+		@Override
+		public boolean shouldDismiss(int position, int direction){
+			// Only dismiss an item when swiping normal left
+			return direction == SwipeDirections.DIRECTION_NORMAL_LEFT;
+		}
+
+		@Override
+		public void onSwipe(int[] positionList, int[] directionList){
+			for(int i=0;i<positionList.length;i++) {
+				int direction = directionList[i];
+				int position = positionList[i];
+				String dir = "";
+
+				switch (direction) {
+					case SwipeDirections.DIRECTION_FAR_LEFT:
+						dir = "Far left";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_LEFT:
+						dir = "Left";
+						break;
+					case SwipeDirections.DIRECTION_FAR_RIGHT:
+						dir = "Far right";
+						break;
+					case SwipeDirections.DIRECTION_NORMAL_RIGHT:
+						AlertDialog.Builder builder = new AlertDialog.Builder(context);
+						builder.setTitle("Test Dialog").setMessage("You swiped right").create().show();
+						dir = "Right";
+						break;
+				}
+				Toast.makeText(
+						context,
+						dir + " swipe Action triggered on " + swipeActionAdapter.getItem(position).toString(),
+						Toast.LENGTH_SHORT
+				).show();
+				swipeActionAdapter.notifyDataSetChanged();
+			}
+		}
+	};
 
 }

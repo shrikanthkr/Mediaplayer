@@ -192,7 +192,7 @@
             android:layout_alignLeft="@+id/seekbar_layout"
             android:layout_alignTop="@+id/identify_imageButton"
             android:adjustViewBounds="true"
-            android:background="@drawable/repeat_button_custom" />
+            android:background="@android:drawable/ic_menu_day" />
 
         <ImageButton
             android:id="@+id/shuffle_button"
