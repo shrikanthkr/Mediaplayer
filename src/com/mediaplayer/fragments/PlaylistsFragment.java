@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class PlaylistFragment extends MultiviewFragment  {
+public class PlaylistsFragment extends MultiviewFragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater,container,savedInstanceState);
