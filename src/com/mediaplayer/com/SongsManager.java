@@ -7,10 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -32,8 +35,7 @@ public class SongsManager {
 	SongsManager.SongsListeners listener;
     boolean isRepeat = false;
     boolean isShuffle = false;
-    Map<String, String> shuffleMap = new HashMap<>();
-
+    Set<String> playedSongs = new HashSet<>();
     public boolean isShuffle() {
         return isShuffle;
     }
@@ -97,8 +99,6 @@ public class SongsManager {
         }else{
             if(isRepeat()){
                 nextSong =holder.getSongQueue().get(0);
-            }else if(isShuffle()){
-                nextSong =holder.getSongQueue().get(0);
             }else{
                 database = SongInfoDatabase.getInstance();
                 nextSong = database.getNextSong(holder.getCurrentSongInfo());
@@ -131,19 +131,15 @@ public class SongsManager {
 		}
 	}
 
+    public void shuffleSongs(){
+        Collections.shuffle(holder.getSongQueue());
+    }
+
 	public SongInfo getCurrentSongInfo(){
 		return holder.getCurrentSongInfo();
 	}
 	public int getSongCurrentPosition(){
 		return music.getCurrentPosition();
-	}
-
-	private void randomSong(){
-
-	}
-
-	private void repeatSong(){
-
 	}
 
 	private FileDescriptor getFileDescriptor(SongInfo songInfo){

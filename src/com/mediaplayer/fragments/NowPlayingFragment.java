@@ -246,9 +246,13 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
     private void toggleShuffle(){
         boolean isShuffle = SongsManager.getInstance().isShuffle();
+        if(!isShuffle){
+            SongsManager.getInstance().shuffleSongs();
+        }
         isShuffle = isShuffle ? false: true;
         SongsManager.getInstance().setIsShuffle(isShuffle);
         setButtonState();
+        updateUI();
     }
 
     ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -292,7 +296,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public void onPause() {
         super.onPause();
         prefsEditor.putBoolean(IS_REPEAT, SongsManager.getInstance().isRepeat());
-        prefsEditor.putBoolean(IS_SHUFFLE,SongsManager.getInstance().isShuffle());
+        prefsEditor.putBoolean(IS_SHUFFLE, SongsManager.getInstance().isShuffle());
         prefsEditor.commit();
     }
 
