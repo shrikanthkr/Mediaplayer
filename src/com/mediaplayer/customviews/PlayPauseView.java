@@ -26,6 +26,7 @@ public class PlayPauseView extends View {
     Line one,two;
     int adjustment = 10;
     int width, height;
+    Handler handler;
 
     public enum ROTATESTATE {
         PLAYING, PAUSED, UNKNOWN
@@ -87,7 +88,6 @@ public class PlayPauseView extends View {
 
 
     public void togglePlayPauseButton(ROTATESTATE  currentState) {
-        initPositions(width,height);
         this.currentState = currentState;
         switch (currentState){
             case PAUSED:
@@ -109,8 +109,7 @@ public class PlayPauseView extends View {
     private  void moveLine(ROTATESTATE state) {
 
         float[] pos, tan;
-        float angleState;
-        Handler handler;
+        final float angleState;
         handler = new Handler();
         if (state == ROTATESTATE.PLAYING) {
             one.toX = one.iniX;
@@ -143,6 +142,7 @@ public class PlayPauseView extends View {
             two.measure.getPosTan(i, pos, tan);
             final float twoMeasuredX = pos[0];
             final float twoMeasuredY = pos[1];
+            final int I = i;
 
             handler.postDelayed(new Runnable() {
                 @Override
@@ -153,29 +153,13 @@ public class PlayPauseView extends View {
                     two.y1 = (int) twoMeasuredY;
 
                     angle = angle + ratio;
+                    if(angle < 0) angle = 0;
+
+                    Log.d("PLAYPAUSE" , "i: " + I + " andle:" + angle +"");
                     invalidate();
                 }
-            }, 60);
+            }, 20 * i);
         }
-        one.measure.getPosTan(one.measure.getLength()-1, pos, tan);
-        final float OneMeasuredX = pos[0];
-        final float OneMeasuredY = pos[1];
-
-        two.measure.getPosTan(two.measure.getLength() - 1, pos, tan);
-        final float twoMeasuredX = pos[0];
-        final float twoMeasuredY = pos[1];
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                one.x1 = (int) OneMeasuredX;
-                one.y1 = (int) OneMeasuredY;
-                two.x1 = (int) twoMeasuredX;
-                two.y1 = (int) twoMeasuredY;
-
-                invalidate();
-            }
-        }, 60);
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -183,12 +167,19 @@ public class PlayPauseView extends View {
                 one.y1 = one.toY;
                 two.x1 = two.toX;
                 two.y1 = two.toY;
+                if(angle > 90){
+                    angle = 90;
+                }else{
+                    angle = 0;
+                }
                 invalidate();
             }
-        }, 60);
+        }, 20 * (int)one.measure.getLength());
 
     }
-
+    private int roundDown(int round){
+        return round - round%10;
+    }
 
     class Line{
         int x1, y1, x2, y2, iniX, iniY, toX, toY;

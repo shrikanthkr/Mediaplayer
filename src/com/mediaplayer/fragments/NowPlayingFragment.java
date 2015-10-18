@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.media.Image;
@@ -54,12 +55,14 @@ import java.util.LinkedList;
  */
 public class NowPlayingFragment extends Fragment implements SongsManager.SongsListeners, SeekbarTouchHandler.SeekBarListeners {
 
+    private static final String IS_REPEAT = "repeat";
+    private static final String IS_SHUFFLE = "repeat";
     DisplayMetrics dm;
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
     ImageView  measure_view;
     PlayPauseView playPauseView;
-    ImageButton nextButton, prevButton, identifyButton;
+    ImageButton nextButton, prevButton, identifyButton,repeat_button,shuffle_button;
     HorizontalListView nowplaying_horizontal;
     TextView  count_label, artist_header, songname_header, duration_header,tempduration_textView;
     SeekBar seekbar;
@@ -68,6 +71,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     ViewTreeObserver vto;
     PlayerTimerTask playerTimer;
     View playerView;
+    SharedPreferences preferences;
+    SharedPreferences.Editor prefsEditor;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +81,10 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         BroadcastManager.registerForEvent(BroadcastManager.PLAYSONG, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
         SongsManager.getInstance().setContext(getActivity());
+        preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        prefsEditor = preferences.edit();
+        SongsManager.getInstance().setIsRepeat(preferences.getBoolean(IS_REPEAT,false));
+        SongsManager.getInstance().setIsShuffle(preferences.getBoolean(IS_SHUFFLE, false));
     }
 
     @Override
@@ -135,12 +145,31 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         identifyButton = (ImageButton)view.findViewById(R.id.identify_imageButton);
         seekbar = (SeekBar)view.findViewById(R.id.seekbar);
         tempduration_textView = (TextView) view.findViewById(R.id.tempduration_textView);
+        repeat_button = (ImageButton)view.findViewById(R.id.repeat_button);
+        shuffle_button= (ImageButton)view.findViewById(R.id.shuffle_button);
 
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
         identifyButton.setOnClickListener(buttonListener);
         playPauseView.setOnClickListener(buttonListener);
+        repeat_button.setOnClickListener(buttonListener);
+        shuffle_button.setOnClickListener(buttonListener);
         setupSeekbar();
+        setButtonState();
+    }
+
+    private void setButtonState() {
+        if(SongsManager.getInstance().isRepeat()){
+            repeat_button.setBackground(getResources().getDrawable(R.drawable.repeat));
+        }else{
+            repeat_button.setBackground(getResources().getDrawable(R.drawable.repeat_off));
+        }
+
+        if(SongsManager.getInstance().isShuffle()){
+            shuffle_button.setBackground(getResources().getDrawable(R.drawable.shuffle));
+        }else{
+            shuffle_button.setBackground(getResources().getDrawable(R.drawable.shuffle_off));
+        }
     }
 
     private void setupSeekbar() {
@@ -197,10 +226,30 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                         }
                     });
                     break;
+                case R.id.repeat_button:
+                    toggleRepeat();
+                    break;
+                case R.id.shuffle_button:
+                    toggleShuffle();
+                    break;
 
             }
         }
     };
+
+    private void toggleRepeat() {
+        boolean isRepeat = SongsManager.getInstance().isRepeat();
+        isRepeat = isRepeat ? false: true;
+        SongsManager.getInstance().setIsRepeat(isRepeat);
+        setButtonState();
+    }
+
+    private void toggleShuffle(){
+        boolean isShuffle = SongsManager.getInstance().isShuffle();
+        isShuffle = isShuffle ? false: true;
+        SongsManager.getInstance().setIsShuffle(isShuffle);
+        setButtonState();
+    }
 
     ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
@@ -242,6 +291,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     @Override
     public void onPause() {
         super.onPause();
+        prefsEditor.putBoolean(IS_REPEAT, SongsManager.getInstance().isRepeat());
+        prefsEditor.putBoolean(IS_SHUFFLE,SongsManager.getInstance().isShuffle());
+        prefsEditor.commit();
     }
 
     @Override

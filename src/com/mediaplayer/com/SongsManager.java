@@ -29,7 +29,26 @@ public class SongsManager {
 	Music music;
 	SongInfoDatabase database;
 	SongsManager.SongsListeners listener;
-	public static SongsManager getInstance(){
+    boolean isRepeat = false;
+    boolean isShuffle = false;
+
+    public boolean isShuffle() {
+        return isShuffle;
+    }
+
+    public void setIsShuffle(boolean isShuffle) {
+        this.isShuffle = isShuffle;
+    }
+
+    public boolean isRepeat() {
+        return isRepeat;
+    }
+
+    public void setIsRepeat(boolean isRepeat) {
+        this.isRepeat = isRepeat;
+    }
+
+    public static SongsManager getInstance(){
 		if(manager==null){
 			manager = new SongsManager();
 		}
@@ -52,7 +71,7 @@ public class SongsManager {
 		if(listener!=null) listener.onSongStarted(currentSongInfo);
 	}
 	public void resume(){
-        if(holder.getSongQueue().size() <= 1 && !isPlaying()){
+        if(holder.getSongQueue().size() <= 1 && getCurrentSongInfo()==null){
             play();
         }
 		music.resume();
@@ -71,13 +90,19 @@ public class SongsManager {
 	public void playNextSong() {
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo nextSong;
-		if(currentSongIndex < holder.getSongQueue().size() - 1){
-			nextSong =holder.getSongQueue().get(currentSongIndex + 1);
-		}else{
-			database = SongInfoDatabase.getInstance();
-			nextSong = database.getNextSong(holder.getCurrentSongInfo());
-			holder.addSongToQueue(nextSong);
-		}
+        if(currentSongIndex < holder.getSongQueue().size() - 1){
+            nextSong =holder.getSongQueue().get(currentSongIndex + 1);
+        }else{
+            if(isRepeat()){
+                nextSong =holder.getSongQueue().get(0);
+            }else if(isShuffle()){
+                nextSong =holder.getSongQueue().get(0);
+            }else{
+                database = SongInfoDatabase.getInstance();
+                nextSong = database.getNextSong(holder.getCurrentSongInfo());
+                holder.addSongToQueue(nextSong);
+            }
+        }
 		play(nextSong);
 		if(listener!=null) listener.onSongChanged(nextSong);
 	}
