@@ -24,7 +24,7 @@ public class Music{
 	public Music(Activity context,MediaPlayer.OnCompletionListener completionListener)  {
 		mediaPlayer = null;
 		mediaPlayer = new MediaPlayer();
-		mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 		this.completionListener =completionListener;
 		mediaPlayer.setOnCompletionListener(completionListener);
 	}
