@@ -36,8 +36,8 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
         this.imageView = imageView;
         this.activity = activity;
         this.current = mode;
-        width = imageView.getWidth();
-        height = imageView.getHeight();
+        width = imageView.getDrawable().getIntrinsicWidth();
+        height = imageView.getDrawable().getIntrinsicHeight();
     }
 
     @Override
@@ -55,6 +55,9 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
                 id = SongInfoDatabase.getInstance().getAlbumIdForArtist(id);
                 break;
             case PLAYLIST:
+                break;
+            default:
+                id = id;
                 break;
         }
         Uri uri = ContentUris.withAppendedId(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, Long.parseLong(id) );
