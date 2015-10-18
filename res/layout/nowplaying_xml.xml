@@ -151,7 +151,7 @@
                 android:gravity="center"
                 android:src="@drawable/edit"
                 android:text="Queue"
-                android:textColor="#ffffff" />
+                android:textColor="@color/base_text_color" />
 
             <ImageButton
                 android:id="@+id/delete_nowplaying"

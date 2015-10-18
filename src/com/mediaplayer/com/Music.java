@@ -23,8 +23,8 @@ public class Music{
 	MediaPlayer.OnCompletionListener completionListener;
 	public Music(Activity context,MediaPlayer.OnCompletionListener completionListener)  {
 		mediaPlayer = null;
-		mediaPlayer = MediaPlayer.create(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-		mediaPlayer.reset();
+		mediaPlayer = new MediaPlayer();
+		mediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
 		this.completionListener =completionListener;
 		mediaPlayer.setOnCompletionListener(completionListener);
 	}
@@ -40,11 +40,6 @@ public class Music{
 			ex.printStackTrace();
 			throw new RuntimeException("Couldn't load music, uh oh!");
 		}
-	}
-
-	public void onCompletion(MediaPlayer mediaPlayer) {
-			mediaPlayer.reset();
-
 	}
 
 	public void play() {

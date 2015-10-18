@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -31,6 +32,7 @@ public class SongsManager {
 	SongsManager.SongsListeners listener;
     boolean isRepeat = false;
     boolean isShuffle = false;
+    Map<String, String> shuffleMap = new HashMap<>();
 
     public boolean isShuffle() {
         return isShuffle;
@@ -180,7 +182,13 @@ public class SongsManager {
     MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
-            if(listener!=null) listener.onSongCompleted();
+            int duration = mediaPlayer.getDuration()/1000;
+            int current = mediaPlayer.getCurrentPosition()/1000;
+
+            if(listener!=null && duration - 10 <= current) {
+                listener.onSongCompleted();
+            }
+
         }
     };
 
