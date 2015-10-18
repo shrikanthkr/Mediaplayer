@@ -10,21 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 
-public class SongsListAdapter extends BaseAdapter {
+public class SongsListAdapter extends BaseAdapter{
 	private Activity activity;
 	ArrayList<SongInfo> song_array;
 	private LayoutInflater inflater = null;
 	BaseAdapter adapter;
 	ListView lv;
-	Thread t;
-	// SongInfoDatabase database;
-	String searchString = "";
 	DecimalFormat format;
 	int min, sec, total;
 	final static int SECTION = 2;
@@ -53,18 +52,12 @@ public class SongsListAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void setUrlList(ArrayList<SongInfo> song_array) {
-		this.song_array = song_array;
-	}
 
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return song_array.size();
 	}
 
-	public ListView getListView() {
-		return lv;
-	}
 
 	public Object getItem(int arg0) {
 		// TODO Auto-generated method stub
@@ -87,7 +80,6 @@ public class SongsListAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		return super.getViewTypeCount();
 	}
-
 	public class ViewHolder {
 		public TextView title;
 		public TextView duration;
@@ -150,16 +142,4 @@ public class SongsListAdapter extends BaseAdapter {
 		}
 		return vi;
 	}
-
-	private void setSection(TextView text, String label) {
-		// text.setBackgroundColor(0xffe47168);
-		text.setBackgroundResource(R.drawable.blue_strip);
-		text.setText((label.substring(0, 1) + "").toUpperCase());
-		text.setTextSize(15);
-		text.setPadding(5, 0, 0, 0);
-		text.setGravity(Gravity.CENTER_VERTICAL);
-
-	}
-
-
 }

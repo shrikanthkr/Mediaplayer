@@ -28,20 +28,16 @@ import android.widget.RelativeLayout;
 public class SeekBar extends View {
 	Paint paint = new Paint();
 	Point point = new Point();
-	int validate_flag = 0;
 	RectF rect = new RectF();
-	Shader gradient;
 	Context context;
 	float center_x, center_y, radius;
 	float angle;
 	float seek_x, seek_y;
 	Bitmap seek_image;
 	int seek_image_height,seek_image_width;
-	RadialGradient linear_gradient;
 	float seek_angle;
 	boolean isSeeking = false;
 
-	// int seek_measure_heigth,seek_measure_width;
 
 	public float getRadius() {
 		return radius;

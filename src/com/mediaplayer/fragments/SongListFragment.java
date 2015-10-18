@@ -76,7 +76,6 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 		songList = database.getSongs(null);
 		adapter = new SongsListAdapter(getActivity(), songList, lv);
 		lv.setTextFilterEnabled(true);
-		lv.setSelection(SongsHolder.smoothScrollTo);
 		lv.setFastScrollEnabled(true);
 		swipeActionAdapter = new SwipeActionAdapter(adapter);
 		swipeActionAdapter.setListView(lv);
@@ -119,7 +118,6 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		SongsHolder.smoothScrollTo = lv.getFirstVisiblePosition();
 	}
 
 	@Override

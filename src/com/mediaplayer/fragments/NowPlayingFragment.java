@@ -247,6 +247,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     @Override
     public void onResume() {
         super.onResume();
+        resetState();
     }
 
     private void updateUI(){
@@ -259,10 +260,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
     private void resetState() {
         SongInfo info  = SongsManager.getInstance().getCurrentSongInfo();
-        boolean isPlaying = SongsManager.getInstance().isPlaying();
         if(info!=null && MyApplication.isActivityVisible()){
                 onSongStarted(info);
-            updateNowPlayingListUI();
         }
         if(SongsManager.getInstance().isPlaying()){
             playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
@@ -291,13 +290,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             playSong();
         }
 
-    }
-
-
-
-    @Override
-    public void onSongCompleted() {
-        playNextSong();
     }
 
     @Override
@@ -398,6 +390,16 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                 public void run() {
                     duration_header.setText(duration);
                 }
+            });
+        }
+
+        @Override
+        public void onTimerEnd() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                     playNextSong();
+                 }
             });
         }
     };

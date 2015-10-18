@@ -1,5 +1,6 @@
 package com.mediaplayer.com;
 
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
@@ -32,7 +33,7 @@ public class PlayerTimerTask  extends Timer {
 
     public void execute(){
         myTask = new MyTask();
-        this.scheduleAtFixedRate(myTask, 0, 200);
+        this.scheduleAtFixedRate(myTask, 0, 1000);
     }
 
     public void cancel(){
@@ -48,12 +49,19 @@ public class PlayerTimerTask  extends Timer {
             if(listener!=null) {
                 String duration = currentPostion/60 + ":" + currentPostion%60;
                 listener.onTimerUpdate(duration);
+                if(currentPostion == PlayerTimerTask.this.duration - 1 ) {
+                    listener.onTimerEnd();
+                    PlayerTimerTask.this.cancel();
+                    PlayerTimerTask.this.purge();
+                }
             }
+            Log.d("Player Timer Task", currentPostion +":"+ duration);
         }
     }
 
     public interface TimerListener {
         void onTimerUpdate(String duration);
+        void onTimerEnd();
     }
 
 }

@@ -35,13 +35,6 @@ public class SongsManager {
 		}
 		return manager;
 	}
-	MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
-		@Override
-		public void onCompletion(MediaPlayer mediaPlayer) {
-			int difference =  (music.getDuration() - music.getCurrentPosition())/1000;
-			if(listener!=null && difference < 10) listener.onSongCompleted();
-		}
-	};
 	public void setListener(SongsListeners listener){
 		this.listener = listener;
 	}
@@ -59,6 +52,9 @@ public class SongsManager {
 		if(listener!=null) listener.onSongStarted(currentSongInfo);
 	}
 	public void resume(){
+        if(holder.getSongQueue().size() <= 1 && !isPlaying()){
+            play();
+        }
 		music.resume();
 	}
 	public void playSelectedSong(SongInfo info){
@@ -104,7 +100,7 @@ public class SongsManager {
 			holder = new SongsHolder();
 		}
 		if(music == null){
-			music = new Music(context,completionListener);
+			music = new Music(context);
 		}
 	}
 
@@ -162,7 +158,6 @@ public class SongsManager {
 
 	public interface SongsListeners{
 		void onSongStarted(SongInfo songInfo);
-		void onSongCompleted();
 		void onSongChanged(SongInfo songInfo);
 		void onSongAdded(SongInfo songInfo);
 	}

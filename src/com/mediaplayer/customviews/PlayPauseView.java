@@ -186,19 +186,6 @@ public class PlayPauseView extends View {
 
     }
 
-    private void rotateView() {
-        Animation an = new RotateAnimation(0.0f, 360.0f, 100, 100);
-
-        // Set the animation's parameters
-        an.setDuration(1000);               // duration in ms
-        an.setRepeatCount(0);                // -1 = infinite repeated
-        an.setRepeatMode(Animation.REVERSE); // reverses each repeat
-        an.setFillAfter(true);               // keep rotation after animation
-
-        // Aply animation to image view
-        this.setAnimation(an);
-    }
-
 
     class Line{
         int x1, y1, x2, y2, iniX, iniY, toX, toY;

@@ -21,9 +21,8 @@ public class Music{
 
 	MediaPlayer mediaPlayer;
 
-	public Music(Activity context, MediaPlayer.OnCompletionListener listener) {
+	public Music(Activity context) {
 		mediaPlayer = MediaPlayer.create(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-		mediaPlayer.setOnCompletionListener(listener);
 		mediaPlayer.reset();
 	}
 
