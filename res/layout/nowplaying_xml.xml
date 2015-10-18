@@ -185,7 +185,7 @@
             android:layout_alignLeft="@+id/seekbar_layout"
             android:layout_alignTop="@+id/identify_imageButton"
             android:adjustViewBounds="true"
-            android:background="@drawable/repeat_button_custom" />
+            android:background="@drawable/repeat" />
 
         <ImageButton
             android:id="@+id/shuffle_button"
@@ -193,7 +193,7 @@
             android:layout_height="50dp"
             android:layout_alignTop="@+id/identify_imageButton"
             android:layout_toLeftOf="@+id/nextbutton"
-            android:background="@drawable/shuffle_button_custom" />
+            android:background="@drawable/shuffle" />
 
         <TextView
             android:id="@+id/tempduration_textView"
