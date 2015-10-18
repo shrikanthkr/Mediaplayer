@@ -150,8 +150,10 @@ public class SongsManager {
 		holder.getSongQueue().addAll(songList);
 	}
 	public void addSong(SongInfo info){
-		holder.getSongQueue().add(info);
-		if(listener!=null) listener.onSongAdded(info);
+		holder.addSongToQueue(info);
+		if(listener!=null) {
+			listener.onSongAdded(info);
+		}
 	}
 
 	public boolean isPlaying() {

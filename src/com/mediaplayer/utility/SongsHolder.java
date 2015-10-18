@@ -38,6 +38,7 @@ public class SongsHolder {
 	public  void addSongToQueue(SongInfo songInfo){
 		if(songQueue == null){
 			songQueue = new LinkedList<>();
+			currentSongInfo = songInfo;
 		}
 		songQueue.addLast(songInfo);
 	}
