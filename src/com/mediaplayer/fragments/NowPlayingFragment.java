@@ -73,6 +73,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     View playerView;
     SharedPreferences preferences;
     SharedPreferences.Editor prefsEditor;
+    NowPlayingHorizontalAdapter horizontal_adapter;
+    ArrayList<SongInfo> horizontal_songInfo_array = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -248,11 +250,12 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         boolean isShuffle = SongsManager.getInstance().isShuffle();
         if(!isShuffle){
             SongsManager.getInstance().shuffleSongs();
+            updateUI();
         }
         isShuffle = isShuffle ? false: true;
         SongsManager.getInstance().setIsShuffle(isShuffle);
         setButtonState();
-        updateUI();
+
     }
 
     ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -398,13 +401,10 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
     }
     private void updateNowPlayingListUI() {
-        ArrayList<SongInfo> horizontal_songInfo_array = null;
-        NowPlayingHorizontalAdapter horizontal_adapter;
         horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
         horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
         nowplaying_horizontal.setAdapter(horizontal_adapter);
         count_label.setText("Queue (" + horizontal_songInfo_array.size() +")");
-
     }
 
 

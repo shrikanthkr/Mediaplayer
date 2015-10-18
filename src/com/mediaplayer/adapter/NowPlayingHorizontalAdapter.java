@@ -7,12 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.manager.BroadcastManager;
+
+import org.w3c.dom.Text;
 
 public class NowPlayingHorizontalAdapter extends HorizontalAdapter {
 
@@ -36,4 +41,12 @@ public class NowPlayingHorizontalAdapter extends HorizontalAdapter {
 
 	}
 
+	@Override
+	public View getView(int arg0, View vi, ViewGroup arg2) {
+		View v  = super.getView(arg0, vi, arg2);
+		if(song_array.get(arg0).getId()  == SongsManager.getInstance().getCurrentSongInfo().getId()){
+			((TextView)v.findViewById(R.id.song_name_textView)).setTextColor(activity.getResources().getColor(R.color.base_dark));
+		}
+		return v;
+	}
 }
