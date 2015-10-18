@@ -304,6 +304,11 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         playSong();
     }
 
+    @Override
+    public void onSongCompleted() {
+        playNextSong();
+    }
+
     private void pauseSong(){
         SongsManager.getInstance().pause();
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
@@ -390,16 +395,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                 public void run() {
                     duration_header.setText(duration);
                 }
-            });
-        }
-
-        @Override
-        public void onTimerEnd() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                     playNextSong();
-                 }
             });
         }
     };

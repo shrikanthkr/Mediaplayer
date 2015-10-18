@@ -19,11 +19,14 @@ import android.provider.MediaStore;
 
 public class Music{
 
-	MediaPlayer mediaPlayer;
-
-	public Music(Activity context) {
+	static  MediaPlayer mediaPlayer;
+	MediaPlayer.OnCompletionListener completionListener;
+	public Music(Activity context,MediaPlayer.OnCompletionListener completionListener)  {
+		mediaPlayer = null;
 		mediaPlayer = MediaPlayer.create(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 		mediaPlayer.reset();
+		this.completionListener =completionListener;
+		mediaPlayer.setOnCompletionListener(completionListener);
 	}
 
 	public void setFileDescriptor(FileDescriptor fileDescriptor) {

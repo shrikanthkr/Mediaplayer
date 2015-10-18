@@ -25,6 +25,7 @@ public class PlayPauseView extends View {
     float angle;
     Line one,two;
     int adjustment = 10;
+    int width, height;
 
     public enum ROTATESTATE {
         PLAYING, PAUSED, UNKNOWN
@@ -33,7 +34,7 @@ public class PlayPauseView extends View {
     public PlayPauseView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setPaintAtttrubutes();
-        initPositions(0,0);
+        initPositions(0, 0);
     }
 
     private void setPaintAtttrubutes(){
@@ -53,6 +54,8 @@ public class PlayPauseView extends View {
         centerX = w/2;
         centerY = h/2;
         initPositions(w,h);
+        width = w;
+        height = h;
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
@@ -68,6 +71,7 @@ public class PlayPauseView extends View {
         two.iniY = two.y1 = 0 + adjustment;
         two.x2 = width - adjustment;
         two.y2 = height - adjustment;
+        angle =0;
     }
 
     @Override
@@ -83,8 +87,7 @@ public class PlayPauseView extends View {
 
 
     public void togglePlayPauseButton(ROTATESTATE  currentState) {
-        if(currentState == this.currentState) return;
-
+        initPositions(width,height);
         this.currentState = currentState;
         switch (currentState){
             case PAUSED:

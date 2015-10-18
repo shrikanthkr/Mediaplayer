@@ -100,7 +100,7 @@ public class SongsManager {
 			holder = new SongsHolder();
 		}
 		if(music == null){
-			music = new Music(context);
+			music = new Music(context,completionListener);
 		}
 	}
 
@@ -152,6 +152,13 @@ public class SongsManager {
 		}
 	}
 
+    MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            if(listener!=null) listener.onSongCompleted();
+        }
+    };
+
 	public boolean isPlaying() {
 		return music.isPlaying();
 	}
@@ -160,5 +167,6 @@ public class SongsManager {
 		void onSongStarted(SongInfo songInfo);
 		void onSongChanged(SongInfo songInfo);
 		void onSongAdded(SongInfo songInfo);
+        void onSongCompleted();
 	}
 }
