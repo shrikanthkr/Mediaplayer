@@ -66,7 +66,6 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        super.onCreateOptionsMenu(menu, inflater);
         searchView = (SearchView)menu.findItem(R.id.search).getActionView();
         searchView.setOnQueryTextListener(this);
     }
