@@ -13,6 +13,7 @@
             android:layout_marginRight="10dp"
             android:horizontalSpacing="1dp"
             android:verticalSpacing="5dp"
+            android:paddingBottom="60dp"
             android:background="@android:color/white"
             android:numColumns="2">
         </GridView>

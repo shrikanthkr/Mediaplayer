@@ -16,6 +16,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
@@ -332,5 +333,68 @@ public class SongInfoDatabase {
 		}
 		c1.close();
 		return songInfo_array;
+	}
+
+	public void addToPlaylist(long[] songIds, long playlistId){
+		for(int i=0;i<songIds.length;i++){
+			addToPlaylist(songIds[i],playlistId);
+		}
+	}
+	public  void addToPlaylist(long audioId, long playlistId) {
+
+		String[] cols = new String[] {
+				"count(*)"
+		};
+		Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
+		Cursor cur = ourContext.getContentResolver().query(uri, cols, null, null, null);
+		cur.moveToFirst();
+		final int base = cur.getInt(0);
+		cur.close();
+		ContentValues values = new ContentValues();
+		values.put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, base + audioId);
+		values.put(MediaStore.Audio.Playlists.Members.AUDIO_ID, audioId);
+		ourContext.getContentResolver().insert(uri, values);
+	}
+
+	public  void removeFromPlaylist( int playlistId, int audioId) {
+		Log.v("made it to add", "" + audioId);
+		String[] cols = new String[] {
+				"count(*)"
+		};
+		Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
+		Cursor cur = ourContext.getContentResolver().query(uri, cols, null, null, null);
+		cur.moveToFirst();
+		final int base = cur.getInt(0);
+		cur.close();
+		ourContext.getContentResolver().delete(uri, MediaStore.Audio.Playlists.Members.AUDIO_ID + " = " + audioId, null);
+	}
+	public void createNewPLaylist(long[] songIds,String name){
+		int id = createPlaylist(name);
+		addToPlaylist(songIds,id);
+	}
+	public int createPlaylist(String name){
+		final String[] PROJECTION_PLAYLIST = new String[] {
+				MediaStore.Audio.Playlists._ID,
+				MediaStore.Audio.Playlists.NAME,
+				MediaStore.Audio.Playlists.DATA
+		};
+		int mPlaylistId = 0;
+
+		ContentValues mInserts = new ContentValues();
+		mInserts.put(MediaStore.Audio.Playlists.NAME, name);
+		mInserts.put(MediaStore.Audio.Playlists.DATE_ADDED, System.currentTimeMillis());
+		mInserts.put(MediaStore.Audio.Playlists.DATE_MODIFIED, System.currentTimeMillis());
+		Uri mUri = ourContext.getContentResolver().insert(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, mInserts);
+		if (mUri != null) {
+			Cursor c = ourContext.getContentResolver().query(mUri, PROJECTION_PLAYLIST, null, null, null);
+			if (c != null) {
+				// Save the newly created ID so it can be selected.  Names are allowed to be duplicated,
+				// but IDs can never be.
+				c.moveToFirst();
+				mPlaylistId = c.getInt(c.getColumnIndex(MediaStore.Audio.Playlists._ID));
+				c.close();
+			}
+		}
+		return mPlaylistId;
 	}
 }

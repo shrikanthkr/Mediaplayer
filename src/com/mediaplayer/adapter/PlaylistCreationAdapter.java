@@ -129,4 +129,9 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
             selected_song_array.put(song_array.get(position).getId(), song_array.get(position));
         }
     }
+
+    public Map<String, SongInfo> getSelected_song_array() {
+        return selected_song_array;
+    }
+
 }
