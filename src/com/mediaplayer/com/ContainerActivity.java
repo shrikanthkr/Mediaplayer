@@ -45,7 +45,7 @@ public class ContainerActivity extends Activity {
 		mDrawerList = (ListView) findViewById(R.id.drawer_frame);
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, labels));
-		mDrawerList.addHeaderView(this.getLayoutInflater().inflate(R.layout.sidebar_header,null));
+		mDrawerList.addHeaderView(this.getLayoutInflater().inflate(R.layout.sidebar_header, null));
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
@@ -104,9 +104,10 @@ public class ContainerActivity extends Activity {
 	/** Swaps fragments in the main content view */
 	private void selectItem(int position) {
 		// Create a new fragment and specify the planet to show based on position
-		currentFragmentState = position;
 		mDrawerLayout.closeDrawer(mDrawerList);
 		// Highlight the selected item, update the title, and close the drawer
+		position = position - mDrawerList.getHeaderViewsCount();
+		currentFragmentState = position;
 		mDrawerList.setItemChecked(position, true);
 
 	}
@@ -120,34 +121,35 @@ public class ContainerActivity extends Activity {
 		}
 		previousFragmentState = currentFragmentState;
 		Fragment fragment;
-		switch (state){
-			case 0:
-				fragment =  new SongListFragment();
-				break;
-			case 1:
-				fragment =  new PlaylistsFragment();
-				break;
-			case 2:
-				fragment =  new SongListFragment();
-				break;
-			case 3:
-				fragment =  new AlbumsFragment();
-				break;
-			case 4:
-				fragment =  new ArtistsFragment();
-				break;
-			default:
-				fragment =  new SongListFragment();
-				previousFragmentState = currentFragmentState = 2;
-				break;
+		fragment = getFragmentManager().findFragmentByTag(""+currentFragmentState);
+		if(fragment==null) {
+			switch (state) {
+				case 0:
+					fragment = new SongListFragment();
+					break;
+				case 1:
+					fragment = new PlaylistsFragment();
+					break;
+				case 2:
+					fragment = new SongListFragment();
+					break;
+				case 3:
+					fragment = new AlbumsFragment();
+					break;
+				case 4:
+					fragment = new ArtistsFragment();
+					break;
+				default:
+					fragment = new SongListFragment();
+					previousFragmentState = currentFragmentState = 2;
+					break;
+			}
+			Bundle args = new Bundle();
+			fragment.setArguments(args);
 		}
-		Bundle args = new Bundle();
-		// args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-		fragment.setArguments(args);
-		// Insert the fragment by replacing any existing fragment
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment)
+				.replace(R.id.content_frame, fragment,""+currentFragmentState)
 				.addToBackStack(null)
 				.commit();
 	}
