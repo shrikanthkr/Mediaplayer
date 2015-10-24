@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mediaplayer.com.MetaInfo;
+import com.mediaplayer.com.PlaylistCreationActivity;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
@@ -78,7 +79,7 @@ public class PlaylistsFragment extends MultiviewFragment  implements AdapterView
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.playlist_menu,menu);
+        inflater.inflate(R.menu.playlist_menu, menu);
     }
 
     @Override
@@ -86,12 +87,17 @@ public class PlaylistsFragment extends MultiviewFragment  implements AdapterView
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
             case R.id.add_playlist:
-
+                launchPlaylistCreation();
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void launchPlaylistCreation() {
+        Intent i = new Intent(getActivity(),PlaylistCreationActivity.class);
+        startActivity(i);
     }
 }
 
