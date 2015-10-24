@@ -31,7 +31,6 @@ public class ContainerActivity extends Activity {
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	int previousFragmentState = -1, currentFragmentState = -1;
-	static int topOffset;
 	NowPlayingFragment nowPlayingFragment;
 
 
@@ -44,9 +43,9 @@ public class ContainerActivity extends Activity {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_frame);
-		mDrawerList.setPadding(0,topOffset,0,0);
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, labels));
+		mDrawerList.addHeaderView(this.getLayoutInflater().inflate(R.layout.sidebar_header,null));
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
@@ -93,7 +92,6 @@ public class ContainerActivity extends Activity {
 
 		// Make the drawer replace the first child
 		decor.addView(drawer);
-		topOffset = dummy.getLayoutParams().height;
 	}
 
 	private class DrawerItemClickListener implements ListView.OnItemClickListener {
