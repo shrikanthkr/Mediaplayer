@@ -60,9 +60,7 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
     public class ViewHolder {
         public TextView title;
         public TextView section_headerview;
-        public boolean isSelected;
         public ImageView selected;
-
     }
     @Override
     public View getView(int arg0, View vi, ViewGroup parent) {
@@ -80,7 +78,7 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
             holder = (ViewHolder) vi.getTag();
         }
         holder.title.setText(song_array.get(arg0).getTitle());
-        if(holder.isSelected){
+        if(selected_song_array.get(song_array.get(arg0).getId())!=null){
             holder.selected.setVisibility(View.VISIBLE);
         }else{
             holder.selected.setVisibility(View.GONE);
@@ -123,15 +121,12 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ViewHolder holder = (ViewHolder)view.getTag();
-        if(holder.isSelected){
-            holder.isSelected = false;
+        if(selected_song_array.get(song_array.get(position).getId())!=null){
             holder.selected.setVisibility(View.GONE);
             selected_song_array.remove(song_array.get(position).getId());
         }else{
-            holder.isSelected = true;
             holder.selected.setVisibility(View.VISIBLE);
             selected_song_array.put(song_array.get(position).getId(), song_array.get(position));
         }
-
     }
 }
