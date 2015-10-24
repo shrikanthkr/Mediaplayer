@@ -73,6 +73,7 @@ public class PlaylistCreationActivity extends Activity {
                 long[] ids = getLongArray();
                 if (name != null && name.length() > 0) {
                     SongInfoDatabase.getInstance().createNewPLaylist(ids,name);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Please enter a valid name", Toast.LENGTH_LONG).show();
                 }

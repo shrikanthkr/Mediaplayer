@@ -42,10 +42,18 @@ public class NowPlayingHorizontalAdapter extends HorizontalAdapter {
 	}
 
 	@Override
+	public int getCount() {
+		return song_array.size();
+	}
+
+	@Override
 	public View getView(int arg0, View vi, ViewGroup arg2) {
 		View v  = super.getView(arg0, vi, arg2);
-		if(song_array.get(arg0).getId()  == SongsManager.getInstance().getCurrentSongInfo().getId()){
+		if(SongsManager.getInstance().getCurrentSongInfo()!=null && song_array.get(arg0).getId()  == SongsManager.getInstance().getCurrentSongInfo().getId()){
 			((TextView)v.findViewById(R.id.song_name_textView)).setTextColor(activity.getResources().getColor(R.color.base_dark));
+		}else{
+			((TextView)v.findViewById(R.id.song_name_textView)).setTextColor(activity.getResources().getColor(R.color.light_text_color));
+
 		}
 		return v;
 	}

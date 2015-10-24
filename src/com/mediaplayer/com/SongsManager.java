@@ -81,8 +81,9 @@ public class SongsManager {
 		music.resume();
 	}
 	public void playSelectedSong(SongInfo info){
-		if( holder.getSongQueue().indexOf(info) == -1)
+		if( holder.getSongQueue().indexOf(info) == -1){
 			holder.addSongToQueue(info);
+		}
 		play(info);
 		if(listener!=null) listener.onSongChanged(info);
 	}

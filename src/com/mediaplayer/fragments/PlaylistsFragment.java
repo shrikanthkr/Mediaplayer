@@ -53,7 +53,6 @@ public class PlaylistsFragment extends MultiviewFragment  implements AdapterView
     public void setData() {
         database =  SongInfoDatabase.getInstance();
         list = database.getPLaylists(null);
-
     }
 
     @Override
@@ -74,6 +73,13 @@ public class PlaylistsFragment extends MultiviewFragment  implements AdapterView
         playSong.putExtras(b);
         LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
         Toast.makeText(activity, "Added to Queue", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setData();
+        adapter.addAll(list);
     }
 
     @Override

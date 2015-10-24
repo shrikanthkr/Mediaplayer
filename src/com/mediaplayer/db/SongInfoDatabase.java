@@ -308,9 +308,6 @@ public class SongInfoDatabase {
 				MediaStore.Audio.Playlists.Members.ARTIST,
 				MediaStore.Audio.Playlists.Members.TITLE,
 				MediaStore.Audio.Playlists.Members._ID
-
-
-
 		};
 		Cursor cursor = null;
 		cursor = ourContext.getContentResolver().query(
@@ -328,8 +325,14 @@ public class SongInfoDatabase {
 		songInfo_array = new ArrayList<>();
 		Cursor c1 = getPLaylistCursor(info.getId());
 		for (c1.moveToFirst(); !c1.isAfterLast(); c1.moveToNext()) {
-			item = new SongInfo(c1);
-			songInfo_array.add(item);
+			String query = MediaStore.Audio.Media._ID + "=" + c1.getInt(c1.getColumnIndex(MediaStore.Audio.Playlists.Members.AUDIO_ID));
+			Cursor mediaCursor = getMediaStoreCursor(query,"1");
+			if(mediaCursor!=null) {
+				mediaCursor.moveToFirst();
+				item = new SongInfo(mediaCursor);
+				songInfo_array.add(item);
+				mediaCursor.close();
+			}
 		}
 		c1.close();
 		return songInfo_array;
