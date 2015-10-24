@@ -94,6 +94,11 @@ public abstract class HorizontalAdapter extends BaseAdapter implements
 		TextView song_name;
 	}
 
+	public void addAll(ArrayList<SongInfo> song_array){
+		this.song_array.clear();
+		this.song_array.addAll(song_array);
+		notifyDataSetChanged();
+	}
 
 
 }

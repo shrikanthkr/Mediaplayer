@@ -85,8 +85,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         SongsManager.getInstance().setContext(getActivity());
         preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         prefsEditor = preferences.edit();
-        SongsManager.getInstance().setIsRepeat(preferences.getBoolean(IS_REPEAT,false));
+        SongsManager.getInstance().setIsRepeat(preferences.getBoolean(IS_REPEAT, false));
         SongsManager.getInstance().setIsShuffle(preferences.getBoolean(IS_SHUFFLE, false));
+
     }
 
     @Override
@@ -101,6 +102,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         setViewIds(playerView);
         playerView.setOnTouchListener(slideHandler);
         SongsManager.getInstance().setListener(this);
+        horizontal_songInfo_array = new ArrayList<>();
+        horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
+        nowplaying_horizontal.setAdapter(horizontal_adapter);
         return playerView;
     }
 
@@ -402,8 +406,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     }
     private void updateNowPlayingListUI() {
         horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
-        horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
-        nowplaying_horizontal.setAdapter(horizontal_adapter);
+        horizontal_adapter.addAll(horizontal_songInfo_array);
+        //nowplaying_horizontal.setAdapter(horizontal_adapter);
         count_label.setText("Queue (" + horizontal_songInfo_array.size() +")");
     }
 
