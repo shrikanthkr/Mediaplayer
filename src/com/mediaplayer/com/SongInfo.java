@@ -118,4 +118,8 @@ public class SongInfo  implements Serializable{
 		this.duration = duration;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return this.getId() == ((SongInfo)o).getId();
+	}
 }
