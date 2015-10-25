@@ -31,6 +31,7 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
     private int width,height;
     Activity activity;
     static LruCache<String, Bitmap> cache = new LruCache<>(4  *1024);
+    static Bitmap defaultBitmap;
     public AlbumArtLoader(Activity activity, String albumId, ImageView imageView, Mode mode) {
         this.id = albumId;
         this.imageView = imageView;
@@ -38,6 +39,8 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
         this.current = mode;
         width = imageView.getDrawable().getIntrinsicWidth();
         height = imageView.getDrawable().getIntrinsicHeight();
+        if(defaultBitmap==null)
+            defaultBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.albums);
     }
 
     @Override
@@ -72,7 +75,7 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            bitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.albums);
+            bitmap = defaultBitmap;
         }
         return bitmap;
     }
