@@ -60,7 +60,7 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
                 id = id;
                 break;
         }
-        Uri uri = ContentUris.withAppendedId(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, Long.parseLong(id) );
+        Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), Long.parseLong(id) );
         Bitmap bitmap;
         try {
             bitmap = cache.get(id);
