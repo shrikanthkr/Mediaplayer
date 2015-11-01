@@ -69,6 +69,7 @@ public class GridAdapter extends BaseAdapter{
 	public class ViewHolder {
 		TextView name;
 		ImageView album;
+		ImageView more;
 	}
 
 	public void addAll(ArrayList<MetaInfo> infos){
@@ -87,10 +88,13 @@ public class GridAdapter extends BaseAdapter{
 					.findViewById(R.id.song_name);
 			holder.album = (ImageView) vi
 					.findViewById(R.id.album_imageView);
+			holder.more = (ImageView)vi.findViewById(R.id.more);
 			vi.setTag(holder);
 		} else {
 			holder = (ViewHolder) vi.getTag();
 		}
+		//final SongInfo info =  infos.get(position);
+
 
 		holder.name.setText(infos.get(position).getName());
 		new AlbumArtLoader(activity,infos.get(position).getId(),holder.album, current).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

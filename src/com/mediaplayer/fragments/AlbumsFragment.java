@@ -24,7 +24,7 @@ import java.util.LinkedList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class AlbumsFragment extends MultiviewFragment  implements AdapterView.OnItemClickListener{
+public class AlbumsFragment extends MultiviewFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
@@ -50,17 +50,11 @@ public class AlbumsFragment extends MultiviewFragment  implements AdapterView.On
         list = new ArrayList<MetaInfo>();
         list = database.getAlbums(null);
     }
+
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        MetaInfo info  =list.get(i);
+    public ArrayList<SongInfo> getToBePlayedData(MetaInfo info) {
         SongInfoDatabase db =  SongInfoDatabase.getInstance();
-        LinkedList<SongInfo> serailaLisedArray = new LinkedList<SongInfo>(db.getSongsForAlbum(info));
-        Intent playSong = new Intent(BroadcastManager.APPEND_LIST);
-        Bundle b= new Bundle();
-        b.putSerializable(BroadcastManager.LIST_KEY, serailaLisedArray);
-        playSong.putExtras(b);
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
-        Toast.makeText(activity, "Added to Queue", Toast.LENGTH_LONG).show();
+        return db.getSongsForAlbum(info);
     }
 
     @Override

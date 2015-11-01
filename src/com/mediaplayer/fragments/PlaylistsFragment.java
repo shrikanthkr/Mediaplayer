@@ -29,7 +29,7 @@ import java.util.LinkedList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class PlaylistsFragment extends MultiviewFragment  implements AdapterView.OnItemClickListener{
+public class PlaylistsFragment extends MultiviewFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,23 +56,16 @@ public class PlaylistsFragment extends MultiviewFragment  implements AdapterView
     }
 
     @Override
+    public ArrayList<SongInfo> getToBePlayedData(MetaInfo info) {
+        SongInfoDatabase db =  SongInfoDatabase.getInstance();
+        return db.getSongsForPlaylist(info);
+    }
+
+    @Override
     public void searchSongs(String search) {
         list = database.getPLaylists(search);
         adapter.addAll(list);
 
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        MetaInfo info  =list.get(i);
-        SongInfoDatabase db =  SongInfoDatabase.getInstance();
-        LinkedList<SongInfo> serailaLisedArray = new LinkedList<SongInfo>(db.getSongsForPlaylist(info));
-        Intent playSong = new Intent(BroadcastManager.APPEND_LIST);
-        Bundle b= new Bundle();
-        b.putSerializable(BroadcastManager.LIST_KEY, serailaLisedArray);
-        playSong.putExtras(b);
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
-        Toast.makeText(activity, "Added to Queue", Toast.LENGTH_LONG).show();
     }
 
     @Override
