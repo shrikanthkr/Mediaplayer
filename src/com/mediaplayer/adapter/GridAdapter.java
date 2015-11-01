@@ -7,6 +7,7 @@ import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
+import com.mediaplayer.fragments.MultiviewFragment;
 import com.mediaplayer.listener.PlaylistChangedListener;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;
@@ -37,14 +40,16 @@ public class GridAdapter extends BaseAdapter{
 	GridView gv;
 	ViewHolder holder;
 	AlbumArtLoader.Mode current;
+	MultiviewFragment fragment;
 
-	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, GridView gv, AlbumArtLoader.Mode mode) {
+	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, GridView gv, AlbumArtLoader.Mode mode, MultiviewFragment fragment) {
 		super();
 		this.activity = activity;
 		this.infos = infos;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.gv = gv;
 		current = mode;
+		this.fragment = fragment;
 	}
 
 
@@ -69,7 +74,7 @@ public class GridAdapter extends BaseAdapter{
 	public class ViewHolder {
 		TextView name;
 		ImageView album;
-		ImageView more;
+		LinearLayout more_layout;
 	}
 
 	public void addAll(ArrayList<MetaInfo> infos){
@@ -88,19 +93,25 @@ public class GridAdapter extends BaseAdapter{
 					.findViewById(R.id.song_name);
 			holder.album = (ImageView) vi
 					.findViewById(R.id.album_imageView);
-			holder.more = (ImageView)vi.findViewById(R.id.more);
+			holder.more_layout = (LinearLayout)vi.findViewById(R.id.more_layout);
 			vi.setTag(holder);
 		} else {
 			holder = (ViewHolder) vi.getTag();
 		}
-		//final SongInfo info =  infos.get(position);
 
-
+		holder.more_layout.setOnClickListener(moreListener);
 		holder.name.setText(infos.get(position).getName());
 		new AlbumArtLoader(activity,infos.get(position).getId(),holder.album, current).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		return vi;
 	}
-	
+
+	View.OnClickListener moreListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			int position = gv.getPositionForView(v);
+			fragment.showMore(v, position);
+		}
+	};
 	
 
 }

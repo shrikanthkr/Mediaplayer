@@ -29,7 +29,7 @@ public class Music{
 		mediaPlayer.setOnCompletionListener(completionListener);
 	}
 
-	public void setFileDescriptor(FileDescriptor fileDescriptor) {
+	public void setFileDescriptor(FileDescriptor fileDescriptor) throws  RuntimeException{
 		try {
 			if(mediaPlayer.isPlaying()) {
 				stop();
@@ -38,6 +38,7 @@ public class Music{
 			play();
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			mediaPlayer.reset();
 			throw new RuntimeException("Couldn't load music, uh oh!");
 		}
 	}

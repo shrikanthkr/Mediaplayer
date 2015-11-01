@@ -81,6 +81,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         super.onCreate(savedInstanceState);
         dm =getResources().getDisplayMetrics();
         BroadcastManager.registerForEvent(BroadcastManager.PLAYSONG, receiver);
+        BroadcastManager.registerForEvent(BroadcastManager.PLAY_SELECTED, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
         SongsManager.getInstance().setContext(getActivity());
         preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -122,6 +123,12 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     LinkedList<SongInfo> songList =(LinkedList<SongInfo>)b.getSerializable(BroadcastManager.LIST_KEY);
                     if(songList!=null && songList.size() > 0)
                         SongsManager.getInstance().appendSongs(songList);
+                    break;
+                case BroadcastManager.PLAY_SELECTED:
+                    LinkedList<SongInfo> selectedSongList =(LinkedList<SongInfo>)b.getSerializable(BroadcastManager.LIST_KEY);
+                    if(selectedSongList!=null && selectedSongList.size() > 0){
+                        SongsManager.getInstance().addSelectedSongs(selectedSongList);
+                    }
                     break;
             }
             if(songInfo!=null){

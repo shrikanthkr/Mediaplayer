@@ -70,7 +70,12 @@ public class SongsManager {
 		SongInfo currentSongInfo  = holder.getCurrentSongInfo();
 		FileDescriptor fd = getFileDescriptor(currentSongInfo);
 		if(music!=null) music.reset();
-		music.setFileDescriptor(fd);
+		try{
+			music.setFileDescriptor(fd);
+		}catch(RuntimeException e){
+			return;
+		}
+
 		music.play();
 		if(listener!=null) listener.onSongStarted(currentSongInfo);
 	}
@@ -167,6 +172,11 @@ public class SongsManager {
 	}
 
 	public void appendSongs(LinkedList<SongInfo> songList) {
+		holder.getSongQueue().addAll(songList);
+	}
+
+	public void addSelectedSongs(LinkedList<SongInfo> songList) {
+		holder.getSongQueue().clear();
 		holder.getSongQueue().addAll(songList);
 	}
 	public void addSong(SongInfo info){
