@@ -16,5 +16,7 @@
     <string name="artists">Artists</string>
     <string name="playlist">Playlist</string>
     <string name="songs">Songs</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

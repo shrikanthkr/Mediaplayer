@@ -23,6 +23,9 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -32,9 +35,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
-
-        <meta-data android:name="com.crashlytics.ApiKey"
-                   android:value="0d49e5d4028eeb9be6fba4c81c0e1f93c8731b88" />
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="0d49e5d4028eeb9be6fba4c81c0e1f93c8731b88" />
 
         <activity
             android:name=".ContainerActivity"
@@ -61,9 +64,19 @@
 
         <activity
             android:name=".PlaylistCreationActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_playlist_creation" >
+            android:label="@string/title_activity_playlist_creation"
+            android:screenOrientation="portrait" >
         </activity>
+
+        <receiver android:name=".MusicWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/music_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
