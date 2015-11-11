@@ -10,5 +10,11 @@
     <string name="crash_toast_text">This is an error messages</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="title_activity_playlist_creation">PlaylistActivity</string>
+    <string name="search_title">Search</string>
+    <string name="albums">ALbums</string>
+    <string name="artists">Artists</string>
+    <string name="playlist">Playlist</string>
+    <string name="songs">Songs</string>
 
 </resources>
