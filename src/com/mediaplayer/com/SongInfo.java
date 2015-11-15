@@ -120,6 +120,6 @@ public class SongInfo  implements Serializable{
 
 	@Override
 	public boolean equals(Object o) {
-		return this.getId() == ((SongInfo)o).getId();
+		return (this.getId() == ((SongInfo)o).getId()) && (this.hashCode() == o.hashCode());
 	}
 }
