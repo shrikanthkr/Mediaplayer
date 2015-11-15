@@ -32,4 +32,5 @@ public class BroadcastManager {
     public static final String NOTIFICATION_PAUSE = "noti_pause";
     public static final String NOTIFICATION_PREV = "noti_prev";
     public static final String NOTIFICATION_NEXT = "noti_next";
+    public static final String NOTIFICATION_RESUME = "noti_resume";
 }

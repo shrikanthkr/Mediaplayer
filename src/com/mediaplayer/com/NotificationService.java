@@ -13,12 +13,14 @@ import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
 import com.mediaplayer.manager.BroadcastManager;
+import com.mediaplayer.manager.NotificationHelper;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class NotificationService extends Service {
 
+    NotificationHelper notificationHelper;
 
     @Override
     public void onCreate() {
@@ -56,7 +58,14 @@ public class NotificationService extends Service {
                     case BroadcastManager.NOTIFICATION_PREV:
                         SongsManager.getInstance().playPreviousSong();
                         break;
+                    case BroadcastManager.NOTIFICATION_RESUME:
+                        SongsManager.getInstance().resume();
+                        break;
                 }
+            if(SongsManager.getInstance().getCurrentSongInfo()!=null){
+                if(notificationHelper!=null) notificationHelper.notificationCancel();
+                notificationHelper = new NotificationHelper(NotificationService.this);
+            }
         }
     };
 }

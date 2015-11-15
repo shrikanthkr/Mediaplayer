@@ -13,6 +13,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -141,7 +142,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     break;
             }
             if(songInfo!=null){
-                SongsManager.getInstance().playSelectedSong(songInfo);
+                playSong(songInfo);
             }else{
                 updateNowPlayingListUI();
             }
@@ -372,7 +373,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             seekbarTouochHandler.removeOnSeekListener();
             seekbarTouochHandler.setOnSeekListener(this);
             updateUI();
-            playSong();
         }
 
     }
@@ -386,7 +386,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     public void onSongAdded(SongInfo songInfo) {
         Toast.makeText(getActivity(),songInfo.getTitle() + " Added",Toast.LENGTH_LONG).show();
         updateUI();
-        playSong();
+        resumeSong();
     }
 
     @Override
@@ -395,30 +395,34 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     }
 
     private void pauseSong(){
-        SongsManager.getInstance().pause();
+        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PAUSE));
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
         playerTimer.setIsPlaying(false);
     }
-
-    private void playSong(){
+    private void resumeSong(){
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
-        SongsManager.getInstance().resume();
+        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_RESUME));
+    }
+
+    private void playSong(SongInfo songInfo){
+        playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
+        SongsManager.getInstance().playSelectedSong(songInfo);
     }
 
     private void playPauseSong(){
         if( SongsManager.getInstance().isPlaying()){
                 pauseSong();
         }else{
-                playSong();
+            resumeSong();
         }
     }
 
     private void playNextSong(){
-        SongsManager.getInstance().playNextSong();
+        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_NEXT));
     }
 
     private void playPreviousSong(){
-        SongsManager.getInstance().playPreviousSong();
+        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PREV));
     }
     private void updateSongInfo(){
         SongInfo currentSong = SongsManager.getInstance().getCurrentSongInfo();
