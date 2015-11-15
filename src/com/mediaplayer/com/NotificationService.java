@@ -28,6 +28,7 @@ public class NotificationService extends Service {
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PAUSE)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_NEXT)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PREV)));
+        registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_RESUME)));
         super.onCreate();
     }
 
