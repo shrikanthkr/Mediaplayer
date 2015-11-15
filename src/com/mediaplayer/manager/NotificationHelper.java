@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
@@ -43,12 +44,15 @@ public class NotificationHelper {
     public NotificationHelper(Context parent) {
         info = SongsManager.getInstance().getCurrentSongInfo();
         this.parent = parent;
+        Intent myIntent = new Intent(parent, ContainerActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(parent, 0, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         nBuilder = new NotificationCompat.Builder(parent)
                 .setSmallIcon(R.drawable.albums)
                 .setTicker(info.getDisplayName())
                 .setContentTitle(info.getDisplayName())
                 .setOngoing(true)
                 .setStyle(new NotificationCompat.BigTextStyle())
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(false);
 
         remoteView = new RemoteViews(parent.getPackageName(), R.layout.notificationview);
@@ -89,10 +93,6 @@ public class NotificationHelper {
         pauseIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_PAUSE);
         PendingIntent pause = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, pauseIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         view.setOnClickPendingIntent(R.id.pause_button, pause);
-
-        Intent activityIntent = new Intent(parent,ContainerActivity.class);
-        PendingIntent activity = PendingIntent.getActivity(parent,9999,activityIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        view.setOnClickPendingIntent(R.id.notification_container, activity);
     }
 
     public void notificationCancel() {
@@ -115,12 +115,13 @@ public class NotificationHelper {
         Bitmap bm = null;
         Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), Long.parseLong(id));
         try {
-            bm = BitmapFactory.decodeFile(uri.toString());
+            bm =  MediaStore.Images.Media.getBitmap(parent.getContentResolver(), uri);
             if(bm==null){
                 bm  =BitmapFactory.decodeResource(parent.getResources(),R.drawable.albums);
             }
         } catch (Exception e) {
             Log.e("NOTIFICATION SERVIDE", "Error getting bitmap", e);
+            bm  =BitmapFactory.decodeResource(parent.getResources(),R.drawable.albums);
         }
         return bm;
     }

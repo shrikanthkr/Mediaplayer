@@ -15,6 +15,7 @@
             android:verticalSpacing="5dp"
             android:paddingBottom="60dp"
             android:background="@android:color/white"
+            android:fastScrollEnabled="true"
             android:numColumns="2">
         </GridView>
 
