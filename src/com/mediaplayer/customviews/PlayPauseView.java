@@ -1,5 +1,7 @@
 package com.mediaplayer.customviews;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.os.Handler;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 
 import com.mediaplayer.com.R;
@@ -26,7 +29,6 @@ public class PlayPauseView extends View {
     Line one,two;
     int adjustment = 10;
     int width, height;
-    Handler handler;
 
     public enum ROTATESTATE {
         PLAYING, PAUSED, UNKNOWN
@@ -108,83 +110,52 @@ public class PlayPauseView extends View {
 
     private  void moveLine(ROTATESTATE state) {
 
-        float[] pos, tan;
-        final float angleState;
-        handler = new Handler();
+        int startAngle, endAngle;
         if (state == ROTATESTATE.PLAYING) {
             one.toX = one.iniX;
             two.toX = two.iniX;
-            angleState = -1;
+            startAngle = 90;
+            endAngle = 0;
         } else {
             two.toX = one.toX = centerX ;
-            angleState = 1;
+            startAngle = 0;
+            endAngle = 90;
         }
-        one.path = new Path();
-        one.path.moveTo(one.x1, one.y1);
-        one.path.cubicTo(one.x1, one.y1,  one.toX, one.y1,  one.toX, one.y1);
-        one.measure = new PathMeasure(one.path, false);
+        AnimatorSet animatorSet = new AnimatorSet();
 
-        two.path = new Path();
-        two.path.moveTo(two.x1, two.y1);
-        two.path.cubicTo(two.x1, two.y1, two.toX, two.y1, two.toX, two.y1);
-        two.measure = new PathMeasure(two.path, false);
+        ValueAnimator lineOneAnimator = ValueAnimator.ofInt(one.x1,one.toX);
+        ValueAnimator lineTwoAnimator = ValueAnimator.ofInt(two.x1,two.toX);
+        ValueAnimator rotateAnimator = ValueAnimator.ofInt(startAngle,endAngle);
 
-
-        pos = new float[2];
-        tan = new float[2];
-        for (int i = 0; i < one.measure.getLength(); i++) {
-
-            one.measure.getPosTan(i, pos, tan);
-            final float OneMeasuredX = pos[0];
-            final float OneMeasuredY = pos[1];
-            final float  ratio = (90/( one.measure.getLength() - 1)) * angleState;
-
-            two.measure.getPosTan(i, pos, tan);
-            final float twoMeasuredX = pos[0];
-            final float twoMeasuredY = pos[1];
-            final int I = i;
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    one.x1 = (int) OneMeasuredX;
-                    one.y1 = (int) OneMeasuredY;
-                    two.x1 = (int) twoMeasuredX;
-                    two.y1 = (int) twoMeasuredY;
-
-                    angle = angle + ratio;
-                    if(angle < 0) angle = 0;
-
-                    Log.d("PLAYPAUSE" , "i: " + I + " andle:" + angle +"");
-                    invalidate();
-                }
-            }, 20 * i);
-        }
-        handler.postDelayed(new Runnable() {
+        lineOneAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void run() {
-                one.x1 = one.toX;
-                one.y1 = one.toY;
-                two.x1 = two.toX;
-                two.y1 = two.toY;
-                if(angle > 90){
-                    angle = 90;
-                }else{
-                    angle = 0;
-                }
+            public void onAnimationUpdate(ValueAnimator animation) {
+                one.x1 = (int) animation.getAnimatedValue();
                 invalidate();
             }
-        }, 20 * (int)one.measure.getLength());
+        });
+        lineTwoAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                two.x1 = (int) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        rotateAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                angle = (int) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        animatorSet.setDuration(300);
+        animatorSet.playTogether(lineOneAnimator,lineTwoAnimator,rotateAnimator);
+        animatorSet.start();
 
-    }
-    private int roundDown(int round){
-        return round - round%10;
     }
 
     class Line{
         int x1, y1, x2, y2, iniX, iniY, toX, toY;
-        Path path;
-        PathMeasure measure;
     }
 
 }
