@@ -2,8 +2,12 @@ package com.mediaplayer.com;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import com.crashlytics.android.Crashlytics;
+import com.mediaplayer.receiver.HeadSetIntentReceiver;
+
 import io.fabric.sdk.android.Fabric;
 
 /**
@@ -12,6 +16,7 @@ import io.fabric.sdk.android.Fabric;
 public class MyApplication extends Application {
 
     static Context context;
+    HeadSetIntentReceiver headSetReceiver;
 
     public static Context getContext(){
         return context;
@@ -25,8 +30,14 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-
         context = this;
+        registerReceivers();
+    }
+
+    private void registerReceivers() {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        headSetReceiver =  new HeadSetIntentReceiver();
+        registerReceiver(headSetReceiver, filter);
     }
 
     @Override
@@ -37,7 +48,13 @@ public class MyApplication extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
+        unRegisterListeners();
     }
+
+    private void unRegisterListeners() {
+        unregisterReceiver(headSetReceiver);
+    }
+
     public static boolean isActivityVisible() {
         return activityVisible;
     }

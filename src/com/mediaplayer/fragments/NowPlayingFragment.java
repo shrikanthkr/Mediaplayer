@@ -83,6 +83,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         BroadcastManager.registerForEvent(BroadcastManager.PLAYSONG, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.PLAY_SELECTED, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
+        BroadcastManager.registerForEvent(BroadcastManager.HEAD_SET_STATE_UPDATE, receiver);
         SongsManager.getInstance().setContext(getActivity());
         preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         prefsEditor = preferences.edit();
@@ -130,14 +131,15 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                         SongsManager.getInstance().addSelectedSongs(selectedSongList);
                     }
                     break;
+                case BroadcastManager.HEAD_SET_STATE_UPDATE:
+                    resetState();
+                    break;
             }
             if(songInfo!=null){
                 SongsManager.getInstance().playSelectedSong(songInfo);
             }else{
                 updateNowPlayingListUI();
             }
-            if(SongsManager.getInstance().getSongsList().size() > 0)
-                playSong();
 
         }
     };
@@ -330,10 +332,10 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
 
     private void resetState() {
         SongInfo info  = SongsManager.getInstance().getCurrentSongInfo();
-        if(info!=null && MyApplication.isActivityVisible()){
-                onSongStarted(info);
-        }
         if(SongsManager.getInstance().isPlaying()){
+            if(info!=null && MyApplication.isActivityVisible() ){
+                onSongStarted(info);
+            }
             playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
         }else{
             playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);

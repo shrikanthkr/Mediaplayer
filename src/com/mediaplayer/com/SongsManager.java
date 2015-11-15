@@ -23,7 +23,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.fragments.NowPlayingFragment;
 import com.mediaplayer.utility.SongsHolder;
 
 public class SongsManager {
@@ -35,7 +34,16 @@ public class SongsManager {
 	SongsManager.SongsListeners listener;
     boolean isRepeat = false;
     boolean isShuffle = false;
-    Set<String> playedSongs = new HashSet<>();
+
+	public boolean isPausedFfromHeadSet() {
+		return pausedFfromHeadSet;
+	}
+
+	public void setPausedFfromHeadSet(boolean pausedFfromHeadSet) {
+		this.pausedFfromHeadSet = pausedFfromHeadSet;
+	}
+
+	boolean pausedFfromHeadSet = false;
     public boolean isShuffle() {
         return isShuffle;
     }

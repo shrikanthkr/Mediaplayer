@@ -1,3 +1,4 @@
-build/*
+*/build/*
 #ignore bin files
-bin/*
+*/bin/*
+

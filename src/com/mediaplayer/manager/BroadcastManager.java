@@ -24,5 +24,6 @@ public class BroadcastManager {
     public static final String PLAY_SELECTED = "play_selected";
     public static final String SONG_KEY = "song";
     public static final String LIST_KEY = "list";
+    public static final String HEAD_SET_STATE_UPDATE = "head_set_state_update";
 
 }
