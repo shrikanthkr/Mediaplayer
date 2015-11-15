@@ -26,4 +26,10 @@ public class BroadcastManager {
     public static final String LIST_KEY = "list";
     public static final String HEAD_SET_STATE_UPDATE = "head_set_state_update";
 
+    public static final int NOTIFICATION_REQUEST_CODE = 9999;
+    public static final String NOTIFICATION_HANDLER = "noti_handle";
+    public static final String NOTIFICATION_PLAY = "noti_play";
+    public static final String NOTIFICATION_PAUSE = "noti_pause";
+    public static final String NOTIFICATION_PREV = "noti_prev";
+    public static final String NOTIFICATION_NEXT = "noti_next";
 }

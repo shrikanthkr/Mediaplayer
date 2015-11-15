@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
@@ -34,6 +35,7 @@ import com.echonest.api.v4.Track;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.com.Music;
 import com.mediaplayer.com.MyApplication;
+import com.mediaplayer.com.NotificationService;
 import com.mediaplayer.com.PlayerTimerTask;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
@@ -45,6 +47,7 @@ import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.manager.EchonestApiManager;
+import com.mediaplayer.manager.NotificationHelper;
 import com.mediaplayer.utility.AnimationUtil;
 
 import java.util.ArrayList;
@@ -75,6 +78,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     SharedPreferences.Editor prefsEditor;
     NowPlayingHorizontalAdapter horizontal_adapter;
     ArrayList<SongInfo> horizontal_songInfo_array = null;
+    NotificationHelper notificationHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,9 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         prefsEditor = preferences.edit();
         SongsManager.getInstance().setIsRepeat(preferences.getBoolean(IS_REPEAT, false));
         SongsManager.getInstance().setIsShuffle(preferences.getBoolean(IS_SHUFFLE, false));
-
+        updateNotificationUI();
+        getActivity().startService(new Intent(getActivity(), NotificationService.class));
+        getActivity().registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_HANDLER)));
     }
 
     @Override
@@ -328,6 +334,14 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         }
         updateNowPlayingListUI();
         updateSongInfo();
+        updateNotificationUI();
+    }
+
+    private void updateNotificationUI() {
+        if(SongsManager.getInstance().getCurrentSongInfo()!=null){
+            if(notificationHelper!=null) notificationHelper.notificationCancel();
+            notificationHelper = new NotificationHelper(getActivity());
+        }
     }
 
     private void resetState() {
@@ -465,6 +479,13 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     duration_header.setText(duration);
                 }
             });
+        }
+    };
+
+    BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateUI();
         }
     };
 }
