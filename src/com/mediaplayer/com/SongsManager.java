@@ -97,14 +97,9 @@ public class SongsManager {
 		if( holder.getSongQueue().indexOf(info) == -1){
 			holder.addSongToQueue(info);
 		}
-		play(info);
+		holder.setCurrentSongInfo(info);
 		if(listener!=null) listener.onSongChanged(info);
 	}
-	public void play(SongInfo info){
-		holder.setCurrentSongInfo(info);
-		play();
-	}
-
 	public void playNextSong() {
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo nextSong;
@@ -119,7 +114,8 @@ public class SongsManager {
                 holder.addSongToQueue(nextSong);
             }
         }
-		play(nextSong);
+		holder.setCurrentSongInfo(nextSong);
+		play();
 		if(listener!=null) listener.onSongChanged(nextSong);
 	}
 	public void playPreviousSong(){
@@ -131,8 +127,8 @@ public class SongsManager {
 
 			prevSong = holder.getSongQueue().getLast();
 		}
-		play(prevSong);
-
+		holder.setCurrentSongInfo(prevSong);
+		play();
 		if(listener!=null) listener.onSongChanged(prevSong);
 	}
 	public void setContext(Activity context) {

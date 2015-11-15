@@ -94,7 +94,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         prefsEditor = preferences.edit();
         SongsManager.getInstance().setIsRepeat(preferences.getBoolean(IS_REPEAT, false));
         SongsManager.getInstance().setIsShuffle(preferences.getBoolean(IS_SHUFFLE, false));
-        updateNotificationUI();
+        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_HANDLER));
         getActivity().startService(new Intent(getActivity(), NotificationService.class));
     }
 
@@ -334,15 +334,8 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         }
         updateNowPlayingListUI();
         updateSongInfo();
-        updateNotificationUI();
     }
 
-    private void updateNotificationUI() {
-        if(SongsManager.getInstance().getCurrentSongInfo()!=null){
-            if(notificationHelper!=null) notificationHelper.notificationCancel();
-            notificationHelper = new NotificationHelper(getActivity());
-        }
-    }
 
     private void resetState() {
         SongInfo info  = SongsManager.getInstance().getCurrentSongInfo();
@@ -407,6 +400,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     private void playSong(SongInfo songInfo){
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
         SongsManager.getInstance().playSelectedSong(songInfo);
+        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PLAY));
     }
 
     private void playPauseSong(){
@@ -482,6 +476,15 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
                     duration_header.setText(duration);
                 }
             });
+        }
+    };
+
+    BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(BroadcastManager.NOTIFICATION_HANDLER)){
+                updateUI();
+            }
         }
     };
 

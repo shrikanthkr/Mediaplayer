@@ -66,6 +66,7 @@ public class NotificationService extends Service {
                 if(notificationHelper!=null) notificationHelper.notificationCancel();
                 notificationHelper = new NotificationHelper(NotificationService.this);
             }
+            NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
         }
     };
 }
