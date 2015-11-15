@@ -12,7 +12,7 @@
     <string name="drawer_close">Close</string>
     <string name="title_activity_playlist_creation">PlaylistActivity</string>
     <string name="search_title">Search</string>
-    <string name="albums">ALbums</string>
+    <string name="albums">Albums</string>
     <string name="artists">Artists</string>
     <string name="playlist">Playlist</string>
     <string name="songs">Songs</string>
