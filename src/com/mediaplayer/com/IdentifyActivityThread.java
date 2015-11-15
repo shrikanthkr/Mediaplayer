@@ -51,7 +51,7 @@ public class IdentifyActivityThread  extends AsyncTask<String,Void,Track>{
 
 			soundFile.WriteFile(file, 0, endFrame);
 			Log.i("PATH OF FILE", file.getAbsolutePath());
-			echonestApi = new EchoNestAPI("WH8YIHGZUX1XVLISU");
+			echonestApi = new EchoNestAPI();
 			track = echonestApi.uploadTrack(file,true);
 			file.delete();
 			jsonObj = new JSONObject(track.toString());
@@ -67,6 +67,8 @@ public class IdentifyActivityThread  extends AsyncTask<String,Void,Track>{
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		return track;
 	}
