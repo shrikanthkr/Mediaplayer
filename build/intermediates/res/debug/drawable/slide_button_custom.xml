@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true"   
-        android:drawable="@drawable/player_press" />
-    <item android:state_selected="false"   
-        android:drawable="@drawable/player" />
-</selector><!-- From: file:/home/shrikanth/android-projects/Mediaplayer/res/drawable/slide_button_custom.xml -->
