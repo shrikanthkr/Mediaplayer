@@ -18,7 +18,7 @@ import com.mediaplayer.manager.NotificationHelper;
 /**
  * Implementation of App Widget functionality.
  */
-public class NotificationService extends Service {
+public class NotificationService extends Service implements SongsManager.SongsListeners{
 
     NotificationHelper notificationHelper;
 
@@ -29,6 +29,7 @@ public class NotificationService extends Service {
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_NEXT)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PREV)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_RESUME)));
+        SongsManager.getInstance().setListener(this);
         super.onCreate();
     }
 
@@ -70,5 +71,25 @@ public class NotificationService extends Service {
             NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
         }
     };
+
+    @Override
+    public void onSongStarted(SongInfo songInfo) {
+        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
+    }
+
+    @Override
+    public void onSongChanged(SongInfo songInfo) {
+        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
+    }
+
+    @Override
+    public void onSongAdded(SongInfo songInfo) {
+        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
+    }
+
+    @Override
+    public void onSongCompleted() {
+        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_NEXT));
+    }
 }
 

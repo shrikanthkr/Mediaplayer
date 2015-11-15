@@ -57,7 +57,7 @@ import java.util.LinkedList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class NowPlayingFragment extends Fragment implements SongsManager.SongsListeners, SeekbarTouchHandler.SeekBarListeners {
+public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler.SeekBarListeners {
 
     private static final String IS_REPEAT = "repeat";
     private static final String IS_SHUFFLE = "repeat";
@@ -79,23 +79,16 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
     SharedPreferences.Editor prefsEditor;
     NowPlayingHorizontalAdapter horizontal_adapter;
     ArrayList<SongInfo> horizontal_songInfo_array = null;
-    NotificationHelper notificationHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dm =getResources().getDisplayMetrics();
-        BroadcastManager.registerForEvent(BroadcastManager.PLAYSONG, receiver);
-        BroadcastManager.registerForEvent(BroadcastManager.PLAY_SELECTED, receiver);
-        BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
-        BroadcastManager.registerForEvent(BroadcastManager.HEAD_SET_STATE_UPDATE, receiver);
         SongsManager.getInstance().setContext(getActivity());
         preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         prefsEditor = preferences.edit();
         SongsManager.getInstance().setIsRepeat(preferences.getBoolean(IS_REPEAT, false));
         SongsManager.getInstance().setIsShuffle(preferences.getBoolean(IS_SHUFFLE, false));
-        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_HANDLER));
-        getActivity().startService(new Intent(getActivity(), NotificationService.class));
     }
 
     @Override
@@ -109,11 +102,23 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         slideHandler.setParent(this);
         setViewIds(playerView);
         playerView.setOnTouchListener(slideHandler);
-        SongsManager.getInstance().setListener(this);
         horizontal_songInfo_array = new ArrayList<>();
         horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
         nowplaying_horizontal.setAdapter(horizontal_adapter);
         return playerView;
+    }
+
+    private void registerListeners(){
+        BroadcastManager.registerForEvent(BroadcastManager.PLAYSONG, receiver);
+        BroadcastManager.registerForEvent(BroadcastManager.PLAY_SELECTED, receiver);
+        BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
+        BroadcastManager.registerForEvent(BroadcastManager.HEAD_SET_STATE_UPDATE, receiver);
+        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_HANDLER));
+        getActivity().startService(new Intent(getActivity(), NotificationService.class));
+    }
+    private void deRegisterListerners(){
+        BroadcastManager.unRegisters(receiver);
+        getActivity().unregisterReceiver(notificationReceiver);
     }
 
 
@@ -320,12 +325,14 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         prefsEditor.putBoolean(IS_REPEAT, SongsManager.getInstance().isRepeat());
         prefsEditor.putBoolean(IS_SHUFFLE, SongsManager.getInstance().isShuffle());
         prefsEditor.commit();
+        deRegisterListerners();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         resetState();
+        registerListeners();
     }
 
     private void updateUI(){
@@ -334,6 +341,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         }
         updateNowPlayingListUI();
         updateSongInfo();
+        updateSeekbar();
     }
 
 
@@ -341,7 +349,7 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         SongInfo info  = SongsManager.getInstance().getCurrentSongInfo();
         if(SongsManager.getInstance().isPlaying()){
             if(info!=null && MyApplication.isActivityVisible() ){
-                onSongStarted(info);
+                updateUI();
             }
             playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
         }else{
@@ -349,8 +357,11 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         }
     }
 
-    @Override
-    public void onSongStarted(SongInfo songInfo) {
+    public void updateSeekbar() {
+        SongInfo songInfo = SongsManager.getInstance().getCurrentSongInfo();
+        if(songInfo==null){
+            return;
+        }
         String durationS = songInfo.getDuration();
         int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
         if(playerTimer!=null) {
@@ -365,27 +376,10 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
             seekbarTouochHandler.setDuration(duration);
             seekbarTouochHandler.removeOnSeekListener();
             seekbarTouochHandler.setOnSeekListener(this);
-            updateUI();
         }
 
     }
 
-    @Override
-    public void onSongChanged(SongInfo info) {
-        updateUI();
-    }
-
-    @Override
-    public void onSongAdded(SongInfo songInfo) {
-        Toast.makeText(getActivity(),songInfo.getTitle() + " Added",Toast.LENGTH_LONG).show();
-        updateUI();
-        resumeSong();
-    }
-
-    @Override
-    public void onSongCompleted() {
-        playNextSong();
-    }
 
     private void pauseSong(){
         getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PAUSE));

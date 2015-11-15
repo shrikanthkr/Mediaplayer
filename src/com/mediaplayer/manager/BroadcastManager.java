@@ -18,6 +18,10 @@ public class BroadcastManager {
         LocalBroadcastManager.getInstance(context).registerReceiver(receiver,new IntentFilter(eventName));
     }
 
+    public static void unRegisters(BroadcastReceiver receiver){
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(receiver);
+    }
+
 
     public static final String PLAYSONG = "playsong";
     public static final String APPEND_LIST = "append_selected";

@@ -112,7 +112,7 @@ public class NotificationHelper {
     }
 
     private Bitmap getImageBitmap(String id) {
-        Bitmap bm = null;
+        Bitmap bm ;
         Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), Long.parseLong(id));
         try {
             bm =  MediaStore.Images.Media.getBitmap(parent.getContentResolver(), uri);
