@@ -95,7 +95,6 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         SongsManager.getInstance().setIsShuffle(preferences.getBoolean(IS_SHUFFLE, false));
         updateNotificationUI();
         getActivity().startService(new Intent(getActivity(), NotificationService.class));
-        getActivity().registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_HANDLER)));
     }
 
     @Override
@@ -482,10 +481,4 @@ public class NowPlayingFragment extends Fragment implements SongsManager.SongsLi
         }
     };
 
-    BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateUI();
-        }
-    };
 }

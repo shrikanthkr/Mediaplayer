@@ -22,7 +22,10 @@ public class NotificationService extends Service {
 
     @Override
     public void onCreate() {
-       registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_HANDLER)));
+        registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PLAY)));
+        registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PAUSE)));
+        registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_NEXT)));
+        registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PREV)));
         super.onCreate();
     }
 
@@ -40,20 +43,20 @@ public class NotificationService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(action.equals(BroadcastManager.NOTIFICATION_HANDLER)){
-                Bundle b = intent.getExtras();
-                String info = b.getString(BroadcastManager.NOTIFICATION_HANDLER);
-                switch (info){
+                switch (action){
                     case BroadcastManager.NOTIFICATION_PAUSE:
+                        SongsManager.getInstance().pause();
                         break;
                     case BroadcastManager.NOTIFICATION_PLAY:
+                        SongsManager.getInstance().play();
                         break;
                     case BroadcastManager.NOTIFICATION_NEXT:
+                        SongsManager.getInstance().playNextSong();
                         break;
                     case BroadcastManager.NOTIFICATION_PREV:
+                        SongsManager.getInstance().playPreviousSong();
                         break;
                 }
-            }
         }
     };
 }

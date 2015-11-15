@@ -42,18 +42,30 @@ public class NotificationHelper {
 
     public void setListeners(RemoteViews view){
         //listener 1
-        Intent prev = new Intent();
-        prev.setAction(BroadcastManager.NOTIFICATION_HANDLER);
-        prev.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_PREV);
-        PendingIntent previous = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, prev, PendingIntent.FLAG_CANCEL_CURRENT);
-
+        Intent prevIntent = new Intent();
+        prevIntent.setAction(BroadcastManager.NOTIFICATION_PREV);
+        prevIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_PREV);
+        PendingIntent previous = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, prevIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         view.setOnClickPendingIntent(R.id.previous_button, previous);
 
         //listener 2
-        Intent next = new Intent(parent, ContainerActivity.class);
-        next.putExtra("DO", "stop");
-        PendingIntent btn2 = PendingIntent.getActivity(parent, 1, next, 0);
-        view.setOnClickPendingIntent(R.id.nextbutton, btn2);
+        Intent nextIntent = new Intent();
+        nextIntent.setAction(BroadcastManager.NOTIFICATION_NEXT);
+        nextIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_NEXT);
+        PendingIntent next = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, nextIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        view.setOnClickPendingIntent(R.id.nextbutton, next);
+
+        Intent playIntent = new Intent();
+        playIntent.setAction(BroadcastManager.NOTIFICATION_PLAY);
+        playIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_PLAY);
+        PendingIntent play = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, playIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        view.setOnClickPendingIntent(R.id.play_button, play);
+
+        Intent pauseIntent = new Intent();
+        pauseIntent.setAction(BroadcastManager.NOTIFICATION_PAUSE);
+        pauseIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_PAUSE);
+        PendingIntent pause = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, pauseIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        view.setOnClickPendingIntent(R.id.pause_button, pause);
     }
 
     public void notificationCancel() {

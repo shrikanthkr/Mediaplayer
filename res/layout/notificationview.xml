@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="@android:color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -8,16 +8,39 @@
         android:id="@+id/previous_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/playPauseView"
-        android:layout_toLeftOf="@+id/seekbar_layout"
+        android:layout_marginRight="20dp"
+        android:layout_toStartOf="@+id/play_pause_container"
         android:background="@drawable/previous_button_custom" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/play_pause_container">
+
+        <ImageButton
+            android:id="@+id/play_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/previous_button_custom"/>
+        <ImageButton
+            android:id="@+id/pause_button"
+            android:visibility="gone"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/previous_button_custom" />
+
+    </LinearLayout>
+
+
+
     <ImageButton
+        android:layout_marginLeft="20dp"
         android:id="@+id/nextbutton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/playPauseView"
-        android:layout_toRightOf="@+id/seekbar_layout"
+        android:layout_toEndOf="@+id/play_pause_container"
         android:background="@drawable/next_button_custom" />
 
-</LinearLayout>
+</RelativeLayout>
