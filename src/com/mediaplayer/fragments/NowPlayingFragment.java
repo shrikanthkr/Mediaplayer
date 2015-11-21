@@ -165,7 +165,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         artist_header= (TextView)view.findViewById(R.id.artist_now_playingheader);
         songname_header = (TextView)view.findViewById(R.id.song_now_playingheader);
         duration_header = (TextView)view.findViewById(R.id.duration_header);
-        identifyButton = (ImageButton)view.findViewById(R.id.identify_imageButton);
+        //identifyButton = (ImageButton)view.findViewById(R.id.identify_imageButton);
         seekbar = (SeekBar)view.findViewById(R.id.seekbar);
         tempduration_textView = (TextView) view.findViewById(R.id.tempduration_textView);
         repeat_button = (ImageButton)view.findViewById(R.id.repeat_button);
@@ -173,7 +173,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
 
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
-        identifyButton.setOnClickListener(buttonListener);
+       // identifyButton.setOnClickListener(buttonListener);
         playPauseView.setOnClickListener(buttonListener);
         repeat_button.setOnClickListener(buttonListener);
         shuffle_button.setOnClickListener(buttonListener);
@@ -219,7 +219,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
                 case R.id.previous_button:
                     playPreviousSong();
                     break;
-                case R.id.identify_imageButton:
+                /*case R.id.identify_imageButton:
                     AnimationUtil.startRotation(identifyButton,getActivity());
                     EchonestApiManager.uploadTrack(SongsManager.getInstance().getCurrentSongInfo().data, new EchonestApiManager.EchonestApiListener() {
                         @Override
@@ -248,7 +248,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
                             AnimationUtil.stopRotation(identifyButton);
                         }
                     });
-                    break;
+                    break;*/
                 case R.id.repeat_button:
                     toggleRepeat();
                     break;
