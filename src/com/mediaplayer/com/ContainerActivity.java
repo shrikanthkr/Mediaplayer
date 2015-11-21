@@ -3,7 +3,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ public class ContainerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		BroadcastManager.setApplicationContext(this);
+		startService(new Intent(MyApplication.getContext(), NotificationService.class));
 		setContentView(R.layout.activity_container);
 		hackActionBar();
 
@@ -207,6 +210,14 @@ public class ContainerActivity extends Activity {
 		}
 		else if( count == 1){
 			finish();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if(SongsManager.getInstance().getCurrentSongInfo()==null){
+			sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_CLOSE));
 		}
 	}
 }

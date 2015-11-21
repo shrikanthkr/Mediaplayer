@@ -70,11 +70,12 @@ public class NotificationService extends Service implements SongsManager.SongsLi
                         SongsManager.getInstance().resume();
                         break;
                     case BroadcastManager.NOTIFICATION_CLOSE:
-                        notificationHelper.notificationCancel();
-                        SongsManager.getInstance().pause();
+                        if(notificationHelper!=null) {
+                            notificationHelper.notificationCancel();
+                        }
                         SongsManager.getInstance().destroy();
                         stopSelf();
-                        break;
+                        return;
                 }
             NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_PLAYPAUSE));
             if(SongsManager.getInstance().getCurrentSongInfo()!=null){

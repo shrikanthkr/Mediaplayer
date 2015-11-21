@@ -31,10 +31,9 @@ public class MyApplication extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         context = this;
-        SongsManager.getInstance().setContext(this);
-        startService(new Intent(context, NotificationService.class));
         registerReceivers();
     }
+
 
     private void registerReceivers() {
         IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);

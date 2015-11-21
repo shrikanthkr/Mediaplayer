@@ -64,6 +64,8 @@ public class SongsManager {
     public static SongsManager getInstance(){
 		if(manager==null){
 			manager = new SongsManager();
+			manager.holder = new SongsHolder();
+			manager.music = new Music(MyApplication.getContext(),manager.completionListener);
 		}
 		return manager;
 	}
@@ -131,15 +133,6 @@ public class SongsManager {
 		holder.setCurrentSongInfo(prevSong);
 		play();
 		if(listener!=null) listener.onSongChanged(prevSong);
-	}
-	public void setContext(Context context) {
-		this.context = context;
-		if(holder==null){
-			holder = new SongsHolder();
-		}
-		if(music == null){
-			music = new Music(context,completionListener);
-		}
 	}
 
     public void shuffleSongs(){
