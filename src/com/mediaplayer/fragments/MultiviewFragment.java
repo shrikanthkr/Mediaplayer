@@ -23,6 +23,7 @@ import com.mediaplayer.adapter.GridAdapter;
 import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;
@@ -59,9 +60,11 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
         super.onCreate(savedInstanceState);
         activity  =getActivity();
         setData();
+        setMode();
     }
 
     public abstract void setData();
+    public abstract void setMode();
     public abstract ArrayList<SongInfo> getToBePlayedData(MetaInfo info);
 
     @Override
@@ -87,12 +90,22 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         MetaInfo info  =list.get(i);
-        LinkedList<SongInfo> serailaLisedArray = new LinkedList<SongInfo>(getToBePlayedData(info));
-        Intent playSong = new Intent(BroadcastManager.APPEND_LIST);
+        Intent playSong = new Intent(getActivity(),SongsShowActivity.class);
         Bundle b= new Bundle();
-        b.putSerializable(BroadcastManager.LIST_KEY, serailaLisedArray);
+        switch (mode){
+            case PLAYLIST:
+                b.putSerializable(SongsShowActivity.MODE_KEY, SongsShowActivity.SHOW_MODE.PLAY_LIST);
+                break;
+            case ALBUM:
+                b.putSerializable(SongsShowActivity.MODE_KEY, SongsShowActivity.SHOW_MODE.ALBUMS);
+                break;
+            case ARTIST:
+                b.putSerializable(SongsShowActivity.MODE_KEY, SongsShowActivity.SHOW_MODE.ARTISTS);
+                break;
+        }
+        b.putString(SongsShowActivity.ID_KEY, info.getId());
         playSong.putExtras(b);
-        LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
+        startActivity(playSong);
         Toast.makeText(activity, "Added to Queue", Toast.LENGTH_LONG).show();
     }
 

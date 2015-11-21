@@ -25,7 +25,7 @@ public class SongsShowActivity extends Activity {
 
     public static final String MODE_KEY = "mode_key";
     public static final String ID_KEY = "id";
-
+    String currentId = "";
     public enum SHOW_MODE{
         PLAY_LIST,
         PLAYLIST_CREATION,
@@ -44,12 +44,16 @@ public class SongsShowActivity extends Activity {
         this.getActionBar().setTitle("Create Playlist");
         lv = (ListView)findViewById(R.id.listview);
         Bundle b = getIntent().getExtras();
-        CURRENT_MODE = (SHOW_MODE)b.getSerializable(MODE_KEY);
+        if(b!=null){
+            CURRENT_MODE = (SHOW_MODE)b.getSerializable(MODE_KEY);
+            currentId = b.getString(ID_KEY);
+        }
         setupAdapter();
     }
 
     private void setupAdapter() {
         Map<String, SongInfo> selected_song_array = new HashMap<>();
+        MetaInfo info;
         song_array = new ArrayList<>();
         adapter = new PlaylistCreationAdapter(this,song_array,lv);
         lv.setFastScrollEnabled(true);
@@ -60,8 +64,12 @@ public class SongsShowActivity extends Activity {
                 song_array.addAll(SongInfoDatabase.getInstance().getSongs(null) );
                 break;
             case ALBUMS:
+                info = new MetaInfo(currentId,"");
+                song_array.addAll(SongInfoDatabase.getInstance().getSongsForAlbum(info));
                 break;
             case ARTISTS:
+                info = new MetaInfo(currentId,"");
+                song_array.addAll(SongInfoDatabase.getInstance().getSongsForArtist(info));
                 break;
             case NOW_PLAYING:
                 song_array.addAll(SongsManager.getInstance().getSongsList());
@@ -70,6 +78,8 @@ public class SongsShowActivity extends Activity {
                 }
                 break;
             case PLAY_LIST:
+                info = new MetaInfo(currentId,"");
+                song_array.addAll(SongInfoDatabase.getInstance().getSongsForPlaylist(info));
                 break;
         }
         if(selected_song_array.size() > 0){

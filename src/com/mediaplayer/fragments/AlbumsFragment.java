@@ -41,7 +41,6 @@ public class AlbumsFragment extends MultiviewFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mode = AlbumArtLoader.Mode.ALBUM;
     }
 
     @Override
@@ -49,6 +48,11 @@ public class AlbumsFragment extends MultiviewFragment{
         database =  SongInfoDatabase.getInstance();
         list = new ArrayList<MetaInfo>();
         list = database.getAlbums(null);
+    }
+
+    @Override
+    public void setMode() {
+        mode = AlbumArtLoader.Mode.ALBUM;
     }
 
     @Override

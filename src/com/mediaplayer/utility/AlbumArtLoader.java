@@ -55,7 +55,9 @@ public class AlbumArtLoader extends AsyncTask<String, Void, Bitmap> {
                 id =  id;
                 break;
             case ARTIST:
-                id = SongInfoDatabase.getInstance().getAlbumIdForArtist(id);
+                try {
+                    id = SongInfoDatabase.getInstance().getAlbumIdForArtist(id);
+                }catch (IllegalArgumentException e){}
                 break;
             case PLAYLIST:
                 break;

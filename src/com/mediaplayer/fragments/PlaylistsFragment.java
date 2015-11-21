@@ -38,13 +38,17 @@ public class PlaylistsFragment extends MultiviewFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mode = AlbumArtLoader.Mode.PLAYLIST;
     }
 
     @Override
     public void setData() {
         database =  SongInfoDatabase.getInstance();
         list = database.getPLaylists(null);
+    }
+
+    @Override
+    public void setMode() {
+        mode = AlbumArtLoader.Mode.PLAYLIST;
     }
 
     @Override
