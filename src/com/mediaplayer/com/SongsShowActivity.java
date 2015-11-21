@@ -17,11 +17,17 @@ import com.mediaplayer.adapter.PlaylistCreationAdapter;
 import com.mediaplayer.db.SongInfoDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class PlaylistCreationActivity extends Activity {
+public class SongsShowActivity extends Activity {
 
+    public static final String MODE_KEY = "mode_key";
+    public enum SONGS_MODE{
+        WITH_SONGS,
+        WITHOUT_SONGS
+    }
     ListView lv;
     PlaylistCreationAdapter adapter;
     ArrayList<SongInfo> song_array;
@@ -35,9 +41,22 @@ public class PlaylistCreationActivity extends Activity {
     }
 
     private void setupAdapter() {
+        Bundle b = getIntent().getExtras();
+        SONGS_MODE currentMode = (SONGS_MODE)b.getSerializable(MODE_KEY);
+        Map<String, SongInfo> selected_song_array = new HashMap<>();
         song_array = new ArrayList<>();
-        song_array = SongInfoDatabase.getInstance().getSongs(null);
+        if(currentMode!=null && currentMode == SONGS_MODE.WITH_SONGS){
+            song_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
+            for (int i=0;i<song_array.size();i++){
+                selected_song_array.put(song_array.get(i).getId(),song_array.get(i));
+            }
+        }else{
+            song_array = SongInfoDatabase.getInstance().getSongs(null);
+        }
         adapter = new PlaylistCreationAdapter(this,song_array,lv);
+        if(selected_song_array.size() > 0){
+            adapter.setSelected_song_array(selected_song_array);
+        }
         lv.setFastScrollEnabled(true);
         lv.setAdapter(adapter);
     }

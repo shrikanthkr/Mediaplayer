@@ -65,7 +65,7 @@
         </receiver>
 
         <activity
-            android:name=".PlaylistCreationActivity"
+            android:name=".SongsShowActivity"
             android:label="@string/title_activity_playlist_creation"
             android:screenOrientation="portrait" >
         </activity>
