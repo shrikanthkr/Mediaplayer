@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by shrikanth on 10/24/15.
  */
-public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
+public class SongsShowAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
     private Activity activity;
     ArrayList<SongInfo> song_array;
     Map<String,SongInfo> selected_song_array;
@@ -32,13 +32,12 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
     final static int NORMAL = 1;
     int[] rowStates;
 
-    public PlaylistCreationAdapter(Activity activity, ArrayList<SongInfo> song_array, ListView lv) {
+    public SongsShowAdapter(Activity activity, ArrayList<SongInfo> song_array, ListView lv) {
         this.activity = activity;
         this.song_array = song_array;
         this.inflater = activity.getLayoutInflater();
         this.lv = lv;
         selected_song_array = new HashMap<>();
-        lv.setOnItemClickListener(this);
     }
 
     @Override
@@ -143,4 +142,7 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
         selected_song_array = array;
     }
 
+    public void setListener(){
+        lv.setOnItemClickListener(this);
+    }
 }

@@ -104,9 +104,9 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
                 break;
         }
         b.putString(SongsShowActivity.ID_KEY, info.getId());
+        b.putString(SongsShowActivity.NAME_KEY, info.getName());
         playSong.putExtras(b);
         startActivity(playSong);
-        Toast.makeText(activity, "Added to Queue", Toast.LENGTH_LONG).show();
     }
 
     public void showMore(View view, final int position){
@@ -125,11 +125,15 @@ public abstract class MultiviewFragment extends MediaFragment implements SearchV
             public void onClick(View v) {
                 Intent playSong = new Intent(BroadcastManager.PLAY_SELECTED);
                 Bundle b= new Bundle();
-                b.putSerializable(BroadcastManager.SONG_KEY,serailaLisedArray.get(0));
-                b.putSerializable(BroadcastManager.LIST_KEY, serailaLisedArray);
-                playSong.putExtras(b);
-                LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
-                Toast.makeText(activity, "Playing Selected", Toast.LENGTH_LONG).show();
+                if(serailaLisedArray.size() > 0){
+                    b.putSerializable(BroadcastManager.SONG_KEY,serailaLisedArray.get(0));
+                    b.putSerializable(BroadcastManager.LIST_KEY, serailaLisedArray);
+                    playSong.putExtras(b);
+                    LocalBroadcastManager.getInstance(activity).sendBroadcast(playSong);
+                    Toast.makeText(activity, "Playing Selected", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(activity, "No songs on this playlist.", Toast.LENGTH_LONG).show();
+                }
                 popup.dismiss();
             }
         });

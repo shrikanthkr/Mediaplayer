@@ -1,11 +1,9 @@
 package com.mediaplayer.com;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.mediaplayer.adapter.PlaylistCreationAdapter;
+import com.mediaplayer.adapter.SongsShowAdapter;
 import com.mediaplayer.db.SongInfoDatabase;
 
 import java.util.ArrayList;
@@ -25,7 +23,8 @@ public class SongsShowActivity extends Activity {
 
     public static final String MODE_KEY = "mode_key";
     public static final String ID_KEY = "id";
-    String currentId = "";
+    public static final String NAME_KEY = "name_key";
+    String currentId = "", currentName;
     public enum SHOW_MODE{
         PLAY_LIST,
         PLAYLIST_CREATION,
@@ -35,7 +34,7 @@ public class SongsShowActivity extends Activity {
     }
     SHOW_MODE CURRENT_MODE = SHOW_MODE.PLAYLIST_CREATION;
     ListView lv;
-    PlaylistCreationAdapter adapter;
+    SongsShowAdapter adapter;
     ArrayList<SongInfo> song_array;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +46,7 @@ public class SongsShowActivity extends Activity {
         if(b!=null){
             CURRENT_MODE = (SHOW_MODE)b.getSerializable(MODE_KEY);
             currentId = b.getString(ID_KEY);
+            currentName = b.getString(NAME_KEY);
         }
         setupAdapter();
     }
@@ -55,20 +55,22 @@ public class SongsShowActivity extends Activity {
         Map<String, SongInfo> selected_song_array = new HashMap<>();
         MetaInfo info;
         song_array = new ArrayList<>();
-        adapter = new PlaylistCreationAdapter(this,song_array,lv);
+        adapter = new SongsShowAdapter(this,song_array,lv);
         lv.setFastScrollEnabled(true);
         lv.setAdapter(adapter);
+        lv.setClickable(false);
         song_array.clear();
         switch (CURRENT_MODE){
             case PLAYLIST_CREATION:
                 song_array.addAll(SongInfoDatabase.getInstance().getSongs(null) );
+                adapter.setListener();
                 break;
             case ALBUMS:
-                info = new MetaInfo(currentId,"");
+                info = new MetaInfo(currentId,currentName);
                 song_array.addAll(SongInfoDatabase.getInstance().getSongsForAlbum(info));
                 break;
             case ARTISTS:
-                info = new MetaInfo(currentId,"");
+                info = new MetaInfo(currentId,currentName);
                 song_array.addAll(SongInfoDatabase.getInstance().getSongsForArtist(info));
                 break;
             case NOW_PLAYING:
@@ -76,10 +78,12 @@ public class SongsShowActivity extends Activity {
                 for (int i=0;i<song_array.size();i++){
                     selected_song_array.put(song_array.get(i).getId(),song_array.get(i));
                 }
+                adapter.setListener();
                 break;
             case PLAY_LIST:
-                info = new MetaInfo(currentId,"");
+                info = new MetaInfo(currentId,currentName);
                 song_array.addAll(SongInfoDatabase.getInstance().getSongsForPlaylist(info));
+                adapter.setListener();
                 break;
         }
         if(selected_song_array.size() > 0){
@@ -93,6 +97,22 @@ public class SongsShowActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         this.getMenuInflater().inflate(R.menu.playlist_creation_menu, menu);
+        MenuItem item = menu.findItem(R.id.create_playlist);
+        switch (CURRENT_MODE){
+            case ALBUMS:
+            case ARTISTS:
+                item.setVisible(false);
+                getActionBar().setTitle(currentName);
+                break;
+            case NOW_PLAYING:
+            case PLAY_LIST:
+                item.setVisible(true);
+                getActionBar().setTitle(currentName);
+                break;
+            case PLAYLIST_CREATION:
+                item.setVisible(true);
+                break;
+        }
         return true;
     }
 
@@ -106,6 +126,8 @@ public class SongsShowActivity extends Activity {
         }
         return true;
     }
+
+
 
     private void showDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -146,5 +168,13 @@ public class SongsShowActivity extends Activity {
             it.remove();
         }
         return  ids;
+    }
+
+    public SHOW_MODE getCURRENT_MODE() {
+        return CURRENT_MODE;
+    }
+
+    public void setCURRENT_MODE(SHOW_MODE CURRENT_MODE) {
+        this.CURRENT_MODE = CURRENT_MODE;
     }
 }
