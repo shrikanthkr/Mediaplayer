@@ -1,56 +1,37 @@
 package com.mediaplayer.fragments;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devsmart.android.ui.HorizontalListView;
-import com.echonest.api.v4.EchoNestException;
-import com.echonest.api.v4.Track;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
-import com.mediaplayer.com.Music;
 import com.mediaplayer.com.MyApplication;
-import com.mediaplayer.com.NotificationService;
 import com.mediaplayer.com.PlayerTimerTask;
+import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.customviews.PlayPauseView;
-import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
-import com.mediaplayer.manager.EchonestApiManager;
-import com.mediaplayer.manager.NotificationHelper;
 import com.mediaplayer.manager.PreferenceManager;
-import com.mediaplayer.utility.AnimationUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -66,7 +47,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     float totalTranslation = 0f, maxBottom;
     ImageView  measure_view;
     PlayPauseView playPauseView;
-    ImageButton nextButton, prevButton, identifyButton,repeat_button,shuffle_button;
+    ImageButton nextButton, prevButton, identifyButton,repeat_button,shuffle_button, playlistCreateButton;
     HorizontalListView nowplaying_horizontal;
     TextView  count_label, artist_header, songname_header, duration_header,tempduration_textView;
     SeekBar seekbar;
@@ -169,7 +150,8 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         seekbar = (SeekBar)view.findViewById(R.id.seekbar);
         tempduration_textView = (TextView) view.findViewById(R.id.tempduration_textView);
         repeat_button = (ImageButton)view.findViewById(R.id.repeat_button);
-        shuffle_button= (ImageButton)view.findViewById(R.id.shuffle_button);
+        shuffle_button = (ImageButton)view.findViewById(R.id.shuffle_button);
+        playlistCreateButton = (ImageButton)view.findViewById(R.id.playlist_create);
 
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
@@ -177,6 +159,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         playPauseView.setOnClickListener(buttonListener);
         repeat_button.setOnClickListener(buttonListener);
         shuffle_button.setOnClickListener(buttonListener);
+        playlistCreateButton.setOnClickListener(buttonListener);
         setupSeekbar();
         setButtonState();
     }
@@ -254,6 +237,13 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
                     break;
                 case R.id.shuffle_button:
                     toggleShuffle();
+                    break;
+                case R.id.playlist_create:
+                    Intent i = new Intent(getActivity(),SongsShowActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable(SongsShowActivity.MODE_KEY, SongsShowActivity.SHOW_MODE.NOW_PLAYING);
+                    i.putExtras(b);
+                    startActivity(i);
                     break;
 
             }

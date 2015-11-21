@@ -1,30 +1,22 @@
 package com.mediaplayer.fragments;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.mediaplayer.com.MetaInfo;
-import com.mediaplayer.com.PlaylistCreationActivity;
+import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Created by shrikanth on 10/2/15.
@@ -95,7 +87,7 @@ public class PlaylistsFragment extends MultiviewFragment{
     }
 
     private void launchPlaylistCreation() {
-        Intent i = new Intent(getActivity(),PlaylistCreationActivity.class);
+        Intent i = new Intent(getActivity(),SongsShowActivity.class);
         startActivity(i);
     }
 }

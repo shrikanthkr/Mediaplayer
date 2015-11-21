@@ -39,6 +39,11 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
         this.lv = lv;
         selected_song_array = new HashMap<>();
         lv.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
         rowStates = new int[getCount()];
     }
 
@@ -132,6 +137,10 @@ public class PlaylistCreationAdapter extends BaseAdapter implements AdapterView.
 
     public Map<String, SongInfo> getSelected_song_array() {
         return selected_song_array;
+    }
+
+    public void setSelected_song_array( Map<String, SongInfo> array){
+        selected_song_array = array;
     }
 
 }
