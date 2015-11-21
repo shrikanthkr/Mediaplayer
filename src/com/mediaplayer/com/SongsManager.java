@@ -208,6 +208,12 @@ public class SongsManager {
 		return music.isPlaying();
 	}
 
+	public void destroy(){
+		music.dispose();
+		holder = null;
+		music = null;
+		manager = null;
+	}
 	public interface SongsListeners{
 		void onSongStarted(SongInfo songInfo);
 		void onSongChanged(SongInfo songInfo);

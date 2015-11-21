@@ -4,6 +4,15 @@
               android:layout_height="100dp">
 
 
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/close"
+        android:background="@android:drawable/ic_delete"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -18,11 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -31,9 +40,24 @@
                 android:text="New Text"
                 android:maxLines="1"
                 android:ellipsize="marquee"
-                android:textColor="@color/light_text_color"
+                android:paddingBottom="3dp"
+                android:textSize="12dp"
+                android:textColor="@android:color/white"
                 android:id="@+id/title"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:maxLines="1"
+                android:textSize="10dp"
+                android:textColor="@color/light_text_color"
+                android:id="@+id/artist"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_text_color"
+            ></LinearLayout>
         <LinearLayout
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"

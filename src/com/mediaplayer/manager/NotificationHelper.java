@@ -93,14 +93,21 @@ public class NotificationHelper {
         pauseIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_PAUSE);
         PendingIntent pause = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, pauseIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         view.setOnClickPendingIntent(R.id.pause_button, pause);
+
+       Intent closeIntent = new Intent();
+        closeIntent.setAction(BroadcastManager.NOTIFICATION_CLOSE);
+        closeIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_CLOSE);
+        PendingIntent close = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, closeIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        view.setOnClickPendingIntent(R.id.close, close);
     }
 
     public void notificationCancel() {
-        nManager.cancel(2);
+        nManager.cancel(1);
     }
 
     public void setupView(RemoteViews view) {
         view.setTextViewText(R.id.title, info.getDisplayName());
+        view.setTextViewText(R.id.artist, info.getArtist());
         view.setImageViewBitmap(R.id.album_art, getImageBitmap(info.getAlbum_id()));
         if(SongsManager.getInstance().isPlaying()){
             view.setViewVisibility(R.id.play_button, View.GONE);

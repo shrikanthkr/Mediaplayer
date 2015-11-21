@@ -34,6 +34,7 @@ public class NotificationService extends Service implements SongsManager.SongsLi
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_NEXT)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PREV)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_RESUME)));
+        registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_CLOSE)));
         SongsManager.getInstance().setListener(this);
         super.onCreate();
     }
@@ -67,6 +68,12 @@ public class NotificationService extends Service implements SongsManager.SongsLi
                         break;
                     case BroadcastManager.NOTIFICATION_RESUME:
                         SongsManager.getInstance().resume();
+                        break;
+                    case BroadcastManager.NOTIFICATION_CLOSE:
+                        notificationHelper.notificationCancel();
+                        SongsManager.getInstance().pause();
+                        SongsManager.getInstance().destroy();
+                        stopSelf();
                         break;
                 }
             NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_PLAYPAUSE));
