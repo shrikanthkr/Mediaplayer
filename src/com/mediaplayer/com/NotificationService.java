@@ -23,6 +23,11 @@ public class NotificationService extends Service implements SongsManager.SongsLi
     NotificationHelper notificationHelper;
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
     public void onCreate() {
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PLAY)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PAUSE)));
@@ -64,11 +69,13 @@ public class NotificationService extends Service implements SongsManager.SongsLi
                         SongsManager.getInstance().resume();
                         break;
                 }
+            NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_PLAYPAUSE));
             if(SongsManager.getInstance().getCurrentSongInfo()!=null){
-                if(notificationHelper!=null) notificationHelper.notificationCancel();
+                if(notificationHelper!=null) {
+                    notificationHelper.notificationCancel();
+                }
                 notificationHelper = new NotificationHelper(NotificationService.this);
             }
-            NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
         }
     };
 
@@ -79,12 +86,13 @@ public class NotificationService extends Service implements SongsManager.SongsLi
 
     @Override
     public void onSongChanged(SongInfo songInfo) {
-        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
+        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_SONGINFO));
+        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_LIST));
     }
 
     @Override
     public void onSongAdded(SongInfo songInfo) {
-        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
+        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_LIST));
     }
 
     @Override

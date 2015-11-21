@@ -26,14 +26,14 @@ public class HeadSetIntentReceiver extends BroadcastReceiver {
 			case 0:
 				Log.d(TAG, "Headset is unplugged");
 				if(SongsManager.getInstance().isPlaying()){
-					SongsManager.getInstance().pause();
+					ctx.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PAUSE));
 					SongsManager.getInstance().setPausedFfromHeadSet(true);
 				}
 				break;
 			case 1:
 				Log.d(TAG, "Headset is plugged");
 				if(SongsManager.getInstance().isPausedFfromHeadSet()){
-					SongsManager.getInstance().play();
+					ctx.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_RESUME));
 					SongsManager.getInstance().setPausedFfromHeadSet(false);
 				}
 				break;

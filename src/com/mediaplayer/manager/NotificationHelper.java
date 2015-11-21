@@ -84,7 +84,7 @@ public class NotificationHelper {
 
         Intent playIntent = new Intent();
         playIntent.setAction(BroadcastManager.NOTIFICATION_RESUME);
-        playIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_PLAY);
+        playIntent.putExtra(BroadcastManager.NOTIFICATION_HANDLER, BroadcastManager.NOTIFICATION_RESUME);
         PendingIntent play = PendingIntent.getBroadcast(parent, BroadcastManager.NOTIFICATION_REQUEST_CODE, playIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         view.setOnClickPendingIntent(R.id.play_button, play);
 

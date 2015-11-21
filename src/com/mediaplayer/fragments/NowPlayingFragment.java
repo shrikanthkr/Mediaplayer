@@ -49,6 +49,7 @@ import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.manager.EchonestApiManager;
 import com.mediaplayer.manager.NotificationHelper;
+import com.mediaplayer.manager.PreferenceManager;
 import com.mediaplayer.utility.AnimationUtil;
 
 import java.util.ArrayList;
@@ -60,7 +61,6 @@ import java.util.LinkedList;
 public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler.SeekBarListeners {
 
     private static final String IS_REPEAT = "repeat";
-    private static final String IS_SHUFFLE = "repeat";
     DisplayMetrics dm;
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
@@ -75,8 +75,6 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     ViewTreeObserver vto;
     PlayerTimerTask playerTimer;
     View playerView;
-    SharedPreferences preferences;
-    SharedPreferences.Editor prefsEditor;
     NowPlayingHorizontalAdapter horizontal_adapter;
     ArrayList<SongInfo> horizontal_songInfo_array = null;
 
@@ -84,11 +82,8 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dm =getResources().getDisplayMetrics();
-        SongsManager.getInstance().setContext(getActivity());
-        preferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        prefsEditor = preferences.edit();
-        SongsManager.getInstance().setIsRepeat(preferences.getBoolean(IS_REPEAT, false));
-        SongsManager.getInstance().setIsShuffle(preferences.getBoolean(IS_SHUFFLE, false));
+        SongsManager.getInstance().setIsRepeat(PreferenceManager.INSTANCE.getIsRepeat());
+        SongsManager.getInstance().setIsShuffle(PreferenceManager.INSTANCE.getIsShuffle());
     }
 
     @Override
@@ -114,7 +109,9 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.HEAD_SET_STATE_UPDATE, receiver);
         getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_HANDLER));
-        getActivity().startService(new Intent(getActivity(), NotificationService.class));
+        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_UPDATE_SONGINFO));
+        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_UPDATE_LIST));
+        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_UPDATE_PLAYPAUSE));
     }
     private void deRegisterListerners(){
         BroadcastManager.unRegisters(receiver);
@@ -322,17 +319,16 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     @Override
     public void onPause() {
         super.onPause();
-        prefsEditor.putBoolean(IS_REPEAT, SongsManager.getInstance().isRepeat());
-        prefsEditor.putBoolean(IS_SHUFFLE, SongsManager.getInstance().isShuffle());
-        prefsEditor.commit();
+        PreferenceManager.INSTANCE.setIsRepeat(SongsManager.getInstance().isRepeat());
+        PreferenceManager.INSTANCE.setIsShuffle( SongsManager.getInstance().isShuffle());
         deRegisterListerners();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        resetState();
         registerListeners();
+        resetState();
     }
 
     private void updateUI(){
@@ -476,8 +472,17 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(BroadcastManager.NOTIFICATION_HANDLER)){
-                updateUI();
+            String action = intent.getAction();
+            switch (action){
+                case BroadcastManager.NOTIFICATION_HANDLER:
+                    updateUI();
+                    break;
+                case BroadcastManager.NOTIFICATION_UPDATE_LIST:
+                    updateNowPlayingListUI();
+                    break;
+                case BroadcastManager.NOTIFICATION_UPDATE_PLAYPAUSE:
+                    updateSeekbar();
+                    break;
             }
         }
     };

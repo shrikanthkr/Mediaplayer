@@ -13,7 +13,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="11dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/albums" />
 
         <TextView
             android:id="@+id/song_name_textView"

@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Environment;
@@ -27,7 +28,7 @@ import com.mediaplayer.utility.SongsHolder;
 
 public class SongsManager {
 	static SongsManager  manager;
-	private  Activity context;
+	private  Context context;
 	SongsHolder holder;
 	Music music;
 	SongInfoDatabase database;
@@ -131,7 +132,7 @@ public class SongsManager {
 		play();
 		if(listener!=null) listener.onSongChanged(prevSong);
 	}
-	public void setContext(Activity context) {
+	public void setContext(Context context) {
 		this.context = context;
 		if(holder==null){
 			holder = new SongsHolder();
@@ -196,7 +197,7 @@ public class SongsManager {
             int duration = mediaPlayer.getDuration()/1000;
             int current = mediaPlayer.getCurrentPosition()/1000;
 
-            if(listener!=null && duration - 10 <= current) {
+            if(listener!=null && current > 10) {
                 listener.onSongCompleted();
             }
 

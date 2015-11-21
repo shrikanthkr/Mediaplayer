@@ -32,6 +32,9 @@ public class BroadcastManager {
 
     public static final int NOTIFICATION_REQUEST_CODE = 9999;
     public static final String NOTIFICATION_HANDLER = "noti_handle";
+    public static final String NOTIFICATION_UPDATE_SONGINFO = "noti_update_song_info";
+    public static final String NOTIFICATION_UPDATE_LIST = "noti_update_song_list";
+    public static final String NOTIFICATION_UPDATE_PLAYPAUSE = "noti_update_song_playpause";
     public static final String NOTIFICATION_PLAY = "noti_play";
     public static final String NOTIFICATION_PAUSE = "noti_pause";
     public static final String NOTIFICATION_PREV = "noti_prev";

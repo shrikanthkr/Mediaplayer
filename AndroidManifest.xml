@@ -70,7 +70,13 @@
             android:screenOrientation="portrait" >
         </activity>
 
-        <service android:name=".NotificationService" ></service>
+        <service android:name="com.mediaplayer.com.NotificationService"
+                 android:exported="false"
+                 android:enabled="true">
+            <intent-filter>
+                <action android:name="com.mediaplayer.com.NotificationService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

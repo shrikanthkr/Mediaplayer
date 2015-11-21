@@ -21,7 +21,7 @@ public class Music{
 
 	static  MediaPlayer mediaPlayer;
 	MediaPlayer.OnCompletionListener completionListener;
-	public Music(Activity context,MediaPlayer.OnCompletionListener completionListener)  {
+	public Music(Context context,MediaPlayer.OnCompletionListener completionListener)  {
 		mediaPlayer = null;
 		mediaPlayer = new MediaPlayer();
 		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

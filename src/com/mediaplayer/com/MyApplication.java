@@ -31,6 +31,8 @@ public class MyApplication extends Application {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         context = this;
+        SongsManager.getInstance().setContext(this);
+        startService(new Intent(context, NotificationService.class));
         registerReceivers();
     }
 
