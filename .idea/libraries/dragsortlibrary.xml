@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="dragsortlibrary">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/dragsortlibrary.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
