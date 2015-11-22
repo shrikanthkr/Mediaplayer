@@ -165,13 +165,12 @@ public class ContainerActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MyApplication.activityResumed();
 		if(previousFragmentState==-1){
 			previousFragmentState = 0;
 		}
 		if(previousFragmentState!=currentFragmentState)
 			loadFragment(currentFragmentState);
-
-		MyApplication.activityResumed();
 	}
 	private void loadNowPLayingFragment(){
 		FragmentManager fragmentManager = getFragmentManager();

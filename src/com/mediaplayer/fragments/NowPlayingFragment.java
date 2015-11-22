@@ -362,6 +362,11 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
             seekbarTouochHandler.setDuration(duration);
             seekbarTouochHandler.removeOnSeekListener();
             seekbarTouochHandler.setOnSeekListener(this);
+            if(SongsManager.getInstance().isPlaying()){
+                playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
+            }else{
+                playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
+            }
         }
 
     }
