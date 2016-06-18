@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
-import com.crashlytics.android.Crashlytics;
 import com.mediaplayer.receiver.HeadSetIntentReceiver;
 
-import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by shrikanth on 10/17/15.
@@ -29,7 +27,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
         context = this;
         registerReceivers();
     }

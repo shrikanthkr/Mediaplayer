@@ -26,6 +26,9 @@ import com.mediaplayer.fragments.PlaylistsFragment;
 import com.mediaplayer.fragments.SongListFragment;
 import com.mediaplayer.manager.BroadcastManager;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 
 public class ContainerActivity extends Activity {
 	private String[] labels = {"Now Playing","Playlist","Songs","Albums", "Artists"};
@@ -160,12 +163,14 @@ public class ContainerActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MyApplication.activityPaused();
+		unregisterManagers();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		MyApplication.activityResumed();
+		checkForCrashes();
 		if(previousFragmentState==-1){
 			previousFragmentState = 0;
 		}
@@ -218,5 +223,16 @@ public class ContainerActivity extends Activity {
 		if(SongsManager.getInstance().getCurrentSongInfo()==null){
 			sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_CLOSE));
 		}
+		unregisterManagers();
+	}
+
+
+	private void checkForCrashes() {
+		CrashManager.register(this);
+	}
+
+
+	private void unregisterManagers() {
+		UpdateManager.unregister();
 	}
 }
