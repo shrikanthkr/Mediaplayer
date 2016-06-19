@@ -18,8 +18,6 @@ gen/
 ./gradlew
 build/
 
-AndroidManifest.xml
-
 # Mirror files
 mirror/
 
