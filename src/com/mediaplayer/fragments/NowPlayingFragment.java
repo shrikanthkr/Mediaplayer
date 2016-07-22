@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.devsmart.android.ui.HorizontalListView;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.com.MyApplication;
 import com.mediaplayer.com.PlayerTimerTask;
@@ -48,7 +49,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     ImageView  measure_view;
     PlayPauseView playPauseView;
     ImageButton nextButton, prevButton, identifyButton,repeat_button,shuffle_button, playlistCreateButton;
-    HorizontalListView nowplaying_horizontal;
+    RecyclerView nowplayingHorizontal;
     TextView  count_label, artist_header, songname_header, duration_header,tempduration_textView;
     SeekBar seekbar;
     SeekbarTouchHandler seekbarTouochHandler;
@@ -79,8 +80,8 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         setViewIds(playerView);
         playerView.setOnTouchListener(slideHandler);
         horizontal_songInfo_array = new ArrayList<>();
-        horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplaying_horizontal, getActivity());
-        nowplaying_horizontal.setAdapter(horizontal_adapter);
+        horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplayingHorizontal, getActivity());
+        nowplayingHorizontal.setAdapter(horizontal_adapter);
         return playerView;
     }
 
@@ -114,12 +115,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
                     if(songList!=null && songList.size() > 0)
                         SongsManager.getInstance().appendSongs(songList);
                     break;
-                case BroadcastManager.PLAY_SELECTED:
-                    LinkedList<SongInfo> selectedSongList =(LinkedList<SongInfo>)b.getSerializable(BroadcastManager.LIST_KEY);
-                    if(selectedSongList!=null && selectedSongList.size() > 0){
-                        SongsManager.getInstance().addSelectedSongs(selectedSongList);
-                    }
-                    break;
+
                 case BroadcastManager.HEAD_SET_STATE_UPDATE:
                     resetState();
                     break;
@@ -138,7 +134,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         playPauseView = (PlayPauseView)view.findViewById(R.id.playPauseView);
         nextButton = (ImageButton)view.findViewById(R.id.nextbutton);
         prevButton = (ImageButton)view.findViewById(R.id.previous_button);
-        nowplaying_horizontal = (HorizontalListView) view.findViewById(R.id.nowplaying_horizontal);
+        nowplayingHorizontal = (RecyclerView) view.findViewById(R.id.nowplaying_horizontal);
         seekbar_layout = (LinearLayout) view.findViewById(R.id.seekbar_layout);
         measure_view = (ImageView) view.findViewById(R.id.seek_measure_imageView);
         mainLayout = (LinearLayout) view.findViewById(R.id.nowplaying_id);
@@ -162,6 +158,11 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         playlistCreateButton.setOnClickListener(buttonListener);
         setupSeekbar();
         setButtonState();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        nowplayingHorizontal.setLayoutManager(layoutManager);
+
     }
 
     private void setButtonState() {
@@ -202,36 +203,6 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
                 case R.id.previous_button:
                     playPreviousSong();
                     break;
-                /*case R.id.identify_imageButton:
-                    AnimationUtil.startRotation(identifyButton,getActivity());
-                    EchonestApiManager.uploadTrack(SongsManager.getInstance().getCurrentSongInfo().data, new EchonestApiManager.EchonestApiListener() {
-                        @Override
-                        public void onResult(Track track) {
-                            try {
-                                if(track.getStatus().ordinal()==2){
-                                    Log.d("NOW", track.getReleaseName());
-                                    SongInfo songInfo = SongsManager.getInstance().getCurrentSongInfo();
-                                    songInfo.setArtist(track.getArtistName());
-                                    songInfo.setDisplayName(track.getTitle());
-                                    songInfo.setTitle(track.getTitle());
-                                    SongInfoDatabase db = new SongInfoDatabase();
-                                    db.open();
-                                    db.update(songInfo);
-                                    db.close();updateSongInfo();
-                                    Toast.makeText(getActivity(),"Song Updated" , Toast.LENGTH_LONG).show();
-                                }else{
-                                    Toast.makeText(getActivity(),"Sorry song was not found" , Toast.LENGTH_LONG).show();
-                                }
-                            } catch (EchoNestException e) {
-                                e.printStackTrace();
-                            }catch (Exception e){
-                                e.printStackTrace();
-                                Toast.makeText(getActivity(),"Sorry song was not found" , Toast.LENGTH_LONG).show();
-                            }
-                            AnimationUtil.stopRotation(identifyButton);
-                        }
-                    });
-                    break;*/
                 case R.id.repeat_button:
                     toggleRepeat();
                     break;
