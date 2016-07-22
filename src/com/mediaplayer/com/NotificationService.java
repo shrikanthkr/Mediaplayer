@@ -107,5 +107,11 @@ public class NotificationService extends Service implements SongsManager.SongsLi
     public void onSongCompleted() {
         NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_NEXT));
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(notificationReceiver);
+    }
 }
 
