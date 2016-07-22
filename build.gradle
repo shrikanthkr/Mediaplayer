@@ -21,9 +21,18 @@ android {
     compileSdkVersion 21
     buildToolsVersion "23.0.3"
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 19
+        minSdkVersion 21
+        targetSdkVersion 21
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "7b6e4f255f0b4d81bfff4a6b94737b23"]
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+
+        }
     }
     repositories {
         mavenCentral()
