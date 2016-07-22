@@ -4,24 +4,22 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:paddingRight="3dp" >
+    android:padding="5dp" >
 
 
 
         <ImageView
             android:id="@+id/song_imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/albums" />
 
         <TextView
             android:id="@+id/song_name_textView"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:lines="1"
-            android:text="Hello"
             android:textColor="@color/light_text_color"
             android:textSize="12sp" >
         </TextView>

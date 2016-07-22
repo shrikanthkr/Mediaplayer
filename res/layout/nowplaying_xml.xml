@@ -202,7 +202,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/nowplaying_horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/header_bg"
             android:cacheColorHint="@android:color/transparent"/>
