@@ -9,6 +9,9 @@ android {
             minifyEnabled false
         }
     }
+    lintOptions{
+        abortOnError false
+    }
 }
 
 task jar(type: Jar) {
