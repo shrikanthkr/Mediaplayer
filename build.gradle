@@ -11,7 +11,7 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(":swipeadapter")
+    compile project(':swipeadapter')
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
@@ -19,19 +19,33 @@ dependencies {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "24.0.1"
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 21
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "7b6e4f255f0b4d81bfff4a6b94737b23"]
     }
+    signingConfigs {
+        release {
+            storeFile file("keystore/release.keystore")
+            storePassword 'phoenix'
+            keyAlias 'phoenix'
+            keyPassword '******phoenix'
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            FileCollection proGuardFileCollection = files { file('../proguard_config').listFiles() }
+            proGuardFileCollection.each {File file ->
+                println file.name
+            }
+            proguardFiles proGuardFileCollection, getDefaultProguardFile('proguard-android.txt')
+            signingConfig signingConfigs.release
         }
         debug {
-
+            debuggable true
         }
     }
     repositories {
