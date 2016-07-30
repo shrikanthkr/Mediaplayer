@@ -25,6 +25,9 @@ android {
         targetSdkVersion 21
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "7b6e4f255f0b4d81bfff4a6b94737b23"]
     }
+    lintOptions{
+        abortOnError false
+    }
     signingConfigs {
         release {
             storeFile file(System.getenv('MEDIAPLAYER_KEY_STORE_PATH'))
