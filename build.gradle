@@ -27,10 +27,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("keystore/release.keystore")
-            storePassword 'phoenix'
-            keyAlias 'phoenix'
-            keyPassword '******phoenix'
+            storeFile file(System.getenv('MEDIAPLAYER_KEY_STORE_PATH'))
+            storePassword System.getenv('STORE_PASSWORD')
+            keyAlias System.getenv('KEY_STORE_ALIAS')
+            keyPassword System.getenv('KEY_STORE_PASSWORD')
         }
     }
 
