@@ -7,7 +7,8 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
-
+Properties props = new Properties()
+props.load(new FileInputStream("keystore/keystore.properties"))
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
@@ -30,10 +31,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(System.getenv('MEDIAPLAYER_KEY_STORE_PATH'))
-            storePassword System.getenv('STORE_PASSWORD')
-            keyAlias System.getenv('KEY_STORE_ALIAS')
-            keyPassword System.getenv('KEY_STORE_PASSWORD')
+            storeFile file(props.MEDIAPLAYER_KEY_STORE_PATH)
+            storePassword props.STORE_PASSWORD
+            keyAlias props.KEY_STORE_ALIAS
+            keyPassword props.KEY_STORE_PASSWORD
         }
     }
 
