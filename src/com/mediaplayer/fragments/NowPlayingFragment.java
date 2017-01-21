@@ -237,10 +237,6 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
 
     private void toggleShuffle(){
         boolean isShuffle = SongsManager.getInstance().isShuffle();
-        if(!isShuffle){
-            SongsManager.getInstance().shuffleSongs();
-            updateUI();
-        }
         isShuffle = !isShuffle;
         SongsManager.getInstance().setIsShuffle(isShuffle);
         setButtonState();
