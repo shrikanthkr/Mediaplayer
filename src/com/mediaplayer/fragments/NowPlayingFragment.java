@@ -61,9 +61,9 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dm = getResources().getDisplayMetrics();
-        SongsManager.getInstance().addListener(this);
         SongsManager.getInstance().setIsRepeat(PreferenceManager.INSTANCE.getIsRepeat());
         SongsManager.getInstance().setIsShuffle(PreferenceManager.INSTANCE.getIsShuffle());
+        horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
     }
 
     @Override
@@ -77,7 +77,6 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         slideHandler.setParent(this);
         setViewIds(playerView);
         playerView.setOnTouchListener(slideHandler);
-        horizontal_songInfo_array = new ArrayList<>();
         horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplayingHorizontal, getActivity(), clickHelper);
         nowplayingHorizontal.setAdapter(horizontal_adapter);
         return playerView;
@@ -93,9 +92,11 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         BroadcastManager.registerForEvent(BroadcastManager.PLAY_SELECTED, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.HEAD_SET_STATE_UPDATE, receiver);
+        SongsManager.getInstance().addListener(this);
     }
     private void deRegisterListerners(){
         BroadcastManager.unRegisters(receiver);
+        SongsManager.getInstance().removeListener(this);
         //getActivity().unregisterReceiver(notificationReceiver);
     }
 
@@ -229,7 +230,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
 
     private void toggleRepeat() {
         boolean isRepeat = SongsManager.getInstance().isRepeat();
-        isRepeat = isRepeat ? false: true;
+        isRepeat = !isRepeat;
         SongsManager.getInstance().setIsRepeat(isRepeat);
         setButtonState();
     }
@@ -240,7 +241,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
             SongsManager.getInstance().shuffleSongs();
             updateUI();
         }
-        isShuffle = isShuffle ? false: true;
+        isShuffle = !isShuffle;
         SongsManager.getInstance().setIsShuffle(isShuffle);
         setButtonState();
 
@@ -378,10 +379,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
 
     }
     private void updateNowPlayingListUI() {
-        horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
-        horizontal_adapter.addAll(horizontal_songInfo_array);
-        //nowplaying_horizontal.setAdapter(horizontal_adapter);
-        count_label.setText("Queue (" + horizontal_songInfo_array.size() +")");
+        horizontal_adapter.notifyDataSetChanged();
     }
 
 
