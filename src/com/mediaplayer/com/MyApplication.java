@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+
 import com.mediaplayer.receiver.HeadSetIntentReceiver;
 
 
@@ -53,17 +54,4 @@ public class MyApplication extends Application {
         unregisterReceiver(headSetReceiver);
     }
 
-    public static boolean isActivityVisible() {
-        return activityVisible;
-    }
-
-    public static void activityResumed() {
-        activityVisible = true;
-    }
-
-    public static void activityPaused() {
-        activityVisible = false;
-    }
-
-    private static boolean activityVisible;
 }

@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
-import com.mediaplayer.com.MyApplication;
 import com.mediaplayer.com.PlayerTimerTask;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
@@ -294,9 +293,6 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     }
 
     private void updateUI(){
-        if(!MyApplication.isActivityVisible()){
-            return;
-        }
         updateNowPlayingListUI();
         updateSongInfo();
         updateSeekbar();
@@ -306,7 +302,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     private void resetState() {
         SongInfo info  = SongsManager.getInstance().getCurrentSongInfo();
         if(SongsManager.getInstance().isPlaying()){
-            if(info!=null && MyApplication.isActivityVisible() ){
+            if(info!=null){
                 updateUI();
             }
             playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
@@ -326,19 +322,17 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
             playerTimer.cancel();
             playerTimer.purge();
         }
-        if(MyApplication.isActivityVisible()){
-            seekbar.setVisibility(View.VISIBLE);
-            playerTimer = new PlayerTimerTask(seekbar,duration,timerListener);
-            playerTimer.setIsPlaying(true);
-            playerTimer.execute();
-            seekbarTouochHandler.setDuration(duration);
-            seekbarTouochHandler.removeOnSeekListener();
-            seekbarTouochHandler.setOnSeekListener(this);
-            if(SongsManager.getInstance().isPlaying()){
-                playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
-            }else{
-                playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
-            }
+        seekbar.setVisibility(View.VISIBLE);
+        playerTimer = new PlayerTimerTask(seekbar,duration,timerListener);
+        playerTimer.setIsPlaying(true);
+        playerTimer.execute();
+        seekbarTouochHandler.setDuration(duration);
+        seekbarTouochHandler.removeOnSeekListener();
+        seekbarTouochHandler.setOnSeekListener(this);
+        if(SongsManager.getInstance().isPlaying()){
+            playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
+        }else{
+            playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
         }
 
     }
