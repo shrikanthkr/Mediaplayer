@@ -1,6 +1,6 @@
 package com.mediaplayer.interfaces;
 
-import com.mediaplayer.fragments.MediaFragment;
+import com.mediaplayer.fragments.BaseFragment;
 
 /**
  * Created by shrikanth on 1/21/17.
@@ -8,6 +8,6 @@ import com.mediaplayer.fragments.MediaFragment;
 
 public interface TabsContainerHelpers {
     public String getTabTitle(int position);
-    public MediaFragment getTabFragment(int position);
+    public BaseFragment getTabFragment(int position);
     public int getCount();
 }

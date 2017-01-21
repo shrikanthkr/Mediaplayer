@@ -33,7 +33,7 @@ import java.util.LinkedList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public abstract class MultiviewFragment extends MediaFragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener{
+public abstract class MultiviewFragment extends BaseFragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener{
     GridAdapter adapter;
     GridView gridview;
     SongInfoDatabase database;

@@ -17,7 +17,7 @@ import com.mediaplayer.interfaces.TabsContainerHelpers;
  * Created by shrikanth on 1/21/17.
  */
 
-public abstract class TabsContainer extends MediaFragment  implements TabsContainerHelpers{
+public abstract class TabsContainer extends BaseFragment implements TabsContainerHelpers{
     protected BaseViewPager viewPager;
     protected BaseViewPagerAdapter adapter;
     protected BastTablayout tablayout = null;

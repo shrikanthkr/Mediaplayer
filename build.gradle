@@ -17,6 +17,7 @@ dependencies {
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
+    compile ('com.github.bumptech.glide:glide:3.7.0'){  exclude module: 'support-v4' }
 }
 
 android {

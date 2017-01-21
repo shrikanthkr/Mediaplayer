@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 /**
  * Created by shrikanth on 10/4/15.
  */
-public abstract class MediaFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);

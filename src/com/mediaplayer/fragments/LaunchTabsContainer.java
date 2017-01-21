@@ -51,8 +51,8 @@ public class LaunchTabsContainer extends TabsContainer {
     }
 
     @Override
-    public MediaFragment getTabFragment(int position) {
-        MediaFragment fragment = null;
+    public BaseFragment getTabFragment(int position) {
+        BaseFragment fragment = null;
         switch (position){
             case 0:
                 fragment = new SongListFragment();

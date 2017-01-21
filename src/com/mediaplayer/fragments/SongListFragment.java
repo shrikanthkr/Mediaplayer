@@ -20,7 +20,7 @@ import com.mediaplayer.utility.Util;
 
 import java.util.ArrayList;
 
-public class SongListFragment extends MediaFragment implements SearchView.OnQueryTextListener {
+public class SongListFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 	RecyclerView rv;
 	SearchView searchView;
 	Context context;

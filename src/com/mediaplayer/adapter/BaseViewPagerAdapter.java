@@ -3,7 +3,7 @@ package com.mediaplayer.adapter;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.mediaplayer.fragments.MediaFragment;
+import com.mediaplayer.fragments.BaseFragment;
 import com.mediaplayer.interfaces.TabsContainerHelpers;
 
 /**
@@ -19,7 +19,7 @@ public class BaseViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public MediaFragment getItem(int position) {
+    public BaseFragment getItem(int position) {
         return helper.getTabFragment(position);
     }
 
