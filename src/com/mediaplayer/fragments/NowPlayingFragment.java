@@ -4,9 +4,7 @@ package com.mediaplayer.fragments;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -14,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,7 +37,7 @@ import java.util.LinkedList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler.SeekBarListeners, SongsManager.SongsListeners {
+public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHandler.SeekBarListeners, SongsManager.SongsListeners {
 
     private static final String IS_REPEAT = "repeat";
     DisplayMetrics dm;
@@ -84,6 +81,11 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplayingHorizontal, getActivity(), clickHelper);
         nowplayingHorizontal.setAdapter(horizontal_adapter);
         return playerView;
+    }
+
+    @Override
+    public void setTitle() {
+
     }
 
     private void registerListeners(){
@@ -247,13 +249,10 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     ViewTreeObserver.OnGlobalLayoutListener layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-            Window window = getActivity().getWindow();
-            window.setFormat(PixelFormat.RGBA_8888);
             int pos_x = seekbar_layout.getWidth() / 2;
             pos_x += 1.5;
             int pos_y = seekbar_layout.getHeight() / 2;
-            seekbar.setMeasuredHeigthWidth(measure_view.getWidth(),
-                    measure_view.getHeight());
+            seekbar.setMeasuredHeigthWidth((int)getDp(20), (int)getDp(20));
             seekbar.setCenter_x(pos_x);
             seekbar.setCenter_y(pos_y);
             seekbar.setRadius((float) ((Math.min(
@@ -343,7 +342,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
 
 
     private void pauseSong(){
-        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PAUSE));
+        SongsManager.getInstance().pause();
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
         playerTimer.setIsPlaying(false);
     }
@@ -366,11 +365,11 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     }
 
     private void playNextSong(){
-        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_NEXT));
+        SongsManager.getInstance().playNextSong();
     }
 
     private void playPreviousSong(){
-        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PREV));
+        SongsManager.getInstance().playPreviousSong();
     }
     private void updateSongInfo(){
         SongInfo currentSong = SongsManager.getInstance().getCurrentSongInfo();
@@ -417,9 +416,6 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     public void setIsUp(boolean b){
         isUp = b;
     }
-    public boolean getIsUp() {
-        return isUp;
-    }
 
     PlayerTimerTask.TimerListener timerListener = new PlayerTimerTask.TimerListener() {
         @Override
@@ -433,23 +429,6 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         }
     };
 
-    BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action){
-                case BroadcastManager.NOTIFICATION_HANDLER:
-                    updateUI();
-                    break;
-                case BroadcastManager.NOTIFICATION_UPDATE_LIST:
-                    updateNowPlayingListUI();
-                    break;
-                case BroadcastManager.NOTIFICATION_UPDATE_PLAYPAUSE:
-                    updateSeekbar();
-                    break;
-            }
-        }
-    };
 
     @Override
     public void onSongStarted(SongInfo songInfo) {
@@ -461,12 +440,13 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     public void onSongChanged(SongInfo songInfo) {
         updateSongInfo();
         updateSeekbar();
+        horizontal_adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onSongAdded(SongInfo songInfo) {
         horizontal_songInfo_array.add(songInfo);
-        horizontal_adapter.notifyItemInserted(horizontal_songInfo_array.size() - 1);
+        horizontal_adapter.notifyDataSetChanged();
     }
 
 }

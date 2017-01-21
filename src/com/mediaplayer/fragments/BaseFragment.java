@@ -4,6 +4,8 @@ package com.mediaplayer.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,5 +27,10 @@ public abstract class BaseFragment extends Fragment {
 
     public AppCompatActivity getAppCompactActivity(){
         return (AppCompatActivity)getActivity();
+    }
+
+    public float getDp(int px){
+        DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, metrics);
     }
 }

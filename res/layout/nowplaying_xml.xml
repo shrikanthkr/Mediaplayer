@@ -58,12 +58,13 @@
                     android:layout_weight="8"/>
                 <TextView
                     android:id="@+id/duration_header"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:gravity="center_horizontal"
+                    android:gravity="right"
                     android:textColor="@color/light_text_color"
                     android:textSize="12sp"
+                    android:paddingRight="10dp"
                     android:layout_weight="2" />
             </LinearLayout>
         </LinearLayout>
