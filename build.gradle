@@ -12,15 +12,15 @@ props.load(new FileInputStream("keystore/keystore.properties"))
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':swipeadapter')
-    compile 'com.android.support:support-v4:+'
-    compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
+    compile project(':swipeadapter')
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "23.0.3"
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 21
