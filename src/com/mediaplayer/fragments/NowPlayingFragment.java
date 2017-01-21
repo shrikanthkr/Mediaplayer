@@ -4,7 +4,6 @@ package com.mediaplayer.fragments;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +28,7 @@ import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.customviews.PlayPauseView;
+import com.mediaplayer.interfaces.RecyclerClickHelper;
 import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
@@ -40,7 +40,7 @@ import java.util.LinkedList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler.SeekBarListeners {
+public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler.SeekBarListeners, SongsManager.SongsListeners {
 
     private static final String IS_REPEAT = "repeat";
     DisplayMetrics dm;
@@ -63,7 +63,8 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dm =getResources().getDisplayMetrics();
+        dm = getResources().getDisplayMetrics();
+        SongsManager.getInstance().addListener(this);
         SongsManager.getInstance().setIsRepeat(PreferenceManager.INSTANCE.getIsRepeat());
         SongsManager.getInstance().setIsShuffle(PreferenceManager.INSTANCE.getIsShuffle());
     }
@@ -80,7 +81,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         setViewIds(playerView);
         playerView.setOnTouchListener(slideHandler);
         horizontal_songInfo_array = new ArrayList<>();
-        horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplayingHorizontal, getActivity());
+        horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplayingHorizontal, getActivity(), clickHelper);
         nowplayingHorizontal.setAdapter(horizontal_adapter);
         return playerView;
     }
@@ -90,16 +91,19 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
         BroadcastManager.registerForEvent(BroadcastManager.PLAY_SELECTED, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.APPEND_LIST, receiver);
         BroadcastManager.registerForEvent(BroadcastManager.HEAD_SET_STATE_UPDATE, receiver);
-        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_HANDLER));
-        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_UPDATE_SONGINFO));
-        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_UPDATE_LIST));
-        getActivity().registerReceiver(notificationReceiver, new IntentFilter(BroadcastManager.NOTIFICATION_UPDATE_PLAYPAUSE));
     }
     private void deRegisterListerners(){
         BroadcastManager.unRegisters(receiver);
-        getActivity().unregisterReceiver(notificationReceiver);
+        //getActivity().unregisterReceiver(notificationReceiver);
     }
 
+    private RecyclerClickHelper clickHelper = new RecyclerClickHelper() {
+        @Override
+        public void onItemClickListener(View view, int position) {
+            SongInfo songInfo = horizontal_songInfo_array.get(position);
+            playSong(songInfo);
+        }
+    };
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -345,18 +349,17 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
     }
     private void resumeSong(){
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
-        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_RESUME));
+        SongsManager.getInstance().resume();
     }
 
     private void playSong(SongInfo songInfo){
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
         SongsManager.getInstance().playSelectedSong(songInfo);
-        getActivity().sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_PLAY));
     }
 
     private void playPauseSong(){
         if( SongsManager.getInstance().isPlaying()){
-                pauseSong();
+            pauseSong();
         }else{
             resumeSong();
         }
@@ -447,5 +450,23 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
             }
         }
     };
+
+    @Override
+    public void onSongStarted(SongInfo songInfo) {
+        updateSongInfo();
+        updateSeekbar();
+    }
+
+    @Override
+    public void onSongChanged(SongInfo songInfo) {
+        updateSongInfo();
+        updateSeekbar();
+    }
+
+    @Override
+    public void onSongAdded(SongInfo songInfo) {
+        horizontal_songInfo_array.add(songInfo);
+        horizontal_adapter.notifyItemInserted(horizontal_songInfo_array.size() - 1);
+    }
 
 }

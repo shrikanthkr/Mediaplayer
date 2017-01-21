@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.interfaces.RecyclerClickHelper;
 import com.mediaplayer.viewholders.SongListViewHolder;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class SongsListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
+public class SongsListAdapter extends BaseRecyclerAdapter<SongListViewHolder>{
 	private Activity activity;
 	ArrayList<SongInfo> song_array;
 	private LayoutInflater inflater = null;
@@ -26,7 +27,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
 	int[] rowStates;
 
 	public SongsListAdapter(Activity activity2, ArrayList<SongInfo> song_array,
-							RecyclerView lv) {
+							RecyclerView lv, RecyclerClickHelper clickHelper) {
+		super(clickHelper);
 		activity = activity2;
 		this.song_array = song_array;
 		this.lv = lv;
@@ -55,7 +57,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
 
 	@Override
 	public SongListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		// create a new view
+		super.onCreateViewHolder(parent, viewType);
 		View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.songlist_item, parent, false);
 		return new SongListViewHolder(v);
@@ -63,6 +65,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
 
 	@Override
 	public void onBindViewHolder(SongListViewHolder holder, int position) {
+		super.onBindViewHolder(holder, position);
 		boolean showSeparator = false;
 		holder.title.setText(song_array.get(position).getTitle());
 		total = Integer.parseInt(song_array.get(position).getDuration()) / 1000;

@@ -1,16 +1,12 @@
 package com.mediaplayer.com;
 
 import android.app.Service;
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.widget.RemoteViews;
 
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.manager.NotificationHelper;
@@ -35,7 +31,7 @@ public class NotificationService extends Service implements SongsManager.SongsLi
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_PREV)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_RESUME)));
         registerReceiver(notificationReceiver, new IntentFilter((BroadcastManager.NOTIFICATION_CLOSE)));
-        SongsManager.getInstance().setListener(this);
+        SongsManager.getInstance().addListener(this);
         super.onCreate();
     }
 
@@ -89,24 +85,18 @@ public class NotificationService extends Service implements SongsManager.SongsLi
 
     @Override
     public void onSongStarted(SongInfo songInfo) {
-        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_HANDLER));
+
     }
 
     @Override
     public void onSongChanged(SongInfo songInfo) {
-        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_SONGINFO));
-        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_LIST));
     }
 
     @Override
     public void onSongAdded(SongInfo songInfo) {
-        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_UPDATE_LIST));
+
     }
 
-    @Override
-    public void onSongCompleted() {
-        NotificationService.this.sendBroadcast(new Intent(BroadcastManager.NOTIFICATION_NEXT));
-    }
 
     @Override
     public void onDestroy() {

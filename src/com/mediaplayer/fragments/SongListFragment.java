@@ -2,7 +2,9 @@ package com.mediaplayer.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +18,8 @@ import com.mediaplayer.adapter.SongsListAdapter;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
+import com.mediaplayer.interfaces.RecyclerClickHelper;
+import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.Util;
 
 import java.util.ArrayList;
@@ -69,24 +73,25 @@ public class SongListFragment extends BaseFragment implements SearchView.OnQuery
 
 	public void populateSonglist() {
 		songList = database.getSongs(null);
-		adapter = new SongsListAdapter(getActivity(), songList, rv);
+		adapter = new SongsListAdapter(getActivity(), songList, rv, clickHelper);
 		/*rv.setTextFilterEnabled(true);
 		rv.setFastScrollEnabled(true);*/
 
 		rv.setAdapter(adapter);
-		/*rv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int id, long l) {
-				SongInfo  info  = getSelectedSong(id);
-				Intent playSong = new Intent(BroadcastManager.PLAYSONG);
-				Bundle b= new Bundle();
-				b.putSerializable(BroadcastManager.SONG_KEY, info);
-				playSong.putExtras(b);
-
-				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
-			}
-		});*/
 	}
+
+	RecyclerClickHelper clickHelper = new RecyclerClickHelper() {
+		@Override
+		public void onItemClickListener(View view, int position) {
+			SongInfo  info  = getSelectedSong(position);
+			Intent playSong = new Intent(BroadcastManager.PLAYSONG);
+			Bundle b= new Bundle();
+			b.putSerializable(BroadcastManager.SONG_KEY, info);
+			playSong.putExtras(b);
+
+			LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
+		}
+	};
 
 	private SongInfo getSelectedSong(int id){
 		SongInfo songInfo = new SongInfo();

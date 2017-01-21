@@ -1,66 +1,54 @@
 package com.mediaplayer.adapter;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import android.content.ContentUris;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
-import com.mediaplayer.manager.BroadcastManager;
-import com.mediaplayer.utility.AlbumArtLoader;
+import com.mediaplayer.customviews.BaseImageView;
+import com.mediaplayer.interfaces.RecyclerClickHelper;
+
+import java.util.ArrayList;
 
 
-public class NowPlayingHorizontalAdapter extends  RecyclerView.Adapter<NowPlayingHorizontalAdapter.ViewHolder>  {
+public class NowPlayingHorizontalAdapter extends  BaseRecyclerAdapter<NowPlayingHorizontalAdapter.ViewHolder>  {
 
 	ArrayList<SongInfo> songArray;
 	Activity context;
 	RecyclerView rv;
-	public NowPlayingHorizontalAdapter(ArrayList<SongInfo> songArray, RecyclerView rv, Activity activity) {
+	public NowPlayingHorizontalAdapter(ArrayList<SongInfo> songArray, RecyclerView rv, Activity activity, RecyclerClickHelper recyclerClickHelper) {
+		super(recyclerClickHelper);
 		this.songArray = songArray;
 		context = activity;
 		this.rv = rv;
 	}
 
 
-	private View.OnClickListener clickListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			int position = rv.getChildPosition(v);
-			SongInfo songInfo = songArray.get(position);
-			Intent playSong = new Intent(BroadcastManager.PLAYSONG);
-			Bundle b= new Bundle();
-			b.putSerializable(BroadcastManager.SONG_KEY, songInfo);
-			playSong.putExtras(b);
-			LocalBroadcastManager.getInstance(context).sendBroadcast(playSong);
-		}
-	};
 
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		super.onCreateViewHolder(parent,viewType);
 		View v = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.nowplaying_horizonal_songitem, parent, false);
 		ViewHolder vh = new ViewHolder(v);
-		v.setOnClickListener(clickListener);
 		return vh;
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
+		super.onBindViewHolder(holder,position);
 		holder.songName.setText(songArray.get(position).getDisplayName());
-		new AlbumArtLoader(context,songArray.get(position).getAlbum_id(),holder.album, AlbumArtLoader.Mode.ALBUM).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), Long.parseLong(songArray.get(position).getId()) );
+		holder.album.setDefaultImage(R.drawable.albums);
+		holder.album.loadImage(uri);
 		if(SongsManager.getInstance().getCurrentSongInfo()!=null
 				&& songArray.get(position).getId()  == SongsManager.getInstance().getCurrentSongInfo().getId()){
 			holder.songName.setTextColor(context.getResources().getColor(R.color.base_dark));
@@ -84,11 +72,11 @@ public class NowPlayingHorizontalAdapter extends  RecyclerView.Adapter<NowPlayin
 
 	class ViewHolder extends RecyclerView.ViewHolder {
 		TextView songName;
-		ImageView album;
+		BaseImageView album;
 		public ViewHolder(View v) {
 			super(v);
 			songName = (TextView)v.findViewById(R.id.song_name_textView);
-			album = (ImageView)v.findViewById(R.id.song_imageView);
+			album = (BaseImageView)v.findViewById(R.id.song_imageView);
 		}
 	}
 }

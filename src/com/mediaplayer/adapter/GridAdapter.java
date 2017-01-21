@@ -17,7 +17,7 @@ import com.mediaplayer.viewholders.GridViewHolder;
 
 import java.util.ArrayList;
 
-public class GridAdapter extends RecyclerView.Adapter<GridViewHolder>{
+public class GridAdapter extends BaseRecyclerAdapter<GridViewHolder>{
 
 	private ArrayList<MetaInfo> infos;
 	private LayoutInflater inflater = null;
@@ -26,7 +26,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridViewHolder>{
 	MultiviewFragment fragment;
 
 	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, RecyclerView gv, AlbumArtLoader.Mode mode, MultiviewFragment fragment) {
-		super();
+		super(null);
 		this.infos = infos;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.gv = gv;
@@ -38,12 +38,14 @@ public class GridAdapter extends RecyclerView.Adapter<GridViewHolder>{
 
 	@Override
 	public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		super.onCreateViewHolder( parent, viewType);
 		View v = inflater.inflate(R.layout.grid_listitem_xml, parent, false);
 		return new GridViewHolder(v);
 	}
 
 	@Override
 	public void onBindViewHolder(GridViewHolder holder, int position) {
+		super. onBindViewHolder(holder,position);
 		holder.more_layout.setOnClickListener(moreListener);
 		holder.name.setText(infos.get(position).getName());
 		String id = infos.get(position).getId();

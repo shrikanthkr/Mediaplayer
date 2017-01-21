@@ -1,30 +1,20 @@
 package com.mediaplayer.com;
 
+import android.content.Context;
+import android.media.MediaPlayer;
+
+import com.mediaplayer.db.SongInfoDatabase;
+import com.mediaplayer.utility.SongsHolder;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import android.app.Activity;
-import android.content.Context;
-import android.database.Cursor;
-import android.media.MediaPlayer;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-
-import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.utility.SongsHolder;
 
 public class SongsManager {
 	static SongsManager  manager;
@@ -32,7 +22,7 @@ public class SongsManager {
 	SongsHolder holder;
 	Music music;
 	SongInfoDatabase database;
-	SongsManager.SongsListeners listener;
+	List<SongsListeners > listeners = new ArrayList<>();
     boolean isRepeat = false;
     boolean isShuffle = false;
 
@@ -61,7 +51,7 @@ public class SongsManager {
         this.isRepeat = isRepeat;
     }
 
-    public static SongsManager getInstance(){
+    public static synchronized  SongsManager getInstance(){
 		if(manager==null){
 			manager = new SongsManager();
 			manager.holder = new SongsHolder();
@@ -69,8 +59,12 @@ public class SongsManager {
 		}
 		return manager;
 	}
-	public void setListener(SongsListeners listener){
-		this.listener = listener;
+	public void addListener(SongsListeners listener){
+		this.listeners.add(listener);
+	}
+
+	public void removeListener(SongsListeners listener){
+		if(listeners != null) listeners.remove(listener);
 	}
 
 	public void pause(){
@@ -88,7 +82,7 @@ public class SongsManager {
 		}
 
 		music.play();
-		if(listener!=null) listener.onSongStarted(currentSongInfo);
+		notifyStarted(currentSongInfo);
 	}
 	public void resume(){
         if(holder.getSongQueue().size() <= 1 && getCurrentSongInfo()==null){
@@ -99,27 +93,31 @@ public class SongsManager {
 	public void playSelectedSong(SongInfo info){
 		if( holder.getSongQueue().indexOf(info) == -1){
 			holder.addSongToQueue(info);
+			notifyAdded(info);
 		}
 		holder.setCurrentSongInfo(info);
-		if(listener!=null) listener.onSongChanged(info);
+		play();
+		notifyChanged(info);
 	}
 	public void playNextSong() {
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo nextSong;
         if(currentSongIndex < holder.getSongQueue().size() - 1){
             nextSong =holder.getSongQueue().get(currentSongIndex + 1);
+			notifyChanged(nextSong);
         }else{
             if(isRepeat()){
                 nextSong =holder.getSongQueue().get(0);
+				notifyChanged(nextSong);
             }else{
                 database = SongInfoDatabase.getInstance();
                 nextSong = database.getNextSong(holder.getCurrentSongInfo());
                 holder.addSongToQueue(nextSong);
+				notifyAdded(nextSong);
             }
         }
 		holder.setCurrentSongInfo(nextSong);
 		play();
-		if(listener!=null) listener.onSongChanged(nextSong);
 	}
 	public void playPreviousSong(){
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
@@ -132,7 +130,7 @@ public class SongsManager {
 		}
 		holder.setCurrentSongInfo(prevSong);
 		play();
-		if(listener!=null) listener.onSongChanged(prevSong);
+		notifyChanged(prevSong);
 	}
 
     public void shuffleSongs(){
@@ -179,9 +177,7 @@ public class SongsManager {
 	}
 	public void addSong(SongInfo info){
 		holder.addSongToQueue(info);
-		if(listener!=null) {
-			listener.onSongAdded(info);
-		}
+		notifyAdded(info);
 	}
 
     MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
@@ -189,9 +185,8 @@ public class SongsManager {
         public void onCompletion(MediaPlayer mediaPlayer) {
             int duration = mediaPlayer.getDuration()/1000;
             int current = mediaPlayer.getCurrentPosition()/1000;
-
-            if(listener!=null && current > 10) {
-                listener.onSongCompleted();
+            if(current > 10) {
+				playNextSong();
             }
 
         }
@@ -211,6 +206,22 @@ public class SongsManager {
 		void onSongStarted(SongInfo songInfo);
 		void onSongChanged(SongInfo songInfo);
 		void onSongAdded(SongInfo songInfo);
-        void onSongCompleted();
+	}
+
+	private void notifyStarted(SongInfo songInfo){
+		for(SongsListeners listener : listeners){
+			listener.onSongStarted(songInfo);
+		}
+	}
+
+	private void notifyChanged(SongInfo songInfo){
+		for(SongsListeners listener : listeners){
+			listener.onSongChanged(songInfo);
+		}
+	}
+	private void notifyAdded(SongInfo songInfo){
+		for(SongsListeners listener : listeners){
+			listener.onSongAdded(songInfo);
+		}
 	}
 }
