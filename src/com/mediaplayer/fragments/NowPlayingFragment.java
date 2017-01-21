@@ -392,14 +392,6 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         if(playerTimer!=null) playerTimer.cancel();
     }
 
-    public void slideDownPlayer(){
-        slideHandler.slideDown(playerView);
-    }
-
-    public void slideUpPlayer(){
-        slideHandler.slideUp(playerView);
-    }
-
     @Override
     public void onSeek(int duration) {
         tempduration_textView.setVisibility(View.VISIBLE);
@@ -409,7 +401,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     @Override
     public void afterSeek(int seektime) {
         SongsManager.getInstance().seekPlayerTo(seektime);
-        tempduration_textView.setVisibility(View.GONE);
+        tempduration_textView.setText("");
     }
 
     boolean isUp = false;
