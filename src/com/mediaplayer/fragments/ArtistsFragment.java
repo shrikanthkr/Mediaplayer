@@ -21,7 +21,7 @@ public class ArtistsFragment extends MultiviewFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        gridview.setOnItemClickListener(this);
+        //gridview.setOnItemClickListener(this);
         return v;
     }
 

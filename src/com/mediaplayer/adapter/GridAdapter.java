@@ -1,50 +1,32 @@
 package com.mediaplayer.adapter;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
-import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.fragments.MultiviewFragment;
-import com.mediaplayer.listener.PlaylistChangedListener;
-import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;
+import com.mediaplayer.viewholders.GridViewHolder;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-public class GridAdapter extends BaseAdapter{
+public class GridAdapter extends RecyclerView.Adapter<GridViewHolder>{
 
-	private Activity activity;
-	ArrayList<MetaInfo> infos;
+	private ArrayList<MetaInfo> infos;
 	private LayoutInflater inflater = null;
-	GridView gv;
-	ViewHolder holder;
+	private RecyclerView gv;
 	AlbumArtLoader.Mode current;
 	MultiviewFragment fragment;
 
-	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, GridView gv, AlbumArtLoader.Mode mode, MultiviewFragment fragment) {
+	public GridAdapter(Activity activity, ArrayList<MetaInfo> infos, RecyclerView gv, AlbumArtLoader.Mode mode, MultiviewFragment fragment) {
 		super();
-		this.activity = activity;
 		this.infos = infos;
 		inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.gv = gv;
@@ -53,29 +35,33 @@ public class GridAdapter extends BaseAdapter{
 	}
 
 
+
 	@Override
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return infos.size();
+	public GridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		View v = inflater.inflate(R.layout.grid_listitem_xml, parent, false);
+		return new GridViewHolder(v);
 	}
 
 	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return position;
+	public void onBindViewHolder(GridViewHolder holder, int position) {
+		holder.more_layout.setOnClickListener(moreListener);
+		holder.name.setText(infos.get(position).getName());
+		String id = infos.get(position).getId();
+		Uri uri = ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), Long.parseLong(id) );
+		holder.album.setDefaultImage(R.drawable.albums);
+		holder.album.loadImage(uri);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
-	public class ViewHolder {
-		TextView name;
-		ImageView album;
-		LinearLayout more_layout;
+	@Override
+	public int getItemCount() {
+		return infos.size();
 	}
+
 
 	public void addAll(ArrayList<MetaInfo> infos){
 		this.infos.clear();
@@ -83,35 +69,13 @@ public class GridAdapter extends BaseAdapter{
 		notifyDataSetChanged();
 	}
 
-	@Override
-	public View getView(int position, View vi, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		if (vi == null) {
-			holder = new ViewHolder();
-			vi = inflater.inflate(R.layout.grid_listitem_xml, null);
-			holder.name = (TextView) vi
-					.findViewById(R.id.song_name);
-			holder.album = (ImageView) vi
-					.findViewById(R.id.album_imageView);
-			holder.more_layout = (LinearLayout)vi.findViewById(R.id.more_layout);
-			vi.setTag(holder);
-		} else {
-			holder = (ViewHolder) vi.getTag();
-		}
-
-		holder.more_layout.setOnClickListener(moreListener);
-		holder.name.setText(infos.get(position).getName());
-		new AlbumArtLoader(activity,infos.get(position).getId(),holder.album, current).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		return vi;
-	}
 
 	View.OnClickListener moreListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			int position = gv.getPositionForView(v);
-			fragment.showMore(v, position);
 		}
 	};
-	
+
+
 
 }

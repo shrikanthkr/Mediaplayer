@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mediaplayer.com.MetaInfo;
-import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.utility.AlbumArtLoader;
 
@@ -26,7 +26,7 @@ public class PlaylistsFragment extends MultiviewFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v =  super.onCreateView(inflater, container, savedInstanceState);
-        gridview.setOnItemClickListener(this);
+        //gridview.setOnItemClickListener(this);
         return v;
     }
 

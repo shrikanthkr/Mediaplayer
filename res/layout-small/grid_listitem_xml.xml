@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/grid_shadow"
     android:orientation="vertical" >
 
-    <ImageView
+    <com.mediaplayer.customviews.BaseImageView
         android:id="@+id/album_imageView"
-        android:layout_marginTop="12dp"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/albums"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+        android:adjustViewBounds="true" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -21,7 +18,7 @@
         android:orientation="horizontal"
         android:background="@color/base">
 
-        <TextView
+        <com.mediaplayer.customviews.BaseTextView
             android:id="@+id/song_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +29,7 @@
             android:layout_weight="0.9"
             android:textColor="@android:color/white"
             android:textSize="12dp"/>
-        <ImageView
+        <com.mediaplayer.customviews.BaseImageView
             android:layout_width="10dp"
             android:layout_height="40dp"
             android:scaleType="centerCrop"

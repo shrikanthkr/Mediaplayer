@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -35,18 +36,21 @@ import java.util.LinkedList;
  */
 public abstract class MultiviewFragment extends BaseFragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener{
     GridAdapter adapter;
-    GridView gridview;
+    RecyclerView gridview;
     SongInfoDatabase database;
     ArrayList<MetaInfo> list;
     SearchView searchView;
     AlbumArtLoader.Mode mode;
     Activity activity;
+    RecyclerView.LayoutManager mLayoutManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.multiview_layout_fragment,container,false);
-        gridview = (GridView)v.findViewById(R.id.gridview);
+        gridview = (RecyclerView)v.findViewById(R.id.gridview);
         adapter = new GridAdapter(getActivity(), list, gridview,mode,this);
+        mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        gridview.setLayoutManager(mLayoutManager);
         gridview.setAdapter(adapter);
         return v;
     }
