@@ -2,7 +2,6 @@ package com.mediaplayer.listener;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Fragment;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -45,16 +44,6 @@ public class SlideHandler implements View.OnTouchListener{
 			case MotionEvent.ACTION_MOVE:
 				currentTouchY = motionEvent.getRawY();
 				totalTranslation +=currentTouchY - prevTouchY;
-				int[] point = new int[2];
-				view.getLocationOnScreen(point);
-				if(point[1]< maxTop) {
-					currentAction = ActionType.UP;
-					break;
-				}else if(point[1] > maxBottom){
-					currentAction = ActionType.DOWN;
-					break;
-				}
-
 				view.setTranslationY(totalTranslation);
 
 				if(currentTouchY<prevTouchY){

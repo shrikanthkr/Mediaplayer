@@ -1,13 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/nowplaying_id"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingTop="24dp"
-              android:theme="@android:style/Theme.NoTitleBar"
-              tools:ignore="UselessLeaf,ContentDescription">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nowplaying_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@android:style/Theme.NoTitleBar"
+    tools:ignore="UselessLeaf,ContentDescription">
 <LinearLayout
     android:background="@android:color/white"
     android:layout_width="wrap_content"

@@ -73,7 +73,7 @@ public class NowPlayingFragment extends Fragment implements  SeekbarTouchHandler
          super.onCreateView(inflater, container, savedInstanceState);
         playerView = inflater.inflate(R.layout.nowplaying_xml,container,false);
         maxBottom =  dm.heightPixels - 80 * dm.density;
-        totalTranslation =maxBottom;
+        totalTranslation = maxBottom;
         playerView.setTranslationY(totalTranslation);
         slideHandler = new SlideHandler(getActivity());
         slideHandler.setParent(this);
