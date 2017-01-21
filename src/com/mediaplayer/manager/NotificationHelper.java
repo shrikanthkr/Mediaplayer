@@ -1,35 +1,24 @@
 package com.mediaplayer.manager;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
-import com.mediaplayer.com.ContainerActivity;
+import com.mediaplayer.com.BaseActivity;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
-import com.mediaplayer.utility.AlbumArtLoader;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by shrikanth on 11/15/15.
@@ -44,7 +33,7 @@ public class NotificationHelper {
     public NotificationHelper(Context parent) {
         info = SongsManager.getInstance().getCurrentSongInfo();
         this.parent = parent;
-        Intent myIntent = new Intent(parent, ContainerActivity.class);
+        Intent myIntent = new Intent(parent, BaseActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(parent, 0, myIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         nBuilder = new NotificationCompat.Builder(parent)
                 .setSmallIcon(R.drawable.albums)
