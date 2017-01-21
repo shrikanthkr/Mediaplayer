@@ -4,13 +4,18 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <item name="android:actionBarStyle">@style/ActionbarStyle</item>
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/base</item>
+        <item name="colorPrimaryDark">@color/base_dark</item>
+
     </style>
 
     <style name="ActionbarStyle"  parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -18,21 +23,10 @@
         <item name="android:textColor">@color/light_text_color</item>
     </style>
 
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_in_right</item>
-        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
-    </style>
-
     <style name="Divider">
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/base_dark</item>
-    </style>
-
-    <style name="List_Divider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">@drawable/lines</item>
     </style>
 
 

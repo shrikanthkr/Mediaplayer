@@ -1,33 +1,27 @@
 package com.mediaplayer.fragments;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.GestureDetector;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.mediaplayer.adapter.SongsListAdapter;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.manager.BroadcastManager;
-import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
 
+import java.util.ArrayList;
+
 public class SongListFragment extends MediaFragment implements SearchView.OnQueryTextListener {
-	ListView lv;
+	RecyclerView rv;
 	SearchView searchView;
 	Context context;
 	SongsListAdapter adapter;
@@ -35,6 +29,7 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 	SongInfoDatabase database;
 	Activity activity;
 	Util util;
+	private RecyclerView.LayoutManager mLayoutManager;
 
 	@Override
 	public void onResume() {
@@ -59,7 +54,10 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View v = inflater.inflate(R.layout.songlistfragment_xml,container,false);
-		lv = (ListView) v.findViewById(R.id.listView);
+		rv = (RecyclerView) v.findViewById(R.id.recycler_view);
+		// use a linear layout manager
+		mLayoutManager = new LinearLayoutManager(getActivity());
+		rv.setLayoutManager(mLayoutManager);
 		populateSonglist();
 		return v;
 	}
@@ -71,12 +69,12 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 
 	public void populateSonglist() {
 		songList = database.getSongs(null);
-		adapter = new SongsListAdapter(getActivity(), songList, lv);
-		lv.setTextFilterEnabled(true);
-		lv.setFastScrollEnabled(true);
+		adapter = new SongsListAdapter(getActivity(), songList, rv);
+		/*rv.setTextFilterEnabled(true);
+		rv.setFastScrollEnabled(true);*/
 
-		lv.setAdapter(adapter);
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		rv.setAdapter(adapter);
+		/*rv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int id, long l) {
 				SongInfo  info  = getSelectedSong(id);
@@ -87,7 +85,7 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 
 				LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(playSong);
 			}
-		});
+		});*/
 	}
 
 	private SongInfo getSelectedSong(int id){
@@ -131,8 +129,8 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		searchView = (SearchView)menu.findItem(R.id.search).getActionView();
-		searchView.setOnQueryTextListener(this);
+//		searchView = (SearchView)menu.findItem(R.id.search).getActionView();
+//		searchView.setOnQueryTextListener(this);
 	}
 	/*SwipeActionAdapter.SwipeActionListener swipeListener = new SwipeActionAdapter.SwipeActionListener(){
 		@Override

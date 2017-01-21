@@ -1,13 +1,14 @@
 package com.mediaplayer.com;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +31,7 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
 
 
-public class ContainerActivity extends Activity {
+public class ContainerActivity extends AppCompatActivity {
 	private String[] labels = {"Now Playing","Playlist","Songs","Albums", "Artists"};
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -76,9 +77,9 @@ public class ContainerActivity extends Activity {
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		//getActionBar().setDisplayHomeAsUpEnabled(true);
+		//getActionBar().setHomeButtonEnabled(true);
+		//mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		loadNowPLayingFragment();
 	}
 
@@ -127,7 +128,7 @@ public class ContainerActivity extends Activity {
 		}
 		previousFragmentState = currentFragmentState;
 		Fragment fragment;
-		fragment = getFragmentManager().findFragmentByTag(""+currentFragmentState);
+		fragment = getSupportFragmentManager().findFragmentByTag(""+currentFragmentState);
 		if(fragment==null) {
 			switch (state) {
 				case 0:
@@ -153,7 +154,7 @@ public class ContainerActivity extends Activity {
 			Bundle args = new Bundle();
 			fragment.setArguments(args);
 		}
-		FragmentManager fragmentManager = getFragmentManager();
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment,""+currentFragmentState)
 				.addToBackStack(null)
@@ -178,7 +179,7 @@ public class ContainerActivity extends Activity {
 			loadFragment(currentFragmentState);
 	}
 	private void loadNowPLayingFragment(){
-		FragmentManager fragmentManager = getFragmentManager();
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		nowPlayingFragment = new NowPlayingFragment();
 		fragmentManager.beginTransaction()
 				.replace(R.id.player, nowPlayingFragment)
@@ -205,7 +206,7 @@ public class ContainerActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		FragmentManager manager = getFragmentManager();
+		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		if(nowPlayingFragment.getIsUp() ){
 			nowPlayingFragment.slideDownPlayer();

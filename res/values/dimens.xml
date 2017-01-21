@@ -2,19 +2,12 @@
 <resources>
 
     <!-- height of a normal list item in edit playlist mode -->
-    <dimen name="normal_height">64dip</dimen>
     <!-- height of an expanded list item in edit playlist mode -->
-    <dimen name="expanded_height">128dip</dimen>
-    <dimen name="item_height">67dp</dimen>
-    <dimen name="section_div_height">20dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
-    <dimen name="widget_margin">8dp</dimen>
 
 </resources>

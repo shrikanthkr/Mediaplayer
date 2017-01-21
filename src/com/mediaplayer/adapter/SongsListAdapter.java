@@ -1,29 +1,24 @@
 package com.mediaplayer.adapter;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
-import android.view.Gravity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.viewholders.SongListViewHolder;
 
-public class SongsListAdapter extends BaseAdapter{
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+public class SongsListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
 	private Activity activity;
 	ArrayList<SongInfo> song_array;
 	private LayoutInflater inflater = null;
-	BaseAdapter adapter;
-	ListView lv;
+	RecyclerView lv;
 	DecimalFormat format;
 	int min, sec, total;
 	final static int SECTION = 2;
@@ -31,7 +26,7 @@ public class SongsListAdapter extends BaseAdapter{
 	int[] rowStates;
 
 	public SongsListAdapter(Activity activity2, ArrayList<SongInfo> song_array,
-							ListView lv) {
+							RecyclerView lv) {
 		activity = activity2;
 		this.song_array = song_array;
 		this.lv = lv;
@@ -40,7 +35,7 @@ public class SongsListAdapter extends BaseAdapter{
 
 		this.lv = lv;
 		format = new DecimalFormat("#.00");
-		rowStates = new int[getCount()];
+		rowStates = new int[getItemCount()];
 	}
 
 	public ArrayList<SongInfo> getUrlList() {
@@ -53,20 +48,59 @@ public class SongsListAdapter extends BaseAdapter{
 	}
 
 
-	public int getCount() {
-		// TODO Auto-generated method stub
+	@Override
+	public int getItemCount() {
 		return song_array.size();
 	}
 
-
-	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
-		return arg0;
+	@Override
+	public SongListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		// create a new view
+		View v = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.songlist_item, parent, false);
+		return new SongListViewHolder(v);
 	}
 
-	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
-		return arg0;
+	@Override
+	public void onBindViewHolder(SongListViewHolder holder, int position) {
+		boolean showSeparator = false;
+		holder.title.setText(song_array.get(position).getTitle());
+		total = Integer.parseInt(song_array.get(position).getDuration()) / 1000;
+		min = total / 60;
+		sec = total % 60;
+		holder.duration.setText(min + ":" + sec);
+		holder.album.setText(song_array.get(position).getAlbum());
+		switch (rowStates[position]){
+			case SECTION:
+				showSeparator = true;
+				break;
+			case NORMAL:
+				showSeparator = false;
+				break;
+			default:
+				if (position == 0) {
+					showSeparator = true;
+					rowStates[position] = SECTION;
+				}else {
+					char previousName = Character.toLowerCase(song_array.get(position - 1).getTitle().toCharArray()[0] );
+					char currentName = Character.toLowerCase(song_array.get(position).getTitle().toCharArray()[0] );
+					if (previousName != currentName) {
+						showSeparator = true;
+						rowStates[position] = SECTION;
+					} else {
+						showSeparator = false;
+						rowStates[position] = NORMAL;
+					}
+				}
+				break;
+		}
+		if (showSeparator) {
+			holder.section_headerview.setText( Character.toUpperCase(song_array.get(position).getTitle().toCharArray()[0]) +"" );
+			holder.section_headerview.setVisibility(View.VISIBLE);
+		}
+		else {
+			holder.section_headerview.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -75,71 +109,4 @@ public class SongsListAdapter extends BaseAdapter{
 		return super.getItemViewType(position);
 	}
 
-	@Override
-	public int getViewTypeCount() {
-		// TODO Auto-generated method stub
-		return super.getViewTypeCount();
-	}
-	public class ViewHolder {
-		public TextView title;
-		public TextView duration;
-		public TextView album;
-		public TextView section_headerview;
-	}
-
-	public View getView(final int arg0, View vi, ViewGroup arg2) {
-		ViewHolder holder;
-		boolean showSeparator = false;
-
-		if (vi == null) {
-
-			holder = new ViewHolder();
-			vi = inflater.inflate(R.layout.songlist_item, null);
-			holder.title = (TextView) vi.findViewById(R.id.song_textView);
-			holder.album = (TextView) vi.findViewById(R.id.song_album_textView);
-			holder.duration = (TextView) vi.findViewById(R.id.song_duration_textView);
-			holder.section_headerview = (TextView) vi.findViewById(R.id.section_headerview);
-			vi.setTag(holder);
-		} else {
-			holder = (ViewHolder) vi.getTag();
-		}
-			holder.title.setText(song_array.get(arg0).getTitle());
-			total = Integer.parseInt(song_array.get(arg0).getDuration()) / 1000;
-			min = total / 60;
-			sec = total % 60;
-			holder.duration.setText(min + ":" + sec);
-			holder.album.setText(song_array.get(arg0).getAlbum());
-			switch (rowStates[arg0]){
-				case SECTION:
-					showSeparator = true;
-					break;
-				case NORMAL:
-					showSeparator = false;
-					break;
-				default:
-					if (arg0 == 0) {
-						showSeparator = true;
-						rowStates[arg0] = SECTION;
-					}else {
-						char previousName = Character.toLowerCase(song_array.get(arg0 - 1).getTitle().toCharArray()[0] );
-						char currentName = Character.toLowerCase(song_array.get(arg0).getTitle().toCharArray()[0] );
-						if (previousName != currentName) {
-							showSeparator = true;
-							rowStates[arg0] = SECTION;
-						} else {
-							showSeparator = false;
-							rowStates[arg0] = NORMAL;
-						}
-					}
-					break;
-			}
-		if (showSeparator) {
-			holder.section_headerview.setText( Character.toUpperCase(song_array.get(arg0).getTitle().toCharArray()[0]) +"" );
-			holder.section_headerview.setVisibility(View.VISIBLE);
-		}
-		else {
-			holder.section_headerview.setVisibility(View.GONE);
-		}
-		return vi;
-	}
 }

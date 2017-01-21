@@ -1,12 +1,13 @@
 package com.mediaplayer.fragments;
 
-import android.app.Fragment;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -23,11 +24,11 @@ import android.widget.TextView;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.com.MyApplication;
 import com.mediaplayer.com.PlayerTimerTask;
-import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
+import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.customviews.PlayPauseView;
 import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
