@@ -25,8 +25,6 @@ import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.SongsHolder;
 import com.mediaplayer.utility.Util;
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
-import com.wdullaer.swipeactionadapter.SwipeDirections;
 
 public class SongListFragment extends MediaFragment implements SearchView.OnQueryTextListener {
 	ListView lv;
@@ -37,7 +35,6 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 	SongInfoDatabase database;
 	Activity activity;
 	Util util;
-	SwipeActionAdapter swipeActionAdapter;
 
 	@Override
 	public void onResume() {
@@ -77,15 +74,8 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 		adapter = new SongsListAdapter(getActivity(), songList, lv);
 		lv.setTextFilterEnabled(true);
 		lv.setFastScrollEnabled(true);
-		swipeActionAdapter = new SwipeActionAdapter(adapter);
-		swipeActionAdapter.setListView(lv);
-		swipeActionAdapter.addBackground(SwipeDirections.DIRECTION_FAR_LEFT,R.layout.row_bg_left)
-				.addBackground(SwipeDirections.DIRECTION_NORMAL_LEFT,R.layout.row_bg_left)
-				.addBackground(SwipeDirections.DIRECTION_FAR_RIGHT,R.layout.row_bg_right)
-				.addBackground(SwipeDirections.DIRECTION_NORMAL_RIGHT, R.layout.row_bg_right);
 
-		swipeActionAdapter.setSwipeActionListener(swipeListener);
-		lv.setAdapter(swipeActionAdapter);
+		lv.setAdapter(adapter);
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int id, long l) {
@@ -144,7 +134,7 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 		searchView = (SearchView)menu.findItem(R.id.search).getActionView();
 		searchView.setOnQueryTextListener(this);
 	}
-	SwipeActionAdapter.SwipeActionListener swipeListener = new SwipeActionAdapter.SwipeActionListener(){
+	/*SwipeActionAdapter.SwipeActionListener swipeListener = new SwipeActionAdapter.SwipeActionListener(){
 		@Override
 		public boolean hasActions(int position){
 			// All items can be swiped
@@ -177,6 +167,6 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 				//swipeActionAdapter.notifyDataSetChanged();
 			}
 		}
-	};
+	};*/
 
 }

@@ -15,7 +15,6 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
-    compile project(':swipeadapter')
 }
 
 android {
