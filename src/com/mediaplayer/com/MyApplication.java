@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 
 import com.mediaplayer.receiver.HeadSetIntentReceiver;
 
+import org.webrtc.PeerConnectionFactory;
+
 
 /**
  * Created by shrikanth on 10/17/15.
@@ -30,6 +32,7 @@ public class MyApplication extends Application {
         super.onCreate();
         context = this;
         registerReceivers();
+        PeerConnectionFactory.initializeAndroidGlobals(this, true, false, false, null);
     }
 
 

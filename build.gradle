@@ -18,11 +18,17 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile ('com.github.bumptech.glide:glide:3.7.0'){  exclude module: 'support-v4' }
+    compile 'io.pristine:libjingle:9127@aar'
+    compile group: 'com.pubnub', name: 'pubnub-gson', version: '4.3.0'
+
 }
 
 android {
     compileSdkVersion 25
     buildToolsVersion "23.0.3"
+
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 21

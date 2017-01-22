@@ -43,6 +43,7 @@ public class LaunchTabsContainer extends TabsContainer {
                 title = "Playlist";
                 break;
             case 4:
+                title = "Radio";
                 break;
             default:
                 break;
@@ -67,6 +68,7 @@ public class LaunchTabsContainer extends TabsContainer {
                 fragment = new PlaylistsFragment();
                 break;
             case 4:
+                fragment = new RadioFragment();
                 break;
             default:
                 fragment = new SongListFragment();
@@ -77,6 +79,6 @@ public class LaunchTabsContainer extends TabsContainer {
 
     @Override
     public int getCount() {
-        return 4;
+        return 5;
     }
 }
