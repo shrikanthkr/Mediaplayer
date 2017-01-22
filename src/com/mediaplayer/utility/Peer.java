@@ -81,6 +81,7 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
     @Override
     public void onAddStream(MediaStream mediaStream) {
         Log.d(TAG, "onAddStream Change");
+        Log.d(TAG, "Audio Track" + mediaStream.audioTracks.size());
     }
 
     @Override
@@ -101,6 +102,7 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
 
     public void startStream(String audioId){
         MediaStream stream = connectionHolder.getMediaStream();
+
     }
 
     public void createOffer(String device){

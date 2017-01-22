@@ -73,7 +73,7 @@ public class RadioFragment extends BaseFragment {
 	}
 
 	private void setupHost() {
-		//peer.startStream(info.getData());
+
 	}
 
 	@Override
