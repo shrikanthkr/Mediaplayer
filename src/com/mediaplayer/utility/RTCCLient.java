@@ -1,9 +1,7 @@
 package com.mediaplayer.utility;
 
 import android.provider.Settings;
-import android.util.Log;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mediaplayer.com.MyApplication;
 import com.pubnub.api.PubNub;
@@ -22,17 +20,15 @@ import java.util.List;
  * Created by shrikanth on 1/22/17.
  */
 
-public class RTCCLient {
+public abstract class RTCCLient {
 
     Peer peer;
     public final static String COMMON_CHANNEL = "common_channel";
     public final static String DEVICE_ID = Settings.Secure.getString(MyApplication.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+    Callbacks callbacks;
 
-    public enum MessageType{
-        INIT,
-        OFFER
-    }
     public RTCCLient(List<PeerConnection.IceServer> iceServers) {
+        this.callbacks = getCallbacks();
         PubNubHelper.initialize(subscribeCallback, publishResultPNCallback);
         PubNubHelper.subscribe();
         peer = new Peer(iceServers, this);
@@ -41,32 +37,17 @@ public class RTCCLient {
     SubscribeCallback subscribeCallback = new SubscribeCallback() {
         @Override
         public void status(PubNub pubnub, PNStatus status) {
-
+            callbacks.status(pubnub, status);
         }
 
         @Override
         public void message(PubNub pubnub, PNMessageResult message) {
-            Log.d("CLIENT", message.getMessage().toString());
-            JsonElement element = message.getMessage();
-            String typeName = element.getAsJsonObject().get("message_type").getAsString();
-            String device = element.getAsJsonObject().get("device_id").getAsString();
-            RTCCLient.MessageType type = RTCCLient.MessageType.valueOf(typeName);
-            if(type == MessageType.INIT){
-                if(!device.equals(RTCCLient.DEVICE_ID)){
-                    peer.createOffer(device);
-                }
-            }else if(type == MessageType.OFFER){
-                JsonObject object = element.getAsJsonObject();
-                String seesionType = object.get("type").getAsString();
-                String sessionDescription = object.get("description").getAsString();
-                peer.createAnswer(device, seesionType, sessionDescription);
-            }
-
+            callbacks.message(pubnub, message);
         }
 
         @Override
         public void presence(PubNub pubnub, PNPresenceEventResult presence) {
-
+            callbacks.presence(pubnub, presence);
         }
     };
 
@@ -80,5 +61,14 @@ public class RTCCLient {
 
     public void transmitMessage(String toId, JsonObject o) {
         PubNubHelper.publish(toId, o);
+    }
+
+    public abstract Callbacks getCallbacks();
+
+
+    public interface Callbacks{
+        public void status(PubNub pubnub, PNStatus status);
+        public void message(PubNub pubnub, PNMessageResult message);
+        public void presence(PubNub pubnub, PNPresenceEventResult presence);
     }
 }

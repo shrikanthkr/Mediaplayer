@@ -17,16 +17,18 @@ import java.util.List;
  * Created by shrikanth on 1/22/17.
  */
 
-public class Peer implements SdpObserver, PeerConnection.Observer{
+public class Peer implements SdpObserver, PeerConnection.Observer, DataChannel.Observer{
 
     private static final String TAG = "Peer";
     RTCCLient rtcClient;
     PeerConnectionHolder connectionHolder;
     String toId;
+    DataChannel.Init dc = new  DataChannel.Init();
+    DataChannel dataChannel;
 
     public Peer(List<PeerConnection.IceServer> iceServers, RTCCLient rtcClient) {
         this.rtcClient = rtcClient;
-        connectionHolder = new PeerConnectionHolder(this, iceServers);
+        connectionHolder = new PeerConnectionHolder(this, iceServers, dc);
     }
 
     //SDB observer
@@ -34,11 +36,11 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
     public void onCreateSuccess(SessionDescription sessionDescription) {
         JsonObject o = new JsonObject();
         o.addProperty("type", sessionDescription.type.canonicalForm());
-        o.addProperty("message_type", RTCCLient.MessageType.OFFER.name());
+        o.addProperty(JSONConstants.MESSAGE_TYPE, JSONConstants.SDP);
         o.addProperty("description", sessionDescription.description);
         o.addProperty("device_id", RTCCLient.DEVICE_ID);
-        rtcClient.transmitMessage(toId, o);
         connectionHolder.getPc().setLocalDescription(this, sessionDescription);
+        rtcClient.transmitMessage(toId, o);
     }
 
     @Override
@@ -66,6 +68,9 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
     @Override
     public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
         Log.d(TAG, "iceConnectionState Change");
+        if (iceConnectionState == PeerConnection.IceConnectionState.DISCONNECTED) {
+            Log.d(TAG, "iceConnectionState disconnected");
+        }
     }
 
     @Override
@@ -76,6 +81,13 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
     @Override
     public void onIceCandidate(IceCandidate iceCandidate) {
         Log.d(TAG, "iceCandidate Change");
+        JsonObject payload = new JsonObject();
+        payload.addProperty(JSONConstants.MESSAGE_TYPE, JSONConstants.ICE_CANDIDATE);
+        payload.addProperty("sdpMLineIndex", iceCandidate.sdpMLineIndex);
+        payload.addProperty("sdpMid", iceCandidate.sdpMid);
+        payload.addProperty("candidate", iceCandidate.sdp);
+        payload.addProperty("device_id", RTCCLient.DEVICE_ID);
+        rtcClient.transmitMessage(toId, payload);
     }
 
     @Override
@@ -92,6 +104,7 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
     @Override
     public void onDataChannel(DataChannel dataChannel) {
         Log.d(TAG, "onDataChannel Change");
+        this.dataChannel = dataChannel;
     }
 
     @Override
@@ -100,10 +113,6 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
     }
 
 
-    public void startStream(String audioId){
-        MediaStream stream = connectionHolder.getMediaStream();
-
-    }
 
     public void createOffer(String device){
         toId = device;
@@ -113,5 +122,19 @@ public class Peer implements SdpObserver, PeerConnection.Observer{
     public void createAnswer(String s, String seesionType, String sesionDescription) {
         toId = s;
         connectionHolder.createAnswer(seesionType, sesionDescription);
+    }
+
+    public void addIceCandidate(IceCandidate iceCandidate){
+        connectionHolder.pc.addIceCandidate(iceCandidate);
+    }
+
+    @Override
+    public void onStateChange() {
+        Log.d(TAG, "DataChannel: onStateChange: " + dataChannel.state());
+    }
+
+    @Override
+    public void onMessage(DataChannel.Buffer buffer) {
+        Log.d(TAG, "DataChannel: onStateChange: " + buffer.toString());
     }
 }

@@ -6,14 +6,14 @@
     android:orientation="vertical">
 
    <Button
-       android:id="@+id/sub"
+       android:id="@+id/host"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="Sub"/>
+       android:text="Host"/>
 
    <Button
-       android:id="@+id/pub"
+       android:id="@+id/receiver"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="Pub"/>
+       android:text="Receiver"/>
 </LinearLayout>
