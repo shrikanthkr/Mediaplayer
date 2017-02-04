@@ -1,16 +1,14 @@
 package com.mediaplayer.fragments;
 
 
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
@@ -30,11 +28,11 @@ import java.util.List;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class RadioFragment2 extends BaseFragment implements Session.Callback {
+public class RadioFragment2 extends BaseFragment{
     private static final String TAG = "RADIO FRAGMENT";
     private Session mSession;
-    private Button mButton1;
-    private EditText mEditText;
+    private Button mButton1, mButton2;
+
     private FFmpeg ffmpeg;
     SongInfo info;
     String path;
@@ -44,16 +42,23 @@ public class RadioFragment2 extends BaseFragment implements Session.Callback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.radio_fragment,container,false);
-        mButton1 = (Button)v.findViewById(R.id.button);
-        mEditText = (EditText) v.findViewById(R.id.editText1);
+        mButton1 = (Button)v.findViewById(R.id.send);
+        mButton2 = (Button)v.findViewById(R.id.receive);
         info = SongInfoDatabase.getInstance().getSongs("0").get(0);
         path = info.getData();
-        commands.add("-re");
-        commands.add("-i");
-        commands.add(path);
-        commands.add("-f");
-        commands.add("flv");
-        commands.add("rtmp://192.168.56.102/myapp/mystream");
+        mButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send();
+            }
+        });
+
+        mButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                receive();
+            }
+        });
         return v;
 
     }
@@ -67,25 +72,10 @@ public class RadioFragment2 extends BaseFragment implements Session.Callback {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ffmpeg = FFmpeg.getInstance(getContext());
-        /*mSession = SessionBuilder.getInstance()
-                .setCallback(this)
-                .setPreviewOrientation(90)
-                .setContext(getContext())
-                .setAudioEncoder(SessionBuilder.AUDIO_AAC)
-                .setAudioQuality(new AudioQuality(16000, 32000))
-                .setVideoEncoder(SessionBuilder.VIDEO_NONE)
-                .build();
-        mButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSession.setDestination(mEditText.getText().toString());
-                if (!mSession.isStreaming()) {
-                    mSession.configure();
-                } else {
-                    mSession.stop();
-                }
-            }
-        });*/
+        loadFFMpeg();
+    }
+
+    private void loadFFMpeg(){
         try {
             ffmpeg.loadBinary(new LoadBinaryResponseHandler() {
 
@@ -107,8 +97,30 @@ public class RadioFragment2 extends BaseFragment implements Session.Callback {
             // Handle if FFmpeg is not supported by device
             Log.e("FFMEPG","error", e);
         }
+    }
+    private void send(){
+        commands.add("-re");
+        commands.add("-i");
+        commands.add(path);
+        commands.add("-f");
+        commands.add("flv");
+        commands.add("rtmp://192.168.56.102/myapp/mystream");
+        executeFFMPeg();
+    }
 
-
+    private void receive(){
+        commands.add("-re");
+        commands.add("-i");
+        commands.add("rtmp://192.168.56.102/myapp/mystream");
+        commands.add("-codec:a");
+        commands.add("libmp3lame");
+        commands.add("-qscale:a");
+        commands.add("2");
+        //commands.add("mp3");
+        commands.add(Environment.getExternalStorageDirectory()+"/"+"audio.mp3");
+        executeFFMPeg();
+    }
+    private void executeFFMPeg(){
         try {
             // to execute "ffmpeg -version" commands you just need to pass "-version"
             commadsArray = new String[commands.size()];
@@ -138,6 +150,7 @@ public class RadioFragment2 extends BaseFragment implements Session.Callback {
                 @Override
                 public void onFinish() {
                     Log.d("FFMEPG","finish");
+                    ffmpeg.killRunningProcesses();
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {
@@ -145,62 +158,6 @@ public class RadioFragment2 extends BaseFragment implements Session.Callback {
             Log.e("FFMEPG","error", e);
         }
 
-
-    }
-
-    @Override
-    public void onBitrateUpdate(long bitrate) {
-        Log.d(TAG,"Bitrate: "+bitrate);
-    }
-
-    @Override
-    public void onSessionError(int message, int streamType, Exception e) {
-        mButton1.setEnabled(true);
-        if (e != null) {
-            logError(e.getMessage());
-        }
-    }
-
-    @Override
-
-    public void onPreviewStarted() {
-        Log.d(TAG,"Preview started.");
-    }
-
-    @Override
-    public void onSessionConfigured() {
-        Log.d(TAG,"Preview configured.");
-        // Once the stream is configured, you can get a SDP formated session description
-        // that you can send to the receiver of the stream.
-        // For example, to receive the stream in VLC, store the session description in a .sdp file
-        // and open it with VLC while streming.
-        Log.d(TAG, mSession.getSessionDescription());
-        mSession.start();
-    }
-
-    @Override
-    public void onSessionStarted() {
-        Log.d(TAG,"Session started.");
-        mButton1.setEnabled(true);
-        mButton1.setText(R.string.stop);
-    }
-
-    @Override
-    public void onSessionStopped() {
-        Log.d(TAG,"Session stopped.");
-        mButton1.setEnabled(true);
-        mButton1.setText(R.string.start);
-    }
-
-    /** Displays a popup to report the eror to the user */
-    private void logError(final String msg) {
-        final String error = (msg == null) ? "Error unknown" : msg;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(error).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {}
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
 
