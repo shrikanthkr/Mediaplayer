@@ -104,21 +104,25 @@ public class RadioFragment2 extends BaseFragment{
         commands.add(path);
         commands.add("-f");
         commands.add("flv");
-        commands.add("rtmp://192.168.56.102/myapp/mystream");
+        commands.add("rtmp://192.168.56.101/myapp/mystream");
         executeFFMPeg();
     }
 
     private void receive(){
-        commands.add("-re");
+
         commands.add("-i");
-        commands.add("rtmp://192.168.56.102/myapp/mystream");
+        commands.add("rtmp://192.168.56.101/myapp/mystream");
         commands.add("-codec:a");
         commands.add("libmp3lame");
         commands.add("-qscale:a");
         commands.add("2");
-        //commands.add("mp3");
+        commands.add("-f");
+        commands.add("mp3");
         commands.add(Environment.getExternalStorageDirectory()+"/"+"audio.mp3");
+        //commands.add("-");
+
         executeFFMPeg();
+
     }
     private void executeFFMPeg(){
         try {

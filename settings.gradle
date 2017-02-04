@@ -1,2 +1,2 @@
 
-include ':libstreaming'
+include ':libstreaming', ':FFmpegAndroid'

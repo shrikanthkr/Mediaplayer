@@ -18,8 +18,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile ('com.github.bumptech.glide:glide:3.7.0'){  exclude module: 'support-v4' }
+    compile ('com.squareup.dagger:dagger-compiler:1.2.2'){  exclude module: 'support-annotations' }
+    compile ('com.squareup.dagger:dagger:1.2.2'){  exclude module: 'support-annotations' }
+    compile ('com.jakewharton:butterknife:5.1.2'){  exclude module: 'support-annotations' }
+    androidTestCompile ('com.squareup.assertj:assertj-android:1.0.0'){  exclude module: 'support-annotations' }
     compile project(':libstreaming')
-    compile 'com.writingminds:FFmpegAndroid:0.3.2'
+    compile project(':FFmpegAndroid')
 }
 
 android {
@@ -85,5 +89,16 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
+}
+
+
+ext {
+    compileSdkVersion = 25
+    buildToolsVersion = '22.0.1'
+    targetSdkVersion = 22
+    minSdkVersion = 16
+    versionCode = 28
+    versionName = "0.3.2"
 }
