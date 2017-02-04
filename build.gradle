@@ -18,6 +18,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile ('com.github.bumptech.glide:glide:3.7.0'){  exclude module: 'support-v4' }
+    compile project(':libstreaming')
+    compile 'com.writingminds:FFmpegAndroid:0.3.2'
 }
 
 android {

@@ -11,5 +11,8 @@
     <string name="artists">Artists</string>
     <string name="playlist">Playlist</string>
     <string name="songs">Songs</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
+    <string name="menu_quit">Quit</string>
 
 </resources>
