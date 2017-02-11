@@ -24,6 +24,7 @@ dependencies {
     androidTestCompile ('com.squareup.assertj:assertj-android:1.0.0'){  exclude module: 'support-annotations' }
     compile project(':libstreaming')
     compile project(':FFmpegAndroid')
+    compile "de.mrmaffen:vlc-android-sdk:2.0.6"
 }
 
 android {
