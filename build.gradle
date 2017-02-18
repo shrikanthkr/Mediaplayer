@@ -22,8 +22,9 @@ dependencies {
     compile ('com.github.bumptech.glide:glide:3.7.0'){  exclude module: 'support-v4' }
 
     compile project(':FFmpegAndroid')
-    compile ("de.mrmaffen:vlc-android-sdk:2.0.6"){  exclude module: 'support-v4' }
-    compile ('com.google.firebase:firebase-core:10.2.0'){  exclude module: 'support-v4' }
+    compile ("de.mrmaffen:vlc-android-sdk:2.0.6")
+
+    compile 'com.google.firebase:firebase-database:10.0.1'
 }
 
 android {

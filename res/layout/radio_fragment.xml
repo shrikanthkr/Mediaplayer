@@ -20,5 +20,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/stop"
         android:text="stop"/>
+    <com.mediaplayer.customviews.RadioRecyclerView
+        android:id="@+id/radio_stations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.mediaplayer.customviews.RadioRecyclerView>
 
 </LinearLayout>
