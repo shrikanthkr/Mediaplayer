@@ -1,25 +1,18 @@
 package com.mediaplayer.db;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-
-import com.mediaplayer.com.MetaInfo;
-import com.mediaplayer.com.MyApplication;
-import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.utility.Util;
-
-import android.R.array;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.mediaplayer.application.MyApplication;
+import com.mediaplayer.com.MetaInfo;
+import com.mediaplayer.com.SongInfo;
+
+import java.util.ArrayList;
 
 public class SongInfoDatabase {
 	public static Context ourContext;

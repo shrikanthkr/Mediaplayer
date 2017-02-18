@@ -1,9 +1,9 @@
 package com.mediaplayer.com;
 
 import android.database.Cursor;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.MediaStore;
+
+import org.videolan.libvlc.Media;
 
 import java.io.Serializable;
 
@@ -121,5 +121,10 @@ public class SongInfo  implements Serializable{
 	@Override
 	public boolean equals(Object o) {
 		return (this.getId() == ((SongInfo)o).getId()) && (this.hashCode() == o.hashCode());
+	}
+
+	public static SongInfo fromMediaToInfo(Media media){
+		SongInfo info = new SongInfo();
+		return null;
 	}
 }

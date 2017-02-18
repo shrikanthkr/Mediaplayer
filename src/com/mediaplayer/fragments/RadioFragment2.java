@@ -15,11 +15,9 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
-
-import net.majorkernelpanic.streaming.Session;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -34,7 +32,7 @@ import java.util.List;
  */
 public class RadioFragment2 extends BaseFragment{
     private static final String TAG = "RADIO FRAGMENT";
-    private Session mSession;
+
     private Button mButton1, mButton2, mButton3;
 
     private FFmpeg ffmpeg;
@@ -70,10 +68,12 @@ public class RadioFragment2 extends BaseFragment{
         mButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMediaPlayer.stop();
-                mMediaPlayer.release();
-                mLibVLC = null;
-                mMediaPlayer = null;
+                if(mMediaPlayer != null) {
+                    mMediaPlayer.stop();
+                    mMediaPlayer.release();
+                    mLibVLC = null;
+                    mMediaPlayer = null;
+                }
             }
         });
         return v;
@@ -121,7 +121,7 @@ public class RadioFragment2 extends BaseFragment{
         commands.add(path);
         commands.add("-f");
         commands.add("flv");
-        commands.add("rtmp://ec2-35-154-98-231.ap-south-1.compute.amazonaws.com/");
+        commands.add("rtmp://ec2-35-154-98-231.ap-south-1.compute.amazonaws.com/myapp/mystream");
         executeFFMPeg();
     }
 
@@ -150,19 +150,57 @@ public class RadioFragment2 extends BaseFragment{
             mMediaPlayer = new MediaPlayer(mLibVLC);
         }
         Uri uri = Uri.parse("rtmp://ec2-35-154-98-231.ap-south-1.compute.amazonaws.com/myapp/mystream");
-        Media m = new Media(mLibVLC, uri);
+        final Media m = new Media(mLibVLC, uri);
         // Tell the media player to play the new Media.
 
         mMediaPlayer.setMedia(m);
 
         // Finally, play it!
         mMediaPlayer.setVideoTrackEnabled(false);
+        m.setEventListener(new Media.EventListener() {
+            @Override
+            public void onEvent(Media.Event event) {
+                switch (event.type){
+                    case Media.Event.MetaChanged:
+                        Log.d("VLC", "Meta Changed");
+                        break;
+                    case Media.Event.DurationChanged:
+                        Log.d("VLC", "Duration Changed");
+                        break;
+                    case Media.Event.ParsedChanged:
+                        Log.d("VLC", "Parsed Changed");
+                        break;
+                    case Media.Event.StateChanged:
+                        Log.d("VLC", "State Changed");
+                        break;
+                }
+            }
+        });
 
         mMediaPlayer.play();
         mMediaPlayer.setEventListener(new MediaPlayer.EventListener() {
             @Override
             public void onEvent(MediaPlayer.Event event) {
-                Log.d("VLC", event.getTimeChanged() +"");
+                Log.d("VLC", event.type+"");
+                Log.d("VLC", event.getTimeChanged()+"");
+                switch (event.type){
+                    case MediaPlayer.Event.Playing:
+                        Log.d("VLC", "Playing");
+                        break;
+                    case MediaPlayer.Event.Paused:
+                        Log.d("VLC", "Paused");
+                        break;
+                    case MediaPlayer.Event.Stopped:
+                        Log.d("VLC", "Stopped");
+                        break;
+                    case MediaPlayer.Event.PositionChanged:
+                        Log.d("VLC", "Position Changed");
+                        break;
+                    case MediaPlayer.Event.TimeChanged:
+                        Log.d("VLC", "Time Changed" );
+                        break;
+                }
+
             }
         });
 

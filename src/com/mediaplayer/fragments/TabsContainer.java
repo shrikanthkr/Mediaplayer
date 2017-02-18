@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mediaplayer.adapter.BaseViewPagerAdapter;
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.customviews.BaseViewPager;
 import com.mediaplayer.customviews.BastTablayout;
 import com.mediaplayer.interfaces.TabsContainerHelpers;

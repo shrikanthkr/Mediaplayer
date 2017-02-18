@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.customviews.BaseImageView;

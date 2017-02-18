@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 
 /**
  * Created by shrikanth on 10/4/15.

@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 
 /**
  * Created by shrikanth on 1/21/17.

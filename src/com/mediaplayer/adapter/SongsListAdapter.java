@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.interfaces.RecyclerClickHelper;
 import com.mediaplayer.viewholders.SongListViewHolder;

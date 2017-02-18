@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.MetaInfo;
-import com.mediaplayer.com.R;
 import com.mediaplayer.fragments.MultiviewFragment;
 import com.mediaplayer.utility.AlbumArtLoader;
 import com.mediaplayer.viewholders.GridViewHolder;

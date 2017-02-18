@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.mediaplayer.adapter.SongsListAdapter;
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.interfaces.RecyclerClickHelper;

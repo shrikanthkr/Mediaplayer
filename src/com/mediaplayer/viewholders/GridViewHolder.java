@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.customviews.BaseImageView;
 
 /**

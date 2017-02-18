@@ -9,10 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mediaplayer.activities.SongsShowActivity;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.MetaInfo;
-import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.utility.AlbumArtLoader;
 

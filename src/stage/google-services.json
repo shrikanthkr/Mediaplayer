@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "103895756689",
+    "firebase_url": "https://mediaplayer-38f71.firebaseio.com",
+    "project_id": "mediaplayer-38f71",
+    "storage_bucket": "mediaplayer-38f71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103895756689:android:78a0efb32e63a157",
+        "android_client_info": {
+          "package_name": "com.mediaplayer.stage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103895756689-tk3li5v4cos4msr41dof4u0cnle2kmch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyusci9ZG48GlV7Gxy6coQGVqiCcrEg9A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

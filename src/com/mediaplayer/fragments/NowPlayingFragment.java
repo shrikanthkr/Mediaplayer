@@ -17,13 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mediaplayer.activities.SongsShowActivity;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.PlayerTimerTask;
-import com.mediaplayer.com.R;
 import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
-import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.customviews.PlayPauseView;
 import com.mediaplayer.interfaces.RecyclerClickHelper;
 import com.mediaplayer.listener.SeekbarTouchHandler;

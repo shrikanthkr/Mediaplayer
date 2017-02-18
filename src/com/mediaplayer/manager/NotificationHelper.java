@@ -15,8 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.mediaplayer.com.BaseActivity;
-import com.mediaplayer.com.R;
+import com.mediaplayer.activities.BaseActivity;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
 

@@ -3,6 +3,7 @@ package com.mediaplayer.com;
 import android.content.Context;
 import android.media.MediaPlayer;
 
+import com.mediaplayer.application.MyApplication;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.utility.SongsHolder;
 

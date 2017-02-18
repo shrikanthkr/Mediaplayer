@@ -1,10 +1,9 @@
 package com.mediaplayer.manager;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.mediaplayer.com.MyApplication;
+import com.mediaplayer.application.MyApplication;
 
 /**
  * Created by shrikanth on 11/21/15.

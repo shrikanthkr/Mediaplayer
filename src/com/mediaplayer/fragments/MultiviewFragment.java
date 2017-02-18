@@ -19,11 +19,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mediaplayer.activities.SongsShowActivity;
 import com.mediaplayer.adapter.GridAdapter;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.MetaInfo;
-import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;

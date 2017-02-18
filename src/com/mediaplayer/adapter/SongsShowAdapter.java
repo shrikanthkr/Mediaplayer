@@ -10,12 +10,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.com.SongInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**

@@ -10,11 +10,8 @@ import android.provider.MediaStore;
 import android.util.LruCache;
 import android.widget.ImageView;
 
-import com.mediaplayer.com.R;
+import com.mediaplayer.app.R;
 import com.mediaplayer.db.SongInfoDatabase;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 
 /**
