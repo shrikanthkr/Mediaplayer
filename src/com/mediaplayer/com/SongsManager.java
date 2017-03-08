@@ -1,7 +1,6 @@
 package com.mediaplayer.com;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 
 import com.mediaplayer.application.MyApplication;
 import com.mediaplayer.db.SongInfoDatabase;
@@ -21,7 +20,7 @@ public class SongsManager {
 	static SongsManager  manager;
 	private  Context context;
 	SongsHolder holder;
-	Music music;
+	Music2 music;
 	SongInfoDatabase database;
 	List<SongsListeners > listeners = new ArrayList<>();
     boolean isRepeat = false;
@@ -56,7 +55,7 @@ public class SongsManager {
 		if(manager==null){
 			manager = new SongsManager();
 			manager.holder = new SongsHolder();
-			manager.music = new Music(MyApplication.getContext(),manager.completionListener);
+			manager.music = new Music2(MyApplication.getContext(),manager.completionListener);
 		}
 		return manager;
 	}
@@ -74,10 +73,9 @@ public class SongsManager {
 
 	public void play(){
 		SongInfo currentSongInfo  = holder.getCurrentSongInfo();
-		FileDescriptor fd = getFileDescriptor(currentSongInfo);
-		if(music!=null) music.reset();
+		//if(music != null && music.isPlaying()) music.stop();
 		try{
-			music.setFileDescriptor(fd);
+			music.setStreamPath(currentSongInfo.getData());
 		}catch(RuntimeException e){
 			return;
 		}
@@ -181,7 +179,7 @@ public class SongsManager {
 		notifyAdded(info);
 	}
 
-    MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+    /*MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
             int duration = mediaPlayer.getDuration()/1000;
@@ -191,7 +189,13 @@ public class SongsManager {
             }
 
         }
-    };
+    };*/
+	Music2.OnCompletionListener completionListener = new Music2.OnCompletionListener() {
+		@Override
+		public void onComplete(int duration) {
+			playNextSong();
+		}
+	};
 
 	public boolean isPlaying() {
 		return music.isPlaying();

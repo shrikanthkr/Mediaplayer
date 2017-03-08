@@ -45,7 +45,7 @@ import java.util.List;
 public class RadioFragment2 extends BaseFragment{
     private static final String TAG = "RADIO FRAGMENT";
 
-    private Button mButton1, mButton2, mButton3;
+    private Button mButton1, mButton2, mButton3, mPause;
 
     private FFmpeg ffmpeg;
     SongInfo info;
@@ -93,10 +93,11 @@ public class RadioFragment2 extends BaseFragment{
         mButton1 = (Button)v.findViewById(R.id.send);
         mButton2 = (Button)v.findViewById(R.id.receive);
         mButton3 = (Button)v.findViewById(R.id.stop);
+        mPause = (Button)v.findViewById(R.id.pause);
         radioStationsView = (RadioRecyclerView)v.findViewById(R.id.radio_stations);
         radioStationsView.setLayoutManager(layoutManager);
         radioStationsView.setAdapter(adapter);
-        info = SongInfoDatabase.getInstance().getSongs("0").get(0);
+        info = SongInfoDatabase.getInstance().getSongs("wwe").get(0);
         path = info.getData();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mButton1.setOnClickListener(new View.OnClickListener() {
@@ -106,10 +107,17 @@ public class RadioFragment2 extends BaseFragment{
             }
         });
 
+        mPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pause();
+            }
+        });
+
         mButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                receive("mystream");
+               play();
             }
         });
 
@@ -146,6 +154,62 @@ public class RadioFragment2 extends BaseFragment{
             }
         });
         return v;
+
+    }
+
+    private void pause() {
+        if(mMediaPlayer.isPlaying()){
+            mMediaPlayer.pause();
+        }else{
+            mMediaPlayer.play();
+        }
+
+    }
+
+    private void play() {
+        ArrayList<String> options = new ArrayList<String>();
+        //options.add("--subsdec-encoding <encoding>");
+        options.add("--aout=opensles");
+        mLibVLC = new LibVLC(getContext(), options);
+
+        mMediaPlayer = new MediaPlayer(mLibVLC);
+        final Media m = new Media(mLibVLC, info.getData());
+        mMediaPlayer.setMedia(m);
+
+        // Finally, play it!
+        mMediaPlayer.setVideoTrackEnabled(false);
+        m.setEventListener(new Media.EventListener() {
+            @Override
+            public void onEvent(Media.Event event) {
+                switch (event.type){
+                    case Media.Event.MetaChanged:
+                        m.getMeta(event.getMetaId());
+                        Log.d("VLC", "Meta Changed" + m.getMeta(event.getMetaId()));
+                        break;
+                    case Media.Event.DurationChanged:
+                        Log.d("VLC", "Duration Changed");
+                        break;
+                    case Media.Event.ParsedChanged:
+                        Log.d("VLC", "Parsed Changed");
+                        break;
+                    case Media.Event.StateChanged:
+                        Log.d("VLC", "State Changed" + event.getParsedStatus()) ;
+                        break;
+                }
+            }
+        });
+        mMediaPlayer.setEventListener(new MediaPlayer.EventListener() {
+            @Override
+            public void onEvent(MediaPlayer.Event event) {
+                Log.d("VLC", event.type+"");
+                Log.d("VLC", event.getTimeChanged()+"");
+
+
+            }
+        });
+        mMediaPlayer.play();
+
+        mMediaPlayer.setTime(20000);
 
     }
 
@@ -213,12 +277,14 @@ public class RadioFragment2 extends BaseFragment{
 
         // Finally, play it!
         mMediaPlayer.setVideoTrackEnabled(false);
+
         m.setEventListener(new Media.EventListener() {
             @Override
             public void onEvent(Media.Event event) {
                 switch (event.type){
                     case Media.Event.MetaChanged:
-                        Log.d("VLC", "Meta Changed");
+                        m.getMeta(event.getMetaId());
+                        Log.d("VLC", "Meta Changed" + m.getMeta(event.getMetaId()));
                         break;
                     case Media.Event.DurationChanged:
                         Log.d("VLC", "Duration Changed");
