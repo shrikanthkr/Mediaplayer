@@ -179,7 +179,7 @@ public class SongsManager {
 		notifyAdded(info);
 	}
 
-    /*MediaPlayer.OnCompletionListener completionListener = new MediaPlayer.OnCompletionListener() {
+    /*MediaPlayer.MusicHelperInterface completionListener = new MediaPlayer.MusicHelperInterface() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
             int duration = mediaPlayer.getDuration()/1000;
@@ -190,10 +190,15 @@ public class SongsManager {
 
         }
     };*/
-	Music2.OnCompletionListener completionListener = new Music2.OnCompletionListener() {
+	Music2.MusicHelperInterface completionListener = new Music2.MusicHelperInterface() {
 		@Override
 		public void onComplete(int duration) {
 			playNextSong();
+		}
+
+		@Override
+		public void timeChange(int duration, int current) {
+			notifyTimeChange(duration, current);
 		}
 	};
 
@@ -211,6 +216,7 @@ public class SongsManager {
 		void onSongStarted(SongInfo songInfo);
 		void onSongChanged(SongInfo songInfo);
 		void onSongAdded(SongInfo songInfo);
+		void onTimeChange(int duration, long currentTime);
 	}
 
 	private void notifyStarted(SongInfo songInfo){
@@ -227,6 +233,12 @@ public class SongsManager {
 	private void notifyAdded(SongInfo songInfo){
 		for(SongsListeners listener : listeners){
 			listener.onSongAdded(songInfo);
+		}
+	}
+
+	private void notifyTimeChange(int duration, int currentTime){
+		for(SongsListeners listener : listeners){
+			listener.onTimeChange(duration, currentTime);
 		}
 	}
 }

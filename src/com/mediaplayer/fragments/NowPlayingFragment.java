@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.mediaplayer.activities.SongsShowActivity;
 import com.mediaplayer.adapter.NowPlayingHorizontalAdapter;
 import com.mediaplayer.app.R;
-import com.mediaplayer.com.PlayerTimerTask;
 import com.mediaplayer.com.SeekBar;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
@@ -39,20 +38,19 @@ import java.util.LinkedList;
  */
 public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHandler.SeekBarListeners, SongsManager.SongsListeners {
 
-    private static final String IS_REPEAT = "repeat";
+
     DisplayMetrics dm;
     SlideHandler slideHandler;
     float totalTranslation = 0f, maxBottom;
     ImageView  measure_view;
     PlayPauseView playPauseView;
-    ImageButton nextButton, prevButton, identifyButton,repeat_button,shuffle_button, playlistCreateButton;
+    ImageButton nextButton, prevButton,repeat_button,shuffle_button, playlistCreateButton;
     RecyclerView nowplayingHorizontal;
     TextView  count_label, artist_header, songname_header, duration_header,tempduration_textView;
     SeekBar seekbar;
     SeekbarTouchHandler seekbarTouochHandler;
     LinearLayout seekbar_layout, mainLayout;
     ViewTreeObserver vto;
-    PlayerTimerTask playerTimer;
     View playerView;
     NowPlayingHorizontalAdapter horizontal_adapter;
     ArrayList<SongInfo> horizontal_songInfo_array = null;
@@ -307,7 +305,8 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
             }
             playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
         }else{
-            playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
+            if(info != null)
+                playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
         }
     }
 
@@ -318,14 +317,9 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         }
         String durationS = songInfo.getDuration();
         int duration =  (int)Math.ceil(Double.parseDouble(durationS) / 1000);
-        if(playerTimer!=null) {
-            playerTimer.cancel();
-            playerTimer.purge();
-        }
+
         seekbar.setVisibility(View.VISIBLE);
-        playerTimer = new PlayerTimerTask(seekbar,duration,timerListener);
-        playerTimer.setIsPlaying(true);
-        playerTimer.execute();
+
         seekbarTouochHandler.setDuration(duration);
         seekbarTouochHandler.removeOnSeekListener();
         seekbarTouochHandler.setOnSeekListener(this);
@@ -341,7 +335,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     private void pauseSong(){
         SongsManager.getInstance().pause();
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
-        playerTimer.setIsPlaying(false);
+        //playerTimer.setIsPlaying(false);
     }
     private void resumeSong(){
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);
@@ -383,7 +377,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(playerTimer!=null) playerTimer.cancel();
+
     }
 
     @Override
@@ -403,19 +397,6 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         isUp = b;
     }
 
-    PlayerTimerTask.TimerListener timerListener = new PlayerTimerTask.TimerListener() {
-        @Override
-        public void onTimerUpdate(final String duration) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    duration_header.setText(duration);
-                }
-            });
-        }
-    };
-
-
     @Override
     public void onSongStarted(SongInfo songInfo) {
         updateSongInfo();
@@ -433,6 +414,18 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     public void onSongAdded(SongInfo songInfo) {
         horizontal_songInfo_array.add(songInfo);
         horizontal_adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onTimeChange(final int duration, final long currentTime) {
+        final int secs = (int)currentTime/1000;
+        duration_header.setText(secs/60 + ":" + secs%60);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                seekbar.callfromTimerTask(secs, duration/1000);
+            }
+        });
     }
 
 }

@@ -97,6 +97,11 @@ public class NotificationService extends Service implements SongsManager.SongsLi
 
     }
 
+    @Override
+    public void onTimeChange(int duration, long currentTime) {
+
+    }
+
 
     @Override
     public void onDestroy() {

@@ -15,13 +15,13 @@ public class Music2 implements MediaPlayer.EventListener{
 	private LibVLC mLibVLC;
 	ArrayList<String> options = new ArrayList<>();
 	Media mCurrentMedia;
-	OnCompletionListener  completionListener;
+	MusicHelperInterface musicHelperInterface;
 
-	public Music2(Context context, Music2.OnCompletionListener completionListener)  {
+	public Music2(Context context, MusicHelperInterface musicHelperInterface)  {
 		mediaPlayer = null;
 		mLibVLC = new LibVLC(context, options);
 		mediaPlayer = new MediaPlayer(mLibVLC);
-		this.completionListener = completionListener;
+		this.musicHelperInterface = musicHelperInterface;
 		mediaPlayer.setEventListener(this);
 	}
 
@@ -118,19 +118,21 @@ public class Music2 implements MediaPlayer.EventListener{
 				break;
 			case MediaPlayer.Event.Stopped:
 				Log.d("VLC", "Stopped :: " + mediaPlayer.isPlaying());
-				completionListener.onComplete(getDuration());
+				musicHelperInterface.onComplete(getDuration());
 				break;
 			case MediaPlayer.Event.PositionChanged:
 				Log.d("VLC", "Position Changed");
 				break;
 			case MediaPlayer.Event.TimeChanged:
 				Log.d("VLC", "Time Changed" );
+				musicHelperInterface.timeChange(getDuration(), (int)event.getTimeChanged());
 				break;
 		}
 	}
 
 
-	public interface OnCompletionListener {
+	public interface MusicHelperInterface {
 		void onComplete(int duration);
+		void timeChange(int duration, int current);
 	}
 }

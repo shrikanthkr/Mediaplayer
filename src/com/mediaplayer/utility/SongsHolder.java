@@ -1,9 +1,8 @@
 package com.mediaplayer.utility;
 
-import java.util.LinkedList;
-
-import com.mediaplayer.com.Music;
 import com.mediaplayer.com.SongInfo;
+
+import java.util.LinkedList;
 
 public class SongsHolder {
 
