@@ -335,7 +335,6 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     private void pauseSong(){
         SongsManager.getInstance().pause();
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PAUSED);
-        //playerTimer.setIsPlaying(false);
     }
     private void resumeSong(){
         playPauseView.togglePlayPauseButton(PlayPauseView.ROTATESTATE.PLAYING);

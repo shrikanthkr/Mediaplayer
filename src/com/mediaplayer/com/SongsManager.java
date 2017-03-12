@@ -20,7 +20,7 @@ public class SongsManager {
 	static SongsManager  manager;
 	private  Context context;
 	SongsHolder holder;
-	Music2 music;
+	Music music;
 	SongInfoDatabase database;
 	List<SongsListeners > listeners = new ArrayList<>();
     boolean isRepeat = false;
@@ -55,7 +55,7 @@ public class SongsManager {
 		if(manager==null){
 			manager = new SongsManager();
 			manager.holder = new SongsHolder();
-			manager.music = new Music2(MyApplication.getContext(),manager.completionListener);
+			manager.music = new Music(MyApplication.getContext(),manager.completionListener);
 		}
 		return manager;
 	}
@@ -81,7 +81,6 @@ public class SongsManager {
 		}
 
 		music.play();
-		notifyStarted(currentSongInfo);
 	}
 	public void resume(){
         if(holder.getSongQueue().size() <= 1 && getCurrentSongInfo()==null){
@@ -102,11 +101,11 @@ public class SongsManager {
 		int currentSongIndex = holder.getSongQueue().indexOf(holder.getCurrentSongInfo());
 		SongInfo nextSong;
         if(currentSongIndex < holder.getSongQueue().size() - 1){
-            nextSong =holder.getSongQueue().get(currentSongIndex + 1);
+            nextSong = holder.getSongQueue().get(currentSongIndex + 1);
 			notifyChanged(nextSong);
         }else{
             if(isRepeat()){
-                nextSong =holder.getSongQueue().get(0);
+                nextSong = holder.getSongQueue().get(0);
 				notifyChanged(nextSong);
             }else{
                 database = SongInfoDatabase.getInstance();
@@ -179,18 +178,12 @@ public class SongsManager {
 		notifyAdded(info);
 	}
 
-    /*MediaPlayer.MusicHelperInterface completionListener = new MediaPlayer.MusicHelperInterface() {
-        @Override
-        public void onCompletion(MediaPlayer mediaPlayer) {
-            int duration = mediaPlayer.getDuration()/1000;
-            int current = mediaPlayer.getCurrentPosition()/1000;
-            if(current > 10) {
-				playNextSong();
-            }
+	Music.MusicHelperInterface completionListener = new Music.MusicHelperInterface() {
+		@Override
+		public void onStarted() {
+			notifyStarted(getCurrentSongInfo());
+		}
 
-        }
-    };*/
-	Music2.MusicHelperInterface completionListener = new Music2.MusicHelperInterface() {
 		@Override
 		public void onComplete(int duration) {
 			playNextSong();

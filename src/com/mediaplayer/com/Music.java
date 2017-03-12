@@ -9,7 +9,7 @@ import org.videolan.libvlc.MediaPlayer;
 
 import java.util.ArrayList;
 
-public class Music2 implements MediaPlayer.EventListener{
+public class Music implements MediaPlayer.EventListener{
 
 	static MediaPlayer mediaPlayer;
 	private LibVLC mLibVLC;
@@ -17,7 +17,7 @@ public class Music2 implements MediaPlayer.EventListener{
 	Media mCurrentMedia;
 	MusicHelperInterface musicHelperInterface;
 
-	public Music2(Context context, MusicHelperInterface musicHelperInterface)  {
+	public Music(Context context, MusicHelperInterface musicHelperInterface)  {
 		mediaPlayer = null;
 		mLibVLC = new LibVLC(context, options);
 		mediaPlayer = new MediaPlayer(mLibVLC);
@@ -37,13 +37,7 @@ public class Music2 implements MediaPlayer.EventListener{
 	}
 
 	public void play() {
-		try {
-			synchronized (this) {
-				mediaPlayer.play();
-			}
-		} catch (IllegalStateException ex) {
-			ex.printStackTrace();
-		}
+		mediaPlayer.play();
 	}
 
 	public void resume(){
@@ -110,6 +104,13 @@ public class Music2 implements MediaPlayer.EventListener{
 	public void onEvent(MediaPlayer.Event event) {
 
 		switch (event.type){
+			case MediaPlayer.Event.Opening:
+				Log.d("VLC", "Opening" + isPlaying());
+				musicHelperInterface.onStarted();
+				break;
+			case MediaPlayer.Event.Buffering:
+				Log.d("VLC", "Buffer");
+				break;
 			case MediaPlayer.Event.Playing:
 				Log.d("VLC", "Playing");
 				break;
@@ -118,7 +119,6 @@ public class Music2 implements MediaPlayer.EventListener{
 				break;
 			case MediaPlayer.Event.Stopped:
 				Log.d("VLC", "Stopped :: " + mediaPlayer.isPlaying());
-				musicHelperInterface.onComplete(getDuration());
 				break;
 			case MediaPlayer.Event.PositionChanged:
 				Log.d("VLC", "Position Changed");
@@ -127,11 +127,16 @@ public class Music2 implements MediaPlayer.EventListener{
 				Log.d("VLC", "Time Changed" );
 				musicHelperInterface.timeChange(getDuration(), (int)event.getTimeChanged());
 				break;
+			case MediaPlayer.Event.EndReached:
+				Log.d("VLC", "End Reched:: " + mediaPlayer.isPlaying());
+				musicHelperInterface.onComplete(getDuration());
+				break;
 		}
 	}
 
 
 	public interface MusicHelperInterface {
+		void onStarted();
 		void onComplete(int duration);
 		void timeChange(int duration, int current);
 	}
