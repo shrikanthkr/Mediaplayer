@@ -14,7 +14,6 @@
 
 
     <LinearLayout
-        android:id="@+id/header_layout"
         android:layout_width="fill_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
@@ -88,7 +87,6 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/play_button_rlayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="9">
@@ -161,7 +159,6 @@
             android:visibility="invisible" />
 
         <RelativeLayout
-            android:id="@+id/nowplaying_heading"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:paddingLeft="10dp"

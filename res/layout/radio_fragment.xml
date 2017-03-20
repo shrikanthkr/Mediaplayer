@@ -6,24 +6,20 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/send"
         android:text="send"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/receive"
         android:text="receive"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/pause"
         android:text="pause"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/stop"
         android:text="stop"/>
     <com.mediaplayer.customviews.RadioRecyclerView
         android:id="@+id/radio_stations"
