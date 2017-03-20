@@ -1,6 +1,7 @@
 package com.mediaplayer.com;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
@@ -27,6 +28,18 @@ public class Music implements MediaPlayer.EventListener{
 
 	public void setStreamPath(String path) throws  RuntimeException{
 		try {
+			mCurrentMedia = new Media(mLibVLC, path);
+			mediaPlayer.setMedia(mCurrentMedia);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			mediaPlayer.release();
+			throw new RuntimeException("Couldn't load music, uh oh!");
+		}
+	}
+	public void setStreamUri(Uri path) throws  RuntimeException{
+		try {
+			if(mCurrentMedia != null) mCurrentMedia.release();
+
 			mCurrentMedia = new Media(mLibVLC, path);
 			mediaPlayer.setMedia(mCurrentMedia);
 		} catch (Exception ex) {
@@ -109,7 +122,7 @@ public class Music implements MediaPlayer.EventListener{
 				musicHelperInterface.onStarted();
 				break;
 			case MediaPlayer.Event.Buffering:
-				Log.d("VLC", "Buffer");
+				Log.d("VLC", "Buffer" +  + event.getBuffering());
 				break;
 			case MediaPlayer.Event.Playing:
 				Log.d("VLC", "Playing");

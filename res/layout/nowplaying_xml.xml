@@ -92,6 +92,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="9">
+        <ImageButton
+            android:id="@+id/start_radio_button"
+            android:padding="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:background="@android:drawable/ic_menu_upload" />
 
         <LinearLayout
             android:id="@+id/seekbar_layout"

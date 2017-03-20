@@ -1,16 +1,12 @@
 package com.mediaplayer.com;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.mediaplayer.application.MyApplication;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.utility.SongsHolder;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,6 +14,7 @@ import java.util.List;
 
 public class SongsManager {
 	static SongsManager  manager;
+	private static final String SERVER = "rtmp://ec2-35-154-51-58.ap-south-1.compute.amazonaws.com/myapp/";
 	private  Context context;
 	SongsHolder holder;
 	Music music;
@@ -71,9 +68,13 @@ public class SongsManager {
 		music.pause();
 	}
 
+	public void startRemotePlay(String streamPath){
+		Uri uri = Uri.parse(SERVER + streamPath);
+		music.setStreamUri(uri);
+		music.play();
+	}
 	public void play(){
 		SongInfo currentSongInfo  = holder.getCurrentSongInfo();
-		//if(music != null && music.isPlaying()) music.stop();
 		try{
 			music.setStreamPath(currentSongInfo.getData());
 		}catch(RuntimeException e){
@@ -138,23 +139,6 @@ public class SongsManager {
 	public SongInfo getCurrentSongInfo(){
 		return holder.getCurrentSongInfo();
 	}
-	public int getSongCurrentPosition(){
-		return music.getCurrentPosition();
-	}
-
-	private FileDescriptor getFileDescriptor(SongInfo songInfo){
-		FileInputStream fis = null;
-		FileDescriptor fileDescriptor = null;
-		try {
-			fis = new FileInputStream(new File(songInfo.getData()));
-			 fileDescriptor = fis.getFD();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	return fileDescriptor;
-	}
 
 
 	public LinkedList<SongInfo> getSongsList(){
@@ -199,6 +183,10 @@ public class SongsManager {
 		return music.isPlaying();
 	}
 
+	public void playFromFirst(){
+		pause();
+		playSelectedSong(getSongsList().get(0));
+	}
 	public void destroy(){
 		music.dispose();
 		holder = null;

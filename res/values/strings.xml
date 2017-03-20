@@ -14,5 +14,6 @@
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="menu_quit">Quit</string>
+    <string name="radio_stations">Radio Stations</string>
 
 </resources>

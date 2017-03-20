@@ -28,7 +28,9 @@ import com.mediaplayer.interfaces.RecyclerClickHelper;
 import com.mediaplayer.listener.SeekbarTouchHandler;
 import com.mediaplayer.listener.SlideHandler;
 import com.mediaplayer.manager.BroadcastManager;
+import com.mediaplayer.manager.ModeManager;
 import com.mediaplayer.manager.PreferenceManager;
+import com.mediaplayer.manager.StreamManager;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -44,7 +46,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     float totalTranslation = 0f, maxBottom;
     ImageView  measure_view;
     PlayPauseView playPauseView;
-    ImageButton nextButton, prevButton,repeat_button,shuffle_button, playlistCreateButton;
+    ImageButton nextButton, prevButton,repeat_button,shuffle_button, playlistCreateButton, startRadioButton;
     RecyclerView nowplayingHorizontal;
     TextView  count_label, artist_header, songname_header, duration_header,tempduration_textView;
     SeekBar seekbar;
@@ -54,6 +56,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     View playerView;
     NowPlayingHorizontalAdapter horizontal_adapter;
     ArrayList<SongInfo> horizontal_songInfo_array = null;
+    ModeManager.Mode currentMode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         SongsManager.getInstance().setIsRepeat(PreferenceManager.INSTANCE.getIsRepeat());
         SongsManager.getInstance().setIsShuffle(PreferenceManager.INSTANCE.getIsShuffle());
         horizontal_songInfo_array = new ArrayList<>(SongsManager.getInstance().getSongsList());
+        currentMode = ModeManager.getInstance().getCurrentMode();
     }
 
     @Override
@@ -77,6 +81,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         playerView.setOnTouchListener(slideHandler);
         horizontal_adapter = new NowPlayingHorizontalAdapter(horizontal_songInfo_array, nowplayingHorizontal, getActivity(), clickHelper);
         nowplayingHorizontal.setAdapter(horizontal_adapter);
+        ModeManager.getInstance().addModeChangeListener(listener);
         return playerView;
     }
 
@@ -101,8 +106,12 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     private RecyclerClickHelper clickHelper = new RecyclerClickHelper() {
         @Override
         public void onItemClickListener(View view, int position) {
-            SongInfo songInfo = horizontal_songInfo_array.get(position);
-            playSong(songInfo);
+            if(currentMode == ModeManager.Mode.LOCAL_PLAY) {
+                SongInfo songInfo = horizontal_songInfo_array.get(position);
+                playSong(songInfo);
+            }else{
+
+            }
         }
     };
 
@@ -153,6 +162,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         repeat_button = (ImageButton)view.findViewById(R.id.repeat_button);
         shuffle_button = (ImageButton)view.findViewById(R.id.shuffle_button);
         playlistCreateButton = (ImageButton)view.findViewById(R.id.playlist_create);
+        startRadioButton = (ImageButton)view.findViewById(R.id.start_radio_button);
 
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
@@ -161,6 +171,7 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         repeat_button.setOnClickListener(buttonListener);
         shuffle_button.setOnClickListener(buttonListener);
         playlistCreateButton.setOnClickListener(buttonListener);
+        startRadioButton.setOnClickListener(buttonListener);
         setupSeekbar();
         setButtonState();
 
@@ -221,10 +232,18 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
                     i.putExtras(b);
                     startActivity(i);
                     break;
+                case R.id.start_radio_button:
+                    StreamManager.getInstance().startStreaming(SongsManager.getInstance().getSongsList());
+                    playFromFirst();
+                    break;
 
             }
         }
     };
+
+    private void playFromFirst() {
+        SongsManager.getInstance().playFromFirst();
+    }
 
     private void toggleRepeat() {
         boolean isRepeat = SongsManager.getInstance().isRepeat();
@@ -290,10 +309,30 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
         resetState();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        ModeManager.getInstance().removeModeChangeListener(listener);
+    }
+
     private void updateUI(){
-        updateNowPlayingListUI();
-        updateSongInfo();
-        updateSeekbar();
+        if(currentMode == ModeManager.Mode.LOCAL_PLAY){
+            nextButton.setVisibility(View.VISIBLE);
+            prevButton.setVisibility(View.VISIBLE);
+            seekbar.setVisibility(View.VISIBLE);
+            updateNowPlayingListUI();
+            updateSongInfo();
+            updateSeekbar();
+        }else{
+            nextButton.setVisibility(View.GONE);
+            prevButton.setVisibility(View.GONE);
+            seekbar.setVisibility(View.GONE);
+            if(currentMode == ModeManager.Mode.STREAMING){
+
+            }else{
+                SongsManager.getInstance().startRemotePlay(StreamManager.getInstance().getRemotePath());
+            }
+        }
     }
 
 
@@ -363,8 +402,10 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
     }
     private void updateSongInfo(){
         SongInfo currentSong = SongsManager.getInstance().getCurrentSongInfo();
-        artist_header.setText(currentSong.getArtist());
-        songname_header.setText(currentSong.getDisplayName());
+        if(currentSong != null) {
+            artist_header.setText(currentSong.getArtist());
+            songname_header.setText(currentSong.getDisplayName());
+        }
 
     }
     private void updateNowPlayingListUI() {
@@ -426,5 +467,13 @@ public class NowPlayingFragment extends BaseFragment implements  SeekbarTouchHan
             }
         });
     }
+
+    ModeManager.ModeChangeListener listener = new ModeManager.ModeChangeListener() {
+        @Override
+        public void onModeChange(ModeManager.Mode currentMode) {
+            NowPlayingFragment.this.currentMode = currentMode;
+            updateUI();
+        }
+    };
 
 }

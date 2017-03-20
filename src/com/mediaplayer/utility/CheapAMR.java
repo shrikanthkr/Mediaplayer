@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.lang.Math;
 
 /**
  * CheapAMR is a CheapSoundFile implementation for AMR (Adaptive Multi-Rate)
@@ -237,7 +236,7 @@ public class CheapAMR extends CheapSoundFile {
 
         if (blockSize + 1 > maxLen) {
             // We can't read the full frame, so consume the remaining
-            // bytes to end processing the AMR stream.
+            // bytes to end processing the AMR setRemotePlayUrl.
             return maxLen;
         }
 

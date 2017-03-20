@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-
 import java.util.HashMap;
 
 /**
@@ -203,7 +202,7 @@ public class CheapAAC extends CheapSoundFile {
             header[5] == 't' &&
             header[6] == 'y' &&
             header[7] == 'p') {
-            // Create a new stream, reset to the beginning of the file
+            // Create a new setRemotePlayUrl, reset to the beginning of the file
             stream = new FileInputStream(mInputFile);
             parseMp4(stream, mFileSize);
         } else {
