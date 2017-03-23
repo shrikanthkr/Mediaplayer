@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }
@@ -14,11 +14,11 @@ props.load(new FileInputStream("keystore/keystore.properties"))
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.android.support:recyclerview-v7:25.1.1'
+    compile 'com.android.support:support-v4:25.3.0'
+    compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
     compile ('com.github.bumptech.glide:glide:3.7.0'){  exclude module: 'support-v4' }
 
     compile project(':FFmpegAndroid')
@@ -29,7 +29,7 @@ dependencies {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 21
@@ -54,7 +54,7 @@ android {
             proGuardFileCollection.each {File file ->
                 println file.name
             }
-            proguardFiles proGuardFileCollection, getDefaultProguardFile('proguard-android.txt')
+            proguardFiles fileTree(dir: 'proguard_config', include: ['*.*']).asList().toArray()
             signingConfig signingConfigs.release
         }
         debug {
