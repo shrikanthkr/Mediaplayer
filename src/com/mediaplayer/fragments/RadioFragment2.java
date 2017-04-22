@@ -5,16 +5,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mediaplayer.adapter.RadioRecyclerAdapter;
 import com.mediaplayer.app.R;
 import com.mediaplayer.customviews.RadioRecyclerView;
@@ -23,7 +17,6 @@ import com.mediaplayer.manager.StreamManager;
 import com.mediaplayer.models.Radio;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -32,7 +25,7 @@ import java.util.List;
  */
 public class RadioFragment2 extends BaseFragment{
     private static final String TAG = "RADIO FRAGMENT";
-    private DatabaseReference mDatabase;
+
     List<Radio> stations;
     RadioRecyclerView radioStationsView;
     RadioRecyclerAdapter adapter;
@@ -72,26 +65,6 @@ public class RadioFragment2 extends BaseFragment{
         radioStationsView = (RadioRecyclerView)v.findViewById(R.id.radio_stations);
         radioStationsView.setLayoutManager(layoutManager);
         radioStationsView.setAdapter(adapter);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mDatabase.child("radio").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "dataChange:" + dataSnapshot.getKey());
-                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                while (iterator.hasNext()){
-                    Radio r = iterator.next().getValue(Radio.class);
-                    stations.add(r);
-                }
-                adapter.setStations(stations);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         return v;
 
     }

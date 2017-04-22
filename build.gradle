@@ -24,7 +24,7 @@ dependencies {
     compile project(':FFmpegAndroid')
     compile ("de.mrmaffen:vlc-android-sdk:2.0.6")
 
-    compile 'com.google.firebase:firebase-database:10.0.1'
+
 }
 
 android {
@@ -133,4 +133,3 @@ ext {
     versionCode = 28
     versionName = "0.3.2"
 }
-apply plugin: 'com.google.gms.google-services'

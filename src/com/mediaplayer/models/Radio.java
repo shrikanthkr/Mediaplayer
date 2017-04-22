@@ -1,12 +1,11 @@
 package com.mediaplayer.models;
 
-import com.google.firebase.database.IgnoreExtraProperties;
+
 
 /**
  * Created by shrikanth on 2/18/17.
  */
 
-@IgnoreExtraProperties
 public class Radio extends BaseModel {
 
     public Radio() {
