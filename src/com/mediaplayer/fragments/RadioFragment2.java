@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mediaplayer.adapter.RadioRecyclerAdapter;
+import com.mediaplayer.api.ApiError;
+import com.mediaplayer.api.SimpleApiCallback;
 import com.mediaplayer.app.R;
 import com.mediaplayer.customviews.RadioRecyclerView;
 import com.mediaplayer.interfaces.RecyclerClickHelper;
 import com.mediaplayer.manager.StreamManager;
-import com.mediaplayer.models.Radio;
+import com.mediaplayer.models.RadioStation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
 public class RadioFragment2 extends BaseFragment{
     private static final String TAG = "RADIO FRAGMENT";
 
-    List<Radio> stations;
+    List<RadioStation> stations;
     RadioRecyclerView radioStationsView;
     RadioRecyclerAdapter adapter;
     LinearLayoutManager layoutManager;
@@ -34,25 +36,7 @@ public class RadioFragment2 extends BaseFragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         stations = new ArrayList<>();
-        adapter = new RadioRecyclerAdapter(new RecyclerClickHelper() {
-            @Override
-            public void onItemClickListener(View view, int position) {
-                final Radio r = stations.get(position);
-                showAlertDialog(r.streamTitle, "Do you want Join?", "Yes", "No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                receive(r.streamUrl);
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                dismissAlertDialog();
-                                break;
-                        }
-                    }
-                });
-            }
-        });
+        adapter = new RadioRecyclerAdapter(recyclerClickHelper);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     }
@@ -69,7 +53,27 @@ public class RadioFragment2 extends BaseFragment{
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        api.getStations(new SimpleApiCallback<List<RadioStation>>() {
+            @Override
+            public void onUpdateData(List<RadioStation> data) {
+                super.onUpdateData(data);
+                adapter.setStations(data);
+            }
 
+            @Override
+            public void onUpdateUI(List<RadioStation> data) {
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(ApiError error) {
+                super.onFailure(error);
+            }
+        });
+    }
 
     @Override
     public void setTitle() {
@@ -79,5 +83,25 @@ public class RadioFragment2 extends BaseFragment{
     private void receive(String url) {
         StreamManager.getInstance().startRemotePlay(url);
     }
+
+    RecyclerClickHelper recyclerClickHelper = new RecyclerClickHelper() {
+        @Override
+        public void onItemClickListener(View view, int position) {
+            final RadioStation r = stations.get(position);
+            showAlertDialog(r.streamTitle, "Do you want Join?", "Yes", "No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            receive(r.streamUrl);
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            dismissAlertDialog();
+                            break;
+                    }
+                }
+            });
+        }
+    };
 
 }

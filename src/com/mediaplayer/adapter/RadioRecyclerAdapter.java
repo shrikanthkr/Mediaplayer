@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.mediaplayer.app.R;
 import com.mediaplayer.interfaces.RecyclerClickHelper;
-import com.mediaplayer.models.Radio;
+import com.mediaplayer.models.RadioStation;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RadioRecyclerAdapter extends BaseRecyclerAdapter<RadioRecyclerAdapter.RadioViewHolder> {
 
-    List<Radio> stations;
+    List<RadioStation> stations;
     public RadioRecyclerAdapter(RecyclerClickHelper clickHelper) {
         super(clickHelper);
     }
@@ -34,7 +34,7 @@ public class RadioRecyclerAdapter extends BaseRecyclerAdapter<RadioRecyclerAdapt
     @Override
     public void onBindViewHolder(RadioViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        Radio r = stations.get(position);
+        RadioStation r = stations.get(position);
         holder.radioName.setText(r.streamTitle);
     }
 
@@ -52,7 +52,7 @@ public class RadioRecyclerAdapter extends BaseRecyclerAdapter<RadioRecyclerAdapt
         }
     }
 
-    public void setStations(List<Radio> stations){
+    public void setStations(List<RadioStation> stations){
         this.stations = stations;
     }
 }

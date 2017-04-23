@@ -23,7 +23,9 @@ dependencies {
 
     compile project(':FFmpegAndroid')
     compile ("de.mrmaffen:vlc-android-sdk:2.0.6")
-
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.moshi:moshi:1.4.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.2.0'
 
 }
 
@@ -133,3 +135,4 @@ ext {
     versionCode = 28
     versionName = "0.3.2"
 }
+apply plugin: 'com.google.gms.google-services'
