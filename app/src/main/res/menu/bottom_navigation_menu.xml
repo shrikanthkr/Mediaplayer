@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_home"
+        android:title="@string/text_home"
+        android:icon="@drawable/ic_home" />
+    <item
+        android:id="@+id/action_album"
+        android:title="@string/albums"
+        android:icon="@drawable/ic_album" />
+    <item
+        android:id="@+id/action_playlisy"
+        android:title="@string/playlist"
+        android:icon="@drawable/ic_list_alt" />
+    <item
+        android:id="@+id/action_artists"
+        android:title="@string/artists"
+        android:icon="@drawable/ic_account_circle" />
+    <!---->
+</menu>

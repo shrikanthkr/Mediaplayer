@@ -1,25 +1,25 @@
 package com.mediaplayer.adapter;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
 import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;
+
+import java.util.ArrayList;
 
 
 public class NowPlayingHorizontalAdapter extends  RecyclerView.Adapter<NowPlayingHorizontalAdapter.ViewHolder>  {

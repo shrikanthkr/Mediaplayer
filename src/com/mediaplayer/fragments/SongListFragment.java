@@ -1,35 +1,7 @@
 package com.mediaplayer.fragments;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.GestureDetector;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SearchView;
-
-import com.mediaplayer.adapter.SongsListAdapter;
-import com.mediaplayer.com.R;
-import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.com.SongsManager;
-import com.mediaplayer.db.SongInfoDatabase;
-import com.mediaplayer.manager.BroadcastManager;
-import com.mediaplayer.utility.SongsHolder;
-import com.mediaplayer.utility.Util;
-import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
-import com.wdullaer.swipeactionadapter.SwipeDirections;
-
-public class SongListFragment extends MediaFragment implements SearchView.OnQueryTextListener {
-	ListView lv;
+public class SongListFragment {
+	/*ListView lv;
 	SearchView searchView;
 	Context context;
 	SongsListAdapter adapter;
@@ -177,6 +149,6 @@ public class SongListFragment extends MediaFragment implements SearchView.OnQuer
 				//swipeActionAdapter.notifyDataSetChanged();
 			}
 		}
-	};
+	};*/
 
 }

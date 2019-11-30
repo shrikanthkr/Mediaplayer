@@ -1,16 +1,13 @@
 package com.mediaplayer.com;
 
 import android.app.Service;
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.widget.RemoteViews;
+
+import androidx.annotation.Nullable;
 
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.manager.NotificationHelper;

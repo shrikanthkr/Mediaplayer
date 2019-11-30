@@ -1,0 +1,23 @@
+<resources>
+
+    <style name="Theme.Light" parent="AppTheme">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/darkGreen</item>
+        <item name="colorPrimaryVariant">@color/lightGreen</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorControlHighlight">@color/lightGreen</item>
+
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorSecondaryVariant">@color/lightOrange</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="colorBottomNavigation">@color/white</item>
+        <item name="colorOnBottomNavigation">@color/gray</item>
+    </style>
+
+
+    <style name="Theme.Dark" parent="AppTheme">
+
+    </style>
+
+</resources>

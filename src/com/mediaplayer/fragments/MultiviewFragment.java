@@ -1,11 +1,9 @@
 package com.mediaplayer.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +17,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.mediaplayer.adapter.GridAdapter;
 import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
@@ -28,9 +28,6 @@ import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 

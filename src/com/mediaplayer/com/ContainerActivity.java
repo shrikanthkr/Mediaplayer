@@ -1,13 +1,11 @@
 package com.mediaplayer.com;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,11 +17,13 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.legacy.app.ActionBarDrawerToggle;
+
 import com.mediaplayer.fragments.AlbumsFragment;
 import com.mediaplayer.fragments.ArtistsFragment;
 import com.mediaplayer.fragments.NowPlayingFragment;
 import com.mediaplayer.fragments.PlaylistsFragment;
-import com.mediaplayer.fragments.SongListFragment;
 import com.mediaplayer.manager.BroadcastManager;
 
 import net.hockeyapp.android.CrashManager;
@@ -131,13 +131,13 @@ public class ContainerActivity extends Activity {
 		if(fragment==null) {
 			switch (state) {
 				case 0:
-					fragment = new SongListFragment();
+					//fragment = new SongListFragment();
 					break;
 				case 1:
 					fragment = new PlaylistsFragment();
 					break;
 				case 2:
-					fragment = new SongListFragment();
+					//fragment = new SongListFragment();
 					break;
 				case 3:
 					fragment = new AlbumsFragment();
@@ -146,18 +146,22 @@ public class ContainerActivity extends Activity {
 					fragment = new ArtistsFragment();
 					break;
 				default:
-					fragment = new SongListFragment();
+					//fragment = new SongListFragment();
 					previousFragmentState = currentFragmentState = 2;
 					break;
 			}
 			Bundle args = new Bundle();
-			fragment.setArguments(args);
+			if (fragment != null) {
+				fragment.setArguments(args);
+			}
 		}
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment,""+currentFragmentState)
-				.addToBackStack(null)
-				.commit();
+		if (fragment != null) {
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.content_frame, fragment, "" + currentFragmentState)
+					.addToBackStack(null)
+					.commit();
+		}
 	}
 	@Override
 	protected void onPause() {

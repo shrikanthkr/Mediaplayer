@@ -2,35 +2,22 @@ package com.mediaplayer.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
-import com.mediaplayer.com.SongInfo;
-import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.fragments.MultiviewFragment;
-import com.mediaplayer.listener.PlaylistChangedListener;
-import com.mediaplayer.manager.BroadcastManager;
 import com.mediaplayer.utility.AlbumArtLoader;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class GridAdapter extends BaseAdapter{
 

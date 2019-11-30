@@ -1,29 +1,44 @@
+
+apply plugin: 'com.android.application'
+
+
 buildscript {
+    apply from: 'versions.gradle'
+
     repositories {
+        google()
         mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     }
 }
-apply plugin: 'com.android.application'
-Properties props = new Properties()
-props.load(new FileInputStream("keystore/keystore.properties"))
+
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':swipeadapter')
-    compile 'com.android.support:support-v4:+'
-    compile 'com.android.support:recyclerview-v7:21.0.+'
-    compile 'net.hockeyapp.android:HockeySDK:4.0.0'
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
+    implementation "androidx.drawerlayout:drawerlayout:1.0.0"
+    implementation "androidx.appcompat:appcompat:$versions.recyclerview"
+    implementation "androidx.legacy:legacy-support-core-ui:1.0.0"
+    implementation 'net.hockeyapp.android:HockeySDK:4.0.0'
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 28
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "7b6e4f255f0b4d81bfff4a6b94737b23"]
     }
     lintOptions{
@@ -31,21 +46,17 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(props.MEDIAPLAYER_KEY_STORE_PATH)
-            storePassword props.STORE_PASSWORD
-            keyAlias props.KEY_STORE_ALIAS
-            keyPassword props.KEY_STORE_PASSWORD
+
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            FileCollection proGuardFileCollection = files { file('../proguard_config').listFiles() }
-            proGuardFileCollection.each {File file ->
-                println file.name
-            }
-            proguardFiles proGuardFileCollection, getDefaultProguardFile('proguard-android.txt')
             signingConfig signingConfigs.release
         }
         debug {
@@ -66,8 +77,6 @@ android {
             assets.srcDirs = ['assets']
         }
 
-        // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
 
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
@@ -82,4 +91,7 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
+
+
 }

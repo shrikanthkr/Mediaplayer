@@ -3,11 +3,10 @@ package com.mediaplayer.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.ScaleGestureDetector;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.mediaplayer.com.SongsManager;
 import com.mediaplayer.manager.BroadcastManager;
