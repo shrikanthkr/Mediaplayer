@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 
+//https://dribbble.com/shots/6605936-Spotify-visual-concept-Sneak-peek/attachments
 class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
