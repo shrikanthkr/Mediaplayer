@@ -1,0 +1,13 @@
+- name: App Center
+  uses: wzieba/AppCenter-Github-Action@v1.0.0
+  with:
+    # App name followed by username e.g. wzieba/Sample-App
+    appName: com.mediaplayer.com
+    # Upload token - you can get one from appcenter.ms/settings
+    token: 8742f1771b22d2f4f0b3957d617f342cc3a4c827
+    # Distribution group
+    group: *
+    # Artefact to upload (.apk or .ipa)
+    file: 
+    # Release notes visible on release page
+    releaseNotes: Release A
