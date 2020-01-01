@@ -1,4 +1,4 @@
-package com.mediaplayer.fragments
+package com.mediaplayer.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

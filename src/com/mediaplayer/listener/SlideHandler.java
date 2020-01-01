@@ -2,14 +2,13 @@ package com.mediaplayer.listener;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Fragment;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
-import com.mediaplayer.fragments.NowPlayingFragment;
+import com.mediaplayer.ui.NowPlayingFragment;
 
 public class SlideHandler implements View.OnTouchListener{
 	Context context;

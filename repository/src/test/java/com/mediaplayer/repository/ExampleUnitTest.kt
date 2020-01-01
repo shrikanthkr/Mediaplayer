@@ -1,4 +1,4 @@
-package com.example.repository
+package com.mediaplayer.repository
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

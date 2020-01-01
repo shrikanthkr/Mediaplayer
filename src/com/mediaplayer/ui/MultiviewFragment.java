@@ -1,4 +1,4 @@
-package com.mediaplayer.fragments;
+package com.mediaplayer.ui;
 
 import android.app.Activity;
 import android.content.Intent;

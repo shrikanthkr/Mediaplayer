@@ -1,4 +1,4 @@
-package com.mediaplayer.fragments;
+package com.mediaplayer.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,17 +16,18 @@ import java.util.ArrayList;
 /**
  * Created by shrikanth on 10/2/15.
  */
-public class ArtistsFragment extends MultiviewFragment{
+public class AlbumsFragment extends MultiviewFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         gridview.setOnItemClickListener(this);
         return v;
+
     }
 
     @Override
     public void setTitle() {
-        getActivity().setTitle(getString(R.string.artists));
+        getActivity().setTitle(getString(R.string.albums));
     }
 
     @Override
@@ -38,23 +39,24 @@ public class ArtistsFragment extends MultiviewFragment{
     public void setData() {
         database =  SongInfoDatabase.getInstance();
         list = new ArrayList<MetaInfo>();
-        list =  database.getArtists(null);
+        list = database.getAlbums(null);
     }
 
     @Override
     public void setMode() {
-        mode = AlbumArtLoader.Mode.ARTIST;
+        mode = AlbumArtLoader.Mode.ALBUM;
     }
 
     @Override
     public ArrayList<SongInfo> getToBePlayedData(MetaInfo info) {
         SongInfoDatabase db =  SongInfoDatabase.getInstance();
-        return db.getSongsForArtist(info);
+        return db.getSongsForAlbum(info);
     }
 
     @Override
     public void searchSongs(String search) {
-        list = database.getArtists(search);
+        list = database.getAlbums(search);
         adapter.addAll(list);
     }
+
 }

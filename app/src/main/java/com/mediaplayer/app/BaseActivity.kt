@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.mediaplayer.app.di.components.AppComponent
 
 
 //https://dribbble.com/shots/6605936-Spotify-visual-concept-Sneak-peek/attachments
@@ -20,4 +21,7 @@ open class BaseActivity : AppCompatActivity() {
             statusBarColor = Color.TRANSPARENT
         }
     }
+
+    val appComponent: AppComponent
+        get() = (applicationContext as MediaApplication).appComponent
 }

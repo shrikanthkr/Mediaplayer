@@ -1,4 +1,4 @@
-package com.mediaplayer.fragments;
+package com.mediaplayer.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mediaplayer.com.MetaInfo;
-import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.com.R;
 import com.mediaplayer.com.SongInfo;
+import com.mediaplayer.com.SongsShowActivity;
 import com.mediaplayer.db.SongInfoDatabase;
 import com.mediaplayer.utility.AlbumArtLoader;
 

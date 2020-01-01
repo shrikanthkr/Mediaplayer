@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 android {
+
     compileSdkVersion versions.sdkVersion
     buildToolsVersion versions.buildToolsVersion
 
@@ -22,6 +24,10 @@ android {
         }
     }
 
+    viewBinding {
+        enabled true
+    }
+
 }
 
 dependencies {
@@ -29,6 +35,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
     implementation "com.google.android.material:material:$versions.material"
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    implementation project(":repository")
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+
 
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"

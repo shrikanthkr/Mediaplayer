@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.mediaplayer.com.SeekBar;
-import com.mediaplayer.fragments.NowPlayingFragment;
+import com.mediaplayer.ui.NowPlayingFragment;
 
 /**
  * Created by shrikanth on 10/3/15.

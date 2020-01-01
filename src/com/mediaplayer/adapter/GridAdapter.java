@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.mediaplayer.com.MetaInfo;
 import com.mediaplayer.com.R;
-import com.mediaplayer.fragments.MultiviewFragment;
+import com.mediaplayer.ui.MultiviewFragment;
 import com.mediaplayer.utility.AlbumArtLoader;
 
 import java.util.ArrayList;

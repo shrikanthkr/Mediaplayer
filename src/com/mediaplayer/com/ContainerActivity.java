@@ -20,11 +20,11 @@ import android.widget.ListView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.legacy.app.ActionBarDrawerToggle;
 
-import com.mediaplayer.fragments.AlbumsFragment;
-import com.mediaplayer.fragments.ArtistsFragment;
-import com.mediaplayer.fragments.NowPlayingFragment;
-import com.mediaplayer.fragments.PlaylistsFragment;
 import com.mediaplayer.manager.BroadcastManager;
+import com.mediaplayer.ui.AlbumsFragment;
+import com.mediaplayer.ui.ArtistsFragment;
+import com.mediaplayer.ui.NowPlayingFragment;
+import com.mediaplayer.ui.PlaylistsFragment;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;

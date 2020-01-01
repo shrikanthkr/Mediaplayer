@@ -1,4 +1,4 @@
-package com.mediaplayer.fragments;
+package com.mediaplayer.ui;
 
 public class SongListFragment {
 	/*ListView lv;
