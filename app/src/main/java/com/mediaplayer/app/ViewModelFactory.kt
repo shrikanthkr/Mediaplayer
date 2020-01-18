@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Provider
 
+
 class ViewModelFactory(private val map: Map<Class<out ViewModel>, Provider<ViewModel>>) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

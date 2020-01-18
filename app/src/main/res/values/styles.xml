@@ -3,10 +3,18 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 
-    <style name="BottomNavigationStyle">
+    <style name="AppWidget" />
+
+    <style name="AppWidget.BottomNavigationStyle">
         <item name="android:background">?attr/colorBottomNavigation</item>
         <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
         <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
 
     </style>
+
+    <style name="AppWidget.ListView">
+        <item name="colorBackground">@color/white</item>
+    </style>
+
+
 </resources>

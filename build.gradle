@@ -13,7 +13,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0-alpha07'
+        classpath 'com.android.tools.build:gradle:4.0.0-alpha08'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     }
 }
@@ -40,14 +40,14 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "7b6e4f255f0b4d81bfff4a6b94737b23"]
     }
-    lintOptions{
-        abortOnError false
+    lintOptions {
+        abortOnError true
     }
     signingConfigs {
         release {
@@ -96,7 +96,6 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
 
 
 }

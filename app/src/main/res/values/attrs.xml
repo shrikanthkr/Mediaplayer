@@ -5,4 +5,8 @@
     <attr name="colorBottomNavigation" format="color" />
     <attr name="colorOnBottomNavigation" format="color" />
 
+    <attr name="colorBackground" format="color" />
+    <attr name="colorTitle" format="color" />
+    <attr name="colorSubTitle" format="color" />
+
 </resources>
