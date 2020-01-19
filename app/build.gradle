@@ -33,11 +33,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle"
     implementation "com.google.android.material:material:$versions.material"
     implementation "com.google.dagger:dagger:$versions.dagger"
-    implementation project(":repository")
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     implementation "jp.wasabeef:glide-transformations:$versions.glideTransformations"
+    implementation "com.steiner.videolan:libvlc-android:$versions.vlc"
+    implementation project(":repository")
 
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"

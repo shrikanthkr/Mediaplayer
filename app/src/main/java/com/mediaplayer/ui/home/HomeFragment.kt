@@ -29,6 +29,7 @@ class HomeFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+
     }
 
     override fun inject(fragmentComponent: FragmentComponent) {
