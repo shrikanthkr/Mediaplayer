@@ -4,6 +4,4 @@ import com.mediaplayer.app.di.components.FragmentComponent
 import dagger.Module
 
 @Module(subcomponents = [FragmentComponent::class])
-class SubComponentsModule {
-
-}
+class SubComponentsModule

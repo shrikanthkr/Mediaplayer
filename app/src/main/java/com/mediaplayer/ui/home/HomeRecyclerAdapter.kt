@@ -19,7 +19,7 @@ class HomeRecyclerAdapter(private val songs: List<Song>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
         holder.setTitle(songs[position].title)
-        holder.setSubTitle(songs[position].album)
+        holder.setSubTitle(songs[position].duration)
         holder.setAlbumArt(songs[position].albumArtPath())
     }
 

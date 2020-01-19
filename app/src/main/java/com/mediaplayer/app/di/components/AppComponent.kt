@@ -1,6 +1,7 @@
 package com.mediaplayer.app.di.components
 
 import android.app.Application
+import com.mediaplayer.app.di.modules.AbstractApplicationModule
 import com.mediaplayer.app.di.modules.SubComponentsModule
 import com.mediaplayer.app.di.modules.ViewModelModule
 import com.mediaplayer.db.SongsRepository
@@ -10,7 +11,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = [SubComponentsModule::class, ViewModelModule::class])
+@Component(modules = [AbstractApplicationModule::class, SubComponentsModule::class, ViewModelModule::class])
 interface AppComponent {
 
     fun songsRepository(): SongsRepository

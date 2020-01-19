@@ -3,6 +3,7 @@ package com.mediaplayer.app.di.modules
 import androidx.lifecycle.ViewModel
 import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.db.SongsRepository
+import com.mediaplayer.player.PlayerController
 import com.mediaplayer.ui.home.HomeViewModel
 import dagger.MapKey
 import dagger.Module
@@ -27,7 +28,7 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
-    fun homeViewModel(songsRepository: SongsRepository?): ViewModel {
-        return HomeViewModel(songsRepository!!)
+    fun homeViewModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
+        return HomeViewModel(songsRepository, playerController)
     }
 }
