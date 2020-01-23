@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -39,7 +38,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = FragmentHomeBinding.inflate(inflater, container, false)
-        (requireActivity() as AppCompatActivity).setSupportActionBar(viewBinding.toolbar)
         return viewBinding.root
     }
 
@@ -48,9 +46,15 @@ class HomeFragment : BaseFragment() {
         viewBinding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.homeRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         viewModel.songsLiveData.observe(viewLifecycleOwner, Observer<List<Song>> {
-            viewBinding.homeRecyclerView.adapter = HomeRecyclerAdapter(it)
+            viewBinding.homeRecyclerView.adapter = HomeRecyclerAdapter(it) { song ->
+                viewModel.play(song)
+            }
         })
         (requireActivity() as HomeActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     companion object {

@@ -2,41 +2,64 @@ package com.mediaplayer.app
 
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.mediaplayer.ui.AlbumsFragment
-import com.mediaplayer.ui.ArtistsFragment
-import com.mediaplayer.ui.PlaylistFragment
-import com.mediaplayer.ui.home.HomeFragment
+import android.widget.TextView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import java.util.*
 
 
 //https://dribbble.com/shots/6605936-Spotify-visual-concept-Sneak-peek/attachments
 class HomeActivity : BaseActivity() {
-
-
+    private val stack = Stack<Int>()
+    private lateinit var viewPager2: ViewPager2
+    private lateinit var tabs: TabLayout
+    private lateinit var title: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
-        if (savedInstanceState == null) {
-            bottomNavigationView.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.action_home -> {
-                        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, HomeFragment.newInstance(), "${it.itemId}").commit()
-                    }
-                    R.id.action_album -> {
-                        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AlbumsFragment.newInstance(), "${it.itemId}").commit()
-                    }
-                    R.id.action_playlist -> {
-                        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, PlaylistFragment.newInstance(), "${it.itemId}").commit()
-                    }
-                    R.id.action_artists -> {
-                        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ArtistsFragment.newInstance(), "${it.itemId}").commit()
-                    }
-                }
-                true
+        viewPager2 = findViewById(R.id.view_pager)
+        tabs = findViewById(R.id.tabs)
+        title = findViewById(R.id.title)
+        viewPager2.adapter = ViewPagerAdapter(this)
+        TabLayoutMediator(tabs, viewPager2) { tab, position ->
+            tab.text = getTitleText(position)
+        }.attach()
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                title.text = getTitleText(position)
             }
+        })
 
-            bottomNavigationView.selectedItemId = R.id.action_home
+    }
+
+    private fun getTitleText(position: Int): String {
+        return when (position) {
+            0 -> {
+                getString(R.string.songs)
+            }
+            1 -> {
+                getString(R.string.albums)
+            }
+            2 -> {
+                getString(R.string.playlist)
+            }
+            3 -> {
+                getString(R.string.artists)
+            }
+            else -> {
+                getString(R.string.songs)
+            }
         }
     }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount <= 1)
+            finish()
+        else {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
 }

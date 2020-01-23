@@ -17,4 +17,12 @@
     </style>
 
 
+    <style name="AppWidget.Title">
+        <item name="android:textColor">?attr/colorOnMajorTitleBackground</item>
+        <item name="android:textSize">@dimen/major_title</item>
+        <item name="android:background">?attr/colorMajorTitleBackground</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <dimen name="major_title">36dp</dimen>
 </resources>

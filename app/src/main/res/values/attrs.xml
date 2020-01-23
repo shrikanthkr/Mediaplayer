@@ -8,5 +8,7 @@
     <attr name="colorBackground" format="color" />
     <attr name="colorTitle" format="color" />
     <attr name="colorSubTitle" format="color" />
+    <attr name="colorMajorTitleBackground" format="color" />
+    <attr name="colorOnMajorTitleBackground" format="color" />
 
 </resources>

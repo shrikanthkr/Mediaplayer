@@ -7,7 +7,7 @@ import com.mediaplayer.app.R
 import com.mediaplayer.repository.Song
 import com.mediaplayer.repository.albumArtPath
 
-class HomeRecyclerAdapter(private val songs: List<Song>) : RecyclerView.Adapter<HomeItemViewHolder>() {
+class HomeRecyclerAdapter(private val songs: List<Song>, private val callback: (Song) -> Unit) : RecyclerView.Adapter<HomeItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.viewholder_home_item, parent, false) as ViewGroup
         return HomeItemViewHolder(view)
@@ -18,9 +18,16 @@ class HomeRecyclerAdapter(private val songs: List<Song>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
-        holder.setTitle(songs[position].title)
-        holder.setSubTitle(songs[position].duration)
-        holder.setAlbumArt(songs[position].albumArtPath())
+        songs[position].run {
+            holder.setTitle(title)
+            holder.setSubTitle(duration)
+            holder.setAlbumArt(albumArtPath())
+            holder.itemView.setOnClickListener {
+                this@HomeRecyclerAdapter.callback(this)
+            }
+        }
+
+
     }
 
 }
