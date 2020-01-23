@@ -21,6 +21,8 @@
         <item name="colorBackground">@color/white</item>
         <item name="colorTitle">@color/black</item>
         <item name="colorSubTitle">@color/gray</item>
+        <item name="colorOnTabBackground">@color/black</item>
+        <item name="colorTabBackground">@color/white</item>
 
         <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
 

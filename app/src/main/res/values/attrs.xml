@@ -10,5 +10,7 @@
     <attr name="colorSubTitle" format="color" />
     <attr name="colorMajorTitleBackground" format="color" />
     <attr name="colorOnMajorTitleBackground" format="color" />
+    <attr name="colorTabBackground" format="color" />
+    <attr name="colorOnTabBackground" format="color" />
 
 </resources>

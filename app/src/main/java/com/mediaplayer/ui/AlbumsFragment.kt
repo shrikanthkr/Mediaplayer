@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mediaplayer.app.R
 import com.mediaplayer.app.di.components.FragmentComponent
-import com.mediaplayer.ui.home.HomeViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -18,7 +17,6 @@ import com.mediaplayer.ui.home.HomeViewModel
  */
 class AlbumsFragment : BaseFragment() {
 
-    lateinit var viewModel: HomeViewModel
 
     override fun inject(fragmentComponent: FragmentComponent) {
 
