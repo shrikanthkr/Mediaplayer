@@ -20,6 +20,7 @@ class HomeActivity : BaseActivity() {
         setContentView(R.layout.activity_home)
         viewPager2 = findViewById(R.id.view_pager)
         tabs = findViewById(R.id.tabs)
+        tabs.isTabIndicatorFullWidth = false
         title = findViewById(R.id.title)
         viewPager2.adapter = ViewPagerAdapter(this)
         TabLayoutMediator(tabs, viewPager2) { tab, position ->
