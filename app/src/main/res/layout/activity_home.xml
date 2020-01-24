@@ -15,32 +15,46 @@
             android:layout_height="150dp"
             android:layout_gravity="top"
             android:gravity="center"
-            app:layout_scrollFlags="scroll"
-            android:text="@string/songs" />
+            android:text="@string/songs"
+            app:layout_scrollFlags="scroll" />
 
         <com.google.android.material.tabs.TabLayout
-            app:layout_scrollFlags="enterAlways"
             android:id="@+id/tabs"
             style="@style/AppWidget.Tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="enterAlways">
 
         </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/playing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="?attr/colorPrimary"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_behavior="com.mediaplayer.app.behaviors.FabBehavior"
+        app:srcCompat="@drawable/ic_play_arrow"
+        app:tint="?attr/colorOnPrimary"
+        app:useCompatPadding="true" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

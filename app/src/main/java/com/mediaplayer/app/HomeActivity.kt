@@ -4,6 +4,7 @@ package com.mediaplayer.app
 import android.os.Bundle
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
@@ -15,6 +16,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var tabs: TabLayout
     private lateinit var title: TextView
+    private lateinit var fab: FloatingActionButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -22,7 +24,9 @@ class HomeActivity : BaseActivity() {
         tabs = findViewById(R.id.tabs)
         tabs.isTabIndicatorFullWidth = false
         title = findViewById(R.id.title)
+        fab = findViewById(R.id.playing)
         viewPager2.adapter = ViewPagerAdapter(this)
+
         TabLayoutMediator(tabs, viewPager2) { tab, position ->
             tab.text = getTitleText(position)
         }.attach()
@@ -32,6 +36,9 @@ class HomeActivity : BaseActivity() {
                 title.text = getTitleText(position)
             }
         })
+        fab.setOnClickListener {
+
+        }
 
     }
 
