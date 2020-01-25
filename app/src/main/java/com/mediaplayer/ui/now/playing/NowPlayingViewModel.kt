@@ -2,6 +2,7 @@ package com.mediaplayer.ui.now.playing
 
 import androidx.lifecycle.ViewModel
 import com.mediaplayer.app.di.scopes.FragmentScope
+import com.mediaplayer.app.models.PlayerState
 import com.mediaplayer.player.PlayerController
 import javax.inject.Inject
 
@@ -11,15 +12,24 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
     val playerStateLiveData = playerController.playerState
     val currentSongLiveData = playerController.currentSong
 
-    fun resume() {
+    private fun resume() {
         playerController.resume()
     }
 
-    fun pause() {
+    private fun pause() {
         playerController.pause()
     }
 
-    companion object {
-        const val TAG = "HomeViewModel"
+    fun seekTo(progress: Int) {
+        playerController.seek(progress.toLong())
     }
+
+    fun togglePlay() {
+        if (playerStateLiveData.value is PlayerState.Playing) {
+            pause()
+        } else {
+            resume()
+        }
+    }
+
 }

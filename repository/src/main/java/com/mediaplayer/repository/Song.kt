@@ -20,3 +20,9 @@ data class Song(val title: String,
 fun Song.albumArtPath(): Uri {
     return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), id.toLong())
 }
+
+
+fun Long.formattedDuration(): String {
+    val sec = this / 1000
+    return (sec / 60).toString().padStart(2, '0') + ":" + (sec % 60).toString().padStart(2, '0')
+}
