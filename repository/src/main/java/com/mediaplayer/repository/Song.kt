@@ -10,7 +10,7 @@ data class Song(val title: String,
                 val id: String,
                 val displayName: String,
                 val data: String,
-                val duration: String,
+                val duration: Long,
                 val album_art: String,
                 val album_id: String,
                 val playlist: String? = null) {

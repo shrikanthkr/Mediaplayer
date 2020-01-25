@@ -10,6 +10,7 @@
     <color name="white">#FFFFFF</color>
     <color name="lightGray">#e6ecf5</color>
     <color name="gray">#d7dbec</color>
+    <color name="darkGray">#bdbdbd</color>
 
 
 </resources>

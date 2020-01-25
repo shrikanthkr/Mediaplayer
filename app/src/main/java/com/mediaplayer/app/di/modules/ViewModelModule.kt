@@ -36,8 +36,8 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(HomeActivityViewModel::class)
-    fun homeActivityViewModel(): ViewModel {
-        return HomeActivityViewModel()
+    fun homeActivityViewModel(playerController: PlayerController): ViewModel {
+        return HomeActivityViewModel(playerController)
     }
 
     @Provides

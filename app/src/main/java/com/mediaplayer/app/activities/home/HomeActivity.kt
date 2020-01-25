@@ -4,6 +4,7 @@ package com.mediaplayer.app.activities.home
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -14,6 +15,7 @@ import com.mediaplayer.app.R
 import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.ViewPagerAdapter
 import com.mediaplayer.app.activities.BaseActivity
+import com.mediaplayer.app.models.PlayerState.Playing
 import com.mediaplayer.ui.now.playing.NowPlayingFragment
 import java.util.*
 import javax.inject.Inject
@@ -30,7 +32,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    lateinit var viewModel: HomeActivityViewModel
+    private lateinit var viewModel: HomeActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +65,19 @@ class HomeActivity : BaseActivity() {
             viewModel.updateState(BottomSheetBehavior.STATE_EXPANDED)
         }
 
-        viewModel.playingFragmentState.observe(this, androidx.lifecycle.Observer {
+        viewModel.playingFragmentState.observe(this, Observer {
             bottomSheetBehavior.state = it
+        })
+
+        viewModel.playerStateLiveData.observe(this, Observer {
+            when (it) {
+                is Playing -> {
+                    fab.setImageResource(R.drawable.ic_pause)
+                }
+                else -> {
+                    fab.setImageResource(R.drawable.ic_play_arrow)
+                }
+            }
         })
 
 

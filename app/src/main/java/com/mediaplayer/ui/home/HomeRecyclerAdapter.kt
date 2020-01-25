@@ -20,7 +20,7 @@ class HomeRecyclerAdapter(private val songs: List<Song>, private val callback: (
     override fun onBindViewHolder(holder: HomeItemViewHolder, position: Int) {
         songs[position].run {
             holder.setTitle(title)
-            holder.setSubTitle(duration)
+            holder.setSubTitle(artist)
             holder.setAlbumArt(albumArtPath())
             holder.itemView.setOnClickListener {
                 this@HomeRecyclerAdapter.callback(this)

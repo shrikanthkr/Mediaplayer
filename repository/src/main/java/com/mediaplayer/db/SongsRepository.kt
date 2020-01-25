@@ -66,7 +66,7 @@ class SongsRepository @Inject constructor(private val application: Application) 
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.DURATION)),
+                c.getLong(c.getColumnIndex(MediaStore.Audio.Media.DURATION)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
         )

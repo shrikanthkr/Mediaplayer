@@ -49,13 +49,12 @@ class NowPlayingFragment : BaseFragment() {
                 viewBinding.songTitle.text = it.title
                 viewBinding.artistTitle.text = it.artist
                 viewBinding.albumImage.load(it.albumArtPath())
-
             }
         })
         viewModel.playerStateLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Playing -> {
-
+                    viewBinding.playerSeekbar.progress = it.progress.toInt()
                 }
             }
         })
