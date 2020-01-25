@@ -16,6 +16,8 @@ interface AppComponent {
 
     fun songsRepository(): SongsRepository
     fun fragmentComponent(): FragmentComponent.Factory
+    fun activityComponent(): ActivityComponent.Factory
+
 
     @Component.Builder
     interface AppComponentBuilder {

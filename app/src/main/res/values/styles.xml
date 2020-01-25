@@ -24,11 +24,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+
     <style name="AppWidget.Tabs">
         <item name="android:textStyle">bold</item>
         <item name="tabSelectedTextColor">?attr/colorOnTabBackground</item>
         <item name="tabIndicatorColor">?attr/colorTabIndicator</item>
     </style>
-
-    <dimen name="major_title">36dp</dimen>
 </resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:background="?attr/colorOnPrimary"
+    android:clickable="true"
+    android:elevation="8dp"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <RelativeLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/down_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_down"
+            android:tint="?attr/downArrowTint"
+            android:contentDescription="@string/down_arrow" />
+
+        <TextView
+            android:id="@+id/album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="?attr/colorTitle"
+            android:textSize="@dimen/album_title"
+            android:textStyle="bold"
+            tools:text="Album Name" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/album_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:adjustViewBounds="true"
+        android:padding="20dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_album"
+        tools:tint="@color/gray"
+        android:contentDescription="@string/album_image_description" />
+
+    <TextView
+        android:id="@+id/song_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="?attr/colorTitle"
+        android:textSize="@dimen/song_title"
+        android:textStyle="bold"
+        tools:text="@string/search_title" />
+
+    <TextView
+        android:id="@+id/artist_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="?attr/colorSubTitle"
+        android:textSize="@dimen/artist_title"
+        android:textStyle="bold"
+        tools:text="@string/search_title" />
+
+    <SeekBar
+        android:id="@+id/player_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+
+

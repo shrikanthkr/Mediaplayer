@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mediaplayer.app.HomeActivity
 import com.mediaplayer.app.ViewModelFactory
+import com.mediaplayer.app.activities.home.HomeActivityViewModel
 import com.mediaplayer.app.databinding.FragmentHomeBinding
 import com.mediaplayer.app.di.components.FragmentComponent
 import com.mediaplayer.repository.Song
@@ -24,11 +24,13 @@ class HomeFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: HomeViewModel
+    private lateinit var homeActivityViewModel: HomeActivityViewModel
     private lateinit var viewBinding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+        homeActivityViewModel = ViewModelProvider(this.requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
 
     }
 
@@ -50,7 +52,6 @@ class HomeFragment : BaseFragment() {
                 viewModel.play(song)
             }
         })
-        (requireActivity() as HomeActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onDestroy() {

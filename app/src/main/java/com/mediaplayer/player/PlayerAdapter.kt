@@ -5,6 +5,7 @@ abstract class PlayerAdapter {
 
     abstract fun play(path: String)
     abstract fun pause()
+    abstract fun resume()
     abstract fun seek(position: Long)
 
     fun addListener(listener: PlayerListener) {
@@ -44,4 +45,5 @@ abstract class PlayerAdapter {
             it.onProgress(progress)
         }
     }
+
 }

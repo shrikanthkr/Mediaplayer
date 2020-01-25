@@ -3,6 +3,7 @@ package com.mediaplayer.app
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.mediaplayer.app.activities.BaseActivity
 import com.mediaplayer.ui.AlbumsFragment
 import com.mediaplayer.ui.ArtistsFragment
 import com.mediaplayer.ui.PlaylistFragment

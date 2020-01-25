@@ -18,6 +18,8 @@
     <string name="add_widget">Add widget</string>
     <string name="text_home">Home</string>
     <string name="songs_image">Songs Image</string>
+    <string name="down_arrow">Down Arrow</string>
+    <string name="album_image_description">Album Image</string>
 
 
 </resources>

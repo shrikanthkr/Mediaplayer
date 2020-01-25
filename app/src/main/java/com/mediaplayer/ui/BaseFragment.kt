@@ -2,7 +2,7 @@ package com.mediaplayer.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.mediaplayer.app.BaseActivity
+import com.mediaplayer.app.activities.BaseActivity
 import com.mediaplayer.app.di.components.FragmentComponent
 
 abstract class BaseFragment : Fragment() {

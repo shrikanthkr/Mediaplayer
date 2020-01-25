@@ -64,6 +64,10 @@ class VLCAdapter @Inject constructor(application: Application) : PlayerAdapter()
         mediaPlayer.pause()
     }
 
+    override fun resume() {
+        mediaPlayer.play()
+    }
+
     override fun seek(position: Long) {
         mediaPlayer.time = position
     }
