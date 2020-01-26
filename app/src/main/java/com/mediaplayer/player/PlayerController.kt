@@ -57,7 +57,7 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
     }
 
     fun play(song: Song) {
-        playerAdapter.play(song.data)
+        playerAdapter.play(song.uri)
         _currentSong.value = song
         _playerState.value = Playing(song, 0)
     }

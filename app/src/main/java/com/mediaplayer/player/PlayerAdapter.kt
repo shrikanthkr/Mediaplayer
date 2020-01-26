@@ -1,9 +1,11 @@
 package com.mediaplayer.player
 
-abstract class PlayerAdapter {
+import android.net.Uri
+
+abstract class PlayerAdapter() {
     private val list = mutableListOf<PlayerListener>()
 
-    abstract fun play(path: String)
+    abstract fun play(path: Uri)
     abstract fun pause()
     abstract fun resume()
     abstract fun seek(position: Long)
@@ -45,5 +47,6 @@ abstract class PlayerAdapter {
             it.onProgress(progress)
         }
     }
+
 
 }

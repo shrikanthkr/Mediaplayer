@@ -16,6 +16,7 @@ import com.mediaplayer.app.ViewPagerAdapter
 import com.mediaplayer.app.activities.BaseActivity
 import com.mediaplayer.app.models.PlayerState.Playing
 import com.mediaplayer.repository.albumArtPath
+import com.mediaplayer.repository.formattedDuration
 import com.mediaplayer.ui.customview.PlayerSnackBarContainer
 import com.mediaplayer.ui.now.playing.NowPlayingFragment
 import java.util.*
@@ -71,6 +72,7 @@ class HomeActivity : BaseActivity() {
             when (it) {
                 is Playing -> {
                     snackBar.setPlayIcon(R.drawable.ic_pause, playPauseClick)
+                    snackBar.setDuration(it.progress.formattedDuration())
                 }
                 else -> {
                     snackBar.setPlayIcon(R.drawable.ic_play_arrow, playPauseClick)

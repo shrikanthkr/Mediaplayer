@@ -1,13 +1,16 @@
 package com.mediaplayer.player
 
 import android.app.Application
+import android.net.Uri
 import android.util.Log
 import org.videolan.libvlc.LibVLC
+import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.MediaPlayer.Event.*
+import java.io.FileDescriptor
 import javax.inject.Inject
 
-class VLCAdapter @Inject constructor(application: Application) : PlayerAdapter() {
+class VLCAdapter @Inject constructor(val application: Application) : PlayerAdapter() {
     private val libvlc = LibVLC(application)
     private val mediaPlayer = MediaPlayer(libvlc)
 
@@ -56,8 +59,9 @@ class VLCAdapter @Inject constructor(application: Application) : PlayerAdapter()
         }
     }
 
-    override fun play(path: String) {
-        mediaPlayer.play(path)
+    override fun play(path: Uri) {
+        val media = Media(libvlc, toFileDescriptor(path))
+        mediaPlayer.play(media)
     }
 
     override fun pause() {
@@ -72,6 +76,10 @@ class VLCAdapter @Inject constructor(application: Application) : PlayerAdapter()
         mediaPlayer.time = position
     }
 
+
+    private fun toFileDescriptor(path: Uri): FileDescriptor? {
+        return application.contentResolver.openFileDescriptor(path, "r")?.fileDescriptor
+    }
 
     companion object {
         const val TAG = "VLCAdapter"

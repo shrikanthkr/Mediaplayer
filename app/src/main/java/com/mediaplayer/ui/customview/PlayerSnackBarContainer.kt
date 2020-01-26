@@ -21,6 +21,7 @@ class PlayerSnackBarContainer(parent: ViewGroup,
     private val albumArt: ImageView = content.findViewById(R.id.album_image)
     private val play: ImageView = content.findViewById(R.id.play_pause_image)
     private val titleView: TextView = content.findViewById(R.id.title)
+    private val durationView: TextView = content.findViewById(R.id.current_duration)
 
     init {
         duration = Snackbar.LENGTH_INDEFINITE
@@ -33,6 +34,10 @@ class PlayerSnackBarContainer(parent: ViewGroup,
 
     fun setTitle(title: String) {
         titleView.text = title
+    }
+
+    fun setDuration(duration: String) {
+        durationView.text = duration
     }
 
     fun loadAlbumArt(path: Uri) {

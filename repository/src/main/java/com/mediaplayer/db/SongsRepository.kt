@@ -2,6 +2,7 @@ package com.mediaplayer.db
 
 import android.app.Application
 import android.database.Cursor
+import android.net.Uri
 import android.provider.MediaStore
 import com.mediaplayer.repository.Song
 import javax.inject.Inject
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 class SongsRepository @Inject constructor(private val application: Application) {
 
     private fun getMediaStoreCursor(additional: String?, limit: String): Cursor? {
-        var limit: String? = limit
+        var mutatedLimit: String? = limit
         val selection = StringBuilder()
         val sortOrder = "LOWER(" + MediaStore.Audio.Media.TITLE + ")"
         selection.append("( " + MediaStore.Audio.Media.IS_MUSIC + " != 0 AND LOWER("
@@ -21,8 +22,8 @@ class SongsRepository @Inject constructor(private val application: Application) 
             selection.append("AND $additional")
         }
         selection.append(" )")
-        limit = if (limit != null && limit.length > 0) {
-            " LIMIT $limit"
+        mutatedLimit = if (mutatedLimit != null && mutatedLimit.length > 0) {
+            " LIMIT $mutatedLimit"
         } else {
             ""
         }
@@ -30,13 +31,12 @@ class SongsRepository @Inject constructor(private val application: Application) 
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ALBUM_ID)
-        return application.getContentResolver().query(
+        return application.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
-                selection.toString(), null, sortOrder + limit)
+                selection.toString(), null, sortOrder + mutatedLimit)
     }
 
     fun getSongs(search: String? = null): List<Song> {
@@ -65,7 +65,7 @@ class SongsRepository @Inject constructor(private val application: Application) 
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.DATA)),
+                Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID))),
                 c.getLong(c.getColumnIndex(MediaStore.Audio.Media.DURATION)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)),
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
