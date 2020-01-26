@@ -1,4 +1,4 @@
-package com.mediaplayer.ui.home
+package com.mediaplayer.ui.songs
 
 import android.net.Uri
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mediaplayer.app.R
 import com.mediaplayer.app.utils.load
 
-class HomeItemViewHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
+class SongsItemViewHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
 
     private var title: TextView = itemView.findViewById(R.id.title)
     private var subTitle: TextView = itemView.findViewById(R.id.sub_title)

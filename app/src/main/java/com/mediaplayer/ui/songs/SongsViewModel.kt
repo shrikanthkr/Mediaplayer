@@ -1,4 +1,4 @@
-package com.mediaplayer.ui.home
+package com.mediaplayer.ui.songs
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import com.mediaplayer.repository.Song
 import javax.inject.Inject
 
 @FragmentScope
-class HomeViewModel @Inject constructor(repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
+class SongsViewModel @Inject constructor(repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
     private val _songsLiveData = MutableLiveData<List<Song>>()
     val songsLiveData = _songsLiveData
 

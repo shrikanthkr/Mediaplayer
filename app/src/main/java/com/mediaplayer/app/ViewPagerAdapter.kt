@@ -7,7 +7,7 @@ import com.mediaplayer.app.activities.BaseActivity
 import com.mediaplayer.ui.AlbumsFragment
 import com.mediaplayer.ui.ArtistsFragment
 import com.mediaplayer.ui.PlaylistFragment
-import com.mediaplayer.ui.home.HomeFragment
+import com.mediaplayer.ui.songs.SongsFragment
 
 class ViewPagerAdapter(activity: BaseActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
@@ -17,7 +17,7 @@ class ViewPagerAdapter(activity: BaseActivity) : FragmentStateAdapter(activity) 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> {
-                HomeFragment.newInstance()
+                SongsFragment.newInstance()
             }
             1 -> {
                 AlbumsFragment.newInstance()
@@ -28,7 +28,7 @@ class ViewPagerAdapter(activity: BaseActivity) : FragmentStateAdapter(activity) 
             3 -> {
                 ArtistsFragment.newInstance()
             }
-            else -> HomeFragment.newInstance()
+            else -> SongsFragment.newInstance()
         }
     }
 }

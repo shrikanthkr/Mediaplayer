@@ -5,8 +5,8 @@ import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.activities.home.HomeActivityViewModel
 import com.mediaplayer.db.SongsRepository
 import com.mediaplayer.player.PlayerController
-import com.mediaplayer.ui.home.HomeViewModel
 import com.mediaplayer.ui.now.playing.NowPlayingViewModel
+import com.mediaplayer.ui.songs.SongsViewModel
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides
@@ -28,9 +28,9 @@ class ViewModelModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
+    @ViewModelKey(SongsViewModel::class)
     fun homeViewModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
-        return HomeViewModel(songsRepository, playerController)
+        return SongsViewModel(songsRepository, playerController)
     }
 
     @Provides

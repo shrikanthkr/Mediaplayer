@@ -1,4 +1,4 @@
-package com.mediaplayer.ui.home
+package com.mediaplayer.ui.songs
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,25 +11,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.activities.home.HomeActivityViewModel
-import com.mediaplayer.app.databinding.FragmentHomeBinding
+import com.mediaplayer.app.databinding.FragmentSongsBinding
 import com.mediaplayer.app.di.components.FragmentComponent
 import com.mediaplayer.repository.Song
 import com.mediaplayer.ui.BaseFragment
 import javax.inject.Inject
 
 
-class HomeFragment : BaseFragment() {
+class SongsFragment : BaseFragment() {
 
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: SongsViewModel
     private lateinit var homeActivityViewModel: HomeActivityViewModel
-    private lateinit var viewBinding: FragmentHomeBinding
+    private lateinit var viewBinding: FragmentSongsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(SongsViewModel::class.java)
         homeActivityViewModel = ViewModelProvider(this.requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
 
     }
@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewBinding = FragmentHomeBinding.inflate(inflater, container, false)
+        viewBinding = FragmentSongsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
 
@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment() {
         viewBinding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.homeRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         viewModel.songsLiveData.observe(viewLifecycleOwner, Observer<List<Song>> {
-            viewBinding.homeRecyclerView.adapter = HomeRecyclerAdapter(it) { song ->
+            viewBinding.homeRecyclerView.adapter = SongsRecyclerAdapter(it) { song ->
                 viewModel.play(song)
             }
         })
@@ -59,6 +59,6 @@ class HomeFragment : BaseFragment() {
     }
 
     companion object {
-        fun newInstance() = HomeFragment()
+        fun newInstance() = SongsFragment()
     }
 }
