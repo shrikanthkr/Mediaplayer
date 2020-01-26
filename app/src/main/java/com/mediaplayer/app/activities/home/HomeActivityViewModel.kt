@@ -9,6 +9,7 @@ class HomeActivityViewModel(playerController: PlayerController) : ViewModel() {
     private val _playingFragmentState = MutableLiveData<Int>()
     val playingFragmentState = _playingFragmentState
     val playerStateLiveData = playerController.playerState
+    val currentSong = playerController.currentSong
 
     fun updateState(@BottomSheetBehavior.State state: Int) {
         _playingFragmentState.value = state
