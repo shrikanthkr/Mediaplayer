@@ -54,10 +54,6 @@ class SongsFragment : BaseFragment() {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     companion object {
         fun newInstance() = SongsFragment()
     }
