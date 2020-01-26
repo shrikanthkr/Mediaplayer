@@ -2,15 +2,12 @@ package com.mediaplayer.app.activities.home
 
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.style.ImageSpan
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mediaplayer.app.R
@@ -18,7 +15,8 @@ import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.ViewPagerAdapter
 import com.mediaplayer.app.activities.BaseActivity
 import com.mediaplayer.app.models.PlayerState.Playing
-import com.mediaplayer.app.utils.getTintedDrawable
+import com.mediaplayer.repository.albumArtPath
+import com.mediaplayer.ui.customview.PlayerSnackBarContainer
 import com.mediaplayer.ui.now.playing.NowPlayingFragment
 import java.util.*
 import javax.inject.Inject
@@ -33,7 +31,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var title: TextView
     private lateinit var nowPlaying: NowPlayingFragment
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
-    private lateinit var snackBar: Snackbar
+    private lateinit var snackBar: PlayerSnackBarContainer
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: HomeActivityViewModel
@@ -72,10 +70,10 @@ class HomeActivity : BaseActivity() {
         viewModel.playerStateLiveData.observe(this, Observer {
             when (it) {
                 is Playing -> {
-                    snackBar.setAction(playImageSpan, snackBarClick)
+                    snackBar.setPlayIcon(R.drawable.ic_pause, playPauseClick)
                 }
                 else -> {
-                    snackBar.setAction(pauseImageSpan, snackBarClick)
+                    snackBar.setPlayIcon(R.drawable.ic_play_arrow, playPauseClick)
                 }
             }
         })
@@ -94,13 +92,12 @@ class HomeActivity : BaseActivity() {
 
         viewModel.currentSong.observe(this, Observer {
             snackBar.show()
-            snackBar.setText(it.title)
+            snackBar.setTitle(it.title)
+            snackBar.loadAlbumArt(it.albumArtPath())
         })
 
-        snackBar = Snackbar.make(this.viewPager2,
-                R.string.album_image_description,
-                Snackbar.LENGTH_INDEFINITE)
-
+        snackBar = PlayerSnackBarContainer.make(this.viewPager2)
+        snackBar.view.setOnClickListener(snackBarClick)
 
     }
 
@@ -140,17 +137,9 @@ class HomeActivity : BaseActivity() {
     private val snackBarClick = View.OnClickListener {
         viewModel.updateState(BottomSheetBehavior.STATE_EXPANDED)
     }
-    private val playImageSpan by lazy {
-        val drawable = this.getTintedDrawable(R.drawable.ic_pause, R.attr.colorOnPrimary)
-        val builder = SpannableStringBuilder().append("span")
-        builder.setSpan(ImageSpan(drawable), 0, builder.length, 0)
-        builder
-    }
-    private val pauseImageSpan by lazy {
-        val drawable = this.getTintedDrawable(R.drawable.ic_play_arrow, R.attr.colorOnPrimary)
-        val builder = SpannableStringBuilder().append("span")
-        builder.setSpan(ImageSpan(drawable), 0, builder.length, 0)
-        builder
+
+    private val playPauseClick = View.OnClickListener {
+        viewModel.togglePlay()
     }
 
 }

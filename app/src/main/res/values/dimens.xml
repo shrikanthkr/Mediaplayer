@@ -3,8 +3,10 @@
     <dimen name="large_margin">40dp</dimen>
     <dimen name="medium_margin">20dp</dimen>
     <dimen name="small_margin">20dp</dimen>
+    <dimen name="tiny_margin">8dp</dimen>
     <dimen name="major_title">36sp</dimen>
     <dimen name="album_title">18sp</dimen>
     <dimen name="song_title">20sp</dimen>
     <dimen name="artist_title">16sp</dimen>
+    <dimen name="snackbar_margin">8dp</dimen>
 </resources>

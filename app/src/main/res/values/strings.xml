@@ -20,6 +20,7 @@
     <string name="songs_image">Songs Image</string>
     <string name="down_arrow">Down Arrow</string>
     <string name="album_image_description">Album Image</string>
+    <string name="play_icon_description">Play Pause Icon</string>
     <string name="next">next</string>
     <string name="previous">previous</string>
 

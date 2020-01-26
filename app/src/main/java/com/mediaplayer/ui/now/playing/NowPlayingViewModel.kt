@@ -12,13 +12,6 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
     val playerStateLiveData = playerController.playerState
     val currentSongLiveData = playerController.currentSong
 
-    private fun resume() {
-        playerController.resume()
-    }
-
-    private fun pause() {
-        playerController.pause()
-    }
 
     fun seekTo(progress: Int) {
         playerController.seek(progress.toLong())
@@ -26,9 +19,9 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
 
     fun togglePlay() {
         if (playerStateLiveData.value is PlayerState.Playing) {
-            pause()
+            playerController.pause()
         } else {
-            resume()
+            playerController.resume()
         }
     }
 
