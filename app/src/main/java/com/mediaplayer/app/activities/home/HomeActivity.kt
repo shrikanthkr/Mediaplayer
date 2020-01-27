@@ -54,6 +54,7 @@ class HomeActivity : BaseActivity() {
             bottomSheetBehavior.peekHeight = 0
             viewModel.updateState(BottomSheetBehavior.STATE_HIDDEN)
         }
+
         TabLayoutMediator(tabs, viewPager2) { tab, position ->
             tab.text = getTitleText(position)
         }.attach()

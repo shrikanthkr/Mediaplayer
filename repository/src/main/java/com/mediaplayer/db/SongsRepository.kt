@@ -5,48 +5,21 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import com.mediaplayer.repository.Song
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SongsRepository @Inject constructor(private val application: Application) {
+class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher) {
 
-    private fun getMediaStoreCursor(additional: String?, limit: String): Cursor? {
-        var mutatedLimit: String? = limit
-        val selection = StringBuilder()
-        val sortOrder = "LOWER(" + MediaStore.Audio.Media.TITLE + ")"
-        selection.append("( " + MediaStore.Audio.Media.IS_MUSIC + " != 0 AND LOWER("
-                + MediaStore.Audio.Media.DISPLAY_NAME
-                + ") NOT LIKE  LOWER('%.wma') ")
-        if (additional != null && additional.length > 0) {
-            selection.append("AND $additional")
-        }
-        selection.append(" )")
-        mutatedLimit = if (mutatedLimit != null && mutatedLimit.length > 0) {
-            " LIMIT $mutatedLimit"
-        } else {
-            ""
-        }
-        val projection = arrayOf(MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM,
-                MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.ALBUM_ID)
+    private fun getMediaStoreCursor(): Cursor? {
         return application.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
-                selection.toString(), null, sortOrder + mutatedLimit)
+                selection, null, sort)
     }
 
-    fun getSongs(search: String? = null): List<Song> {
+    suspend fun getSongs() = withContext(ioDispatcher) {
         val songInfo = mutableListOf<Song>()
-        var query: String? = null
-        if (search?.isNotEmpty() == true) {
-            query = ("LOWER("
-                    + MediaStore.Audio.Media.TITLE + ") LIKE LOWER('" + search + "%') ")
-        }
-        val c = getMediaStoreCursor(query, "")
+        val c = getMediaStoreCursor()
         c!!.moveToFirst()
         while (!c.isAfterLast) {
             val item = Song.build(c)
@@ -54,9 +27,20 @@ class SongsRepository @Inject constructor(private val application: Application) 
             c.moveToNext()
         }
         c.close()
-        return songInfo
+        songInfo
     }
 
+    companion object {
+        const val sort = "LOWER(${MediaStore.Audio.Media.TITLE})"
+        const val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0 AND LOWER(${MediaStore.Audio.Media.DISPLAY_NAME})  NOT LIKE  LOWER('%.wma') "
+        val projection = arrayOf(MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.ALBUM,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Media.ALBUM_ID)
+    }
 
     private fun Song.Companion.build(c: Cursor): Song {
         return Song(
