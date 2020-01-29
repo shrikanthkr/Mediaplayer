@@ -23,7 +23,7 @@
         <item name="downArrowTint">@color/gray</item>
         <item name="colorDivider">@color/lightGray</item>
 
-        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+        <item name="android:textColorPrimary">?attr/colorOnSecondary</item>
 
     </style>
 
