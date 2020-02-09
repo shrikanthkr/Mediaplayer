@@ -2,7 +2,6 @@
 <resources>
 
     <style name="Theme.Light" parent="AppTheme">
-        <item name="fontFamily">@font/calibri_regular</item>
         <item name="android:fontFamily">@font/calibri_regular</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/darkGreen</item>

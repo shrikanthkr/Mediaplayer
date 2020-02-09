@@ -1,5 +1,6 @@
 package com.mediaplayer.db
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.database.Cursor
 import android.net.Uri
@@ -30,9 +31,11 @@ class SongsRepository @Inject constructor(private val application: Application, 
         songInfo
     }
 
+
     companion object {
         const val sort = "LOWER(${MediaStore.Audio.Media.TITLE})"
         const val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0 AND LOWER(${MediaStore.Audio.Media.DISPLAY_NAME})  NOT LIKE  LOWER('%.wma') "
+        @SuppressLint("InlinedApi")
         val projection = arrayOf(MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM,
@@ -42,6 +45,7 @@ class SongsRepository @Inject constructor(private val application: Application, 
                 MediaStore.Audio.Media.ALBUM_ID)
     }
 
+    @SuppressLint("InlinedApi")
     private fun Song.Companion.build(c: Cursor): Song {
         return Song(
                 c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE)),
