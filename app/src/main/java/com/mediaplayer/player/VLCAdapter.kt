@@ -10,9 +10,9 @@ import org.videolan.libvlc.MediaPlayer.Event.*
 import java.io.FileDescriptor
 import javax.inject.Inject
 
-class VLCAdapter @Inject constructor(val application: Application) : PlayerAdapter() {
-    private val libvlc = LibVLC(application)
-    private val mediaPlayer = MediaPlayer(libvlc)
+class VLCAdapter @Inject constructor(private val application: Application) : PlayerAdapter() {
+    private val libvlc by lazy { LibVLC(application) }
+    private val mediaPlayer by lazy { MediaPlayer(libvlc) }
 
     init {
         mediaPlayer.setEventListener { event ->
@@ -74,6 +74,13 @@ class VLCAdapter @Inject constructor(val application: Application) : PlayerAdapt
 
     override fun seek(position: Long) {
         mediaPlayer.time = position
+    }
+
+    override fun clear() {
+        libvlc.release()
+        mediaPlayer.stop()
+        mediaPlayer.release()
+        mediaPlayer.setEventListener(null)
     }
 
 

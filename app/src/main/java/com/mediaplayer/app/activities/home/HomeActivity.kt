@@ -2,10 +2,14 @@ package com.mediaplayer.app.activities.home
 
 
 import android.app.AlertDialog
+import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -25,6 +29,7 @@ import com.mediaplayer.app.models.PlayerState.Playing
 import com.mediaplayer.repository.albumArtPath
 import com.mediaplayer.repository.formattedDuration
 import com.mediaplayer.ui.customview.PlayerSnackBarContainer
+import com.mediaplayer.ui.notifications.NotificationService
 import com.mediaplayer.ui.now.playing.NowPlayingFragment
 import javax.inject.Inject
 
@@ -80,6 +85,7 @@ class HomeActivity : BaseActivity() {
                 }
             }
         })
+        startService(Intent(this.applicationContext, NotificationService::class.java))
     }
 
 
@@ -196,8 +202,20 @@ class HomeActivity : BaseActivity() {
         permissionsHandler.handleResults(requestCode, grantResults)
     }
 
+    val serviceConnection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            Log.d(TAG, "Dis Connect4ed")
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.d(TAG, "Connect4ed")
+        }
+
+    }
+
     companion object {
         const val BOTTOM_SHEET_STATE = "BOTTOM_SHEET_STATE"
+        const val TAG = "HomeActivity"
     }
 }
 

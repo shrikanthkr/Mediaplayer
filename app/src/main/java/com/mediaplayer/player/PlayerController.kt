@@ -19,6 +19,7 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
     init {
         playerAdapter.addListener(object : PlayerListener {
             override fun onStart() {
+                playerState.value = Started(requireNotNull(_currentSong.value))
                 Log.d(TAG, "Start")
             }
 
@@ -29,12 +30,19 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
             }
 
             override fun onProgress(progress: Long) {
-                if (_playerState.value is Playing) {
-                    val previousState = requireNotNull(_playerState.value) as Playing
-                    playerState.value = Playing(previousState.song, progress)
-                } else {
-                    val previousState = requireNotNull(_playerState.value) as Paused
-                    playerState.value = Playing(previousState.song, progress)
+                when (_playerState.value) {
+                    is Playing -> {
+                        val previousState = requireNotNull(_playerState.value) as Playing
+                        playerState.value = Playing(previousState.song, progress)
+                    }
+                    is Paused -> {
+                        val previousState = requireNotNull(_playerState.value) as Paused
+                        playerState.value = Playing(previousState.song, progress)
+                    }
+                    else -> {
+                        val previousState = requireNotNull(_playerState.value) as Started
+                        playerState.value = Playing(previousState.song, progress)
+                    }
                 }
             }
 
@@ -49,11 +57,12 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
             }
 
             override fun onError() {
-                Log.d(TAG, "Pause")
-                playerState.value = Errored
+                Log.d(TAG, "Erred")
+                playerState.value = Erred
             }
 
         })
+        _playerState.value = Idle
     }
 
     fun play(song: Song) {
@@ -72,6 +81,10 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
 
     fun seek(position: Long) {
         playerAdapter.seek(position)
+    }
+
+    fun clear() {
+        playerAdapter.clear()
     }
 
     companion object {
