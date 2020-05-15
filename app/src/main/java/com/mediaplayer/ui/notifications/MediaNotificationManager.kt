@@ -33,6 +33,7 @@ class MediaNotificationManager(private val context: Context, private val control
         remoteView.setTextViewText(R.id.title, it.title)
     }
 
+
     @RequiresApi(Build.VERSION_CODES.M)
     private val playerStateObserver = Observer<PlayerState> {
         when (it) {
