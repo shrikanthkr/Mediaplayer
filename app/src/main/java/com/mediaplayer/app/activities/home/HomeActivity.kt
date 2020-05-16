@@ -11,7 +11,6 @@ import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -37,7 +36,6 @@ class HomeActivity : BaseActivity() {
 
     private lateinit var activityHome: CoordinatorLayout
     private lateinit var viewPager2: ViewPager2
-    private lateinit var title: TextView
     private lateinit var nowPlaying: NowPlayingFragment
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private lateinit var snackBar: PlayerSnackBarContainer
@@ -56,7 +54,6 @@ class HomeActivity : BaseActivity() {
         viewPager2 = findViewById(R.id.view_pager)
         activityHome = findViewById(R.id.activity_home)
 
-        title = findViewById(R.id.title)
         nowPlaying = supportFragmentManager.findFragmentById(R.id.now_playing) as NowPlayingFragment
         bottomSheetBehavior = BottomSheetBehavior.from(nowPlaying.requireView())
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeActivityViewModel::class.java)
@@ -92,12 +89,6 @@ class HomeActivity : BaseActivity() {
     private fun render() {
         viewPager2.adapter = ViewPagerAdapter(this)
 
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                title.text = getTitleText(position)
-            }
-        })
 
         viewModel.playingFragmentState.observe(this, Observer {
             bottomSheetBehavior.state = it
