@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.databinding.FragmentArtistsBinding
 import com.mediaplayer.app.di.components.FragmentComponent
@@ -46,7 +48,8 @@ class ArtistsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.artists.layoutManager = GridLayoutManager(requireContext(), 2)
+        viewBinding.artists.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.artists.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         viewmodel.artists.observe(viewLifecycleOwner, Observer {
             viewBinding.artists.adapter = ArtistsRecyclerAdapter(it) {
 

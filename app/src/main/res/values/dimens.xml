@@ -10,5 +10,6 @@
     <dimen name="artist_title">16sp</dimen>
     <dimen name="snackbar_margin">8dp</dimen>
     <dimen name="cardview_extra_radius">8dp</dimen>
+    <dimen name="default_title">16sp</dimen>
 
 </resources>
