@@ -5,6 +5,7 @@ import android.app.Application
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import com.mediaplayer.repository.Album
 import com.mediaplayer.repository.Song
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -12,23 +13,50 @@ import javax.inject.Inject
 
 class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher) {
 
-    private fun getMediaStoreCursor(): Cursor? {
+    private fun songsCursor(): Cursor? {
         return application.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
                 selection, null, sort)
     }
 
-    suspend fun getSongs() = withContext(ioDispatcher) {
+    private fun albumsCursor(): Cursor? {
+        val projection = arrayOf(MediaStore.Audio.Albums._ID,
+                MediaStore.Audio.Albums.ALBUM,
+                MediaStore.Audio.Albums.NUMBER_OF_SONGS)
+
+        return application.contentResolver.query(
+                MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection,
+                null, null, MediaStore.Audio.Albums.ALBUM + " ASC")
+    }
+
+    suspend fun all() = withContext(ioDispatcher) {
         val songInfo = mutableListOf<Song>()
-        val c = getMediaStoreCursor()
-        c!!.moveToFirst()
-        while (!c.isAfterLast) {
-            val item = Song.build(c)
-            songInfo.add(item)
-            c.moveToNext()
+        val c = songsCursor()
+        c?.apply {
+            this.moveToFirst()
+            while (!this.isAfterLast) {
+                val item = this.toSong()
+                songInfo.add(item)
+                this.moveToNext()
+            }
+            c.close()
         }
-        c.close()
         songInfo
+    }
+
+    suspend fun albums() = withContext(ioDispatcher) {
+        val albums = mutableListOf<Album>()
+        val c = albumsCursor()
+        c?.apply {
+            this.moveToFirst()
+            while (!this.isAfterLast) {
+                val item = c.toAlbum()
+                albums.add(item)
+                this.moveToNext()
+            }
+            c.close()
+        }
+        albums
     }
 
 
@@ -46,17 +74,27 @@ class SongsRepository @Inject constructor(private val application: Application, 
     }
 
     @SuppressLint("InlinedApi")
-    private fun Song.Companion.build(c: Cursor): Song {
+    private fun Cursor.toSong(): Song {
         return Song(
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.TITLE)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.ARTIST)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)),
-                Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, c.getString(c.getColumnIndex(MediaStore.Audio.Media._ID))),
-                c.getLong(c.getColumnIndex(MediaStore.Audio.Media.DURATION)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)),
-                c.getString(c.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
+                getString(getColumnIndex(MediaStore.Audio.Media.TITLE)),
+                getString(getColumnIndex(MediaStore.Audio.Media.ARTIST)),
+                getString(getColumnIndex(MediaStore.Audio.Media.ALBUM)),
+                getString(getColumnIndex(MediaStore.Audio.Media._ID)),
+                getString(getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)),
+                Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, getString(getColumnIndex(MediaStore.Audio.Media._ID))),
+                getLong(getColumnIndex(MediaStore.Audio.Media.DURATION)),
+                getString(getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)),
+                getString(getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
         )
     }
+
+    private fun Cursor.toAlbum(): Album {
+        return Album(
+                getString(getColumnIndex(MediaStore.Audio.Media._ID)),
+                getString(getColumnIndex(MediaStore.Audio.Media.ALBUM)),
+                getInt(getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS))
+        )
+    }
+
+
 }

@@ -19,7 +19,7 @@ class SongsViewModel @Inject constructor(repository: SongsRepository, private va
     init {
         try {
             viewModelScope.launch {
-                val songs = repository.getSongs()
+                val songs = repository.all()
                 _songsLiveData.value = songs
                 Log.d(TAG, "NEw HOme View model")
             }
