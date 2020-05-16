@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import com.mediaplayer.repository.Album
+import com.mediaplayer.repository.Artist
 import com.mediaplayer.repository.Song
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -27,6 +28,19 @@ class SongsRepository @Inject constructor(private val application: Application, 
         return application.contentResolver.query(
                 MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection,
                 null, null, MediaStore.Audio.Albums.ALBUM + " ASC")
+    }
+
+    private fun artistCursor(): Cursor? {
+        val projection = arrayOf(MediaStore.Audio.Artists._ID,
+                MediaStore.Audio.Artists.ARTIST,
+                MediaStore.Audio.Artists.NUMBER_OF_TRACKS)
+
+        return application.contentResolver.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI,
+                projection,
+                null,
+                null,
+                MediaStore.Audio.Artists.ARTIST + " ASC")
+
     }
 
     suspend fun all() = withContext(ioDispatcher) {
@@ -57,6 +71,21 @@ class SongsRepository @Inject constructor(private val application: Application, 
             c.close()
         }
         albums
+    }
+
+    suspend fun artists() = withContext(ioDispatcher) {
+        val artists = mutableListOf<Artist>()
+        val c = artistCursor()
+        c?.apply {
+            this.moveToFirst()
+            while (!this.isAfterLast) {
+                val item = c.toArtist()
+                artists.add(item)
+                this.moveToNext()
+            }
+            c.close()
+        }
+        artists
     }
 
 
@@ -93,6 +122,14 @@ class SongsRepository @Inject constructor(private val application: Application, 
                 getString(getColumnIndex(MediaStore.Audio.Media._ID)),
                 getString(getColumnIndex(MediaStore.Audio.Media.ALBUM)),
                 getInt(getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS))
+        )
+    }
+
+    private fun Cursor.toArtist(): Artist {
+        return Artist(
+                getString(getColumnIndex(MediaStore.Audio.Artists._ID)),
+                getString(getColumnIndex(MediaStore.Audio.Artists.ARTIST)),
+                getInt(getColumnIndex(MediaStore.Audio.Artists.NUMBER_OF_TRACKS))
         )
     }
 

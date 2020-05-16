@@ -144,9 +144,6 @@ class HomeActivity : BaseActivity() {
                 getString(R.string.albums)
             }
             2 -> {
-                getString(R.string.playlist)
-            }
-            3 -> {
                 getString(R.string.artists)
             }
             else -> {
