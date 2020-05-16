@@ -5,6 +5,8 @@ import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.activities.home.HomeActivityViewModel
 import com.mediaplayer.db.SongsRepository
 import com.mediaplayer.player.PlayerController
+import com.mediaplayer.ui.albums.AlbumsViewModel
+import com.mediaplayer.ui.artist.ArtistViewModel
 import com.mediaplayer.ui.now.playing.NowPlayingViewModel
 import com.mediaplayer.ui.songs.SongsViewModel
 import dagger.MapKey
@@ -38,6 +40,20 @@ class ViewModelModule {
     @ViewModelKey(HomeActivityViewModel::class)
     fun homeActivityViewModel(playerController: PlayerController): ViewModel {
         return HomeActivityViewModel(playerController)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(AlbumsViewModel::class)
+    fun albumsVideModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
+        return AlbumsViewModel(songsRepository, playerController)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(ArtistViewModel::class)
+    fun artistsViewModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
+        return ArtistViewModel(songsRepository, playerController)
     }
 
     @Provides

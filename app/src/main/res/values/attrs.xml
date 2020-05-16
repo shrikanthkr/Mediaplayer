@@ -14,5 +14,6 @@
     <attr name="colorOnTabBackground" format="color" />
     <attr name="colorTabIndicator" format="color" />
     <attr name="downArrowTint" format="color" />
+    <attr name="colorDivider" format="color" />
 
 </resources>

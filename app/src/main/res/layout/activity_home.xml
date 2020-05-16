@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,15 +21,6 @@
             android:text="@string/songs"
             app:layout_scrollFlags="scroll" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            style="@style/AppWidget.Tabs"
-            android:layout_width="match_parent"
-            android:elevation="0dp"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="enterAlways">
-
-        </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

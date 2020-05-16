@@ -23,6 +23,12 @@
     <string name="play_icon_description">Play Pause Icon</string>
     <string name="next">next</string>
     <string name="previous">previous</string>
+    <string name="permision_request_title">External Storage Permission</string>
+    <string name="permision_request_description">Hi, as our app heavily depends on songs on the local device we request you to enable permissions for storage</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="channel_id">com.em.media.soundchannel</string>
+    <string name="channel_name">Player Notification</string>
+    <string name="divider_description">divider_description</string>
 
 
 </resources>

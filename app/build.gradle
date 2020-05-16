@@ -32,6 +32,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
     implementation "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle"
     implementation "com.google.android.material:material:$versions.material"
@@ -40,10 +41,12 @@ dependencies {
     implementation "jp.wasabeef:glide-transformations:$versions.glideTransformations"
     implementation "com.steiner.videolan:libvlc-android:$versions.vlc"
     implementation project(":repository")
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
 
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
 
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"

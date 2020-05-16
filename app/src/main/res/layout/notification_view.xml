@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/medium_margin"
+    android:theme="@style/Theme.Light"
+    app:theme="@style/Theme.Light">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:contentDescription="@string/play_icon_description"
+        android:src="@mipmap/ic_launcher"
+        tools:ignore="RtlSymmetry" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/tiny_margin"
+        android:layout_marginRight="@dimen/tiny_margin"
+        android:layout_toStartOf="@+id/play_pause_image"
+        android:layout_toEndOf="@+id/icon"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingEnd="@dimen/tiny_margin"
+        android:textColor="?attr/colorOnBackground"
+        tools:ignore="RtlSymmetry"
+        tools:text="@string/play_icon_description" />
+
+    <ImageView
+        android:id="@+id/play_pause"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/play_icon_description"
+        android:focusable="true"
+        android:tint="?attr/colorPrimary"
+        tools:ignore="RtlSymmetry" />
+
+
+</RelativeLayout>

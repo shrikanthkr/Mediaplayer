@@ -9,16 +9,16 @@ data class Song(val title: String,
                 val album: String,
                 val id: String,
                 val displayName: String,
-                val data: String,
+                val uri: Uri,
                 val duration: Long,
                 val album_art: String,
                 val album_id: String,
                 val playlist: String? = null) {
-    companion object
-}
+    val albumArtPath: Uri by lazy {
+        ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), id.toLong())
+    }
 
-fun Song.albumArtPath(): Uri {
-    return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), id.toLong())
+    companion object
 }
 
 
