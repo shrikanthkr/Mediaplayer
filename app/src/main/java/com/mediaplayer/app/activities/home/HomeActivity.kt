@@ -126,23 +126,6 @@ class HomeActivity : BaseActivity() {
 
     }
 
-    private fun getTitleText(position: Int): String {
-        return when (position) {
-            0 -> {
-                getString(R.string.songs)
-            }
-            1 -> {
-                getString(R.string.albums)
-            }
-            2 -> {
-                getString(R.string.artists)
-            }
-            else -> {
-                getString(R.string.songs)
-            }
-        }
-    }
-
     override fun onBackPressed() {
         when {
             bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED -> {
