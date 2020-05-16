@@ -12,7 +12,6 @@ import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.databinding.FragmentArtistsBinding
 import com.mediaplayer.app.di.components.FragmentComponent
 import com.mediaplayer.ui.BaseFragment
-import com.mediaplayer.ui.albums.ArtistsRecyclerAdapter
 import javax.inject.Inject
 
 /**

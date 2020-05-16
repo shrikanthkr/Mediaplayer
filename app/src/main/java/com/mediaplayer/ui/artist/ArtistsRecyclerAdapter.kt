@@ -1,11 +1,10 @@
-package com.mediaplayer.ui.albums
+package com.mediaplayer.ui.artist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mediaplayer.app.R
 import com.mediaplayer.repository.Artist
-import com.mediaplayer.ui.songs.ArtistItemViewHolder
 
 class ArtistsRecyclerAdapter(private val artists: List<Artist>, private val callback: (Artist) -> Unit) : RecyclerView.Adapter<ArtistItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistItemViewHolder {
@@ -24,8 +23,6 @@ class ArtistsRecyclerAdapter(private val artists: List<Artist>, private val call
                 this@ArtistsRecyclerAdapter.callback(this)
             }
         }
-
-
     }
 
 }

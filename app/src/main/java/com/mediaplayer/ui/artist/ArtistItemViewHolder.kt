@@ -1,12 +1,10 @@
-package com.mediaplayer.ui.songs
+package com.mediaplayer.ui.artist
 
-import android.net.Uri
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mediaplayer.app.R
-import com.mediaplayer.app.utils.load
 
 class ArtistItemViewHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
 
@@ -15,10 +13,6 @@ class ArtistItemViewHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemVi
 
     fun setTitle(title: String) {
         this.title.text = title
-    }
-
-    fun setAlbumArt(uri: Uri) {
-        albumArt.load(uri)
     }
 
 }
