@@ -17,7 +17,6 @@ import com.mediaplayer.app.di.components.FragmentComponent
 import com.mediaplayer.app.models.PlayerState.Paused
 import com.mediaplayer.app.models.PlayerState.Playing
 import com.mediaplayer.app.utils.load
-import com.mediaplayer.repository.albumArtPath
 import com.mediaplayer.repository.formattedDuration
 import com.mediaplayer.ui.BaseFragment
 import javax.inject.Inject
@@ -53,7 +52,7 @@ class NowPlayingFragment : BaseFragment() {
                 viewBinding.album.text = it.album
                 viewBinding.songTitle.text = it.title
                 viewBinding.artistTitle.text = it.artist
-                viewBinding.albumImage.load(it.albumArtPath())
+                viewBinding.albumImage.load(it.albumArtPath)
                 viewBinding.playerSeekbar.max = it.duration.toInt()
             }
         })

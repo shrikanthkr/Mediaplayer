@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mediaplayer.app.R
 import com.mediaplayer.repository.Song
-import com.mediaplayer.repository.albumArtPath
 
 class SongsRecyclerAdapter(private val songs: List<Song>, private val callback: (Song) -> Unit) : RecyclerView.Adapter<SongsItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongsItemViewHolder {
@@ -21,7 +20,7 @@ class SongsRecyclerAdapter(private val songs: List<Song>, private val callback: 
         songs[position].run {
             holder.setTitle(title)
             holder.setSubTitle(artist)
-            holder.setAlbumArt(albumArtPath())
+            holder.setAlbumArt(albumArtPath)
             holder.itemView.setOnClickListener {
                 this@SongsRecyclerAdapter.callback(this)
             }

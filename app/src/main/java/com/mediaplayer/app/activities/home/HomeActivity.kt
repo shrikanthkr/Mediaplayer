@@ -24,7 +24,6 @@ import com.mediaplayer.app.activities.BaseActivity
 import com.mediaplayer.app.activities.home.PermissionsHandler.Permission.DeniedPermission
 import com.mediaplayer.app.activities.home.PermissionsHandler.Permission.Granted
 import com.mediaplayer.app.models.PlayerState.Playing
-import com.mediaplayer.repository.albumArtPath
 import com.mediaplayer.repository.formattedDuration
 import com.mediaplayer.ui.customview.PlayerSnackBarContainer
 import com.mediaplayer.ui.notifications.NotificationService
@@ -131,7 +130,7 @@ class HomeActivity : BaseActivity() {
         viewModel.currentSong.observe(this, Observer {
             snackBar.show()
             snackBar.setTitle(it.title)
-            snackBar.loadAlbumArt(it.albumArtPath())
+            snackBar.loadAlbumArt(it.albumArtPath)
         })
 
     }
