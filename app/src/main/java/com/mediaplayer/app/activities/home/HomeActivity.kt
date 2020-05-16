@@ -17,8 +17,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.mediaplayer.app.R
 import com.mediaplayer.app.ViewModelFactory
 import com.mediaplayer.app.ViewPagerAdapter
@@ -40,7 +38,6 @@ class HomeActivity : BaseActivity() {
 
     private lateinit var activityHome: CoordinatorLayout
     private lateinit var viewPager2: ViewPager2
-    private lateinit var tabs: TabLayout
     private lateinit var title: TextView
     private lateinit var nowPlaying: NowPlayingFragment
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
@@ -59,8 +56,7 @@ class HomeActivity : BaseActivity() {
         setContentView(R.layout.activity_home)
         viewPager2 = findViewById(R.id.view_pager)
         activityHome = findViewById(R.id.activity_home)
-        tabs = findViewById(R.id.tabs)
-        tabs.isTabIndicatorFullWidth = false
+
         title = findViewById(R.id.title)
         nowPlaying = supportFragmentManager.findFragmentById(R.id.now_playing) as NowPlayingFragment
         bottomSheetBehavior = BottomSheetBehavior.from(nowPlaying.requireView())
@@ -96,9 +92,7 @@ class HomeActivity : BaseActivity() {
 
     private fun render() {
         viewPager2.adapter = ViewPagerAdapter(this)
-        TabLayoutMediator(tabs, viewPager2) { tab, position ->
-            tab.text = getTitleText(position)
-        }.attach()
+
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
