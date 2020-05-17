@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/now_playing"
-        android:name="com.mediaplayer.ui.now.playing.NowPlayingFragment"
+        android:name="com.em.ui.now.playing.NowPlayingFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
