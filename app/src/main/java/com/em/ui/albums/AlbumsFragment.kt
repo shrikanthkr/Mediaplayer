@@ -13,6 +13,7 @@ import com.em.app.activities.home.HomeActivityViewModel
 import com.em.app.databinding.FragmentAlbumsBinding
 import com.em.app.di.components.FragmentComponent
 import com.em.ui.BaseFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 /**
@@ -22,6 +23,7 @@ import javax.inject.Inject
  * Use the [AlbumsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@ExperimentalCoroutinesApi
 class AlbumsFragment : BaseFragment() {
 
 
@@ -50,12 +52,13 @@ class AlbumsFragment : BaseFragment() {
         return viewBinding.root
     }
 
+    @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.albums.layoutManager = GridLayoutManager(requireContext(), 2)
         viewmodel.albums.observe(viewLifecycleOwner, Observer {
-            viewBinding.albums.adapter = AlbumsRecyclerAdapter(it) {
-
+            viewBinding.albums.adapter = AlbumsRecyclerAdapter(it) { album ->
+                viewmodel.playAlbum(album)
             }
         })
 

@@ -20,7 +20,7 @@ class SongsRepository @Inject constructor(private val application: Application, 
     val queue = mutableListOf<Song>()
     private var currentIndex = -1
 
-    private fun songsCursor(): Cursor? {
+    private fun songsCursor(selection: String? = null): Cursor? {
         return application.contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection,
                 selection, null, sort)
@@ -94,6 +94,22 @@ class SongsRepository @Inject constructor(private val application: Application, 
         artists
     }
 
+    suspend fun songs(album: Album) = withContext(ioDispatcher) {
+        val songsInfo = mutableListOf<Song>()
+        val query = MediaStore.Audio.Media.ALBUM_ID + " = '" + album.id + "'"
+        val c = songsCursor(query)
+        c?.apply {
+            this.moveToFirst()
+            while (!this.isAfterLast) {
+                val item = this.toSong()
+                songsInfo.add(item)
+                this.moveToNext()
+            }
+            c.close()
+        }
+        songsInfo
+    }
+
     fun next(): Song? {
         return if (queue.size - 1 > currentIndex) {
             currentIndex += 1
@@ -121,6 +137,11 @@ class SongsRepository @Inject constructor(private val application: Application, 
     fun addAtStart(song: Song) = scope.launch {
         currentIndex = 0
         queue.add(0, song)
+    }
+
+
+    fun clear() {
+        queue.clear()
     }
 
 

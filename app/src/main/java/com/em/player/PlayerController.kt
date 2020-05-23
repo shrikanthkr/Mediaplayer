@@ -109,6 +109,19 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
         }
     }
 
+    fun queue(song: Song) {
+        respository.queue(song)
+    }
+
+    fun clear() {
+        pause()
+        respository.clear()
+    }
+
+    private fun stop() {
+        playerAdapter
+    }
+
     private fun play(song: Song) {
         scope.launch {
             _currentSongChannel.send(song)
@@ -120,10 +133,6 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
         scope.launch {
             _channel.send(state)
         }
-    }
-
-    fun queue(song: Song) {
-        respository.queue(song)
     }
 
     companion object {
