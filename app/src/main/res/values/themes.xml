@@ -25,6 +25,8 @@
         <item name="colorTabIndicator">?attr/colorPrimaryVariant</item>
         <item name="downArrowTint">@color/gray</item>
         <item name="colorDivider">@color/lightGray</item>
+        <item name="tintBackground">@color/lightGray</item>
+        <item name="tintOnBackground">@color/orange</item>
 
         <item name="android:textColorPrimary">?attr/colorOnSecondary</item>
 

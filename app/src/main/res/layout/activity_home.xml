@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:elevation="0dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="0dp">
 
         <TextView
             android:id="@+id/title"
@@ -31,6 +31,19 @@
         android:layout_height="wrap_content"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/current_page_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/medium_margin"
+        android:src="@drawable/ic_album"
+        android:tint="?attr/tintOnBackground"
+        app:tint="?attr/tintOnBackground"
+        app:backgroundTint="?attr/tintBackground"
+        app:fabSize="mini"
+        android:contentDescription="@string/album_image_description" />
 
     <fragment
         android:id="@+id/now_playing"

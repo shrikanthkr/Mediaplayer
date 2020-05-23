@@ -22,12 +22,15 @@ import com.em.app.ViewPagerAdapter
 import com.em.app.activities.BaseActivity
 import com.em.app.activities.home.PermissionsHandler.Permission.DeniedPermission
 import com.em.app.activities.home.PermissionsHandler.Permission.Granted
+import com.em.app.behaviors.AppbarOffsetChangeListener
 import com.em.app.models.PlayerState.Playing
 import com.em.repository.formattedDuration
 import com.em.ui.customview.PlayerSnackBarContainer
 import com.em.ui.notifications.NotificationService
 import com.em.ui.now.playing.NowPlayingFragment
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
 
@@ -39,7 +42,9 @@ class HomeActivity : BaseActivity() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var nowPlaying: NowPlayingFragment
     private lateinit var title: TextView
+    private lateinit var pageIndicator: FloatingActionButton
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    private lateinit var appbarLayout: AppBarLayout
     private lateinit var snackBar: PlayerSnackBarContainer
     private lateinit var permissionsHandler: PermissionsHandler
 
@@ -59,6 +64,8 @@ class HomeActivity : BaseActivity() {
         nowPlaying = supportFragmentManager.findFragmentById(R.id.now_playing) as NowPlayingFragment
         bottomSheetBehavior = BottomSheetBehavior.from(nowPlaying.requireView())
         title = findViewById(R.id.title)
+        appbarLayout = findViewById(R.id.app_bar_layout)
+        pageIndicator = findViewById(R.id.current_page_indicator)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeActivityViewModel::class.java)
         snackBar = PlayerSnackBarContainer.make(this.viewPager2)
         snackBar.view.setOnClickListener(snackBarClick)
@@ -80,6 +87,7 @@ class HomeActivity : BaseActivity() {
                 }
             }
         })
+        appbarLayout.addOnOffsetChangedListener((AppbarOffsetChangeListener(pageIndicator)))
         startService(Intent(this.applicationContext, NotificationService::class.java))
     }
 
@@ -101,6 +109,7 @@ class HomeActivity : BaseActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 title.text = getTitleText(position)
+                pageIndicator.setImageResource(getIcon(position))
             }
         })
 
@@ -171,6 +180,15 @@ class HomeActivity : BaseActivity() {
             else -> {
                 getString(R.string.songs)
             }
+        }
+    }
+
+    private fun getIcon(position: Int): Int {
+        return when (position) {
+            0 -> R.drawable.ic_music_note
+            1 -> R.drawable.ic_album
+            2 -> R.drawable.ic_atrist
+            else -> R.drawable.ic_music_note
         }
     }
 
