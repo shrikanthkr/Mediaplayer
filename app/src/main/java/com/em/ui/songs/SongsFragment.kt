@@ -50,8 +50,8 @@ class SongsFragment : BaseFragment() {
         viewModel.songsLiveData.observe(viewLifecycleOwner, Observer {
             viewBinding.homeRecyclerView.adapter = SongsRecyclerAdapter(it, { song ->
                 viewModel.play(song)
-            }, {
-
+            }, { song ->
+                viewModel.addToQueue(song)
             })
         })
 

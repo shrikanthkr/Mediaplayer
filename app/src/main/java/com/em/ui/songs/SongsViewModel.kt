@@ -33,6 +33,10 @@ class SongsViewModel @Inject constructor(private val repository: SongsRepository
         repository.playNow(song)
     }
 
+    fun addToQueue(son: Song) = viewModelScope.launch {
+        repository.queue(son)
+    }
+
     companion object {
         const val TAG = "HomeViewModel"
     }
