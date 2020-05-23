@@ -121,7 +121,7 @@ class SongsRepository @Inject constructor(private val application: Application, 
 
 
     fun previous(): Song? {
-        return if (currentIndex > 1) {
+        return if (currentIndex >= 1) {
             currentIndex -= 1
             queue[currentIndex]
         } else {

@@ -52,7 +52,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@id/text_container"
         app:layout_constraintTop_toBottomOf="@id/title_container"
-        tools:src="@drawable/ic_album"
+        android:src="@drawable/ic_album"
         tools:tint="@color/gray" />
 
     <LinearLayout
@@ -142,6 +142,7 @@
             android:clickable="true"
             android:contentDescription="@string/previous"
             android:focusable="true"
+            android:padding="@dimen/medium_margin"
             android:src="@drawable/ic_skip_previous" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -162,6 +163,7 @@
             android:clickable="true"
             android:contentDescription="@string/next"
             android:focusable="true"
+            android:padding="@dimen/medium_margin"
             android:src="@drawable/ic_skip_next" />
 
     </LinearLayout>
