@@ -74,7 +74,7 @@ class HomeActivity : BaseActivity() {
         if (savedInstanceState == null) {
             viewModel.updateState(BottomSheetBehavior.STATE_HIDDEN)
         } else {
-            bottomSheetBehavior.onRestoreInstanceState(activityHome, nowPlaying.requireView(), savedInstanceState.getParcelable(BOTTOM_SHEET_STATE)!!)
+            bottomSheetBehavior.onRestoreInstanceState(activityHome, nowPlaying.requireView(), requireNotNull(savedInstanceState.getParcelable(BOTTOM_SHEET_STATE)))
         }
         permissionsHandler.permissionAvailable.observe(this, Observer {
             when (it) {
