@@ -20,7 +20,11 @@ class SearchViewModel @Inject constructor(private val repository: SongsRepositor
 
     fun search(query: String) {
         viewModelScope.launch {
-            _songsLiveData.value = repository.search(query)
+            if (query.isNotEmpty()) {
+                _songsLiveData.value = repository.search(query)
+            } else {
+                _songsLiveData.value = emptyList()
+            }
         }
     }
 
