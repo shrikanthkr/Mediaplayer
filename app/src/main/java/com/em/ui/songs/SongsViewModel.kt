@@ -20,9 +20,6 @@ class SongsViewModel @Inject constructor(repository: SongsRepository, private va
         try {
             viewModelScope.launch {
                 val songs = repository.all()
-                (1..5).forEach {
-                    songs.addAll(songs)
-                }
                 _songsLiveData.value = songs
                 Log.d(TAG, "NEw HOme View model")
             }
