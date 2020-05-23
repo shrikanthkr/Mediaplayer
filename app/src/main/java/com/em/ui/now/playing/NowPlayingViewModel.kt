@@ -28,7 +28,7 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
 
     init {
         viewModelScope.launch {
-            playerController.channel.collect {
+            playerController.playerState.collect {
                 _playerState.value = it
             }
         }

@@ -20,10 +20,10 @@ import javax.inject.Singleton
 @Singleton
 class PlayerController @Inject constructor(private val playerAdapter: PlayerAdapter, private val scope: CoroutineScope, private val respository: SongsRepository) {
 
-    private val _channel = ConflatedBroadcastChannel<PlayerState>()
+    private val _playerState = ConflatedBroadcastChannel<PlayerState>()
 
     @FlowPreview
-    val channel = _channel.asFlow()
+    val playerState = _playerState.asFlow()
 
     private val _currentSongChannel = ConflatedBroadcastChannel<Song>()
     val currentSongChannel = _currentSongChannel.asFlow()
@@ -38,33 +38,33 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
 
             override fun onPause() {
                 Log.d(TAG, "Pause")
-                val previousState = requireNotNull(_channel.value) as Playing
+                val previousState = requireNotNull(_playerState.value) as Playing
                 dispatch(Paused(previousState.song, previousState.progress))
             }
 
             override fun onProgress(progress: Long) {
-                when (_channel.value) {
+                when (_playerState.value) {
                     is Playing -> {
-                        val previousState = requireNotNull(_channel.value) as Playing
+                        val previousState = requireNotNull(_playerState.value) as Playing
                         dispatch(Playing(previousState.song, progress))
                     }
                     is Paused -> {
-                        val previousState = requireNotNull(_channel.value) as Paused
+                        val previousState = requireNotNull(_playerState.value) as Paused
                         dispatch(Playing(previousState.song, progress))
                     }
                     else -> {
-                        val previousState = requireNotNull(_channel.value) as Started
+                        val previousState = requireNotNull(_playerState.value) as Started
                         dispatch(Playing(previousState.song, progress))
                     }
                 }
             }
 
             override fun onEnd() {
-                if (_channel.value is Playing) {
-                    val previousState = requireNotNull(_channel.value) as Playing
+                if (_playerState.value is Playing) {
+                    val previousState = requireNotNull(_playerState.value) as Playing
                     dispatch(Completed(previousState.song))
                 } else {
-                    val previousState = requireNotNull(_channel.value) as Paused
+                    val previousState = requireNotNull(_playerState.value) as Paused
                     dispatch(Completed(previousState.song))
                 }
                 next()
@@ -132,7 +132,7 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
 
     private fun dispatch(state: PlayerState) {
         scope.launch {
-            _channel.send(state)
+            _playerState.send(state)
         }
     }
 

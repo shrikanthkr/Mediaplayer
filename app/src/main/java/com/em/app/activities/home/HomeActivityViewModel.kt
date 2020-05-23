@@ -32,7 +32,7 @@ class HomeActivityViewModel(private val playerController: PlayerController, priv
 
     init {
         viewModelScope.launch {
-            playerController.channel.collect {
+            playerController.playerState.collect {
                 Log.d(TAG, "Collecting player state $it")
                 _playerState.value = it
             }
