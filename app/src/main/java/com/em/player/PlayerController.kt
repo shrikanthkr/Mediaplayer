@@ -118,9 +118,6 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
         respository.clear()
     }
 
-    private fun stop() {
-        playerAdapter
-    }
 
     private fun play(song: Song) {
         scope.launch {
