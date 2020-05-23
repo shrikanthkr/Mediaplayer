@@ -134,6 +134,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
+            android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -146,9 +147,11 @@
             android:layout_height="wrap_content"
             app:backgroundTint="?attr/colorPrimary"
             app:srcCompat="@drawable/ic_play_arrow"
-            app:tint="?attr/colorOnPrimary" />
+            app:tint="?attr/colorOnPrimary"
+            android:contentDescription="@string/play_icon_description" />
 
         <ImageView
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

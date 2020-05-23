@@ -13,7 +13,6 @@ import com.em.app.ViewModelFactory
 import com.em.app.activities.home.HomeActivityViewModel
 import com.em.app.databinding.FragmentSongsBinding
 import com.em.app.di.components.FragmentComponent
-import com.em.repository.Song
 import com.em.ui.BaseFragment
 import javax.inject.Inject
 
@@ -48,10 +47,12 @@ class SongsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.homeRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
-        viewModel.songsLiveData.observe(viewLifecycleOwner, Observer<List<Song>> {
-            viewBinding.homeRecyclerView.adapter = SongsRecyclerAdapter(it) { song ->
+        viewModel.songsLiveData.observe(viewLifecycleOwner, Observer {
+            viewBinding.homeRecyclerView.adapter = SongsRecyclerAdapter(it, { song ->
                 viewModel.play(song)
-            }
+            }, {
+
+            })
         })
 
         homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {

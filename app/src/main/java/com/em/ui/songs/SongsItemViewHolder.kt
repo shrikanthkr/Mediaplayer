@@ -1,29 +1,29 @@
 package com.em.ui.songs
 
 import android.net.Uri
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.View
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.em.app.R
+import com.em.app.databinding.ViewholderHomeItemBinding
 import com.em.app.utils.load
 
-class SongsItemViewHolder(itemView: ViewGroup) : RecyclerView.ViewHolder(itemView) {
-
-    private var title: TextView = itemView.findViewById(R.id.title)
-    private var subTitle: TextView = itemView.findViewById(R.id.sub_title)
-    private var albumArt: ImageView = itemView.findViewById(R.id.album_art)
+class SongsItemViewHolder(private val itemBinding: ViewholderHomeItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
     fun setTitle(title: String) {
-        this.title.text = title
+        itemBinding.title.text = title
     }
 
     fun setSubTitle(title: String) {
-        this.subTitle.text = title
+        itemBinding.subTitle.text = title
     }
 
     fun setAlbumArt(uri: Uri) {
-        albumArt.load(uri)
+        itemBinding.albumArt.load(uri)
     }
+
+    fun setQueueClick(@NonNull l: View.OnClickListener) {
+        itemBinding.queue.setOnClickListener(l)
+    }
+
 
 }

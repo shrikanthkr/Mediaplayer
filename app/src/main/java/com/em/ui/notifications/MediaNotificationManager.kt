@@ -52,7 +52,7 @@ class MediaNotificationManager(private val context: Context, private val control
 
     init {
         prepareNotification()
-        controller.currentSong.observeForever(currentSongObserver)
+        //controller.currentSong.observeForever(currentSongObserver)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             controller.playerState.observeForever(playerStateObserver)
         }

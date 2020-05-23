@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.em.app.di.scopes.FragmentScope
 import com.em.db.SongsRepository
-import com.em.player.PlayerController
 import com.em.repository.Song
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @FragmentScope
-class SongsViewModel @Inject constructor(repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
+class SongsViewModel @Inject constructor(private val repository: SongsRepository) : ViewModel() {
     private val _songsLiveData = MutableLiveData<List<Song>>()
     val songsLiveData = _songsLiveData
 
@@ -30,8 +29,8 @@ class SongsViewModel @Inject constructor(repository: SongsRepository, private va
     }
 
 
-    fun play(song: Song) {
-        playerController.play(song)
+    fun play(song: Song) = viewModelScope.launch {
+        repository.playNow(song)
     }
 
     companion object {

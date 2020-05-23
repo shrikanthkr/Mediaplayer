@@ -13,13 +13,12 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
     private val _playerState = MutableLiveData<PlayerState>()
     val playerState = _playerState
 
-    private val _currentSong = MutableLiveData<Song>()
-    val currentSong = _currentSong
+    private var _currentSong: Song? = null
 
     init {
         playerAdapter.addListener(object : PlayerListener {
             override fun onStart() {
-                playerState.value = Started(requireNotNull(_currentSong.value))
+                playerState.value = Started(requireNotNull(_currentSong))
                 Log.d(TAG, "Start")
             }
 
@@ -67,7 +66,7 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
 
     fun play(song: Song) {
         playerAdapter.play(song.uri)
-        _currentSong.value = song
+        _currentSong = song
         _playerState.value = Playing(song, 0)
     }
 
@@ -83,9 +82,6 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
         playerAdapter.seek(position)
     }
 
-    fun clear() {
-        playerAdapter.clear()
-    }
 
     companion object {
         const val TAG = "PlayerController"

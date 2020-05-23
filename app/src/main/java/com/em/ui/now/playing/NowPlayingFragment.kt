@@ -84,6 +84,13 @@ class NowPlayingFragment : BaseFragment() {
         viewBinding.playPause.setOnClickListener {
             viewModel.togglePlay()
         }
+        viewBinding.next.setOnClickListener {
+            viewModel.next()
+        }
+        viewBinding.previous.setOnClickListener {
+            viewModel.previous()
+        }
+
     }
 
 }

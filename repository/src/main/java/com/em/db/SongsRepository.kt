@@ -5,14 +5,24 @@ import android.app.Application
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.em.repository.Album
 import com.em.repository.Artist
 import com.em.repository.Song
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher) {
+
+    val queue = mutableListOf<Song>()
+    private var currentIndex = -1
+
+    private val _currentSong = MutableLiveData<Song>()
+    val currentSong: LiveData<Song> = _currentSong
 
     private fun songsCursor(): Cursor? {
         return application.contentResolver.query(
@@ -88,10 +98,40 @@ class SongsRepository @Inject constructor(private val application: Application, 
         artists
     }
 
+    suspend fun next() = withContext(ioDispatcher) {
+        if (queue.size - 1 > currentIndex) {
+            currentIndex += 1
+            play(queue[currentIndex])
+        }
+    }
+
+
+    suspend fun previous() = withContext(ioDispatcher) {
+        if (currentIndex > 1) {
+            currentIndex -= 1
+            play(queue[currentIndex])
+        }
+    }
+
+
+    suspend fun queue(song: Song) = withContext(ioDispatcher) {
+        queue.add(song)
+    }
+
+    suspend fun playNow(song: Song) = withContext(ioDispatcher) {
+        currentIndex = 0
+        queue.add(0, song)
+        play(song)
+    }
+
+    private fun play(song: Song) {
+        _currentSong.postValue(song)
+    }
 
     companion object {
         const val sort = "LOWER(${MediaStore.Audio.Media.TITLE})"
         const val selection = "${MediaStore.Audio.Media.IS_MUSIC} != 0 AND LOWER(${MediaStore.Audio.Media.DISPLAY_NAME})  NOT LIKE  LOWER('%.wma') "
+
         @SuppressLint("InlinedApi")
         val projection = arrayOf(MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.ARTIST,

@@ -31,15 +31,15 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(SongsViewModel::class)
-    fun homeViewModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
-        return SongsViewModel(songsRepository, playerController)
+    fun homeViewModel(songsRepository: SongsRepository): ViewModel {
+        return SongsViewModel(songsRepository)
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(HomeActivityViewModel::class)
-    fun homeActivityViewModel(playerController: PlayerController): ViewModel {
-        return HomeActivityViewModel(playerController)
+    fun homeActivityViewModel(playerController: PlayerController, songsRepository: SongsRepository): ViewModel {
+        return HomeActivityViewModel(playerController, songsRepository)
     }
 
     @Provides
@@ -59,7 +59,7 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(NowPlayingViewModel::class)
-    fun nowPlayingViewModel(playerController: PlayerController): ViewModel {
-        return NowPlayingViewModel(playerController)
+    fun nowPlayingViewModel(playerController: PlayerController, songsRepository: SongsRepository): ViewModel {
+        return NowPlayingViewModel(playerController, songsRepository)
     }
 }

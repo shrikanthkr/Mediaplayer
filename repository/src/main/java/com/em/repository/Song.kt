@@ -4,21 +4,20 @@ import android.content.ContentUris
 import android.net.Uri
 
 
-data class Song(val title: String,
-                val artist: String,
-                val album: String,
-                val id: String,
-                val displayName: String,
-                val uri: Uri,
-                val duration: Long,
-                val album_art: String,
-                val album_id: String,
-                val playlist: String? = null) {
+data class Song(
+        val title: String,
+        val artist: String,
+        val album: String,
+        val id: String,
+        val displayName: String,
+        val uri: Uri,
+        val duration: Long,
+        val album_art: String,
+        val album_id: String,
+        val playlist: String? = null) {
     val albumArtPath: Uri by lazy {
         ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), id.toLong())
     }
-
-    companion object
 }
 
 
