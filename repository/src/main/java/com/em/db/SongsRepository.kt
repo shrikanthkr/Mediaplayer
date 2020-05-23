@@ -51,7 +51,7 @@ class SongsRepository @Inject constructor(private val application: Application, 
 
     suspend fun all() = withContext(ioDispatcher) {
         val songInfo = mutableListOf<Song>()
-        val c = songsCursor()
+        val c = songsCursor(selection)
         c?.apply {
             this.moveToFirst()
             while (!this.isAfterLast) {
