@@ -33,9 +33,7 @@ class ArtistViewModel @Inject constructor(private val repository: SongsRepositor
         viewModelScope.launch {
             val songs = repository.songs(artist)
             playerController.playNow(songs.removeFirst())
-            songs.forEach {
-                playerController.queue(it)
-            }
+            playerController.queueAll(songs)
         }
     }
 }

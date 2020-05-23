@@ -113,6 +113,10 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
         respository.queue(song)
     }
 
+    fun queueAll(songs: List<Song>) {
+        respository.queueAll(songs)
+    }
+
     fun clear() {
         pause()
         respository.clear()

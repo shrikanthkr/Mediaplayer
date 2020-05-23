@@ -10,6 +10,7 @@
         android:id="@+id/album_art_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_margin="10dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="0.5dp">
@@ -27,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_toStartOf="@id/queue"
+        android:layout_centerVertical="true"
         android:layout_toEndOf="@id/album_art_wrapper"
         android:orientation="vertical">
 
@@ -56,11 +58,11 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/medium_margin"
-        android:padding="@dimen/medium_margin"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:contentDescription="@string/add_widget"
         android:focusable="true"
+        android:padding="@dimen/medium_margin"
         android:src="@drawable/ic_queue_music"
         android:tint="?attr/tintOnBackground" />
 

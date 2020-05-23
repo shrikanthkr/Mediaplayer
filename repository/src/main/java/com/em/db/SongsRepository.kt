@@ -150,6 +150,12 @@ class SongsRepository @Inject constructor(private val application: Application, 
         queue.add(song)
     }
 
+
+    fun queueAll(songs: List<Song>) {
+        queue.addAll(songs)
+    }
+
+
     fun addAtStart(song: Song) = scope.launch {
         currentIndex = 0
         queue.add(0, song)
