@@ -3,6 +3,7 @@ package com.em.player
 import android.util.Log
 import com.em.app.models.PlayerState
 import com.em.app.models.PlayerState.*
+import com.em.db.SongsRepository
 import com.em.repository.Song
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,53 +15,46 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 @Singleton
-class PlayerController @Inject constructor(private val playerAdapter: PlayerAdapter, scope: CoroutineScope) {
+class PlayerController @Inject constructor(private val playerAdapter: PlayerAdapter, private val scope: CoroutineScope, private val respository: SongsRepository) {
 
     private val _channel = ConflatedBroadcastChannel<PlayerState>()
 
     @FlowPreview
     val channel = _channel.asFlow()
 
-    private var _currentSong: Song? = null
+    private val _currentSongChannel = ConflatedBroadcastChannel<Song>()
+    val currentSongChannel = _currentSongChannel.asFlow()
+
 
     init {
         playerAdapter.addListener(object : PlayerListener {
             override fun onStart() {
-                scope.launch {
-                    _channel.send(Started(requireNotNull(_currentSong)))
-                }
+                dispatch(Started(requireNotNull(_currentSongChannel.value)))
                 Log.d(TAG, "Start")
             }
 
             override fun onPause() {
                 Log.d(TAG, "Pause")
                 val previousState = requireNotNull(_channel.value) as Playing
-                scope.launch {
-                    _channel.send(Paused(previousState.song, previousState.progress))
-                }
+                dispatch(Paused(previousState.song, previousState.progress))
             }
 
             override fun onProgress(progress: Long) {
                 when (_channel.value) {
                     is Playing -> {
                         val previousState = requireNotNull(_channel.value) as Playing
-                        scope.launch {
-                            _channel.send(Playing(previousState.song, progress))
-                        }
+                        dispatch(Playing(previousState.song, progress))
                     }
                     is Paused -> {
                         val previousState = requireNotNull(_channel.value) as Paused
-                        scope.launch {
-                            _channel.send(Playing(previousState.song, progress))
-                        }
+                        dispatch(Playing(previousState.song, progress))
                     }
                     else -> {
                         val previousState = requireNotNull(_channel.value) as Started
-                        scope.launch {
-                            _channel.send(Playing(previousState.song, progress))
-                        }
+                        dispatch(Playing(previousState.song, progress))
                     }
                 }
             }
@@ -68,34 +62,23 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
             override fun onEnd() {
                 if (_channel.value is Playing) {
                     val previousState = requireNotNull(_channel.value) as Playing
-                    scope.launch {
-                        _channel.send(Completed(previousState.song))
-                    }
+                    dispatch(Completed(previousState.song))
                 } else {
                     val previousState = requireNotNull(_channel.value) as Paused
-                    scope.launch {
-                        _channel.send(Completed(previousState.song))
-                    }
+                    dispatch(Completed(previousState.song))
                 }
+                next()
             }
 
             override fun onError() {
                 Log.d(TAG, "Erred")
-                scope.launch {
-                    _channel.send(Erred)
-                }
+                dispatch(Erred)
             }
 
         })
-        scope.launch {
-            _channel.send(Idle)
-        }
+        dispatch(Idle)
     }
 
-    fun play(song: Song) {
-        _currentSong = song
-        playerAdapter.play(song.uri)
-    }
 
     fun pause() {
         playerAdapter.pause()
@@ -109,6 +92,39 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
         playerAdapter.seek(position)
     }
 
+    fun next() {
+        respository.next()?.apply {
+            play(this)
+        }
+    }
+
+    fun playNow(song: Song) {
+        respository.addAtStart(song)
+        play(song)
+    }
+
+    fun previous() {
+        respository.previous()?.apply {
+            play(this)
+        }
+    }
+
+    private fun play(song: Song) {
+        scope.launch {
+            _currentSongChannel.send(song)
+        }
+        playerAdapter.play(song.uri)
+    }
+
+    private fun dispatch(state: PlayerState) {
+        scope.launch {
+            _channel.send(state)
+        }
+    }
+
+    fun queue(song: Song) {
+        respository.queue(song)
+    }
 
     companion object {
         const val TAG = "PlayerController"

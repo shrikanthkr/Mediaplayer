@@ -1,11 +1,11 @@
 package com.em.app.activities.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.em.app.models.PlayerState
-import com.em.app.models.PlayerState.Completed
 import com.em.db.SongsRepository
 import com.em.player.PlayerController
 import com.em.repository.Song
@@ -33,17 +33,14 @@ class HomeActivityViewModel(private val playerController: PlayerController, priv
     init {
         viewModelScope.launch {
             playerController.channel.collect {
+                Log.d(TAG, "Collecting player state $it")
                 _playerState.value = it
-                when (it) {
-                    is Completed -> next()
-                    else -> Unit
-                }
             }
         }
 
         viewModelScope.launch {
-            songsRepository.currentSongChannel.collect {
-                playerController.play(it)
+            playerController.currentSongChannel.collect {
+                Log.d(TAG, "Collecting Current Song $it")
                 _currentSong.value = it
             }
         }
@@ -66,7 +63,11 @@ class HomeActivityViewModel(private val playerController: PlayerController, priv
     }
 
     fun next() = viewModelScope.launch {
-        songsRepository.next()
+        playerController.next()
+    }
+
+    companion object {
+        private val TAG = "HomeActivityViewModel"
     }
 }
 

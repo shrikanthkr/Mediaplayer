@@ -13,9 +13,13 @@ import dagger.MapKey
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Provider
 import kotlin.reflect.KClass
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Module
 class ViewModelModule {
     @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
@@ -31,8 +35,8 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(SongsViewModel::class)
-    fun homeViewModel(songsRepository: SongsRepository): ViewModel {
-        return SongsViewModel(songsRepository)
+    fun homeViewModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
+        return SongsViewModel(songsRepository, playerController)
     }
 
     @Provides

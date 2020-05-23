@@ -14,9 +14,13 @@ import com.em.app.activities.home.HomeActivityViewModel
 import com.em.app.databinding.FragmentSongsBinding
 import com.em.app.di.components.FragmentComponent
 import com.em.ui.BaseFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class SongsFragment : BaseFragment() {
 
 

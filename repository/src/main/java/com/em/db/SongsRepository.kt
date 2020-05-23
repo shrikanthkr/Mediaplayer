@@ -9,8 +9,6 @@ import com.em.repository.Album
 import com.em.repository.Artist
 import com.em.repository.Song
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,10 +19,6 @@ class SongsRepository @Inject constructor(private val application: Application, 
 
     val queue = mutableListOf<Song>()
     private var currentIndex = -1
-
-
-    private val _currentSongChannel = ConflatedBroadcastChannel<Song>()
-    val currentSongChannel = _currentSongChannel.asFlow()
 
     private fun songsCursor(): Cursor? {
         return application.contentResolver.query(
@@ -100,35 +94,35 @@ class SongsRepository @Inject constructor(private val application: Application, 
         artists
     }
 
-    suspend fun next() = withContext(ioDispatcher) {
-        if (queue.size - 1 > currentIndex) {
+    fun next(): Song? {
+        return if (queue.size - 1 > currentIndex) {
             currentIndex += 1
-            play(queue[currentIndex])
+            queue[currentIndex]
+        } else {
+            null
         }
     }
 
 
-    suspend fun previous() = withContext(ioDispatcher) {
-        if (currentIndex > 1) {
+    fun previous(): Song? {
+        return if (currentIndex > 1) {
             currentIndex -= 1
-            play(queue[currentIndex])
+            queue[currentIndex]
+        } else {
+            null
         }
     }
 
 
-    suspend fun queue(song: Song) = withContext(ioDispatcher) {
+    fun queue(song: Song) = scope.launch {
         queue.add(song)
     }
 
-    suspend fun playNow(song: Song) = withContext(ioDispatcher) {
+    fun addAtStart(song: Song) = scope.launch {
         currentIndex = 0
         queue.add(0, song)
-        play(song)
     }
 
-    private suspend fun play(song: Song) = withContext(ioDispatcher) {
-        _currentSongChannel.send(song)
-    }
 
     companion object {
         const val sort = "LOWER(${MediaStore.Audio.Media.TITLE})"

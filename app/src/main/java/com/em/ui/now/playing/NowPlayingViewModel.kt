@@ -34,7 +34,7 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
         }
 
         viewModelScope.launch {
-            songsRepository.currentSongChannel.collect {
+            playerController.currentSongChannel.collect {
                 _currentSong.value = it
             }
         }
@@ -53,15 +53,11 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
     }
 
     fun next() {
-        viewModelScope.launch {
-            songsRepository.next()
-        }
+        playerController.next()
     }
 
     fun previous() {
-        viewModelScope.launch {
-            songsRepository.previous()
-        }
+        playerController.previous()
     }
 
 
