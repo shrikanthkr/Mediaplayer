@@ -3,13 +3,15 @@ package com.em.app.activities.home
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.em.app.models.PlayerState
 import com.em.db.SongsRepository
 import com.em.player.PlayerController
 import com.em.repository.Song
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.launch
 
-class HomeActivityViewModel(private val playerController: PlayerController, songsRepository: SongsRepository) : ViewModel() {
+class HomeActivityViewModel(private val playerController: PlayerController, private val songsRepository: SongsRepository) : ViewModel() {
     private val _playingFragmentState = MutableLiveData<Int>()
     val playingFragmentState = _playingFragmentState
     val playerStateLiveData = playerController.playerState
@@ -39,6 +41,10 @@ class HomeActivityViewModel(private val playerController: PlayerController, song
 
     fun scrollTop(position: Int) {
         _scrollTo.value = position
+    }
+
+    fun next() = viewModelScope.launch {
+        songsRepository.next()
     }
 }
 

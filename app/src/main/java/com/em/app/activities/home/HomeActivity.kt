@@ -23,6 +23,7 @@ import com.em.app.activities.BaseActivity
 import com.em.app.activities.home.PermissionsHandler.Permission.DeniedPermission
 import com.em.app.activities.home.PermissionsHandler.Permission.Granted
 import com.em.app.behaviors.AppbarOffsetChangeListener
+import com.em.app.models.PlayerState.Completed
 import com.em.app.models.PlayerState.Playing
 import com.em.repository.formattedDuration
 import com.em.ui.customview.PlayerSnackBarContainer
@@ -123,6 +124,10 @@ class HomeActivity : BaseActivity() {
                 is Playing -> {
                     snackBar.setPlayIcon(R.drawable.ic_pause, playPauseClick)
                     snackBar.setDuration(it.progress.formattedDuration())
+                }
+                is Completed -> {
+                    snackBar.setPlayIcon(R.drawable.ic_play_arrow, playPauseClick)
+                    viewModel.next()
                 }
                 else -> {
                     snackBar.setPlayIcon(R.drawable.ic_play_arrow, playPauseClick)
