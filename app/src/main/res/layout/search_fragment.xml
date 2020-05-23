@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.em.ui.search.SearchFragment">
+
+    <EditText
+        android:id="@+id/edit_query"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="?attr/colorOnTabBackground"
+        android:textSize="@dimen/large_text_size"
+        tools:text="@string/add_widget"
+        android:focusable="true"
+        android:inputType="text"
+        android:hint="@string/search_title"
+        android:importantForAutofill="no" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/songs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

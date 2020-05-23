@@ -18,7 +18,12 @@ import com.em.app.activities.home.HomeActivity
 import com.em.app.models.PlayerState
 import com.em.player.PlayerController
 import com.em.repository.Song
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@ExperimentalCoroutinesApi
+@FlowPreview
+@ExperimentalStdlibApi
 class MediaNotificationManager(private val context: Context, private val controller: PlayerController, private val id: Int, notificationManager: NotificationManager) : BroadcastReceiver() {
 
 

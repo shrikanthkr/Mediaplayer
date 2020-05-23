@@ -58,6 +58,8 @@ dependencies {
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:$versions.localbroadcastManager"
     implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
     implementation "androidx.drawerlayout:drawerlayout:1.0.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"

@@ -126,6 +126,23 @@ class SongsRepository @Inject constructor(private val application: Application, 
         songsInfo
     }
 
+    suspend fun search(searchString: String) = withContext(ioDispatcher) {
+        val songsInfo = mutableListOf<Song>()
+        val query = "LOWER(${MediaStore.Audio.Media.TITLE} ) LIKE LOWER('$searchString%') "
+        val c = songsCursor(query)
+        c?.apply {
+            this.moveToFirst()
+            while (!this.isAfterLast) {
+                val item = this.toSong()
+                songsInfo.add(item)
+                this.moveToNext()
+            }
+            c.close()
+        }
+        songsInfo
+    }
+
+
     fun next(): Song? {
         return if (queue.size - 1 > currentIndex) {
             currentIndex += 1

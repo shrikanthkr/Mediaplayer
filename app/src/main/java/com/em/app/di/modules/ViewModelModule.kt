@@ -8,6 +8,7 @@ import com.em.player.PlayerController
 import com.em.ui.albums.AlbumsViewModel
 import com.em.ui.artist.ArtistViewModel
 import com.em.ui.now.playing.NowPlayingViewModel
+import com.em.ui.search.SearchViewModel
 import com.em.ui.songs.SongsViewModel
 import dagger.MapKey
 import dagger.Module
@@ -58,6 +59,13 @@ class ViewModelModule {
     @ViewModelKey(ArtistViewModel::class)
     fun artistsViewModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
         return ArtistViewModel(songsRepository, playerController)
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    fun searchViewModel(songsRepository: SongsRepository, playerController: PlayerController): ViewModel {
+        return SearchViewModel(songsRepository, playerController)
     }
 
     @Provides

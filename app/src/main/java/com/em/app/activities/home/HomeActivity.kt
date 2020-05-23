@@ -94,7 +94,9 @@ class HomeActivity : BaseActivity() {
         appbarLayout.addOnOffsetChangedListener((AppbarOffsetChangeListener(pageIndicator)))
         pageIndicator.setOnClickListener {
             viewModel.scrollTop(viewPager2.currentItem)
-            appbarLayout.setExpanded(true)
+            if (viewPager2.currentItem != 0) {
+                appbarLayout.setExpanded(true)
+            }
         }
         startService(Intent(this.applicationContext, NotificationService::class.java))
     }
@@ -115,6 +117,14 @@ class HomeActivity : BaseActivity() {
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                if (position == 0) {
+                    appbarLayout.setExpanded(false)
+                    appbarLayout.postDelayed({
+                        appbarLayout.visibility = View.GONE
+                    }, 300)
+                } else {
+                    appbarLayout.visibility = View.VISIBLE
+                }
                 title.text = getTitleText(position)
                 pageIndicator.setImageResource(getIcon(position))
             }
@@ -180,23 +190,17 @@ class HomeActivity : BaseActivity() {
 
     private fun getTitleText(position: Int): String {
         return when (position) {
-            1 -> {
-                getString(R.string.songs)
-            }
-            2 -> {
-                getString(R.string.albums)
-            }
-            3 -> {
-                getString(R.string.artists)
-            }
-            else -> {
-                getString(R.string.songs)
-            }
+            0 -> getString(R.string.search_title)
+            1 -> getString(R.string.songs)
+            2 -> getString(R.string.albums)
+            3 -> getString(R.string.artists)
+            else -> getString(R.string.songs)
         }
     }
 
     private fun getIcon(position: Int): Int {
         return when (position) {
+            0 -> R.drawable.ic_search
             1 -> R.drawable.ic_music_note
             2 -> R.drawable.ic_album
             3 -> R.drawable.ic_atrist

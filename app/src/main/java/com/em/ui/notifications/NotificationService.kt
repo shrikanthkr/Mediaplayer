@@ -9,8 +9,13 @@ import android.os.IBinder
 import android.util.Log
 import com.em.app.MediaApplication
 import com.em.player.PlayerController
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 
+@ExperimentalCoroutinesApi
+@FlowPreview
+@ExperimentalStdlibApi
 class NotificationService : Service() {
 
     private lateinit var controller: PlayerController

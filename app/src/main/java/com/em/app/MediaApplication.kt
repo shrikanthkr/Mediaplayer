@@ -9,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.GlobalScope
 
+@ExperimentalStdlibApi
 @SuppressLint("Registered")
 @FlowPreview
 @ExperimentalCoroutinesApi

@@ -19,6 +19,7 @@ import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 
+@ExperimentalStdlibApi
 @FlowPreview
 @ExperimentalCoroutinesApi
 class SongsFragment : BaseFragment() {

@@ -23,6 +23,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
+@ExperimentalStdlibApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 class NowPlayingFragment : BaseFragment() {
