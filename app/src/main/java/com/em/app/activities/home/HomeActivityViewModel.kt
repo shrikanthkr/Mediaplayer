@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 class HomeActivityViewModel(private val playerController: PlayerController, private val songsRepository: SongsRepository) : ViewModel() {
     private val _playingFragmentState = MutableLiveData<Int>()
     val playingFragmentState = _playingFragmentState
-    val playerStateLiveData = playerController.playerState
     val currentSong = MediatorLiveData<Song>()
+    val playerStateLiveData = MediatorLiveData<PlayerState>()
 
     private val _scrollTo = MutableLiveData<Int>()
     val scrollTo = _scrollTo
@@ -24,6 +24,14 @@ class HomeActivityViewModel(private val playerController: PlayerController, priv
         currentSong.addSource(songsRepository.currentSong) {
             playerController.play(it)
             currentSong.value = it
+        }
+
+        playerStateLiveData.addSource(playerController.playerState) {
+            playerStateLiveData.value = it
+            when (it) {
+                is PlayerState.Completed -> next()
+                else -> Unit
+            }
         }
     }
 

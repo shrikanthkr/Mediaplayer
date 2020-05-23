@@ -127,7 +127,6 @@ class HomeActivity : BaseActivity() {
                 }
                 is Completed -> {
                     snackBar.setPlayIcon(R.drawable.ic_play_arrow, playPauseClick)
-                    viewModel.next()
                 }
                 else -> {
                     snackBar.setPlayIcon(R.drawable.ic_play_arrow, playPauseClick)
