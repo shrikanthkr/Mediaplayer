@@ -7,23 +7,6 @@
     android:layout_alignParentTop="true">
 
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="0dp">
-
-        <TextView
-            style="@style/AppWidget.Title"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="top"
-            android:gravity="center"
-            android:text="@string/songs"
-            app:layout_scrollFlags="scroll" />
-
-
-    </com.google.android.material.appbar.AppBarLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView

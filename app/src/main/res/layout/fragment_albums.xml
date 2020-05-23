@@ -5,24 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.em.ui.albums.AlbumsFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:elevation="0dp"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/AppWidget.Title"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="top"
-            android:gravity="center"
-            android:text="@string/albums"
-            app:layout_scrollFlags="scroll" />
-
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/albums"

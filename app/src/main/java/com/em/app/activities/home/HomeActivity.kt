@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +38,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var activityHome: CoordinatorLayout
     private lateinit var viewPager2: ViewPager2
     private lateinit var nowPlaying: NowPlayingFragment
+    private lateinit var title: TextView
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     private lateinit var snackBar: PlayerSnackBarContainer
     private lateinit var permissionsHandler: PermissionsHandler
@@ -56,6 +58,7 @@ class HomeActivity : BaseActivity() {
 
         nowPlaying = supportFragmentManager.findFragmentById(R.id.now_playing) as NowPlayingFragment
         bottomSheetBehavior = BottomSheetBehavior.from(nowPlaying.requireView())
+        title = findViewById(R.id.title)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeActivityViewModel::class.java)
         snackBar = PlayerSnackBarContainer.make(this.viewPager2)
         snackBar.view.setOnClickListener(snackBarClick)
@@ -92,6 +95,13 @@ class HomeActivity : BaseActivity() {
 
         viewModel.playingFragmentState.observe(this, Observer {
             bottomSheetBehavior.state = it
+        })
+
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                title.text = getTitleText(position)
+            }
         })
 
         viewModel.playerStateLiveData.observe(this, Observer {
@@ -145,6 +155,23 @@ class HomeActivity : BaseActivity() {
 
     private val playPauseClick = View.OnClickListener {
         viewModel.togglePlay()
+    }
+
+    private fun getTitleText(position: Int): String {
+        return when (position) {
+            0 -> {
+                getString(R.string.songs)
+            }
+            1 -> {
+                getString(R.string.albums)
+            }
+            2 -> {
+                getString(R.string.artists)
+            }
+            else -> {
+                getString(R.string.songs)
+            }
+        }
     }
 
     private val alertDialog by lazy {
