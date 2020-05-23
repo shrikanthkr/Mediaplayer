@@ -16,15 +16,15 @@ class ViewPagerAdapter(activity: BaseActivity) : FragmentStateAdapter(activity) 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> {
-                SongsFragment.newInstance()
+                SongsFragment.newInstance(position)
             }
             1 -> {
-                AlbumsFragment.newInstance()
+                AlbumsFragment.newInstance(position)
             }
             2 -> {
-                ArtistsFragment.newInstance()
+                ArtistsFragment.newInstance(position)
             }
-            else -> SongsFragment.newInstance()
+            else -> SongsFragment.newInstance(position)
         }
     }
 }

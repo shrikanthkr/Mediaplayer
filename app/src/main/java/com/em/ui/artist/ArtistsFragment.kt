@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.em.app.ViewModelFactory
+import com.em.app.activities.home.HomeActivityViewModel
 import com.em.app.databinding.FragmentArtistsBinding
 import com.em.app.di.components.FragmentComponent
 import com.em.ui.BaseFragment
@@ -30,6 +31,9 @@ class ArtistsFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewBinding: FragmentArtistsBinding
     private lateinit var viewmodel: ArtistViewModel
+    private lateinit var homeActivityViewModel: HomeActivityViewModel
+    private var myPosition: Int = -1
+
 
     override fun inject(fragmentComponent: FragmentComponent) {
         fragmentComponent.inject(this)
@@ -38,6 +42,8 @@ class ArtistsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewmodel = ViewModelProvider(this, viewModelFactory).get(ArtistViewModel::class.java)
+        homeActivityViewModel = ViewModelProvider(this.requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
+        myPosition = requireArguments().getInt(MY_POSITION)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,16 +61,24 @@ class ArtistsFragment : BaseFragment() {
 
             }
         })
+
+        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {
+            if (myPosition == it) {
+                viewBinding.artists.scrollToPosition(0)
+            }
+        })
     }
 
-
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         * @return A new instance of fragment ArtistsFragment.
-         */
+        private const val MY_POSITION = "POSITION"
+
         @JvmStatic
-        fun newInstance() = ArtistsFragment()
+        fun newInstance(position: Int): BaseFragment {
+            val bundle = Bundle()
+            bundle.putInt(MY_POSITION, position)
+            val artist = ArtistsFragment()
+            artist.arguments = bundle
+            return artist
+        }
     }
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.em.app.ViewModelFactory
+import com.em.app.activities.home.HomeActivityViewModel
 import com.em.app.databinding.FragmentAlbumsBinding
 import com.em.app.di.components.FragmentComponent
 import com.em.ui.BaseFragment
@@ -28,6 +29,8 @@ class AlbumsFragment : BaseFragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewBinding: FragmentAlbumsBinding
     private lateinit var viewmodel: AlbumsViewModel
+    private lateinit var homeActivityViewModel: HomeActivityViewModel
+    private var myPosition: Int = -1
 
     override fun inject(fragmentComponent: FragmentComponent) {
         fragmentComponent.inject(this)
@@ -36,6 +39,8 @@ class AlbumsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewmodel = ViewModelProvider(this, viewModelFactory).get(AlbumsViewModel::class.java)
+        homeActivityViewModel = ViewModelProvider(this.requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
+        myPosition = requireArguments().getInt(MY_POSITION)
 
     }
 
@@ -53,11 +58,25 @@ class AlbumsFragment : BaseFragment() {
 
             }
         })
+
+        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {
+            if (myPosition == it) {
+                viewBinding.albums.scrollToPosition(0)
+            }
+        })
     }
 
     companion object {
+        private const val MY_POSITION = "POSITION"
+
         @JvmStatic
-        fun newInstance() = AlbumsFragment()
+        fun newInstance(position: Int): BaseFragment {
+            val bundle = Bundle()
+            bundle.putInt(MY_POSITION, position)
+            val albums = AlbumsFragment()
+            albums.arguments = bundle
+            return albums
+        }
     }
 
 

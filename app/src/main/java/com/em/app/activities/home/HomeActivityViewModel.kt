@@ -12,6 +12,9 @@ class HomeActivityViewModel(private val playerController: PlayerController) : Vi
     val playerStateLiveData = playerController.playerState
     val currentSong = playerController.currentSong
 
+    private val _scrollTo = MutableLiveData<Int>()
+    val scrollTo = _scrollTo
+
     fun updateState(@BottomSheetBehavior.State state: Int) {
         _playingFragmentState.value = state
     }
@@ -22,6 +25,10 @@ class HomeActivityViewModel(private val playerController: PlayerController) : Vi
         } else {
             playerController.resume()
         }
+    }
+
+    fun scrollTop(position: Int) {
+        _scrollTo.value = position
     }
 }
 

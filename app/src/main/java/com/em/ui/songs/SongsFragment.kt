@@ -26,12 +26,13 @@ class SongsFragment : BaseFragment() {
     private lateinit var viewModel: SongsViewModel
     private lateinit var homeActivityViewModel: HomeActivityViewModel
     private lateinit var viewBinding: FragmentSongsBinding
+    private var myPosition: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(SongsViewModel::class.java)
         homeActivityViewModel = ViewModelProvider(this.requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
-
+        myPosition = requireArguments().getInt(MY_POSITION)
     }
 
     override fun inject(fragmentComponent: FragmentComponent) {
@@ -52,9 +53,23 @@ class SongsFragment : BaseFragment() {
                 viewModel.play(song)
             }
         })
+
+        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {
+            if (myPosition == it) {
+                viewBinding.homeRecyclerView.scrollToPosition(0)
+            }
+        })
+
     }
 
     companion object {
-        fun newInstance() = SongsFragment()
+        private const val MY_POSITION = "POSITION"
+        fun newInstance(position: Int): BaseFragment {
+            val bundle = Bundle()
+            bundle.putInt(MY_POSITION, position)
+            val songs = SongsFragment()
+            songs.arguments = bundle
+            return songs
+        }
     }
 }

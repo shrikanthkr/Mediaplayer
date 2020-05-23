@@ -90,7 +90,8 @@ class HomeActivity : BaseActivity() {
         })
         appbarLayout.addOnOffsetChangedListener((AppbarOffsetChangeListener(pageIndicator)))
         pageIndicator.setOnClickListener {
-
+            viewModel.scrollTop(viewPager2.currentItem)
+            appbarLayout.setExpanded(true)
         }
         startService(Intent(this.applicationContext, NotificationService::class.java))
     }
