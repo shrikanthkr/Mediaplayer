@@ -5,24 +5,26 @@ import android.app.Application
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.em.repository.Album
 import com.em.repository.Artist
 import com.em.repository.Song
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher) {
+@FlowPreview
+@ExperimentalCoroutinesApi
+class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher, private val scope: CoroutineScope) {
 
     val queue = mutableListOf<Song>()
     private var currentIndex = -1
 
-    private val _currentSong = MutableLiveData<Song>()
-    val currentSong: LiveData<Song> = _currentSong
+
+    private val _currentSongChannel = ConflatedBroadcastChannel<Song>()
+    val currentSongChannel = _currentSongChannel.asFlow()
 
     private fun songsCursor(): Cursor? {
         return application.contentResolver.query(
@@ -124,8 +126,8 @@ class SongsRepository @Inject constructor(private val application: Application, 
         play(song)
     }
 
-    private fun play(song: Song) {
-        _currentSong.postValue(song)
+    private suspend fun play(song: Song) = withContext(ioDispatcher) {
+        _currentSongChannel.send(song)
     }
 
     companion object {

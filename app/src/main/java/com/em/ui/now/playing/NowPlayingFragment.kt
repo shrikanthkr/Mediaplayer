@@ -19,8 +19,12 @@ import com.em.app.utils.load
 import com.em.repository.formattedDuration
 import com.em.ui.BaseFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class NowPlayingFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -47,7 +51,7 @@ class NowPlayingFragment : BaseFragment() {
         viewBinding.downArrow.setOnClickListener {
             homeActivityViewModel.updateState(BottomSheetBehavior.STATE_HIDDEN)
         }
-        viewModel.currentSongLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.currentSong.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 viewBinding.album.text = it.album
                 viewBinding.songTitle.text = it.title
@@ -56,7 +60,7 @@ class NowPlayingFragment : BaseFragment() {
                 viewBinding.playerSeekbar.max = it.duration.toInt()
             }
         })
-        viewModel.playerStateLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.playerState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Playing -> {
                     viewBinding.playerSeekbar.progress = it.progress.toInt()

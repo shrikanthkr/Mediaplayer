@@ -9,9 +9,11 @@ import com.em.player.PlayerController
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Singleton
 
-
+@ExperimentalCoroutinesApi
 @Singleton
 @Component(modules = [ApplicationModule::class, AbstractApplicationModule::class, SubComponentsModule::class, ViewModelModule::class])
 interface AppComponent {
@@ -27,6 +29,9 @@ interface AppComponent {
 
         @BindsInstance
         fun ioDispatcher(dispatcher: CoroutineDispatcher): AppComponentBuilder
+
+        @BindsInstance
+        fun globalScope(scope: CoroutineScope): AppComponentBuilder
 
         fun build(): AppComponent
     }

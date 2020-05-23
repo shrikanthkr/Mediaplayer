@@ -54,7 +54,7 @@ class MediaNotificationManager(private val context: Context, private val control
         prepareNotification()
         //controller.currentSong.observeForever(currentSongObserver)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            controller.playerState.observeForever(playerStateObserver)
+            //controller.playerState.observeForever(playerStateObserver)
         }
 
     }
@@ -102,11 +102,11 @@ class MediaNotificationManager(private val context: Context, private val control
     }
 
     private fun togglePlay() {
-        if (controller.playerState.value is PlayerState.Playing) {
+        /*if (controller.playerState.value is PlayerState.Playing) {
             controller.pause()
         } else {
             controller.resume()
-        }
+        }*/
     }
 
 

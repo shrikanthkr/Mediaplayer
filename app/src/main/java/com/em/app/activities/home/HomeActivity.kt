@@ -2,12 +2,9 @@ package com.em.app.activities.home
 
 
 import android.app.AlertDialog
-import android.content.ComponentName
 import android.content.Intent
-import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
-import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -32,11 +29,15 @@ import com.em.ui.now.playing.NowPlayingFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 
 //https://material.io/resources/icons/?icon=pause&style=baseline
 //https://dribbble.com/shots/6605936-Spotify-visual-concept-Sneak-peek/attachments
+@FlowPreview
+@ExperimentalCoroutinesApi
 class HomeActivity : BaseActivity() {
 
     private lateinit var activityHome: CoordinatorLayout
@@ -119,7 +120,7 @@ class HomeActivity : BaseActivity() {
             }
         })
 
-        viewModel.playerStateLiveData.observe(this, Observer {
+        viewModel.playerState.observe(this, Observer {
             when (it) {
                 is Playing -> {
                     snackBar.setPlayIcon(R.drawable.ic_pause, playPauseClick)
@@ -221,16 +222,6 @@ class HomeActivity : BaseActivity() {
         permissionsHandler.handleResults(requestCode, grantResults)
     }
 
-    val serviceConnection = object : ServiceConnection {
-        override fun onServiceDisconnected(name: ComponentName?) {
-            Log.d(TAG, "Dis Connect4ed")
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.d(TAG, "Connect4ed")
-        }
-
-    }
 
     companion object {
         const val BOTTOM_SHEET_STATE = "BOTTOM_SHEET_STATE"

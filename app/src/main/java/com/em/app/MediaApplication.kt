@@ -5,8 +5,13 @@ import android.app.Application
 import com.em.app.di.components.AppComponent
 import com.em.app.di.components.DaggerAppComponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.GlobalScope
 
 @SuppressLint("Registered")
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MediaApplication : Application() {
     lateinit var appComponent: AppComponent
     override fun onCreate() {
@@ -14,6 +19,7 @@ class MediaApplication : Application() {
         appComponent = DaggerAppComponent.builder()
                 .application(this)
                 .ioDispatcher(Dispatchers.IO)
+                .globalScope(GlobalScope)
                 .build()
     }
 }
