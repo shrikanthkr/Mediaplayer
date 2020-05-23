@@ -14,6 +14,7 @@ import com.em.app.databinding.FragmentAlbumsBinding
 import com.em.app.di.components.FragmentComponent
 import com.em.ui.BaseFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 /**
@@ -23,6 +24,8 @@ import javax.inject.Inject
  * Use the [AlbumsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@ExperimentalStdlibApi
+@FlowPreview
 @ExperimentalCoroutinesApi
 class AlbumsFragment : BaseFragment() {
 

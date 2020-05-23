@@ -6,8 +6,13 @@ import com.em.ui.artist.ArtistsFragment
 import com.em.ui.now.playing.NowPlayingFragment
 import com.em.ui.songs.SongsFragment
 import dagger.Subcomponent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 
+@ExperimentalCoroutinesApi
+@FlowPreview
+@ExperimentalStdlibApi
 @FragmentScope
 @Subcomponent
 interface FragmentComponent {

@@ -7,7 +7,12 @@ import com.em.app.activities.BaseActivity
 import com.em.ui.albums.AlbumsFragment
 import com.em.ui.artist.ArtistsFragment
 import com.em.ui.songs.SongsFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@ExperimentalStdlibApi
+@ExperimentalCoroutinesApi
+@FlowPreview
 class ViewPagerAdapter(activity: BaseActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
         return 4

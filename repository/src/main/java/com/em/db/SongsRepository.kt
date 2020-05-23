@@ -110,6 +110,22 @@ class SongsRepository @Inject constructor(private val application: Application, 
         songsInfo
     }
 
+    suspend fun songs(artist: Artist) = withContext(ioDispatcher) {
+        val songsInfo = mutableListOf<Song>()
+        val query = MediaStore.Audio.Media.ARTIST_ID + " = '" + artist.id + "'"
+        val c = songsCursor(query)
+        c?.apply {
+            this.moveToFirst()
+            while (!this.isAfterLast) {
+                val item = this.toSong()
+                songsInfo.add(item)
+                this.moveToNext()
+            }
+            c.close()
+        }
+        songsInfo
+    }
+
     fun next(): Song? {
         return if (queue.size - 1 > currentIndex) {
             currentIndex += 1

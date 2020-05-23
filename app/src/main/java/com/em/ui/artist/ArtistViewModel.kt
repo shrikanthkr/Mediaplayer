@@ -7,11 +7,16 @@ import com.em.app.di.scopes.FragmentScope
 import com.em.db.SongsRepository
 import com.em.player.PlayerController
 import com.em.repository.Artist
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @FragmentScope
-class ArtistViewModel @Inject constructor(repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
+class ArtistViewModel @Inject constructor(private val repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
+
     private val _artists = MutableLiveData<List<Artist>>()
     val artists = _artists
 
@@ -20,5 +25,17 @@ class ArtistViewModel @Inject constructor(repository: SongsRepository, private v
             _artists.value = repository.artists()
         }
 
+    }
+
+    @ExperimentalStdlibApi
+    fun playArtist(artist: Artist) {
+        playerController.clear()
+        viewModelScope.launch {
+            val songs = repository.songs(artist)
+            playerController.playNow(songs.removeFirst())
+            songs.forEach {
+                playerController.queue(it)
+            }
+        }
     }
 }

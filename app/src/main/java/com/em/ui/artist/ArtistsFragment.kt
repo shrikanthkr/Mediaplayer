@@ -15,6 +15,8 @@ import com.em.app.activities.home.HomeActivityViewModel
 import com.em.app.databinding.FragmentArtistsBinding
 import com.em.app.di.components.FragmentComponent
 import com.em.ui.BaseFragment
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 /**
@@ -24,6 +26,9 @@ import javax.inject.Inject
  * Use the [ArtistsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@FlowPreview
+@ExperimentalCoroutinesApi
+@ExperimentalStdlibApi
 class ArtistsFragment : BaseFragment() {
 
 
@@ -57,8 +62,8 @@ class ArtistsFragment : BaseFragment() {
         viewBinding.artists.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.artists.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         viewmodel.artists.observe(viewLifecycleOwner, Observer {
-            viewBinding.artists.adapter = ArtistsRecyclerAdapter(it) {
-
+            viewBinding.artists.adapter = ArtistsRecyclerAdapter(it) { artist ->
+                viewmodel.playArtist(artist)
             }
         })
 
