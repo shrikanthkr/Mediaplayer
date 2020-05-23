@@ -108,7 +108,6 @@ class HomeActivity : BaseActivity() {
     private fun render() {
         viewPager2.adapter = ViewPagerAdapter(this)
 
-
         viewModel.playingFragmentState.observe(this, Observer {
             bottomSheetBehavior.state = it
         })
@@ -120,6 +119,7 @@ class HomeActivity : BaseActivity() {
                 pageIndicator.setImageResource(getIcon(position))
             }
         })
+        viewPager2.setCurrentItem(1, false)
 
         viewModel.playerState.observe(this, Observer {
             when (it) {
@@ -180,13 +180,13 @@ class HomeActivity : BaseActivity() {
 
     private fun getTitleText(position: Int): String {
         return when (position) {
-            0 -> {
+            1 -> {
                 getString(R.string.songs)
             }
-            1 -> {
+            2 -> {
                 getString(R.string.albums)
             }
-            2 -> {
+            3 -> {
                 getString(R.string.artists)
             }
             else -> {
@@ -197,9 +197,9 @@ class HomeActivity : BaseActivity() {
 
     private fun getIcon(position: Int): Int {
         return when (position) {
-            0 -> R.drawable.ic_music_note
-            1 -> R.drawable.ic_album
-            2 -> R.drawable.ic_atrist
+            1 -> R.drawable.ic_music_note
+            2 -> R.drawable.ic_album
+            3 -> R.drawable.ic_atrist
             else -> R.drawable.ic_music_note
         }
     }
