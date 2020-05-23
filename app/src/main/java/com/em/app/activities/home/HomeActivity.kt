@@ -57,6 +57,7 @@ class HomeActivity : BaseActivity() {
         permissionsHandler = PermissionsHandler(this)
         lifecycle.addObserver(permissionsHandler)
         activityComponent.inject(this)
+
         setContentView(R.layout.activity_home)
         viewPager2 = findViewById(R.id.view_pager)
         activityHome = findViewById(R.id.activity_home)
@@ -88,6 +89,9 @@ class HomeActivity : BaseActivity() {
             }
         })
         appbarLayout.addOnOffsetChangedListener((AppbarOffsetChangeListener(pageIndicator)))
+        pageIndicator.setOnClickListener {
+
+        }
         startService(Intent(this.applicationContext, NotificationService::class.java))
     }
 
@@ -128,6 +132,7 @@ class HomeActivity : BaseActivity() {
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
             override fun onStateChanged(bottomSheet: View, newState: Int) {
+                Log.d(TAG, "Bottom Sheet state: $newState")
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> snackBar.show()
                     BottomSheetBehavior.STATE_EXPANDED -> snackBar.dismiss()

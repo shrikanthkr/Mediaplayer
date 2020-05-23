@@ -37,18 +37,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/medium_margin"
+        android:contentDescription="@string/album_image_description"
         android:src="@drawable/ic_album"
         android:tint="?attr/tintOnBackground"
-        app:tint="?attr/tintOnBackground"
         app:backgroundTint="?attr/tintBackground"
         app:fabSize="mini"
-        android:contentDescription="@string/album_image_description" />
+        app:tint="?attr/tintOnBackground" />
 
     <fragment
         android:id="@+id/now_playing"
         android:name="com.em.ui.now.playing.NowPlayingFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:behavior_skipCollapsed="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
 
