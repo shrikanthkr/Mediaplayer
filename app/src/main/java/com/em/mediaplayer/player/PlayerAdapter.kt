@@ -1,11 +1,11 @@
 package com.em.mediaplayer.player
 
-import android.net.Uri
+import com.em.repository.Song
 
 abstract class PlayerAdapter {
     private val list = mutableListOf<PlayerListener>()
 
-    abstract fun play(path: Uri)
+    abstract fun play(song: Song)
     abstract fun pause()
     abstract fun resume()
     abstract fun seek(position: Long)

@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.em.db.SongsRepository
 import com.em.mediaplayer.app.di.scopes.FragmentScope
 import com.em.mediaplayer.app.models.PlayerState
+import com.em.mediaplayer.player.CastAdapter
 import com.em.mediaplayer.player.PlayerController
 import com.em.repository.Song
+import com.google.android.gms.cast.framework.CastSession
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -58,6 +60,15 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
 
     fun previous() {
         playerController.previous()
+    }
+
+    fun switchToCastAdapter(session: CastSession) {
+        val adapter = CastAdapter(session)
+        playerController.switchAdapter(adapter)
+    }
+
+    fun toDefaultAdapter() {
+        playerController.switchToDefaultAdapter()
     }
 
 

@@ -8,9 +8,12 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.em.mediaplayer.app.R
 import com.em.mediaplayer.app.ViewModelFactory
 import com.em.mediaplayer.app.activities.home.HomeActivityViewModel
+import com.em.mediaplayer.app.cast.CastSessionListener
+import com.em.mediaplayer.app.cast.CastSessionListener.CastSessionStatus.Available
 import com.em.mediaplayer.app.databinding.FragmentNowplayingBinding
 import com.em.mediaplayer.app.di.components.FragmentComponent
 import com.em.mediaplayer.app.models.PlayerState.Paused
@@ -20,21 +23,27 @@ import com.em.mediaplayer.ui.BaseFragment
 import com.em.repository.formattedDuration
 import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.gms.cast.framework.CastContext
+import com.google.android.gms.cast.framework.CastSession
+import com.google.android.gms.cast.framework.SessionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @ExperimentalStdlibApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 class NowPlayingFragment : BaseFragment() {
+    private lateinit var mSessionManager: SessionManager
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewBinding: FragmentNowplayingBinding
     private lateinit var homeActivityViewModel: HomeActivityViewModel
     private lateinit var viewModel: NowPlayingViewModel
     private lateinit var castContext: CastContext
+    private val castSessionListener = CastSessionListener()
     override fun inject(fragmentComponent: FragmentComponent) {
         fragmentComponent.inject(this)
     }
@@ -44,7 +53,7 @@ class NowPlayingFragment : BaseFragment() {
         homeActivityViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
         viewModel = ViewModelProvider(this, viewModelFactory).get(NowPlayingViewModel::class.java)
         castContext = CastContext.getSharedInstance(this.requireContext())
-
+        mSessionManager = castContext.sessionManager
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -101,8 +110,25 @@ class NowPlayingFragment : BaseFragment() {
             viewModel.previous()
         }
         CastButtonFactory.setUpMediaRouteButton(this.requireContext(), viewBinding.mediaRouteButton)
+        mSessionManager.addSessionManagerListener(castSessionListener, CastSession::class.java)
 
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            castSessionListener.castSessionState.collect {
+                when (it) {
+                    is Available -> {
+                        viewModel.switchToCastAdapter(it.session)
+                    }
+                    else -> {
+                        viewModel.toDefaultAdapter()
+                    }
+                }
 
+            }
+        }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mSessionManager.removeSessionManagerListener(castSessionListener, CastSession::class.java)
+    }
 }

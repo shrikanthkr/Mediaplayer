@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @FlowPreview
 @ExperimentalCoroutinesApi
 @Singleton
-class PlayerController @Inject constructor(private val playerAdapter: PlayerAdapter, private val scope: CoroutineScope, private val respository: SongsRepository) {
+class PlayerController @Inject constructor(private var playerAdapter: PlayerAdapter, private val scope: CoroutineScope, private val respository: SongsRepository) {
 
     private val _playerState = ConflatedBroadcastChannel<PlayerState>()
 
@@ -30,7 +30,10 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
 
     private var externalActor: Int = 0
 
+    private val defaultAdapter: PlayerAdapter = playerAdapter
+
     init {
+
         playerAdapter.addListener(object : PlayerListener {
             override fun onStart() {
                 dispatch(Started(requireNotNull(_currentSongChannel.value)))
@@ -137,12 +140,22 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
         }
     }
 
+    fun switchAdapter(adapter: PlayerAdapter) {
+        playerAdapter.clear()
+        playerAdapter = adapter
+        play(_currentSongChannel.value)
+    }
+
+    fun switchToDefaultAdapter() {
+        switchAdapter(defaultAdapter)
+    }
+
 
     private fun play(song: Song) {
         scope.launch {
             _currentSongChannel.send(song)
         }
-        playerAdapter.play(song.uri)
+        playerAdapter.play(song)
     }
 
     private fun dispatch(state: PlayerState) {

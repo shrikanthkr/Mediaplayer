@@ -3,6 +3,7 @@ package com.em.mediaplayer.player
 import android.app.Application
 import android.net.Uri
 import android.util.Log
+import com.em.repository.Song
 import org.videolan.libvlc.LibVLC
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
@@ -59,8 +60,8 @@ class VLCAdapter @Inject constructor(private val application: Application) : Pla
         }
     }
 
-    override fun play(path: Uri) {
-        val media = Media(libvlc, toFileDescriptor(path))
+    override fun play(song: Song) {
+        val media = Media(libvlc, toFileDescriptor(song.uri))
         mediaPlayer.play(media)
     }
 
@@ -77,10 +78,7 @@ class VLCAdapter @Inject constructor(private val application: Application) : Pla
     }
 
     override fun clear() {
-        libvlc.release()
-        mediaPlayer.stop()
-        mediaPlayer.release()
-        mediaPlayer.setEventListener(null)
+        mediaPlayer.pause()
     }
 
 
