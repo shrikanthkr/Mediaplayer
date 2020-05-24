@@ -147,7 +147,8 @@ class PlayerController @Inject constructor(private var playerAdapter: PlayerAdap
     }
 
     fun switchToDefaultAdapter() {
-        switchAdapter(defaultAdapter)
+        if (playerAdapter != defaultAdapter)
+            switchAdapter(defaultAdapter)
     }
 
 
