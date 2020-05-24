@@ -18,6 +18,8 @@ import com.em.mediaplayer.app.models.PlayerState.Playing
 import com.em.mediaplayer.app.utils.load
 import com.em.mediaplayer.ui.BaseFragment
 import com.em.repository.formattedDuration
+import com.google.android.gms.cast.framework.CastButtonFactory
+import com.google.android.gms.cast.framework.CastContext
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -32,6 +34,7 @@ class NowPlayingFragment : BaseFragment() {
     private lateinit var viewBinding: FragmentNowplayingBinding
     private lateinit var homeActivityViewModel: HomeActivityViewModel
     private lateinit var viewModel: NowPlayingViewModel
+    private lateinit var castContext: CastContext
     override fun inject(fragmentComponent: FragmentComponent) {
         fragmentComponent.inject(this)
     }
@@ -40,6 +43,8 @@ class NowPlayingFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         homeActivityViewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
         viewModel = ViewModelProvider(this, viewModelFactory).get(NowPlayingViewModel::class.java)
+        castContext = CastContext.getSharedInstance(this.requireContext())
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -95,6 +100,8 @@ class NowPlayingFragment : BaseFragment() {
         viewBinding.previous.setOnClickListener {
             viewModel.previous()
         }
+        CastButtonFactory.setUpMediaRouteButton(this.requireContext(), viewBinding.mediaRouteButton)
+
 
     }
 

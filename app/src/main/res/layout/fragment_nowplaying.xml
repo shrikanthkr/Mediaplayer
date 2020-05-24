@@ -37,6 +37,19 @@
             android:textSize="@dimen/album_title"
             android:textStyle="bold"
             tools:text="Album Name" />
+
+        <androidx.mediarouter.app.MediaRouteButton
+            android:id="@+id/media_route_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:mediaRouteTypes="user"
+            tools:visibility="visible"
+            android:padding="@dimen/tiny_margin"
+            android:foregroundTint="?attr/downArrowTint"
+            tools:ignore="RelativeOverlap" />
+
+
     </RelativeLayout>
 
     <ImageView
@@ -50,9 +63,9 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/album_image_description"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_album"
         app:layout_constraintBottom_toTopOf="@id/text_container"
         app:layout_constraintTop_toBottomOf="@id/title_container"
-        android:src="@drawable/ic_album"
         tools:tint="@color/gray" />
 
     <LinearLayout
