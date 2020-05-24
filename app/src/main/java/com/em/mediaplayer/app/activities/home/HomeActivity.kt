@@ -23,7 +23,6 @@ import com.em.mediaplayer.app.behaviors.AppbarOffsetChangeListener
 import com.em.mediaplayer.app.models.PlayerState.Completed
 import com.em.mediaplayer.app.models.PlayerState.Playing
 import com.em.mediaplayer.ui.customview.PlayerSnackBarContainer
-import com.em.mediaplayer.ui.notifications.NotificationService
 import com.em.mediaplayer.ui.now.playing.NowPlayingFragment
 import com.em.repository.formattedDuration
 import com.google.android.material.appbar.AppBarLayout
@@ -98,7 +97,6 @@ class HomeActivity : BaseActivity() {
                 appbarLayout.setExpanded(true)
             }
         }
-        startService(Intent(this.applicationContext, NotificationService::class.java))
     }
 
 

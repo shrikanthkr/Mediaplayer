@@ -28,6 +28,7 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
     private val _currentSongChannel = ConflatedBroadcastChannel<Song>()
     val currentSongChannel = _currentSongChannel.asFlow()
 
+    private var externalActor: Int = 0
 
     init {
         playerAdapter.addListener(object : PlayerListener {
@@ -120,6 +121,20 @@ class PlayerController @Inject constructor(private val playerAdapter: PlayerAdap
     fun clear() {
         pause()
         respository.clear()
+    }
+
+    fun pauseBy(accessorId: Int) {
+        if (_playerState.value is Playing) {
+            pause()
+            externalActor = externalActor xor accessorId
+        }
+    }
+
+    fun resumeBy(accessorId: Int) {
+        if (externalActor xor accessorId == 0) {
+            resume()
+            externalActor = externalActor xor accessorId
+        }
     }
 
 

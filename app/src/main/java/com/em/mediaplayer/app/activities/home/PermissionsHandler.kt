@@ -15,15 +15,15 @@ class PermissionsHandler(context: AppCompatActivity) : LifecycleObserver {
     val permissionAvailable = MutableLiveData<Permission>()
 
     init {
-        if (ContextCompat.checkSelfPermission(context,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        val storageNotGranted = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        val phoneStateNotGranted = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+        if (storageNotGranted || phoneStateNotGranted) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(context,
+                            Manifest.permission.READ_PHONE_STATE)) {
                 permissionAvailable.value = RequestPermission
             } else {
                 ActivityCompat.requestPermissions(context,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE),
                         EXTERNAL_STORAGE_PERMISSION)
             }
         } else {
