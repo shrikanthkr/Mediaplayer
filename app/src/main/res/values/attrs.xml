@@ -17,5 +17,7 @@
     <attr name="colorDivider" format="color" />
     <attr name="tintOnBackground" format="color" />
     <attr name="tintBackground" format="color" />
+    <attr name="searchTextColor" format="color" />
+    <attr name="searchTintColor" format="color" />
 
 </resources>

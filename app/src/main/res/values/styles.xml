@@ -24,10 +24,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="AppWidget.Search">
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:textColor">?attr/searchTextColor</item>
+        <item name="android:backgroundTint">?attr/searchTintColor</item>
 
-    <style name="AppWidget.Tabs">
-        <item name="android:textStyle">bold</item>
-        <item name="tabSelectedTextColor">?attr/colorOnTabBackground</item>
-        <item name="tabIndicatorColor">?attr/colorTabIndicator</item>
     </style>
 </resources>

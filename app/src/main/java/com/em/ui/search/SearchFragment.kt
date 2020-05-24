@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.em.app.ViewModelFactory
 import com.em.app.activities.home.HomeActivityViewModel
 import com.em.app.databinding.SearchFragmentBinding
@@ -55,6 +57,7 @@ class SearchFragment : BaseFragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
         homeActivityViewModel = ViewModelProvider(this.requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
         viewBinding.songs.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.songs.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         viewModel.songsLiveData.observe(viewLifecycleOwner, Observer {
             viewBinding.songs.adapter = SongsRecyclerAdapter(it, { song ->
                 viewModel.play(song)
