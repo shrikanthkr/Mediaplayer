@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.em.db.SongsRepository
 import com.em.mediaplayer.app.di.scopes.FragmentScope
 import com.em.mediaplayer.app.models.PlayerState
+import com.em.mediaplayer.app.server.FileServer
 import com.em.mediaplayer.player.CastAdapter
 import com.em.mediaplayer.player.PlayerController
 import com.em.repository.Song
@@ -62,8 +63,8 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
         playerController.previous()
     }
 
-    fun switchToCastAdapter(session: CastSession) {
-        val adapter = CastAdapter(session)
+    fun switchToCastAdapter(server: FileServer, session: CastSession) {
+        val adapter = CastAdapter(server, session)
         playerController.switchAdapter(adapter)
     }
 

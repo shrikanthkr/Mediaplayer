@@ -1,13 +1,13 @@
 package com.em.mediaplayer.player
 
-import android.util.Log
+import com.em.mediaplayer.app.server.FileServer
 import com.em.repository.Song
 import com.google.android.gms.cast.MediaInfo
 import com.google.android.gms.cast.MediaLoadRequestData
 import com.google.android.gms.cast.MediaMetadata
 import com.google.android.gms.cast.framework.CastSession
 
-class CastAdapter(session: CastSession) : PlayerAdapter() {
+class CastAdapter(private val server: FileServer, session: CastSession) : PlayerAdapter() {
 
     private val remoteMediaClient = session.remoteMediaClient
 
@@ -15,11 +15,20 @@ class CastAdapter(session: CastSession) : PlayerAdapter() {
         const val TAG = "CastAdapter"
     }
 
+    init {
+        server.start()
+    }
+
     override fun play(song: Song) {
+        if (!server.isAlive) {
+            server.start()
+        }
+        server.serve(song.uri)
+
         val metaData = MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK)
-        val info = MediaInfo.Builder(song.uri.toString())
+        val info = MediaInfo.Builder("http://${server.ip}/sample.mp3")
                 .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
-                .setContentType("audio/mpeg")
+                .setContentType("audio/mp3")
                 .setMetadata(metaData)
                 .setStreamDuration(song.duration)
                 .build()
@@ -27,7 +36,7 @@ class CastAdapter(session: CastSession) : PlayerAdapter() {
                 .setMediaInfo(info)
                 .build())
                 .setResultCallback {
-                    Log.d(TAG, it.mediaError.reason)
+
                 }
         remoteMediaClient.play()
     }
@@ -45,7 +54,7 @@ class CastAdapter(session: CastSession) : PlayerAdapter() {
     }
 
     override fun clear() {
-
+        server.stop()
     }
 
 }

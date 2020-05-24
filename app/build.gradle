@@ -63,6 +63,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
     implementation "com.android.support:mediarouter-v7:$versions.mediarouter-v7"
     implementation "com.google.android.gms:play-services-cast-framework:$versions.cast"
+    implementation "org.nanohttpd:nanohttpd-webserver:$versions.nanohttpd"
 
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"

@@ -18,6 +18,7 @@ import com.em.mediaplayer.app.databinding.FragmentNowplayingBinding
 import com.em.mediaplayer.app.di.components.FragmentComponent
 import com.em.mediaplayer.app.models.PlayerState.Paused
 import com.em.mediaplayer.app.models.PlayerState.Playing
+import com.em.mediaplayer.app.server.FileServer
 import com.em.mediaplayer.app.utils.load
 import com.em.mediaplayer.ui.BaseFragment
 import com.em.repository.formattedDuration
@@ -39,6 +40,10 @@ class NowPlayingFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var fileServer: FileServer
+
     private lateinit var viewBinding: FragmentNowplayingBinding
     private lateinit var homeActivityViewModel: HomeActivityViewModel
     private lateinit var viewModel: NowPlayingViewModel
@@ -116,7 +121,7 @@ class NowPlayingFragment : BaseFragment() {
             castSessionListener.castSessionState.collect {
                 when (it) {
                     is Available -> {
-                        viewModel.switchToCastAdapter(it.session)
+                        viewModel.switchToCastAdapter(fileServer, it.session)
                     }
                     else -> {
                         viewModel.toDefaultAdapter()

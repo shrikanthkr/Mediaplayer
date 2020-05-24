@@ -20,6 +20,7 @@ ext {
             "material"                 : "1.2.0-alpha06",
             "mediarouter-v7"           : "28.0.0",
             "minSdkVersion"            : 21,
+            "nanohttpd"                : "2.3.1",
             "recyclerview"             : "1.1.0",
             "room"                     : "2.2.3",
             "sdkVersion"               : 29,
