@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.em.app">
+    package="com.em.mediaplayer.app">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -14,7 +14,7 @@
         android:smallScreens="true" />
 
     <application
-        android:name="com.em.app.MediaApplication"
+        android:name=".MediaApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
         android:theme="@style/Theme.Light"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.em.app.activities.home.HomeActivity"
+            android:name=".activities.home.HomeActivity"
             android:launchMode="singleInstance">
 
             <intent-filter>
@@ -31,11 +31,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.em.app.activities.BaseActivity" />
+        <activity android:name=".activities.BaseActivity" />
 
-        <service android:name="com.em.ui.notifications.NotificationService" />
+        <service android:name="com.em.mediaplayer.ui.notifications.NotificationService" />
         <receiver
-            android:name="com.em.ui.notifications.MediaNotificationManager"
+            android:name="com.em.mediaplayer.ui.notifications.MediaNotificationManager"
             android:exported="false">
             <intent-filter>
                 <action android:name="noti_play" />

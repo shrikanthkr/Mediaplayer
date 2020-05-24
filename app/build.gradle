@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.em.app"
+        applicationId "com.em.mediaplayer.app"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.sdkVersion
         versionCode 1
