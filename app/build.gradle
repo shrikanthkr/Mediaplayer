@@ -23,7 +23,14 @@ android {
             abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
         }
     }
+    productFlavors {
+        stage {
 
+        }
+        production {
+
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -31,7 +38,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-
+            debuggable true
         }
     }
     buildFeatures {
