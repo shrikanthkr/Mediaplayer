@@ -11,22 +11,46 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.em.mediaplayer.app"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.sdkVersion
-        versionCode 2
-        versionName "1.02"
+        versionCode 4
+        versionName "1.04"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+    signingConfigs {
+        stage {
+            storeFile file("../keystore/stage/internal")
+            storePassword 'admin123'
+            keyAlias 'stage'
+            keyPassword 'admin123'
+        }
     }
 
+    flavorDimensions "api"
+    productFlavors {
+        stage {
+            dimension "api"
+            applicationId "com.em.mediaplayer.stage"
+            signingConfig signingConfigs.stage
+        }
+        production {
+            applicationId "com.em.mediaplayer.app"
+            dimension "api"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-
+            debuggable true
         }
     }
     buildFeatures {
@@ -39,6 +63,7 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
 
 }
 

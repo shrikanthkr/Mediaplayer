@@ -40,4 +40,4 @@ proguard/
 .DS_Store
 
 #keystore
-keystore/
+keystore/production
