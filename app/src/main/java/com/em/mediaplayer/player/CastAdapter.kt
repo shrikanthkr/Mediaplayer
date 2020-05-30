@@ -7,11 +7,11 @@ import com.google.android.gms.cast.*
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
 
+
 class CastAdapter(private val server: FileServer, session: CastSession) : PlayerAdapter() {
 
     private val remoteMediaClient = session.remoteMediaClient
     private val progressListener = RemoteMediaClient.ProgressListener { current, _ ->
-        Log.d(TAG, " ${remoteMediaClient.mediaStatus.playerState}")
         dispatchProgress(current)
     }
 
@@ -63,9 +63,9 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
                 .build()
         val load = MediaLoadRequestData.Builder()
                 .setMediaInfo(info)
+                .setAutoplay(true)
                 .build()
         remoteMediaClient.load(load)
-        remoteMediaClient.play()
     }
 
     override fun pause() {
@@ -77,7 +77,9 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
     }
 
     override fun seek(position: Long) {
-        val seekOption = MediaSeekOptions.Builder().setPosition(position).build()
+        val seekOption = MediaSeekOptions.Builder()
+                .setPosition(position)
+                .build()
         remoteMediaClient.seek(seekOption)
     }
 
