@@ -11,7 +11,6 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.em.mediaplayer.app"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.sdkVersion
         versionCode 4
@@ -23,12 +22,25 @@ android {
             abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
         }
     }
+    signingConfigs {
+        stage {
+            storeFile file("../keystore/stage/internal")
+            storePassword 'admin123'
+            keyAlias 'stage'
+            keyPassword 'admin123'
+        }
+    }
+
+    flavorDimensions "api"
     productFlavors {
         stage {
-
+            dimension "api"
+            applicationId "com.em.mediaplayer.stage"
+            signingConfig signingConfigs.stage
         }
         production {
-
+            applicationId "com.em.mediaplayer.app"
+            dimension "api"
         }
     }
     buildTypes {
