@@ -77,10 +77,8 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
     }
 
     override fun seek(position: Long) {
-        val seekOption = MediaSeekOptions.Builder().setPosition(30 * 1000).setIsSeekToInfinite(false).build()
-        remoteMediaClient.seek(seekOption).setResultCallback {
-            Log.d(TAG, "${it.status}")
-        }
+        val seekOption = MediaSeekOptions.Builder().setPosition(position).build()
+        remoteMediaClient.seek(seekOption)
     }
 
     override fun clear() {
