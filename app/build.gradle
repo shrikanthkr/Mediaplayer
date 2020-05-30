@@ -14,8 +14,8 @@ android {
         applicationId "com.em.mediaplayer.app"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.sdkVersion
-        versionCode 3
-        versionName "1.03"
+        versionCode 4
+        versionName "1.04"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,6 +39,15 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+    splits {
+        abi {
+            // Enables building multiple APKs per ABI.
+            enable true
+            // Specifies that we do not want to also generate a universal APK that includes all ABIs.
+            universalApk false
+        }
+    }
+
 
 }
 
