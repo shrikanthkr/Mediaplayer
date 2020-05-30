@@ -25,7 +25,7 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/tiny_margin"
         android:layout_marginRight="@dimen/tiny_margin"
-        android:layout_toStartOf="@+id/play_pause_image"
+        android:layout_toStartOf="@id/icon"
         android:layout_toEndOf="@+id/icon"
         android:ellipsize="end"
         android:lines="1"
