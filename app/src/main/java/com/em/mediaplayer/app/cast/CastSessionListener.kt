@@ -18,34 +18,34 @@ class CastSessionListener : SessionManagerListener<CastSession> {
     //Caster ovverides
 
     override fun onSessionStarting(castSession: CastSession?) {
-        Log.d(TAG, " On Cast Starting")
+        Log.d(TAG, " On Cast Starting ")
     }
 
     override fun onSessionStartFailed(castSession: CastSession?, p1: Int) {
-        Log.d(TAG, " On Casst Start Failed")
+        Log.d(TAG, " On Casst Start Failed $p1")
         _castSessionState.value = Disconnected(castSession)
     }
 
     override fun onSessionStarted(castSession: CastSession?, p1: String?) {
-        Log.d(TAG, " On Cast Session Started")
+        Log.d(TAG, " On Cast Session Started $p1")
         _castSessionState.value = Available(requireNotNull(castSession))
     }
 
     override fun onSessionResuming(castSession: CastSession?, p1: String?) {
-        Log.d(TAG, " On Cast Resuming")
+        Log.d(TAG, " On Cast Resuming $p1")
     }
 
     override fun onSessionResumeFailed(castSession: CastSession?, p1: Int) {
-        Log.d(TAG, " On Cast Resume Failed")
+        Log.d(TAG, " On Cast Resume Failed $p1")
         _castSessionState.value = Disconnected(castSession)
     }
 
     override fun onSessionResumed(castSession: CastSession?, p1: Boolean) {
-        Log.d(TAG, " On Cast Resumed")
+        Log.d(TAG, " On Cast Resumed $p1")
     }
 
     override fun onSessionSuspended(castSession: CastSession?, p1: Int) {
-        Log.d(TAG, " On Cast Suspended")
+        Log.d(TAG, " On Cast Suspended $p1")
         _castSessionState.value = Disconnected(castSession)
     }
 
