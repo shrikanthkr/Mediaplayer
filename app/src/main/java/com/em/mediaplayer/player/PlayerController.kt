@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @FlowPreview
 @ExperimentalCoroutinesApi
 @Singleton
-class PlayerController @Inject constructor(private var playerAdapter: PlayerAdapter, private val scope: CoroutineScope, private val respository: SongsRepository) {
+class PlayerController @Inject constructor(private var playerAdapter: PlayerAdapter, private val scope: CoroutineScope, private val repository: SongsRepository) {
 
     private val _playerState = ConflatedBroadcastChannel<PlayerState>()
 
@@ -98,33 +98,33 @@ class PlayerController @Inject constructor(private var playerAdapter: PlayerAdap
     }
 
     fun next() {
-        respository.next()?.apply {
+        repository.next()?.apply {
             play(this)
         }
     }
 
     fun playNow(song: Song) {
-        respository.addAtStart(song)
+        repository.addAtStart(song)
         play(song)
     }
 
     fun previous() {
-        respository.previous()?.apply {
+        repository.previous()?.apply {
             play(this)
         }
     }
 
     fun queue(song: Song) {
-        respository.queue(song)
+        repository.queue(song)
     }
 
     fun queueAll(songs: List<Song>) {
-        respository.queueAll(songs)
+        repository.queueAll(songs)
     }
 
     fun clear() {
         pause()
-        respository.clear()
+        repository.clear()
     }
 
     fun pauseBy(accessorId: Int) {
