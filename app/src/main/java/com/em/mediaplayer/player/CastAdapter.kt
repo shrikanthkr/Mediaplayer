@@ -12,7 +12,9 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
 
     private val remoteMediaClient = session.remoteMediaClient
     private val progressListener = RemoteMediaClient.ProgressListener { current, _ ->
-        dispatchProgress(current)
+        if (remoteMediaClient.mediaStatus != null && remoteMediaClient.mediaStatus.playerState == MediaStatus.PLAYER_STATE_PLAYING) {
+            dispatchProgress(current)
+        }
     }
 
     private val remoteMediaCallback = object : RemoteMediaClient.Callback() {
@@ -22,7 +24,17 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
                 Log.d(TAG, " ${remoteMediaClient.mediaStatus.playerState}")
                 when (remoteMediaClient.mediaStatus.playerState) {
                     MediaStatus.PLAYER_STATE_UNKNOWN -> dispatchError()
-                    MediaStatus.PLAYER_STATE_IDLE -> Log.d(TAG, " Idle")
+                    MediaStatus.PLAYER_STATE_IDLE -> {
+                        Log.d(TAG, " Idle")
+                        when (remoteMediaClient.mediaStatus.idleReason) {
+                            MediaStatus.IDLE_REASON_FINISHED -> {
+                                dispatchEnd()
+                            }
+                            MediaStatus.IDLE_REASON_CANCELED, MediaStatus.IDLE_REASON_ERROR, MediaStatus.IDLE_REASON_INTERRUPTED -> {
+                                dispatchError()
+                            }
+                        }
+                    }
                     MediaStatus.PLAYER_STATE_PLAYING -> {
                         remoteMediaClient.addProgressListener(progressListener, 500)
                         dispatchStart()
