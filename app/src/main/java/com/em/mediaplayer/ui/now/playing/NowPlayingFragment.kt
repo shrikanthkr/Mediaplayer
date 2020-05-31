@@ -94,14 +94,11 @@ class NowPlayingFragment : BaseFragment() {
             }
         })
         viewBinding.playerSeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    viewModel.seekTo(progress)
-                }
-            }
-
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = Unit
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.seekTo(seekBar.progress)
+            }
 
         })
 

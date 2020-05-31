@@ -46,7 +46,6 @@ class CastSessionListener : SessionManagerListener<CastSession> {
 
     override fun onSessionSuspended(castSession: CastSession?, p1: Int) {
         Log.d(TAG, " On Cast Suspended $p1")
-        _castSessionState.value = Disconnected(castSession)
     }
 
     override fun onSessionEnded(castSession: CastSession?, p1: Int) {

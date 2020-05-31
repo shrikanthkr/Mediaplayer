@@ -10,7 +10,10 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.MediaPlayer.Event.*
 import java.io.FileDescriptor
 import javax.inject.Inject
+import javax.inject.Singleton
 
+
+@Singleton
 class VLCAdapter @Inject constructor(private val application: Application) : PlayerAdapter() {
     private val libvlc by lazy { LibVLC(application) }
     private val mediaPlayer by lazy { MediaPlayer(libvlc) }

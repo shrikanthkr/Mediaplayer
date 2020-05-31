@@ -31,7 +31,7 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
                         remoteMediaClient.removeProgressListener(progressListener)
                         dispatchPause()
                     }
-                    MediaStatus.PLAYER_STATE_BUFFERING, MediaStatus.PLAYER_STATE_LOADING -> Log.d(TAG, " Buffereing")
+                    MediaStatus.PLAYER_STATE_BUFFERING, MediaStatus.PLAYER_STATE_LOADING -> Log.d(TAG, " Buffering")
 
                 }
             }
@@ -53,11 +53,13 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
             server.start()
         }
         server.serve(song.uri)
-
+        Log.d(TAG, "Song Duration on play: ${song.duration}")
         val metaData = MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK)
-        val info = MediaInfo.Builder("http://${server.ip}/sample.mp3")
+        //val url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/mp4/DesigningForGoogleCast.mp4"
+        val url = "http://${server.ip}/${song.id}.mp3"
+        val info = MediaInfo.Builder(url)
                 .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
-                .setContentType("audio/mp3")
+                .setContentType("audio/mpeg")
                 .setMetadata(metaData)
                 .setStreamDuration(song.duration)
                 .build()
@@ -79,7 +81,10 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
     override fun seek(position: Long) {
         val seekOption = MediaSeekOptions.Builder()
                 .setPosition(position)
+                .setIsSeekToInfinite(false)
+                .setResumeState(MediaSeekOptions.RESUME_STATE_UNCHANGED)
                 .build()
+        Log.d(TAG, "Song Duration on Seek: $position")
         remoteMediaClient.seek(seekOption)
     }
 
