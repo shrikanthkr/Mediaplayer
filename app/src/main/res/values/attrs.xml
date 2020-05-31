@@ -19,5 +19,6 @@
     <attr name="tintBackground" format="color" />
     <attr name="searchTextColor" format="color" />
     <attr name="searchTintColor" format="color" />
+    <attr name="colorSemiTransparent" format="color" />
 
 </resources>

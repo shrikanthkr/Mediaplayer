@@ -30,6 +30,7 @@
         <item name="searchTextColor">@color/gray</item>
 
         <item name="android:textColorPrimary">?attr/colorOnSecondary</item>
+        <item name="colorSemiTransparent">@color/semiTransparent</item>
 
     </style>
 </resources>
