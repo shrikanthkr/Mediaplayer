@@ -24,8 +24,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Building Android"
-          command: ./gradlew clean
+          name: "Cleaning Android"
+          command: ./gradlew clean && export ACROSS="across"
       - run:
           name: "Building Android"
-          command: ./gradlew build
+          command: echo $ACROSS && ./gradlew build
