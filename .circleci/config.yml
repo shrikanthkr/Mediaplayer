@@ -6,7 +6,21 @@ orbs:
 jobs:
   build:
     executor: android/android
-        
+    name: android
+    parameters:
+      ndk-sha:
+        default: c81a5bcb4672a18d3647bf6898cd4dbcb978d0e8
+        description: >
+          SHA-1 of the zip file specified by ndk-version. Provide a string formatted
+          along the lines of the default value. See
+          https://developer.android.com/ndk/downloads
+        type: string
+      ndk-version:
+        default: android-ndk-r21c
+        description: >
+          Version of the NDK to install. Provide a string formatted along the lines
+          of the default value.
+        type: string
     steps:
       - checkout
       - run:
