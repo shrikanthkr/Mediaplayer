@@ -42,6 +42,7 @@ class CastSessionListener : SessionManagerListener<CastSession> {
 
     override fun onSessionResumed(castSession: CastSession?, p1: Boolean) {
         Log.d(TAG, " On Cast Resumed $p1")
+        _castSessionState.value = Available(requireNotNull(castSession))
     }
 
     override fun onSessionSuspended(castSession: CastSession?, p1: Int) {

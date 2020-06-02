@@ -2,6 +2,7 @@ package com.em.mediaplayer.app.di.components
 
 import android.app.Application
 import com.em.db.SongsRepository
+import com.em.mediaplayer.app.MediaApplication
 import com.em.mediaplayer.app.di.modules.AbstractApplicationModule
 import com.em.mediaplayer.app.di.modules.ApplicationModule
 import com.em.mediaplayer.app.di.modules.SubComponentsModule
@@ -28,6 +29,7 @@ interface AppComponent {
     fun controller(): PlayerController
     fun songsRepository(): SongsRepository
     fun fileServer(): FileServer
+    fun inject(application: MediaApplication)
 
     @Component.Builder
     interface AppComponentBuilder {

@@ -9,7 +9,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,19 +20,19 @@ import javax.inject.Singleton
 @FlowPreview
 @ExperimentalCoroutinesApi
 @Singleton
-class PlayerController @Inject constructor(private var playerAdapter: PlayerAdapter, private val scope: CoroutineScope, private val repository: SongsRepository) {
+class PlayerController @Inject constructor(private val scope: CoroutineScope, private val repository: SongsRepository) {
 
+    lateinit var playerAdapter: PlayerAdapter
     private val _playerState = ConflatedBroadcastChannel<PlayerState>()
 
     @FlowPreview
     val playerState = _playerState.asFlow()
 
-    private val _currentSongChannel = ConflatedBroadcastChannel<Song>()
-    val currentSongChannel = _currentSongChannel.asFlow()
+    private val _currentSongChannel = MutableStateFlow<Song?>(null)
+    val currentSongChannel = _currentSongChannel.filterNotNull()
 
     private var externalActor: Int = 0
 
-    private val defaultAdapter: PlayerAdapter = playerAdapter
     private val playerListener = object : PlayerListener {
         override fun onStart() {
             dispatch(Started(requireNotNull(_currentSongChannel.value)))
@@ -79,8 +81,6 @@ class PlayerController @Inject constructor(private var playerAdapter: PlayerAdap
     }
 
     init {
-
-        playerAdapter.addListener(playerListener)
         dispatch(Idle)
     }
 
@@ -153,20 +153,16 @@ class PlayerController @Inject constructor(private var playerAdapter: PlayerAdap
 
         //based on state play
         if (currentPlayerState is Playing) {
-            play(_currentSongChannel.value)
+            play(requireNotNull(_currentSongChannel.value))
             seek(currentPlayerState.progress)
         }
     }
 
-    fun switchToDefaultAdapter() {
-        if (playerAdapter != defaultAdapter)
-            switchAdapter(defaultAdapter)
-    }
 
 
     private fun play(song: Song) {
         scope.launch {
-            _currentSongChannel.send(song)
+            _currentSongChannel.value = song
         }
         playerAdapter.play(song)
     }
