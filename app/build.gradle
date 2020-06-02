@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 android {
 
     compileSdkVersion versions.sdkVersion
+    ndkVersion "21.2.6472646"
     buildToolsVersion versions.buildToolsVersion
     repositories {
         mavenCentral()

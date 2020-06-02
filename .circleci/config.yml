@@ -9,14 +9,14 @@ jobs:
     executor: android/android
     parameters:
       ndk-sha:
-        default: fd94d0be6017c6acbd193eb95e09cf4b6f61b834
+        default: 9c842cfaf44bae0ca17d7f6eac3f7e20864ce197
         description: >
           SHA-1 of the zip file specified by ndk-version. Provide a string formatted
           along the lines of the default value. See
           https://developer.android.com/ndk/downloads
         type: string
       ndk-version:
-        default: android-ndk-r19c
+        default: android-ndk-r21c
         description: >
           Version of the NDK to install. Provide a string formatted along the lines
           of the default value.
