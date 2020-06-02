@@ -24,4 +24,8 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Building Android"
+          command: ./gradlew clean
+      - run:
+          name: "Building Android"
           command: ./gradlew build
