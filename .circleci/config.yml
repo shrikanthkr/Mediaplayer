@@ -3,6 +3,10 @@ version: 2.1
 orbs:
   slack: circleci/slack@0.1.0
   android: circleci/android@0.2.1
+
+jobs:
+  build:
+    executor: android/android
     parameters:
       ndk-sha:
         default: fd94d0be6017c6acbd193eb95e09cf4b6f61b834
@@ -17,11 +21,6 @@ orbs:
           Version of the NDK to install. Provide a string formatted along the lines
           of the default value.
         type: string
-
-jobs:
-  build:
-    executor: android/android
-
     steps:
       - checkout
       - run:
