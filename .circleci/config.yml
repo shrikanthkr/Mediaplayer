@@ -2,12 +2,11 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@0.1.0
-  android: circleci/android@0.2.0
+  android: circleci/android@0.2.1
 
 jobs:
   build:
     executor: android/android
-    name: android
 
     steps:
       - checkout
