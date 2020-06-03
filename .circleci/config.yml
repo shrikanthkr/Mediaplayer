@@ -14,6 +14,9 @@ jobs:
   build:
     <<: *config
     executor: android/android
+    parameters:
+      ndk-sha: fd94d0be6017c6acbd193eb95e09cf4b6f61b834
+      ndk-version: android-ndk-r19c
     steps:
       - checkout
       - install-ndk
