@@ -35,4 +35,4 @@ jobs:
           command: ./gradlew clean
       - run:
           name: "Building Android"
-          command: ./gradlew build --info
+          command: ./gradlew build --stacktrace
