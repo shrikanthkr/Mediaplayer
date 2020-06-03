@@ -23,7 +23,7 @@ jobs:
           https://developer.android.com/ndk/downloads
         type: string
       ndk-version:
-        default: android-ndk-r21c
+        default: android-ndk-r19c
         description: >
           Version of the NDK to install. Provide a string formatted along the lines
           of the default value.
