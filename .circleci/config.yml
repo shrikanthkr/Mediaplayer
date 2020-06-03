@@ -2,7 +2,7 @@ version: 2.1
 config: &config
   environment:
     TERM: dumb
-    JAVA_TOOL_OPTIONS: "-Xmx1g"
+    JAVA_TOOL_OPTIONS: "-Xmx2G"
     GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dkotlin.incremental=false"
 
 
