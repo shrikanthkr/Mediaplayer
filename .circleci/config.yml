@@ -1,4 +1,9 @@
 version: 2.1
+config: &config
+  environment:
+    TERM: dumb
+    JAVA_TOOL_OPTIONS: "-Xmx1g"
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dkotlin.incremental=false"
 
 orbs:
   slack: circleci/slack@0.1.0
@@ -6,6 +11,7 @@ orbs:
 
 jobs:
   build:
+    <<: *config
     executor: android/android
     parameters:
       ndk-sha:
