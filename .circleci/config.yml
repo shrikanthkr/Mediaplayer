@@ -16,7 +16,7 @@ jobs:
     executor: android/android
     steps:
       - checkout
-      - android/install-ndk
+      - android/install-ndk:
           ndk-sha: "fd94d0be6017c6acbd193eb95e09cf4b6f61b"
           ndk-version: android-ndk-r19c
       - run:
