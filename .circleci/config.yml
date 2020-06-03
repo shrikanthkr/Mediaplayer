@@ -32,7 +32,7 @@ jobs:
       - checkout
       - run:
           name: "Cleaning Android"
-          command: ./gradlew clean && export ACROSS="across"
+          command: ./gradlew clean
       - run:
           name: "Building Android"
-          command: echo $ACROSS && ./gradlew build
+          command: ./gradlew build --info
