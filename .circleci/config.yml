@@ -14,22 +14,9 @@ jobs:
   build:
     <<: *config
     executor: android/android
-    parameters:
-      ndk-sha:
-        default: 9c842cfaf44bae0ca17d7f6eac3f7e20864ce197
-        description: >
-          SHA-1 of the zip file specified by ndk-version. Provide a string formatted
-          along the lines of the default value. See
-          https://developer.android.com/ndk/downloads
-        type: string
-      ndk-version:
-        default: android-ndk-r19c
-        description: >
-          Version of the NDK to install. Provide a string formatted along the lines
-          of the default value.
-        type: string
     steps:
       - checkout
+      - install-ndk
       - run:
           name: "Cleaning Android"
           command: ./gradlew clean
