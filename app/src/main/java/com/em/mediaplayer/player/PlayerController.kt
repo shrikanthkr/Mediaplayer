@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class PlayerController @Inject constructor(private val scope: CoroutineScope, private val repository: SongsRepository) {
 
-    lateinit var playerAdapter: PlayerAdapter
+    var playerAdapter: PlayerAdapter = NoOpAdapter()
     private val _playerState = ConflatedBroadcastChannel<PlayerState>()
 
     @FlowPreview

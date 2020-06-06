@@ -25,7 +25,7 @@ class AdapterPrioritizer @Inject constructor(
     init {
         val castContext = CastContext.getSharedInstance(application)
         val sessionManager = castContext.sessionManager
-        playerController.playerAdapter = defaultAdapter
+        playerController.switchAdapter(defaultAdapter)
         sessionManager.addSessionManagerListener(castSessionListener, CastSession::class.java)
 
         scope.launch(Dispatchers.Main) {
