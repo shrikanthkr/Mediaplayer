@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    working_directory: ~/Mediaplayer
     runs-on: ubuntu-latest
 
     steps:
@@ -16,3 +17,5 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew testStageReleaseUnitTest
+    - store_artifacts:
+        path: /build/reports/tests
