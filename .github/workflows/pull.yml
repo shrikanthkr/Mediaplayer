@@ -15,4 +15,9 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
-      run: ./gradlew testStageReleaseUnitTest
+      run: ./gradlew --no-daemon testStageReleaseUnitTest
+    - name: Save Reports
+      uses: actions/upload-artifact@v1
+      with:
+        name: test_reports
+        path: "app/build/reports/tests"
