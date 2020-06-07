@@ -20,7 +20,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleStageRelease
     - name: Save Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: stage_bundle.aab
-          path: "app/outputs/bundle/stageRelease/app-stage-release.aab"
+      uses: actions/upload-artifact@v1
+      with:
+        name: stage_bundle.aab
+        path: "app/outputs/bundle/stageRelease/app-stage-release.aab"
