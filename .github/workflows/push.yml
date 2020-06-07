@@ -36,4 +36,3 @@ jobs:
           GITHUB_AUTH: "${{ secrets.GITHUB_TOKEN }}"
         run: |
           npx lerna-changelog
-
