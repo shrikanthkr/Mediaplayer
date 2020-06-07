@@ -20,4 +20,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: test_reports
-        path: /build/reports/tests
+        path: "$GITHUB_WORKSPACE/Mediaplayer/build/reports/tests"
