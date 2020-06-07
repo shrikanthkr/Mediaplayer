@@ -18,7 +18,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew testStageReleaseUnitTest
     - name: Save Reports
-        uses: actions/upload-artifact@v1
-        with:
-          - name: test_reports
-            path: /build/reports/tests
+      uses: actions/upload-artifact@v1
+      with:
+        - name: test_reports
+          path: /build/reports/tests
