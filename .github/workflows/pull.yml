@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-    working_directory: ~/Mediaplayer
     runs-on: ubuntu-latest
 
     steps:
