@@ -31,7 +31,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: npm install, build, and test
+      - name: npm install
         run: |
-          npm install lerna-changelog
           npx learna-changelog

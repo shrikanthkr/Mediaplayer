@@ -1,6 +1,7 @@
 # Built application files
 *.apk
 *.ap_
+*.aab
 
 # Files for the Dalvik VM
 *.dex
@@ -41,3 +42,4 @@ proguard/
 
 #keystore
 keystore/production
+node_modules
