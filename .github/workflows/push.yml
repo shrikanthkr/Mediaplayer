@@ -6,7 +6,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,3 +23,15 @@ jobs:
       with:
         name: stage_bundle.aab
         path: "app/build/outputs/bundle/stageRelease/app-stage-release.aab"
+  changelog:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [13.x]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: npm install, build, and test
+        run: |
+          npm install --global lerna-changelog
+          learna-changelog
