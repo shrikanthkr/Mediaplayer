@@ -32,5 +32,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: npm install
+        env:
+          GITHUB_AUTH: "${{ secrets.GITHUB_TOKEN }}
         run: |
           npx lerna-changelog
