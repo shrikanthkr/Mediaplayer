@@ -2,10 +2,12 @@ package com.em.mediaplayer.app.di.components
 
 import android.app.Application
 import com.em.db.SongsRepository
+import com.em.mediaplayer.app.MediaApplication
 import com.em.mediaplayer.app.di.modules.AbstractApplicationModule
 import com.em.mediaplayer.app.di.modules.ApplicationModule
 import com.em.mediaplayer.app.di.modules.SubComponentsModule
 import com.em.mediaplayer.app.di.modules.ViewModelModule
+import com.em.mediaplayer.app.server.FileServer
 import com.em.mediaplayer.player.PlayerController
 import dagger.BindsInstance
 import dagger.Component
@@ -26,6 +28,8 @@ interface AppComponent {
     fun activityComponent(): ActivityComponent.Factory
     fun controller(): PlayerController
     fun songsRepository(): SongsRepository
+    fun fileServer(): FileServer
+    fun inject(application: MediaApplication)
 
     @Component.Builder
     interface AppComponentBuilder {

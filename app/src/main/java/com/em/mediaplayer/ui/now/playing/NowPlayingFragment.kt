@@ -15,9 +15,11 @@ import com.em.mediaplayer.app.databinding.FragmentNowplayingBinding
 import com.em.mediaplayer.app.di.components.FragmentComponent
 import com.em.mediaplayer.app.models.PlayerState.Paused
 import com.em.mediaplayer.app.models.PlayerState.Playing
+import com.em.mediaplayer.app.server.FileServer
 import com.em.mediaplayer.app.utils.load
 import com.em.mediaplayer.ui.BaseFragment
 import com.em.repository.formattedDuration
+import com.google.android.gms.cast.framework.CastButtonFactory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -27,8 +29,13 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @FlowPreview
 class NowPlayingFragment : BaseFragment() {
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var fileServer: FileServer
+
     private lateinit var viewBinding: FragmentNowplayingBinding
     private lateinit var homeActivityViewModel: HomeActivityViewModel
     private lateinit var viewModel: NowPlayingViewModel
@@ -75,14 +82,11 @@ class NowPlayingFragment : BaseFragment() {
             }
         })
         viewBinding.playerSeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    viewModel.seekTo(progress)
-                }
-            }
-
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = Unit
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.seekTo(seekBar.progress)
+            }
 
         })
 
@@ -95,7 +99,6 @@ class NowPlayingFragment : BaseFragment() {
         viewBinding.previous.setOnClickListener {
             viewModel.previous()
         }
-
+        CastButtonFactory.setUpMediaRouteButton(this.requireContext(), viewBinding.mediaRouteButton)
     }
-
 }

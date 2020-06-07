@@ -60,5 +60,4 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
         playerController.previous()
     }
 
-
 }
