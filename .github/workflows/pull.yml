@@ -19,5 +19,5 @@ jobs:
     - name: Save Reports
       uses: actions/upload-artifact@v1
       with:
-        - name: test_reports
-          path: /build/reports/tests
+        name: test_reports
+        path: /build/reports/tests
