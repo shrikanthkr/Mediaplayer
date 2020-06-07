@@ -33,5 +33,5 @@ jobs:
         uses: actions/checkout@v2
       - name: npm install, build, and test
         run: |
-          npm install --global lerna-changelog
-          learna-changelog
+          npm install lerna-changelog
+          npx learna-changelog
