@@ -24,6 +24,7 @@ jobs:
         name: stage_bundle.aab
         path: "app/build/outputs/bundle/stageRelease/app-stage-release.aab"
   changelog:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
