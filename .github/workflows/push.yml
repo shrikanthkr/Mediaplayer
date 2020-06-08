@@ -19,7 +19,7 @@ jobs:
     - name: Cache (NDK)
       uses: actions/cache@v2
       with:
-        path: ${ANDROID_HOME}/ndk/21.0.6113669
+        path: ${ANDROID_HOME}/sdk/ndk/21.0.6113669
         key: ndk-cache
     - name: Build with Gradle
       run: sudo ./gradlew  --no-daemon clean bundleStage
