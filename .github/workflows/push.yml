@@ -42,7 +42,7 @@ jobs:
       matrix:
         node-version: [13.x]
     steps:
-      - name: Run Npm Install
+      - name: Cache Node Modules
         uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
@@ -54,6 +54,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Run Npm Install
         run: npm install
       - name: Distribute to AppCenter
         env:
