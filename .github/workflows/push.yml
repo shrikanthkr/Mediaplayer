@@ -62,7 +62,7 @@ jobs:
       - name: Distribute to AppCenter
         env:
           APPCENTER_TOKEN: "${{ secrets.APPCENTER_TOKEN }}"
-        run: "appcenter distribute groups publish -f stage_bundle.aab -R CHANGELOG.md -a EM-Stage -g Collaborators --token $APPCENTER_TOKEN"
+        run: "npx appcenter distribute groups publish -f stage_bundle.aab -R CHANGELOG.md -a EM-Stage -g Collaborators --token $APPCENTER_TOKEN"
 
 
 
