@@ -48,4 +48,9 @@ jobs:
         env:
           GITHUB_AUTH: "${{ secrets.GITHUB_TOKEN }}"
         run: |
-          npx lerna-changelog
+          echo "Change Log" >> CHANGELOG.md
+      - name: Save Artifact
+          uses: actions/upload-artifact@v1
+          with:
+            name: CHANGELOG.md
+            path: CHANGELOG.md

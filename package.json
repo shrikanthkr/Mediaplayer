@@ -18,7 +18,6 @@
   "dependencies": {},
   "homepage": "https://github.com/shrikanthkr/Mediaplayer#readme",
   "devDependencies": {
-    "appcenter-cli": "^2.5.3",
-    "lerna-changelog": "^1.0.1"
+    "appcenter-cli": "^2.5.3"
   }
 }
