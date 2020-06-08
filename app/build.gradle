@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 android {
 
     compileSdkVersion versions.sdkVersion
-    ndkVersion "21.0.6113669"
+    ndkVersion versions.ndk
     buildToolsVersion versions.buildToolsVersion
     repositories {
         mavenCentral()
@@ -20,7 +20,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
         }
     }
     signingConfigs {
@@ -64,7 +64,12 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
+    externalNativeBuild {
+        cmake {
+            version versions.cmake
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
 
 }
 
