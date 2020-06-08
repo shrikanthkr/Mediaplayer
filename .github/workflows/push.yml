@@ -66,5 +66,3 @@ jobs:
           APPCENTER_TOKEN: "${{ secrets.APPCENTER_TOKEN }}"
         run: "npx appcenter distribute groups publish -f stage_bundle.aab -R CHANGELOG.md -a shrikanth_kr-g6qm/EM-Stage -g Collaborators --token $APPCENTER_TOKEN"
 
-
-
