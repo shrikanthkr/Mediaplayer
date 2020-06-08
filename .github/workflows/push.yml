@@ -2,7 +2,9 @@ name: Android CD
 
 on:
   push:
-    branches: [ master, rel/*]
+    branches:
+      - master
+        rel/*
 
 jobs:
   build:
