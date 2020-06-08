@@ -43,6 +43,8 @@ jobs:
       matrix:
         node-version: [13.x]
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Cache Node Modules
         uses: actions/cache@v2
         env:
