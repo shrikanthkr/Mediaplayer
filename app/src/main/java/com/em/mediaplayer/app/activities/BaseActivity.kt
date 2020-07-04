@@ -3,6 +3,7 @@ package com.em.mediaplayer.app.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.em.mediaplayer.app.MediaApplication
 import com.em.mediaplayer.app.di.components.ActivityComponent
 import com.em.mediaplayer.app.di.components.AppComponent
@@ -19,6 +20,8 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent = appComponent.activityComponent().create()
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
     }
 
     val appComponent: AppComponent

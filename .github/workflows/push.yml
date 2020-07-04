@@ -17,7 +17,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Gradle
-      run: ./gradlew  --no-daemon clean bundleStage
+      run: sudo ./gradlew  --no-daemon clean bundleStage
     - name: Save Artifact
       uses: actions/upload-artifact@v1
       with:
@@ -63,4 +63,5 @@ jobs:
         env:
           APPCENTER_TOKEN: "${{ secrets.APPCENTER_TOKEN }}"
         run: "npx appcenter distribute groups publish -f stage_bundle.aab -R CHANGELOG.md -a shrikanth_kr-g6qm/EM-Stage -g Collaborators --token $APPCENTER_TOKEN"
+
 
