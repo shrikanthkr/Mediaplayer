@@ -31,7 +31,7 @@ android {
             keyPassword 'admin123'
         }
         production {
-            storeFile file("../keystore/production/mediaplayer")
+            storeFile file("../keystore/production/mediaplayer_keystore")
             keyAlias 'media'
         }
     }
