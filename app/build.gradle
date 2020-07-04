@@ -30,6 +30,10 @@ android {
             keyAlias 'stage'
             keyPassword 'admin123'
         }
+        production {
+            storeFile file("../keystore/production/mediaplayer")
+            keyAlias 'media'
+        }
     }
 
     flavorDimensions "api"
@@ -42,6 +46,7 @@ android {
         production {
             applicationId "com.em.mediaplayer.app"
             dimension "api"
+            signingConfig signingConfigs.production
         }
     }
     buildTypes {
