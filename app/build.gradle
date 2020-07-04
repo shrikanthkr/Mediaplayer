@@ -14,6 +14,7 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.sdkVersion
+        compileSdkVersion versions.sdkVersion
         versionCode 6
         versionName "1.05"
 
@@ -81,7 +82,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
-    implementation "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
     implementation "com.google.android.material:material:$versions.material"
     implementation "com.google.dagger:dagger:$versions.dagger"
     implementation "com.github.bumptech.glide:glide:$versions.glide"
@@ -89,8 +90,7 @@ dependencies {
     implementation "com.steiner.videolan:libvlc-android:$versions.vlc"
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:$versions.localbroadcastManager"
     implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
-    implementation "androidx.drawerlayout:drawerlayout:1.0.0"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.drawerlayout:drawerlayout:$versions.drawerLayout"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
     implementation "com.android.support:mediarouter-v7:$versions.mediarouter-v7"
     implementation "com.google.android.gms:play-services-cast-framework:$versions.cast"
@@ -99,7 +99,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
 
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
