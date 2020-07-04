@@ -16,11 +16,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Cache (NDK)
-      uses: actions/cache@v2
-      with:
-        path: ${ANDROID_HOME}/sdk/ndk/21.0.6113669
-        key: ndk-cache-21.0.6113669
     - name: Build with Gradle
       run: sudo ./gradlew  --no-daemon clean bundleStage
     - name: Save Artifact
