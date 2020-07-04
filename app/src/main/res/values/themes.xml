@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <style name="Theme.Light" parent="AppTheme">
-        <item name="fontFamily">@font/calibri_regular</item>
+        <item name="android:fontFamily">@font/fonts</item>
+        <item name="android:textColorPrimary">?attr/colorOnSecondary</item>
+
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/darkGreen</item>
         <item name="colorPrimaryVariant">@color/lightGreen</item>
@@ -28,14 +31,7 @@
         <item name="searchTintColor">@color/lightGray</item>
         <item name="searchTextColor">@color/gray</item>
 
-        <item name="android:textColorPrimary">?attr/colorOnSecondary</item>
         <item name="colorSemiTransparent">@color/semiTransparent</item>
 
     </style>
-
-
-    <style name="Theme.Dark" parent="AppTheme">
-
-    </style>
-
 </resources>
