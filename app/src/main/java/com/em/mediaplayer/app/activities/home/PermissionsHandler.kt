@@ -1,7 +1,9 @@
 package com.em.mediaplayer.app.activities.home
 
-import android.Manifest
+import android.Manifest.permission.READ_PHONE_STATE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -9,21 +11,33 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import com.em.mediaplayer.app.activities.home.PermissionsHandler.Permission.*
 
-class PermissionsHandler(context: AppCompatActivity) : LifecycleObserver {
+class PermissionsHandler(private val context: AppCompatActivity) : LifecycleObserver {
 
 
     val permissionAvailable = MutableLiveData<Permission>()
 
     init {
-        val storageNotGranted = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-        val phoneStateNotGranted = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+        check()
+    }
+
+    fun check(){
+        val storageNotGranted = ContextCompat.checkSelfPermission(context, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        val phoneStateNotGranted = ContextCompat.checkSelfPermission(context, READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+        Log.d("PERMISSION", "$storageNotGranted : $phoneStateNotGranted")
         if (storageNotGranted || phoneStateNotGranted) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(context,
-                            Manifest.permission.READ_PHONE_STATE)) {
-                permissionAvailable.value = RequestPermission
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(context,
+                            READ_PHONE_STATE)) {
+                val requiredPersmissions = arrayListOf<String>()
+                if(storageNotGranted){
+                    requiredPersmissions.add(WRITE_EXTERNAL_STORAGE)
+                }
+                if(phoneStateNotGranted){
+                    requiredPersmissions.add(READ_PHONE_STATE)
+                }
+                permissionAvailable.value = RequestPermission(requiredPersmissions)
             } else {
                 ActivityCompat.requestPermissions(context,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE),
+                        arrayOf(WRITE_EXTERNAL_STORAGE, READ_PHONE_STATE),
                         EXTERNAL_STORAGE_PERMISSION)
             }
         } else {
@@ -46,7 +60,7 @@ class PermissionsHandler(context: AppCompatActivity) : LifecycleObserver {
     }
 
     sealed class Permission {
-        object RequestPermission : Permission()
+        class RequestPermission(val permissions: List<String>) : Permission()
         object DeniedPermission : Permission()
         object Granted : Permission()
     }
