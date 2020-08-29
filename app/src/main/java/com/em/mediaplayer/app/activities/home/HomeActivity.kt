@@ -79,7 +79,7 @@ class HomeActivity : BaseActivity() {
         } else {
             bottomSheetBehavior.onRestoreInstanceState(activityHome, nowPlaying.requireView(), requireNotNull(savedInstanceState.getParcelable(BOTTOM_SHEET_STATE)))
         }
-        permissionsHandler.permissionAvailable.observe(this, Observer {
+        permissionsHandler.permissionAvailable.observe(this, {
             when (it) {
                 is Granted -> {
                     render()
