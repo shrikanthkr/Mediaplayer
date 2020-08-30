@@ -1,4 +1,4 @@
-package com.em.mediaplayer.player
+package com.em.mediaplayer.player.adapters
 
 import android.util.Log
 import com.em.mediaplayer.app.server.FileServer
@@ -7,19 +7,12 @@ import com.google.android.gms.cast.*
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
 import com.google.android.gms.common.api.PendingResult
-import com.google.android.gms.common.api.Status
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
-import org.w3c.dom.Comment
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 
 class CastAdapter(
         private val server: FileServer,
-        private val scope: CoroutineScope,
         session: CastSession,
-        private val singleThreadDispatcher: CoroutineDispatcher
+        private val commander: CastAdapterCommandExecutor
 ) : PlayerAdapter() {
 
     private val remoteMediaClient = session.remoteMediaClient
@@ -65,29 +58,12 @@ class CastAdapter(
 
     }
 
-    private val commandChannel = Channel<Command>(Channel.RENDEZVOUS)
-
     companion object {
         const val TAG = "CastAdapter"
     }
 
     init {
         remoteMediaClient.registerCallback(remoteMediaCallback)
-        scope.launch(singleThreadDispatcher) {
-            for(command in commandChannel){
-                val result = withContext(Dispatchers.Main){
-                    command.execute()
-                }
-                Log.d(TAG, "${Thread.currentThread()} EXECUTING $command")
-                suspendCoroutine<Unit> {
-                    result.addStatusListener { status ->
-                        Log.d(TAG, "${Thread.currentThread()}  EXECUTED $command, $status")
-                        it.resume(Unit)
-                    }
-                }
-            }
-        }
-
     }
 
 
@@ -148,12 +124,10 @@ class CastAdapter(
 
 
     private fun executeCommand(command: () -> PendingResult<RemoteMediaClient.MediaChannelResult>) {
-        scope.launch(singleThreadDispatcher) {
-            commandChannel.send(object : Command {
-                override fun execute(): PendingResult<RemoteMediaClient.MediaChannelResult> {
-                    return command()
-                }
-            })
-        }
+        commander.execute(object : CastAdapterCommand {
+            override fun execute(): PendingResult<RemoteMediaClient.MediaChannelResult> {
+                return command()
+            }
+        })
     }
 }

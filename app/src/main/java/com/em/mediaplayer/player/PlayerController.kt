@@ -4,6 +4,8 @@ import android.util.Log
 import com.em.db.SongsRepository
 import com.em.mediaplayer.app.models.PlayerState
 import com.em.mediaplayer.app.models.PlayerState.*
+import com.em.mediaplayer.player.adapters.NoOpAdapter
+import com.em.mediaplayer.player.adapters.PlayerAdapter
 import com.em.repository.Song
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi

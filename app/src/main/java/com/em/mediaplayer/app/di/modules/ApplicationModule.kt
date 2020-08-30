@@ -1,8 +1,8 @@
 package com.em.mediaplayer.app.di.modules
 
 import com.em.mediaplayer.app.di.qualifiers.SingleThreadDispatcher
-import com.em.mediaplayer.player.PlayerAdapter
-import com.em.mediaplayer.player.VLCAdapter
+import com.em.mediaplayer.player.adapters.PlayerAdapter
+import com.em.mediaplayer.player.adapters.VLCAdapter
 import com.em.mediaplayer.ui.notifications.NotificationService
 import dagger.Binds
 import dagger.Module
