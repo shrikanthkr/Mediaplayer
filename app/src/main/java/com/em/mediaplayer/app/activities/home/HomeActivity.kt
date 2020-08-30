@@ -1,6 +1,7 @@
 package com.em.mediaplayer.app.activities.home
 
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -10,15 +11,13 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.em.mediaplayer.app.R
 import com.em.mediaplayer.app.ViewModelFactory
 import com.em.mediaplayer.app.ViewPagerAdapter
 import com.em.mediaplayer.app.activities.BaseActivity
-import com.em.mediaplayer.app.activities.home.PermissionsHandler.Permission.DeniedPermission
-import com.em.mediaplayer.app.activities.home.PermissionsHandler.Permission.Granted
+import com.em.mediaplayer.app.activities.home.PermissionsHandler.Permission.*
 import com.em.mediaplayer.app.behaviors.AppbarOffsetChangeListener
 import com.em.mediaplayer.app.models.PlayerState.Completed
 import com.em.mediaplayer.app.models.PlayerState.Playing
@@ -80,6 +79,7 @@ class HomeActivity : BaseActivity() {
             bottomSheetBehavior.onRestoreInstanceState(activityHome, nowPlaying.requireView(), requireNotNull(savedInstanceState.getParcelable(BOTTOM_SHEET_STATE)))
         }
         permissionsHandler.permissionAvailable.observe(this, {
+            Log.d(TAG, "$it")
             when (it) {
                 is Granted -> {
                     render()
@@ -87,6 +87,17 @@ class HomeActivity : BaseActivity() {
                 }
                 is DeniedPermission -> {
                     alertDialog.show()
+                }
+                is RequestPermission -> {
+                    val hasStorage = it.permissions.any { permission ->
+                        permission == Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }
+                    if (hasStorage) {
+                        alertDialog.show()
+                    } else {
+                        render()
+                        alertDialog.dismiss()
+                    }
                 }
             }
         })
@@ -99,6 +110,10 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        permissionsHandler.check()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -108,7 +123,7 @@ class HomeActivity : BaseActivity() {
     private fun render() {
         viewPager2.adapter = ViewPagerAdapter(this)
 
-        viewModel.playingFragmentState.observe(this, Observer {
+        viewModel.playingFragmentState.observe(this, {
             bottomSheetBehavior.state = it
         })
 
@@ -129,7 +144,7 @@ class HomeActivity : BaseActivity() {
         })
         viewPager2.setCurrentItem(1, false)
 
-        viewModel.playerState.observe(this, Observer {
+        viewModel.playerState.observe(this, {
             when (it) {
                 is Playing -> {
                     snackBar.setPlayIcon(R.drawable.ic_pause, playPauseClick)
@@ -157,7 +172,7 @@ class HomeActivity : BaseActivity() {
 
         })
 
-        viewModel.currentSong.observe(this, Observer {
+        viewModel.currentSong.observe(this, {
             snackBar.show()
             snackBar.setTitle(it.title)
             snackBar.loadAlbumArt(it.albumArtPath)
@@ -211,7 +226,7 @@ class HomeActivity : BaseActivity() {
                 .setTitle(R.string.permision_request_title)
                 .setMessage(R.string.permision_request_description)
                 .setCancelable(false)
-                .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     dialog.dismiss()
                     startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                             Uri.fromParts("package", packageName, null)))

@@ -6,15 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import androidx.lifecycle.Observer
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.em.mediaplayer.app.R
 import com.em.mediaplayer.app.ViewModelFactory
 import com.em.mediaplayer.app.activities.home.HomeActivityViewModel
 import com.em.mediaplayer.app.databinding.FragmentNowplayingBinding
 import com.em.mediaplayer.app.di.components.FragmentComponent
-import com.em.mediaplayer.app.models.PlayerState.Paused
-import com.em.mediaplayer.app.models.PlayerState.Playing
+import com.em.mediaplayer.app.models.PlayerState.*
 import com.em.mediaplayer.app.server.FileServer
 import com.em.mediaplayer.app.utils.load
 import com.em.mediaplayer.ui.BaseFragment
@@ -59,7 +58,7 @@ class NowPlayingFragment : BaseFragment() {
         viewBinding.downArrow.setOnClickListener {
             homeActivityViewModel.updateState(BottomSheetBehavior.STATE_HIDDEN)
         }
-        viewModel.currentSong.observe(viewLifecycleOwner, Observer {
+        viewModel.currentSong.observe(viewLifecycleOwner, {
             if (it != null) {
                 viewBinding.album.text = it.album
                 viewBinding.songTitle.text = it.title
@@ -68,7 +67,7 @@ class NowPlayingFragment : BaseFragment() {
                 viewBinding.playerSeekbar.max = it.duration.toInt()
             }
         })
-        viewModel.playerState.observe(viewLifecycleOwner, Observer {
+        viewModel.playerState.observe(viewLifecycleOwner, {
             when (it) {
                 is Playing -> {
                     viewBinding.playerSeekbar.progress = it.progress.toInt()
@@ -79,6 +78,13 @@ class NowPlayingFragment : BaseFragment() {
                 is Paused -> {
                     viewBinding.playPause.setImageResource(R.drawable.ic_play_arrow)
                 }
+                is Erred -> {
+                    Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_LONG).show()
+                }
+                Idle -> Unit
+                Loading -> Unit
+                is Started -> Unit
+                is Completed -> Unit
             }
         })
         viewBinding.playerSeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {

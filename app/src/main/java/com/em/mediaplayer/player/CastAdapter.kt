@@ -25,12 +25,12 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
                 when (remoteMediaClient.mediaStatus.playerState) {
                     MediaStatus.PLAYER_STATE_UNKNOWN -> dispatchError()
                     MediaStatus.PLAYER_STATE_IDLE -> {
-                        Log.d(TAG, " Idle")
+                        Log.d(TAG, " Idle ${remoteMediaClient.mediaStatus.idleReason}")
                         when (remoteMediaClient.mediaStatus.idleReason) {
                             MediaStatus.IDLE_REASON_FINISHED -> {
                                 dispatchEnd()
                             }
-                            MediaStatus.IDLE_REASON_CANCELED, MediaStatus.IDLE_REASON_ERROR, MediaStatus.IDLE_REASON_INTERRUPTED -> {
+                            MediaStatus.IDLE_REASON_ERROR, MediaStatus.IDLE_REASON_INTERRUPTED -> {
                                 dispatchError()
                             }
                         }
@@ -43,7 +43,9 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
                         remoteMediaClient.removeProgressListener(progressListener)
                         dispatchPause()
                     }
-                    MediaStatus.PLAYER_STATE_BUFFERING, MediaStatus.PLAYER_STATE_LOADING -> Log.d(TAG, " Buffering")
+                    MediaStatus.PLAYER_STATE_BUFFERING, MediaStatus.PLAYER_STATE_LOADING -> {
+                        dispatchLoading()
+                    }
 
                 }
             }

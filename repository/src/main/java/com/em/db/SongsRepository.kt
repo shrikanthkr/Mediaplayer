@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher, private val scope: CoroutineScope) {
 
-    val queue = mutableListOf<Song>()
+    private val queue = mutableListOf<Song>()
     private var currentIndex = -1
 
     private fun songsCursor(selection: String? = null): Cursor? {
