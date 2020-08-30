@@ -1,4 +1,4 @@
-package com.em.mediaplayer.player
+package com.em.mediaplayer.player.adapters
 
 import android.app.Application
 import android.net.Uri

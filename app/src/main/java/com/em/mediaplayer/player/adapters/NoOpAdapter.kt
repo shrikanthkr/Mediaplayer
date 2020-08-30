@@ -1,4 +1,4 @@
-package com.em.mediaplayer.player
+package com.em.mediaplayer.player.adapters
 
 import com.em.repository.Song
 

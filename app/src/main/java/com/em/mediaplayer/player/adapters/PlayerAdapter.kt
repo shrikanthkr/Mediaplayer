@@ -1,5 +1,6 @@
-package com.em.mediaplayer.player
+package com.em.mediaplayer.player.adapters
 
+import com.em.mediaplayer.player.PlayerListener
 import com.em.repository.Song
 
 abstract class PlayerAdapter {

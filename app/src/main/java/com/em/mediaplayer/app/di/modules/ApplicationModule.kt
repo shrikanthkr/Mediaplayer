@@ -1,16 +1,25 @@
 package com.em.mediaplayer.app.di.modules
 
-import com.em.mediaplayer.player.PlayerAdapter
-import com.em.mediaplayer.player.VLCAdapter
+import com.em.mediaplayer.app.di.qualifiers.SingleThreadDispatcher
+import com.em.mediaplayer.player.adapters.PlayerAdapter
+import com.em.mediaplayer.player.adapters.VLCAdapter
 import com.em.mediaplayer.ui.notifications.NotificationService
 import dagger.Binds
 import dagger.Module
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import dagger.Provides
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule
+class ApplicationModule {
+
+    @Provides
+    @SingleThreadDispatcher
+    fun singleThreadDispatcher(): CoroutineDispatcher {
+        return Executors.newFixedThreadPool(1).asCoroutineDispatcher()
+    }
+}
 
 @FlowPreview
 @ExperimentalCoroutinesApi

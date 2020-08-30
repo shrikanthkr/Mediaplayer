@@ -108,6 +108,7 @@ dependencies {
     implementation "org.nanohttpd:nanohttpd-webserver:$versions.nanohttpd"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
 
+    //https://stackoverflow.com/questions/45099688/error-error-nonexistentclass-kotlin-in-multi-module-dagger-project
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
 
