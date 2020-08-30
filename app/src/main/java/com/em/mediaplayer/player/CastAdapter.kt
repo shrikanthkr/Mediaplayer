@@ -6,9 +6,21 @@ import com.em.repository.Song
 import com.google.android.gms.cast.*
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
+import com.google.android.gms.common.api.PendingResult
+import com.google.android.gms.common.api.Status
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
+import org.w3c.dom.Comment
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
-class CastAdapter(private val server: FileServer, session: CastSession) : PlayerAdapter() {
+class CastAdapter(
+        private val server: FileServer,
+        private val scope: CoroutineScope,
+        session: CastSession,
+        private val singleThreadDispatcher: CoroutineDispatcher
+) : PlayerAdapter() {
 
     private val remoteMediaClient = session.remoteMediaClient
     private val progressListener = RemoteMediaClient.ProgressListener { current, _ ->
@@ -53,12 +65,29 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
 
     }
 
+    private val commandChannel = Channel<Command>(Channel.RENDEZVOUS)
+
     companion object {
         const val TAG = "CastAdapter"
     }
 
     init {
         remoteMediaClient.registerCallback(remoteMediaCallback)
+        scope.launch(singleThreadDispatcher) {
+            for(command in commandChannel){
+                val result = withContext(Dispatchers.Main){
+                    command.execute()
+                }
+                Log.d(TAG, "${Thread.currentThread()} EXECUTING $command")
+                suspendCoroutine<Unit> {
+                    result.addStatusListener { status ->
+                        Log.d(TAG, "${Thread.currentThread()}  EXECUTED $command, $status")
+                        it.resume(Unit)
+                    }
+                }
+            }
+        }
+
     }
 
 
@@ -81,15 +110,21 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
                 .setMediaInfo(info)
                 .setAutoplay(true)
                 .build()
-        remoteMediaClient.load(load)
+        executeCommand {
+            remoteMediaClient.load(load)
+        }
     }
 
     override fun pause() {
-        remoteMediaClient.pause()
+        executeCommand {
+            remoteMediaClient.pause()
+        }
     }
 
     override fun resume() {
-        remoteMediaClient.play()
+        executeCommand {
+            remoteMediaClient.play()
+        }
     }
 
     override fun seek(position: Long) {
@@ -99,7 +134,9 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
                 .setResumeState(MediaSeekOptions.RESUME_STATE_UNCHANGED)
                 .build()
         Log.d(TAG, "Song Duration on Seek: $position")
-        remoteMediaClient.seek(seekOption)
+        executeCommand {
+            remoteMediaClient.seek(seekOption)
+        }
     }
 
     override fun clear() {
@@ -109,4 +146,14 @@ class CastAdapter(private val server: FileServer, session: CastSession) : Player
         remoteMediaClient.removeProgressListener(progressListener)
     }
 
+
+    private fun executeCommand(command: () -> PendingResult<RemoteMediaClient.MediaChannelResult>) {
+        scope.launch(singleThreadDispatcher) {
+            commandChannel.send(object : Command {
+                override fun execute(): PendingResult<RemoteMediaClient.MediaChannelResult> {
+                    return command()
+                }
+            })
+        }
+    }
 }
