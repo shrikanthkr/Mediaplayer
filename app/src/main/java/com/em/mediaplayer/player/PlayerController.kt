@@ -39,6 +39,11 @@ class PlayerController @Inject constructor(private val scope: CoroutineScope, pr
             Log.d(TAG, "Start")
         }
 
+        override fun onLoading() {
+            Log.d(TAG, "Loading")
+            dispatch(Loading)
+        }
+
         override fun onPause() {
             Log.d(TAG, "Pause")
             val previousState = requireNotNull(_playerState.value) as Playing
@@ -63,6 +68,7 @@ class PlayerController @Inject constructor(private val scope: CoroutineScope, pr
         }
 
         override fun onEnd() {
+            Log.d(TAG, "END")
             if (_playerState.value is Playing) {
                 val previousState = requireNotNull(_playerState.value) as Playing
                 dispatch(Completed(previousState.song))

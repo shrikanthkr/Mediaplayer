@@ -41,7 +41,7 @@ class FileServer @Inject constructor(context: Application, private val ioUtils: 
                     addHeader("Content-Length", "" + (range.last - range.first + 1))
                     addHeader("Content-Range", "bytes " + range.first + "-" + range.last + "/" + lengthIndex)
                 }
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 Log.e(TAG, "ERROR WHILE SERVING", e)
                 newFixedLengthResponse(Status.FORBIDDEN, "", "")
             } finally {

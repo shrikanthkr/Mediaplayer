@@ -50,5 +50,11 @@ abstract class PlayerAdapter {
         }
     }
 
+    fun dispatchLoading(){
+        list.forEach {
+            it.onLoading()
+        }
+    }
+
 
 }

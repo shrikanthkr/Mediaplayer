@@ -3,6 +3,7 @@ package com.em.mediaplayer.player
 import android.app.Application
 import com.em.mediaplayer.app.cast.CastSessionListener
 import com.em.mediaplayer.app.cast.CastSessionListener.CastSessionStatus.Available
+import com.em.mediaplayer.app.cast.CastSessionListener.CastSessionStatus.Resumed
 import com.em.mediaplayer.app.server.FileServer
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.cast.framework.CastSession
@@ -33,6 +34,11 @@ class AdapterPrioritizer @Inject constructor(
                 when (it) {
                     is Available -> {
                         playerController.switchAdapter(CastAdapter(server, it.session))
+                    }
+                    is Resumed -> {
+                        if(!it.wasSuspended){
+                            playerController.switchAdapter(CastAdapter(server, it.session))
+                        }
                     }
                     else -> playerController.switchAdapter(defaultAdapter)
                 }

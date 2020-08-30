@@ -1,8 +1,8 @@
 package com.em.mediaplayer.app.cast
 
 import android.util.Log
-import com.em.mediaplayer.app.cast.CastSessionListener.CastSessionStatus.Available
-import com.em.mediaplayer.app.cast.CastSessionListener.CastSessionStatus.Disconnected
+import com.em.mediaplayer.app.cast.CastSessionListener.CastSessionStatus.*
+import com.google.android.gms.cast.CastStatusCodes
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.SessionManagerListener
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,15 +14,12 @@ class CastSessionListener : SessionManagerListener<CastSession> {
     private val _castSessionState = MutableStateFlow<CastSessionStatus?>(null)
     val castSessionState = _castSessionState.filterNotNull()
 
-
-    //Caster ovverides
-
     override fun onSessionStarting(castSession: CastSession?) {
         Log.d(TAG, " On Cast Starting ")
     }
 
     override fun onSessionStartFailed(castSession: CastSession?, p1: Int) {
-        Log.d(TAG, " On Casst Start Failed $p1")
+        Log.d(TAG, " On Cast Start Failed${CastStatusCodes.getStatusCodeString(p1)}")
         _castSessionState.value = Disconnected(castSession)
     }
 
@@ -36,21 +33,21 @@ class CastSessionListener : SessionManagerListener<CastSession> {
     }
 
     override fun onSessionResumeFailed(castSession: CastSession?, p1: Int) {
-        Log.d(TAG, " On Cast Resume Failed $p1")
+        Log.d(TAG, " On Cast Resume Failed ${CastStatusCodes.getStatusCodeString(p1)}")
         _castSessionState.value = Disconnected(castSession)
     }
 
     override fun onSessionResumed(castSession: CastSession?, p1: Boolean) {
         Log.d(TAG, " On Cast Resumed $p1")
-        _castSessionState.value = Available(requireNotNull(castSession))
+        _castSessionState.value = Resumed(requireNotNull(castSession), p1)
     }
 
     override fun onSessionSuspended(castSession: CastSession?, p1: Int) {
-        Log.d(TAG, " On Cast Suspended $p1")
+        Log.d(TAG, " On Cast Suspended ${CastStatusCodes.getStatusCodeString(p1)}")
     }
 
     override fun onSessionEnded(castSession: CastSession?, p1: Int) {
-        Log.d(TAG, " On Cast Ended")
+        Log.d(TAG, " On Cast Ended ${CastStatusCodes.getStatusCodeString(p1)}")
         _castSessionState.value = Disconnected(castSession)
     }
 
@@ -64,6 +61,7 @@ class CastSessionListener : SessionManagerListener<CastSession> {
 
     sealed class CastSessionStatus {
         class Available(val session: CastSession) : CastSessionStatus()
+        class Resumed(val session: CastSession, val wasSuspended: Boolean) : CastSessionStatus()
         class Disconnected(val session: CastSession?) : CastSessionStatus()
     }
 }
