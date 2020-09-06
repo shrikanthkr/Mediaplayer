@@ -48,8 +48,13 @@ class PlayerController @Inject constructor(private val scope: CoroutineScope, pr
 
         override fun onPause() {
             Log.d(TAG, "Pause")
-            val previousState = requireNotNull(_playerState.value) as Playing
-            dispatch(Paused(previousState.song, previousState.progress))
+            when (val currentState = _playerState.value) {
+                is Playing -> dispatch(Paused(currentState.song, currentState.progress))
+                is Loading -> {
+                    //ignore
+                }
+            }
+
         }
 
         override fun onProgress(progress: Long) {
@@ -165,7 +170,6 @@ class PlayerController @Inject constructor(private val scope: CoroutineScope, pr
             seek(currentPlayerState.progress)
         }
     }
-
 
 
     private fun play(song: Song) {

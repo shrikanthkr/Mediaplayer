@@ -1,5 +1,6 @@
 package com.em.mediaplayer.player.adapters
 
+import android.net.Uri
 import android.util.Log
 import com.em.mediaplayer.app.server.FileServer
 import com.em.repository.Song
@@ -7,6 +8,7 @@ import com.google.android.gms.cast.*
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
 import com.google.android.gms.common.api.PendingResult
+import com.google.android.gms.common.images.WebImage
 
 
 class CastAdapter(
@@ -73,7 +75,13 @@ class CastAdapter(
         }
         server.serve(song.uri)
         Log.d(TAG, "Song Duration on play: ${song.duration}")
-        val metaData = MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK)
+        val metaData = MediaMetadata(MediaMetadata.MEDIA_TYPE_MUSIC_TRACK).apply {
+            putString(MediaMetadata.KEY_TITLE, song.title)
+            putString(MediaMetadata.KEY_ARTIST, song.artist)
+            putString(MediaMetadata.KEY_ALBUM_TITLE, song.album)
+            putTimeMillis(MediaMetadata.KEY_SECTION_DURATION, song.duration)
+            addImage(WebImage(Uri.parse(song.album_art)))
+        }
         //val url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/mp4/DesigningForGoogleCast.mp4"
         val url = "http://${server.ip}/${song.id}.mp3"
         val info = MediaInfo.Builder(url)
