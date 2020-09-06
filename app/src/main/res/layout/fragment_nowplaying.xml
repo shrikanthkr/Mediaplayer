@@ -28,7 +28,10 @@
                 android:id="@+id/down_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/down_arrow"
+                android:focusable="true"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_down"
                 android:tint="?attr/downArrowTint" />
@@ -38,7 +41,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_toStartOf="@id/media_route_button"
+                android:layout_toEndOf="@id/down_arrow"
+                android:ellipsize="marquee"
                 android:gravity="center"
+                android:maxLines="2"
                 android:textColor="?attr/colorTitle"
                 android:textSize="@dimen/album_title"
                 android:textStyle="bold"
@@ -48,13 +55,23 @@
                 android:id="@+id/media_route_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@id/queue"
                 android:foregroundTint="?attr/downArrowTint"
                 android:mediaRouteTypes="user"
                 android:padding="@dimen/tiny_margin"
-                tools:ignore="RelativeOverlap"
                 tools:visibility="visible" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/queue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/down_arrow"
+                android:focusable="true"
+                android:padding="12dp"
+                android:src="@drawable/ic_list"
+                android:tint="?attr/downArrowTint" />
 
         </RelativeLayout>
 
@@ -73,6 +90,14 @@
             app:layout_constraintBottom_toTopOf="@id/text_container"
             app:layout_constraintTop_toBottomOf="@id/title_container"
             tools:tint="@color/gray" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/current_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="@dimen/small_margin"
+            app:layout_constraintBottom_toTopOf="@id/text_container"
+            app:layout_constraintTop_toBottomOf="@id/title_container" />
 
         <LinearLayout
             android:id="@+id/text_container"
@@ -112,11 +137,12 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/controls">
 
-            <SeekBar
+            <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/player_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin" />
+                android:layout_marginTop="@dimen/medium_margin"
+                android:padding="@dimen/medium_margin" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/current_time"

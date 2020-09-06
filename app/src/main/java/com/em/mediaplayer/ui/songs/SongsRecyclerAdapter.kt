@@ -1,7 +1,6 @@
 package com.em.mediaplayer.ui.songs
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.em.mediaplayer.app.databinding.ViewholderHomeItemBinding
@@ -25,13 +24,11 @@ class SongsRecyclerAdapter(private val songs: List<Song>, private val itemClick:
             holder.itemView.setOnClickListener {
                 this@SongsRecyclerAdapter.itemClick(this)
             }
-            holder.setQueueClick(View.OnClickListener {
+            holder.setQueueClick {
                 this@SongsRecyclerAdapter.addToQueue(this)
-            })
+            }
 
         }
-
-
     }
 
 }

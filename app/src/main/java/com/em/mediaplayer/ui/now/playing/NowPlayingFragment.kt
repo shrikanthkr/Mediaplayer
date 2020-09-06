@@ -3,11 +3,16 @@ package com.em.mediaplayer.ui.now.playing
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.SeekBar.VISIBLE
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.em.mediaplayer.app.R
 import com.em.mediaplayer.app.ViewModelFactory
 import com.em.mediaplayer.app.activities.home.HomeActivityViewModel
@@ -55,6 +60,8 @@ class NowPlayingFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewBinding.currentList.layoutManager = LinearLayoutManager(requireContext())
+        viewBinding.currentList.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
         viewBinding.downArrow.setOnClickListener {
             homeActivityViewModel.updateState(BottomSheetBehavior.STATE_HIDDEN)
         }
@@ -82,10 +89,27 @@ class NowPlayingFragment : BaseFragment() {
                     Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_LONG).show()
                 }
                 Idle -> Unit
-                Loading -> Unit
+                Loading -> {
+                    viewBinding.playPause.setImageResource(R.drawable.ic_loading)
+                }
                 is Started -> Unit
                 is Completed -> Unit
             }
+        })
+
+        viewModel.currentUIState.observe(viewLifecycleOwner, {
+            if (it.showList) {
+                viewBinding.albumImage.visibility = GONE
+                viewBinding.currentList.visibility = VISIBLE
+            } else {
+                viewBinding.albumImage.visibility = VISIBLE
+                viewBinding.currentList.visibility = GONE
+            }
+            val adapter = NowSongsRecyclerAdapter(it.songs) {
+                viewModel.play(it)
+            }
+            viewBinding.currentList.adapter = adapter
+            adapter.notifyDataSetChanged()
         })
         viewBinding.playerSeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) = Unit
@@ -105,6 +129,11 @@ class NowPlayingFragment : BaseFragment() {
         viewBinding.previous.setOnClickListener {
             viewModel.previous()
         }
+
+        viewBinding.queue.setOnClickListener {
+            viewModel.listToggle()
+        }
+
         CastButtonFactory.setUpMediaRouteButton(this.requireContext(), viewBinding.mediaRouteButton)
     }
 }
