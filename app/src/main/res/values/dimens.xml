@@ -2,7 +2,7 @@
 <resources>
     <dimen name="large_margin">40dp</dimen>
     <dimen name="medium_margin">20dp</dimen>
-    <dimen name="small_margin">20dp</dimen>
+    <dimen name="small_margin">10dp</dimen>
     <dimen name="tiny_margin">8dp</dimen>
     <dimen name="major_title">36sp</dimen>
     <dimen name="album_title">18sp</dimen>

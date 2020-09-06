@@ -25,6 +25,9 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
     private val _currentSong = MutableLiveData<Song>()
     val currentSong = _currentSong
 
+    private val _currentUIState = MutableLiveData<UIState>()
+    val currentUIState = _currentUIState
+
 
     init {
         viewModelScope.launch {
@@ -38,6 +41,14 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
                 _currentSong.value = it
             }
         }
+
+        viewModelScope.launch {
+            songsRepository.queue.collect {
+                _currentUIState.value = UIState(songs = it, showList = _currentUIState.value?.showList
+                        ?: false)
+            }
+        }
+
     }
 
     fun seekTo(progress: Int) {
@@ -45,10 +56,11 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
     }
 
     fun togglePlay() {
-        if (_playerState.value is PlayerState.Playing) {
-            playerController.pause()
-        } else {
-            playerController.resume()
+        when (_playerState.value) {
+            is PlayerState.Playing -> playerController.pause()
+            is PlayerState.Paused -> playerController.resume()
+            else -> {
+            }
         }
     }
 
@@ -60,4 +72,14 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
         playerController.previous()
     }
 
+    fun listToggle() {
+        val currentState = requireNotNull(_currentUIState.value)
+        _currentUIState.value = currentState.copy(showList = !currentState.showList)
+    }
+
+    fun play(song: Song) {
+        playerController.playNow(song)
+    }
+
+    data class UIState(val showList: Boolean = false, val songs: List<Song>)
 }

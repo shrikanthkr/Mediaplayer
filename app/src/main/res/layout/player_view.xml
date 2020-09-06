@@ -34,7 +34,7 @@
         android:lines="1"
         android:paddingLeft="@dimen/tiny_margin"
         android:paddingRight="@dimen/tiny_margin"
-        android:text="@string/play_icon_description"
+        android:contentDescription="@string/play_icon_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/divider"
         app:layout_constraintTop_toTopOf="parent" />

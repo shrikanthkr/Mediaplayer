@@ -9,6 +9,10 @@ import com.em.repository.Album
 import com.em.repository.Artist
 import com.em.repository.Song
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.filterNotNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +21,9 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher, private val scope: CoroutineScope) {
 
-    private val queue = mutableListOf<Song>()
+    private val _queue = MutableStateFlow<MutableList<Song>>(mutableListOf())
+    val queue = _queue.filterNotNull<List<Song>>()
+
     private var currentIndex = -1
 
     private fun songsCursor(selection: String? = null): Cursor? {
@@ -144,9 +150,9 @@ class SongsRepository @Inject constructor(private val application: Application, 
 
 
     fun next(): Song? {
-        return if (queue.size - 1 > currentIndex) {
+        return if (_queue.value.size - 1 > currentIndex) {
             currentIndex += 1
-            queue[currentIndex]
+            _queue.value[currentIndex]
         } else {
             null
         }
@@ -156,7 +162,7 @@ class SongsRepository @Inject constructor(private val application: Application, 
     fun previous(): Song? {
         return if (currentIndex >= 1) {
             currentIndex -= 1
-            queue[currentIndex]
+            _queue.value[currentIndex]
         } else {
             null
         }
@@ -164,23 +170,43 @@ class SongsRepository @Inject constructor(private val application: Application, 
 
 
     fun queue(song: Song) = scope.launch {
-        queue.add(song)
+        val currentSongs = _queue.value.toMutableList()
+        currentSongs.add(song)
+        scope.launch {
+            _queue.value = currentSongs
+        }
     }
 
 
     fun queueAll(songs: List<Song>) {
-        queue.addAll(songs)
+        val currentSongs = _queue.value.toMutableList()
+        currentSongs.addAll(songs)
+        scope.launch {
+            _queue.value = currentSongs
+        }
     }
 
 
     fun addAtStart(song: Song) = scope.launch {
-        currentIndex = 0
-        queue.add(0, song)
+
+        val songs = _queue.value.toMutableList()
+        val songExpectedIndex = songs.indexOf(song)
+        currentIndex = if (songExpectedIndex != -1) {
+            songExpectedIndex
+        } else {
+            songs.add(0, song)
+            scope.launch {
+                _queue.value = songs
+            }
+            0
+        }
     }
 
 
     fun clear() {
-        queue.clear()
+        scope.launch {
+            _queue.value = mutableListOf()
+        }
     }
 
 

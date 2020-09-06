@@ -52,7 +52,7 @@ class SongsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.homeRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.homeRecyclerView.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
-        viewModel.songsLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.songsLiveData.observe(viewLifecycleOwner, {
             viewBinding.homeRecyclerView.adapter = SongsRecyclerAdapter(it, { song ->
                 viewModel.play(song)
             }, { song ->
@@ -60,7 +60,7 @@ class SongsFragment : BaseFragment() {
             })
         })
 
-        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {
+        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, {
             if (myPosition == it) {
                 viewBinding.homeRecyclerView.scrollToPosition(0)
             }
