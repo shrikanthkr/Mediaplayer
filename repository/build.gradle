@@ -5,8 +5,6 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.sdkVersion
-    buildToolsVersion versions.buildToolsVersion
-
 
     defaultConfig {
         minSdkVersion versions.minSdkVersion
@@ -37,7 +35,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
     implementation "androidx.room:room-runtime:$versions.room"
     implementation "com.google.dagger:dagger:$versions.dagger"
-    implementation "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
 
     testImplementation "junit:junit:$versions.androidJunit"

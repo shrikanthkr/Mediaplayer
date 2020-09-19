@@ -10,7 +10,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0-alpha08'
+        classpath 'com.android.tools.build:gradle:4.2.0-alpha11'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     }
 }
@@ -23,6 +23,9 @@ allprojects {
         jcenter()
         repositories {
             maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+            maven {
+                url "https://dl.bintray.com/videolan/Android"
+            }
         }
     }
 }

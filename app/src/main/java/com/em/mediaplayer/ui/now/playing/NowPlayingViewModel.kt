@@ -1,5 +1,6 @@
 package com.em.mediaplayer.ui.now.playing
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -60,6 +61,7 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
             is PlayerState.Playing -> playerController.pause()
             is PlayerState.Paused -> playerController.resume()
             else -> {
+                Log.v("NowPlayingViewModel", "${_playerState.value}")
             }
         }
     }

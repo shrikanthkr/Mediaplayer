@@ -45,6 +45,7 @@ class FileServer @Inject constructor(context: Application, private val ioUtils: 
                 Log.e(TAG, "ERROR WHILE SERVING", e)
                 newFixedLengthResponse(Status.FORBIDDEN, "", "")
             } finally {
+                Log.v(TAG, "FILLER")
             }
         } else {
             newFixedLengthResponse(Status.NOT_FOUND, "", "")
