@@ -80,9 +80,11 @@ class CastAdapter(
             putString(MediaMetadata.KEY_ARTIST, song.artist)
             putString(MediaMetadata.KEY_ALBUM_TITLE, song.album)
             putTimeMillis(MediaMetadata.KEY_SECTION_DURATION, song.duration)
-            addImage(WebImage(Uri.parse(song.album_art)))
+            addImage(WebImage(Uri.parse(song.albumArt)))
         }
-        //val url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/mp4/DesigningForGoogleCast.mp4"
+        /*
+            sample URL "https://commondatastorage.googleapis.com/gtv-videos-bucket/CastVideos/mp4/DesigningForGoogleCast.mp4"
+         */
         val url = "http://${server.ip}/${song.id}.mp3"
         val info = MediaInfo.Builder(url)
                 .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)

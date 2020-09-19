@@ -57,11 +57,6 @@ class MediaNotificationManager(private val context: Context, private val control
 
     init {
         prepareNotification()
-        //controller.currentSong.observeForever(currentSongObserver)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //controller.playerState.observeForever(playerStateObserver)
-        }
-
     }
 
     private fun prepareNotification() {
@@ -106,13 +101,7 @@ class MediaNotificationManager(private val context: Context, private val control
         }
     }
 
-    private fun togglePlay() {
-        /*if (controller.playerState.value is PlayerState.Playing) {
-            controller.pause()
-        } else {
-            controller.resume()
-        }*/
-    }
+    private fun togglePlay() = Unit
 
 
     private fun setupViews(remoteView: RemoteViews) {

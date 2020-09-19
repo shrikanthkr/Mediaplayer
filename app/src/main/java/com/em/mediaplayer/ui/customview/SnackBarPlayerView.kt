@@ -18,12 +18,8 @@ class SnackBarPlayerView @JvmOverloads constructor(
         View.inflate(context, R.layout.player_view, this)
     }
 
-    override fun animateContentOut(delay: Int, duration: Int) {
+    override fun animateContentOut(delay: Int, duration: Int) = Unit
 
-    }
-
-    override fun animateContentIn(delay: Int, duration: Int) {
-
-    }
+    override fun animateContentIn(delay: Int, duration: Int) = Unit
 
 }
