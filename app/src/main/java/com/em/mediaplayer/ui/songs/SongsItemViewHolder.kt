@@ -6,6 +6,7 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.em.mediaplayer.app.databinding.ViewholderHomeItemBinding
 import com.em.mediaplayer.app.utils.load
+import com.em.mediaplayer.app.utils.loadAlbum
 
 class SongsItemViewHolder(private val itemBinding: ViewholderHomeItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
@@ -18,7 +19,7 @@ class SongsItemViewHolder(private val itemBinding: ViewholderHomeItemBinding) : 
     }
 
     fun setAlbumArt(uri: Uri) {
-        itemBinding.albumArt.load(uri)
+        itemBinding.albumArt.loadAlbum(uri)
     }
 
     fun setQueueClick(@NonNull l: View.OnClickListener) {

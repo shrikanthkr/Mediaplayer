@@ -20,7 +20,7 @@ class SongsRecyclerAdapter(private val songs: List<Song>, private val itemClick:
         songs[position].run {
             holder.setTitle(title)
             holder.setSubTitle(artist)
-            holder.setAlbumArt(albumArtPath)
+            holder.setAlbumArt(this.uri)
             holder.itemView.setOnClickListener {
                 this@SongsRecyclerAdapter.itemClick(this)
             }

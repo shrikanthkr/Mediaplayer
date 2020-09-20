@@ -20,7 +20,7 @@ import com.em.mediaplayer.app.databinding.FragmentNowplayingBinding
 import com.em.mediaplayer.app.di.components.FragmentComponent
 import com.em.mediaplayer.app.models.PlayerState.*
 import com.em.mediaplayer.app.server.FileServer
-import com.em.mediaplayer.app.utils.load
+import com.em.mediaplayer.app.utils.loadAlbum
 import com.em.mediaplayer.ui.BaseFragment
 import com.em.repository.formattedDuration
 import com.google.android.gms.cast.framework.CastButtonFactory
@@ -70,7 +70,7 @@ class NowPlayingFragment : BaseFragment() {
                 viewBinding.album.text = it.album
                 viewBinding.songTitle.text = it.title
                 viewBinding.artistTitle.text = it.artist
-                viewBinding.albumImage.load(it.albumArtPath)
+                viewBinding.albumImage.loadAlbum(it.uri)
                 viewBinding.playerSeekbar.max = it.duration.toInt()
             }
         })
