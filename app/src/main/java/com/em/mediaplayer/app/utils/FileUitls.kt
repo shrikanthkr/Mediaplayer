@@ -1,7 +1,10 @@
 package com.em.mediaplayer.app.utils
 
 import android.app.Application
+import android.content.Context
+import android.net.Uri
 import java.io.File
+import java.io.FileDescriptor
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -18,4 +21,9 @@ fun InputStream.toFile(path: String) {
         File(path).outputStream().use { input.copyTo(it) }
     }
 }
+
+fun Context.toFileDescriptor(uri: Uri): FileDescriptor? {
+    return contentResolver.openFileDescriptor(uri, "r")?.fileDescriptor
+}
+
 
