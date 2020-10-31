@@ -17,9 +17,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Singleton
 
-@ExperimentalStdlibApi
-@FlowPreview
-@ExperimentalCoroutinesApi
 @Singleton
 @Component(modules = [ApplicationModule::class, AbstractApplicationModule::class, SubComponentsModule::class, ViewModelModule::class])
 interface AppComponent {

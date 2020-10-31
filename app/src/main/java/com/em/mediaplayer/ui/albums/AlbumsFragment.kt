@@ -13,8 +13,6 @@ import com.em.mediaplayer.app.activities.home.HomeActivityViewModel
 import com.em.mediaplayer.app.databinding.FragmentAlbumsBinding
 import com.em.mediaplayer.app.di.components.FragmentComponent
 import com.em.mediaplayer.ui.BaseFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 /**
@@ -24,9 +22,6 @@ import javax.inject.Inject
  * Use the [AlbumsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-@ExperimentalStdlibApi
-@FlowPreview
-@ExperimentalCoroutinesApi
 class AlbumsFragment : BaseFragment() {
 
 
@@ -50,7 +45,7 @@ class AlbumsFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         viewBinding = FragmentAlbumsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -59,13 +54,13 @@ class AlbumsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.albums.layoutManager = GridLayoutManager(requireContext(), 2)
-        viewmodel.albums.observe(viewLifecycleOwner, Observer {
+        viewmodel.albums.observe(viewLifecycleOwner, {
             viewBinding.albums.adapter = AlbumsRecyclerAdapter(it) { album ->
                 viewmodel.playAlbum(album)
             }
         })
 
-        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {
+        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, {
             if (myPosition == it) {
                 viewBinding.albums.scrollToPosition(0)
             }

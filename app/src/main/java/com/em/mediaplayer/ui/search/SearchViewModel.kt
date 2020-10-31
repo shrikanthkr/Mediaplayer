@@ -11,8 +11,8 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@FlowPreview
+
+
 class SearchViewModel @Inject constructor(private val repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
 
     private val _songsLiveData = MutableLiveData<List<Song>>()

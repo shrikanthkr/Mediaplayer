@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@FlowPreview
+
 @FragmentScope
-@ExperimentalCoroutinesApi
+
 class NowPlayingViewModel @Inject constructor(private val playerController: PlayerController, private val songsRepository: SongsRepository) : ViewModel() {
 
     private val _playerState = MutableLiveData<PlayerState>()
@@ -38,7 +38,7 @@ class NowPlayingViewModel @Inject constructor(private val playerController: Play
         }
 
         viewModelScope.launch {
-            playerController.currentSongChannel.collect {
+            playerController.currentSong.collect {
                 _currentSong.value = it
             }
         }

@@ -8,36 +8,30 @@ import com.em.mediaplayer.player.adapters.NoOpAdapter
 import com.em.mediaplayer.player.adapters.PlayerAdapter
 import com.em.repository.Song
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 @Singleton
 class PlayerController @Inject constructor(private val scope: CoroutineScope, private val repository: SongsRepository) {
 
     var playerAdapter: PlayerAdapter = NoOpAdapter()
-    private val _playerState = ConflatedBroadcastChannel<PlayerState>()
+    private val _playerState = MutableStateFlow<PlayerState>(Idle)
+    val playerState = _playerState.asStateFlow()
 
-    @FlowPreview
-    val playerState = _playerState.asFlow()
-
-    private val _currentSongChannel = MutableStateFlow<Song?>(null)
-    val currentSongChannel = _currentSongChannel.filterNotNull()
+    private val _currentSong = MutableStateFlow<Song?>(null)
+    val currentSong = _currentSong.filterNotNull()
 
     private var externalActor: Int = 0
 
     private val playerListener = object : PlayerListener {
         override fun onStart() {
-            dispatch(Started(requireNotNull(_currentSongChannel.value)))
+            dispatch(Started(requireNotNull(_currentSong.value)))
             Log.d(TAG, "Start")
         }
 
@@ -166,7 +160,7 @@ class PlayerController @Inject constructor(private val scope: CoroutineScope, pr
 
         //based on state play
         if (currentPlayerState is Playing) {
-            play(requireNotNull(_currentSongChannel.value))
+            play(requireNotNull(_currentSong.value))
             seek(currentPlayerState.progress)
         }
     }
@@ -174,14 +168,14 @@ class PlayerController @Inject constructor(private val scope: CoroutineScope, pr
 
     private fun play(song: Song) {
         scope.launch {
-            _currentSongChannel.value = song
+            _currentSong.value = song
         }
         playerAdapter.play(song)
     }
 
     private fun dispatch(state: PlayerState) {
         scope.launch {
-            _playerState.send(state)
+            _playerState.value = state
         }
     }
 

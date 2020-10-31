@@ -10,13 +10,9 @@ import com.em.mediaplayer.app.models.PlayerState
 import com.em.mediaplayer.player.PlayerController
 import com.em.repository.Song
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@FlowPreview
-@ExperimentalCoroutinesApi
 class HomeActivityViewModel(private val playerController: PlayerController, private val songsRepository: SongsRepository) : ViewModel() {
     private val _playingFragmentState = MutableLiveData<Int>()
     val playingFragmentState = _playingFragmentState
@@ -39,7 +35,7 @@ class HomeActivityViewModel(private val playerController: PlayerController, priv
         }
 
         viewModelScope.launch {
-            playerController.currentSongChannel.collect {
+            playerController.currentSong.collect {
                 Log.d(TAG, "Collecting Current Song $it")
                 _currentSong.value = it
             }

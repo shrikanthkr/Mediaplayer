@@ -5,8 +5,5 @@ import dagger.Module
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
-@FlowPreview
-@ExperimentalCoroutinesApi
-@ExperimentalStdlibApi
 @Module(subcomponents = [FragmentComponent::class])
 class SubComponentsModule

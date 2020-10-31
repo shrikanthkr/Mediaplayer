@@ -21,9 +21,8 @@ class ApplicationModule {
     }
 }
 
-@FlowPreview
-@ExperimentalCoroutinesApi
-@ExperimentalStdlibApi
+
+
 @Module
 abstract class AbstractApplicationModule {
     @Singleton

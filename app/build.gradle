@@ -1,8 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id "com.github.ben-manes.versions" version "0.33.0"
 }
 
 android {
@@ -100,9 +101,8 @@ dependencies {
     implementation "org.videolan.android:libvlc-all:$versions.vlc"
     implementation "androidx.localbroadcastmanager:localbroadcastmanager:$versions.localbroadcastManager"
     implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
-    implementation "androidx.drawerlayout:drawerlayout:$versions.drawerLayout"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
-    implementation "com.android.support:mediarouter-v7:$versions.mediarouter-v7"
+    implementation "com.android.support:mediarouter-v7:$versions.mediarouterv7"
     implementation "com.google.android.gms:play-services-cast-framework:$versions.cast"
     implementation "org.nanohttpd:nanohttpd-webserver:$versions.nanohttpd"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"

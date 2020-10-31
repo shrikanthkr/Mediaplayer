@@ -11,9 +11,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
 
-@ExperimentalCoroutinesApi
-@FlowPreview
-@ExperimentalStdlibApi
+
+
 @FragmentScope
 @Subcomponent
 interface FragmentComponent {

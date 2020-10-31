@@ -19,8 +19,8 @@ import kotlinx.coroutines.FlowPreview
 import javax.inject.Provider
 import kotlin.reflect.KClass
 
-@ExperimentalCoroutinesApi
-@FlowPreview
+
+
 @Module
 class ViewModelModule {
     @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)

@@ -12,25 +12,18 @@ import android.os.Build
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.em.mediaplayer.app.R
 import com.em.mediaplayer.app.activities.home.HomeActivity
 import com.em.mediaplayer.app.models.PlayerState
 import com.em.mediaplayer.player.PlayerController
 import com.em.repository.Song
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
-@ExperimentalCoroutinesApi
-@FlowPreview
-@ExperimentalStdlibApi
 class MediaNotificationManager(private val context: Context, private val controller: PlayerController, private val id: Int, notificationManager: NotificationManager) : BroadcastReceiver() {
 
 
     private lateinit var builder: Notification.Builder
     private lateinit var remoteView: RemoteViews
     var notification: Notification? = null
-    val instance = LocalBroadcastManager.getInstance(context)
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
 

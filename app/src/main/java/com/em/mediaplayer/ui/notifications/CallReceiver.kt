@@ -11,8 +11,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
 
-@ExperimentalCoroutinesApi
-@FlowPreview
+
+
 @ExperimentalStdlibApi
 class CallReceiver : BroadcastReceiver() {
 

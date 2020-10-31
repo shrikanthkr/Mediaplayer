@@ -13,8 +13,8 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@FlowPreview
+
+
 @FragmentScope
 class SongsViewModel @Inject constructor(private val repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
     private val _songsLiveData = MutableLiveData<List<Song>>()

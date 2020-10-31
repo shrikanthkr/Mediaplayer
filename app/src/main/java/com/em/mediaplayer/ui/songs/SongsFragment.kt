@@ -19,9 +19,7 @@ import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
 
-@ExperimentalStdlibApi
-@FlowPreview
-@ExperimentalCoroutinesApi
+
 class SongsFragment : BaseFragment() {
 
 
@@ -43,7 +41,7 @@ class SongsFragment : BaseFragment() {
         fragmentComponent.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewBinding = FragmentSongsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
