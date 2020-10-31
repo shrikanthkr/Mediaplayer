@@ -86,12 +86,11 @@ class NowPlayingFragment : BaseFragment() {
                 is Erred -> {
                     Toast.makeText(requireContext(), "Try Again", Toast.LENGTH_LONG).show()
                 }
-                Idle -> Unit
-                Loading -> {
+                Idle, Loading -> {
                     viewBinding.playPause.setImageResource(R.drawable.ic_loading)
                 }
-                is Started -> Unit
-                is Completed -> Unit
+                is Started -> viewBinding.playPause.setImageResource(R.drawable.ic_pause)
+                is Completed -> viewBinding.playPause.setImageResource(R.drawable.ic_loading)
             }
         })
 
