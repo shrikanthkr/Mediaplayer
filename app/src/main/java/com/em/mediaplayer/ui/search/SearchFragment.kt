@@ -23,10 +23,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
-
-@FlowPreview
-@ExperimentalCoroutinesApi
-@ExperimentalStdlibApi
 class SearchFragment : BaseFragment() {
 
 
@@ -43,7 +39,7 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         viewBinding = SearchFragmentBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -58,7 +54,7 @@ class SearchFragment : BaseFragment() {
         homeActivityViewModel = ViewModelProvider(this.requireActivity(), viewModelFactory).get(HomeActivityViewModel::class.java)
         viewBinding.songs.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.songs.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
-        viewModel.songsLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.songsLiveData.observe(viewLifecycleOwner, {
             viewBinding.songs.adapter = SongsRecyclerAdapter(it, { song ->
                 viewModel.play(song)
             }, { song ->
@@ -76,7 +72,7 @@ class SearchFragment : BaseFragment() {
 
         })
 
-        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {
+        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, {
             if (myPosition == it) {
                 viewBinding.songs.scrollToPosition(0)
             }

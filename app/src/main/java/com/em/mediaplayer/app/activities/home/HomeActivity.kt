@@ -34,9 +34,7 @@ import javax.inject.Inject
 
 //https://material.io/resources/icons/?icon=pause&style=baseline
 //https://dribbble.com/shots/6605936-Spotify-visual-concept-Sneak-peek/attachments
-@ExperimentalStdlibApi
-@FlowPreview
-@ExperimentalCoroutinesApi
+
 class HomeActivity : BaseActivity() {
 
     private lateinit var activityHome: CoordinatorLayout

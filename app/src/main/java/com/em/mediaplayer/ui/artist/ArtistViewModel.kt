@@ -12,8 +12,6 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@FlowPreview
 @FragmentScope
 class ArtistViewModel @Inject constructor(private val repository: SongsRepository, private val playerController: PlayerController) : ViewModel() {
 
@@ -27,7 +25,6 @@ class ArtistViewModel @Inject constructor(private val repository: SongsRepositor
 
     }
 
-    @ExperimentalStdlibApi
     fun playArtist(artist: Artist) {
         playerController.clear()
         viewModelScope.launch {

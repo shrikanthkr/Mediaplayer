@@ -29,9 +29,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
-@ExperimentalStdlibApi
-@ExperimentalCoroutinesApi
-@FlowPreview
+
 class NowPlayingFragment : BaseFragment() {
 
     @Inject
@@ -53,7 +51,7 @@ class NowPlayingFragment : BaseFragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(NowPlayingViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewBinding = FragmentNowplayingBinding.inflate(inflater, container, false)
         return viewBinding.root
     }

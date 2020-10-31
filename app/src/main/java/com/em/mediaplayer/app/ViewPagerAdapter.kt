@@ -11,9 +11,6 @@ import com.em.mediaplayer.ui.songs.SongsFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
-@ExperimentalStdlibApi
-@ExperimentalCoroutinesApi
-@FlowPreview
 class ViewPagerAdapter(activity: BaseActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
         return 4

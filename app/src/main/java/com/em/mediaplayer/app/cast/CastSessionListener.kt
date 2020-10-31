@@ -9,7 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
-@ExperimentalCoroutinesApi
+
 class CastSessionListener : SessionManagerListener<CastSession> {
     private val _castSessionState = MutableStateFlow<CastSessionStatus?>(null)
     val castSessionState = _castSessionState.filterNotNull()

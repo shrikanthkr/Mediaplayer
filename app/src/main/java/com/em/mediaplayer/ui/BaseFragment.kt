@@ -7,9 +7,6 @@ import com.em.mediaplayer.app.di.components.FragmentComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
-@FlowPreview
-@ExperimentalCoroutinesApi
-@ExperimentalStdlibApi
 abstract class BaseFragment : Fragment() {
     lateinit var fragmentComponent: FragmentComponent
     override fun onCreate(savedInstanceState: Bundle?) {

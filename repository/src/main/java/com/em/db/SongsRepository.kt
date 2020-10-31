@@ -17,8 +17,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@FlowPreview
-@ExperimentalCoroutinesApi
 class SongsRepository @Inject constructor(private val application: Application, private val ioDispatcher: CoroutineDispatcher, private val scope: CoroutineScope) {
 
     private val _queue = MutableStateFlow<MutableList<Song>>(mutableListOf())

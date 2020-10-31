@@ -6,14 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.em.mediaplayer.app.MediaApplication
 import com.em.mediaplayer.app.di.components.ActivityComponent
 import com.em.mediaplayer.app.di.components.AppComponent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
 
 //https://dribbble.com/shots/6605936-Spotify-visual-concept-Sneak-peek/attachments
-@ExperimentalCoroutinesApi
-@FlowPreview
-@ExperimentalStdlibApi
+
+
 open class BaseActivity : AppCompatActivity() {
     lateinit var activityComponent: ActivityComponent
     override fun onCreate(savedInstanceState: Bundle?) {

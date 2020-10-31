@@ -5,9 +5,8 @@ import dagger.Subcomponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
-@ExperimentalCoroutinesApi
-@FlowPreview
-@ExperimentalStdlibApi
+
+
 @Subcomponent
 interface ActivityComponent {
 

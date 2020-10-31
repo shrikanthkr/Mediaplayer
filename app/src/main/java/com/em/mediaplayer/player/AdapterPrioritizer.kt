@@ -14,8 +14,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@FlowPreview
 class AdapterPrioritizer @Inject constructor(
         application: Application,
         playerController: PlayerController,

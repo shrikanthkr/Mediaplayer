@@ -26,9 +26,7 @@ import javax.inject.Inject
  * Use the [ArtistsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-@FlowPreview
-@ExperimentalCoroutinesApi
-@ExperimentalStdlibApi
+
 class ArtistsFragment : BaseFragment() {
 
 
@@ -52,7 +50,7 @@ class ArtistsFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         viewBinding = FragmentArtistsBinding.inflate(inflater, container, false)
         return viewBinding.root
     }
@@ -61,13 +59,13 @@ class ArtistsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.artists.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.artists.addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.VERTICAL))
-        viewmodel.artists.observe(viewLifecycleOwner, Observer {
+        viewmodel.artists.observe(viewLifecycleOwner, {
             viewBinding.artists.adapter = ArtistsRecyclerAdapter(it) { artist ->
                 viewmodel.playArtist(artist)
             }
         })
 
-        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, Observer {
+        homeActivityViewModel.scrollTo.observe(viewLifecycleOwner, {
             if (myPosition == it) {
                 viewBinding.artists.scrollToPosition(0)
             }
